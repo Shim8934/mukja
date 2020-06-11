@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace속성:매퍼파일의 완전한경로.xml는 생략 -->
+<!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
+<mapper namespace="mybatis.Sign">
+
+	<select id="isLogin" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM users WHERE USERNAME=#{USERNAME} and PASSWORD=#{PASSWORD}
+	</select>
+	
+	<insert id="signup" parameterType="java.util.Map">
+		INSERT INTO users(username,password,u_nick,u_regidate,u_age,u_lat,u_lng,u_ph) VALUES(#{username},#{password},#{u_nick},sysdate,#{u_age},#{u_lat},#{u_lng},#{u_ph})
+	</insert>
+</mapper>

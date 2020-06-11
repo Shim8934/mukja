@@ -7,7 +7,7 @@
 	function isLogin(){//top에있으니 로그인 여부 확인할때는 해당 스크립트함수를 호출하자
 		//ajax요청
 		$.ajax({
-			url:"<c:url value='/OneMemo/Auth/IsLogin.bbs'/>",
+			url:"<c:url value='/isLogin.bbs'/>",
 			dataType:'json',
 			success:function(data){
 				//서버로 받은 데이터는 data에 있다				
@@ -15,12 +15,12 @@
 				console.log(JSON.stringify(data));
 				if(data.IsLogin=="YES"){
 					// 목록페이지로 이동
-					location.replace("<c:url value='/OneMemo/BBS/List.bbs'/>");
+					location.replace("<c:url value='/'/>");
 					
 				}else{
 					// 비로그인 상태
 					alert('로그인후 이용하시오.');
-					location.replace("<c:url value='/OneMemo/Auth/Login.bbs'/>");
+					location.replace("<c:url value='/Signin.bbs'/>");
 					
 				}
 					
@@ -46,21 +46,32 @@
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a href="<c:url value="/"/>" class="nav-link">Home</a></li>
-				<li class="nav-item"><a href="<c:url value="/Restaurants.bbs"/>" class="nav-link">Restaurants</a></li>
-				<li class="nav-item"><a href="<c:url value="/Mypage.bbs"/>"class="nav-link">MyPage</a></li>
-				
+				<li class="nav-item active"><a href="<c:url value="/Restaurants.bbs"/>" class="nav-link">Restaurants</a></li>
+				<sec:authorize access="isAnonymous()">
+					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
+					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
+					<li class="nav-item"><a href="<c:url value="/Mypage.bbs"/>"class="nav-link">MyPage</a></li>
+				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
 				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">AdminTest</a></li>
 			</ul>
 		</div>
 	</div>
-	<script>
-		//function logout(){
-			//$('#logoutFrom').submit();
-		//}
-	</script>
+	
 
 
 	<!-- /.container-fluid -->
 </nav>
 <!--  상단 메뉴 끝 -->
+<form id="logoutForm" method="post" action="<c:url value='/Member/Logout.bbs'/>">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+</form>
+<script>
+	//csrf사용시에만 아래 함수 필요
+	function logout(){
+		$('#logoutForm').submit();	
+	}
+</script>

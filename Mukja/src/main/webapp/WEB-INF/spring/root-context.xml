@@ -5,15 +5,15 @@
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
 				
-		
 	<!-- jndi로 데이터 소스를 가지고옴 -->
-    <bean id="datasource"
-      class="org.springframework.jndi.JndiObjectFactoryBean">
-      <property name="jndiName" value="mukja" />
-      <property name="resourceRef">
-         <value>true</value>
-      </property>
-   </bean>
+	 <bean id="datasource"
+		class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="mukja" />
+		<property name="resourceRef">
+			<value>true</value>
+		</property>
+	</bean>
+
 	
 	
 	<!-- 마이바티스 지원을 위한 빈 등록 -->

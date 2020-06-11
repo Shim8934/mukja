@@ -18,6 +18,7 @@
 	<mappers>
 		<mapper resource="mybatis/SearchMap.xml" />		
 		<mapper resource="mybatis/Admin.xml" />
+		<mapper resource="mybatis/Sign.xml" />
 	</mappers>
 	
 </configuration>

@@ -7,11 +7,11 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 로그인용 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="google-signin-client_id" content="548176436735-1d5a6bdmnjb40n7du817u27omto0341n.apps.googleusercontent.com">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     <title>골라먹자 : 세상의 모든 음식을 골라먹자</title>
-
-    
    <!-- 템플릿 CSS -->
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/open-iconic-bootstrap.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/animate.css'/>">    
@@ -44,7 +44,9 @@
 
    <!-- 탭형 css -->
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/tab-style.css'/>">
-   
+   <!-- 로그인용 -->
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
     <!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
     <!--[if lt IE 9]>
@@ -55,45 +57,15 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
    <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"/></script>
-   <style>
-   
-   .img_messenger{
-  	position:relative;
-  	z-index:90000;
-  	width: 80px;
-  	height: 80px;
-  	max-width: 100px;
-    max-height: 100px;
-  	background-color: white; 
-	border: 2px #54DAFF solid; 
-	border-radius:100px;  
-	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
-	margin: 5px;
-  }
- #messenger { 
-	 position:absolute; 
-	 top:100px; 
-	 right:0px; 
-	 padding: 3px 10px 
- }
- #messenger_board{
-	margin-left:50px;
-	margin-top:-50px;
-	width:10px;
-	height:10px;
- 	background-color: #FCFCFC;
- 	border: 3px #E8E8E8 solid; 
- 	border-radius:10px;  
- 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
- }
-   </style>
+   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+                                            <!-- 로 그 인 용 입 니 다. -->
+   <script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+   <script type="text/javascript" src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"charset="utf-8"></script>
+   <script src="https://apis.google.com/js/platform.js?onload=init" async defer></script>
+
   </head>
   
   <body>
-
-
-
-  
    <!-- top부분 -->
    <tiles:insertAttribute name="top"/>
     <!-- body부분 -->
@@ -148,9 +120,150 @@
          </ul>
       </div>
    </div> -->
-   
-  
    <!-- 템플릿js -->
+   <script type='text/javascript'>
+		//<![CDATA[
+		// 사용할 앱의 JavaScript 키를 설정해 주세요.
+		Kakao.init('cab0340f505e3743996a8af7ba8a84ed'); //여기서 아까 발급받은 키 중 javascript키를 사용해준다.
+		// 카카오 로그인 버튼을 생성합니다.
+		function loginWithKakao() {
+			Kakao.Auth.login({
+				success : function(authObj) {
+					Kakao.API.request({
+						url : '/v2/user/me',
+						success : function(res) {
+							console.log(res.id);//<-- 아이디
+							console.log(res.properties['nickname']);//<-- 서비스에서 쓰이는 사용자 닉네임						 
+							console.log(res.kakao_account.profile);//<--카카오계정의 프로필 소유 여부
+							console.log(res.properties.profile_image);//<--서비스에서 쓰이는 사용자 프로필 이미지 URL
+							console.log(res.properties.thumbnail_image);//<--서비스에서 쓰이는 사용자 썸네일 이미지 URL
+							console.log(res.kakao_account.email);//<-- 카카오계정의 이메일 소유 여부
+							console.log(res.kakao_account.age_range);//<--카카오계정의 연령대 소유 여부, 연령대 값
+							console.log(res.kakao_account.birthday);//<--카카오계정의 생일 소유 여부, 생일 값
+							console.log(res.kakao_account.gender);//<--카카오계정의 성별 소유 여부, 성별 값
+							console.log(authObj.access_token);//<-- 토큰
+						}
+					})
+				},
+				fail : function(error) {
+					alert(JSON.stringify(error));
+				}
+			});
+		}
+	</script>
+	<script type="text/javascript">
+		var naver_id_login = new naver_id_login("IfJIBkPqG5FDZeBEJEdv",
+				"http://localhost:9998/mukja/SignIn"); // Client ID, CallBack URL 삽입
+		// 단 'localhost'가 포함된 CallBack URL
+		var state = naver_id_login.getUniqState();
+		naver_id_login.setButton("green", 1, 68);
+		naver_id_login.setPopup();
+		naver_id_login.setDomain("http://localhost:9998/mukja/SignIn");//  URL
+		naver_id_login.setState(state);
+		naver_id_login.init_naver_id_login();
+	</script>
+	<script type="text/javascript">
+var naver_id_login = new naver_id_login("IfJIBkPqG5FDZeBEJEdv", "http://localhost:9998/mukja/SignIn");
+        // 접근 토큰 값 출력
+        alert(naver_id_login.oauthParams.access_token);
+        
+        // 네이버 사용자 프로필 조회
+        naver_id_login.get_naver_userprofile("naverSignInCallback()");
+        
+        // 네이버 사용자 프로필 조회 이후 프로필 정보를 처리할 callback function
+        function naverSignInCallback() {
+            alert(naver_id_login.getProfileData('email'));
+            alert(naver_id_login.getProfileData('nickname'));
+            alert(naver_id_login.getProfileData('profileImage'));
+            alert(naver_id_login.getProfileData('age'));
+            alert(naver_id_login.getProfileData('birthday'));
+            alert(naver_id_login.getProfileData('uniqId'));
+            
+            
+        }
+    </script>
+
+	<script>
+		(function(d, s, id) {
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id))
+				return;
+			js = d.createElement(s);
+			js.id = id;
+			js.src = "//connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v2.8&appId=APPID";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));
+
+		window.fbAsyncInit = function() {
+			FB.init({
+				appId : '244161326812625',
+				cookie : true,
+				xfbml : true,
+				version : 'v2.8'
+			});
+
+			FB.getLoginStatus(function(response) {
+
+				console.log('statusChangeCallback');
+				console.log(response);
+
+				if (response.status === 'connected') {
+					$("#result").append("status : connected");
+				} else {
+					$("#result").append(response);
+				}
+			});
+		};
+
+		function fbLoginAction() {
+			FB.login(function(response) {
+				var fbname;
+				var accessToken = response.authResponse.accessToken;
+				FB.api('/me?fields=id,name,age_range,birthday,gender,email',
+						function(response) {
+							var fb_data = jQuery.parseJSON(JSON
+									.stringify(response));
+							var data = "<br/>fb_id : " + fb_data.id;
+							data += "<br/>email : " + fb_data.email;
+							data += "<br/>name : " + fb_data.name;
+
+							$("#result").append(data);
+
+						});
+			}, {
+				scope : 'public_profile, email'
+			});
+		}
+	</script>
+	<script>
+		//구글 로그인
+		function onSignIn(googleUser) {
+			// Useful data for your client-side scripts:
+			var profile = googleUser.getBasicProfile();
+			console.log("ID: " + profile.getId()); // Don't send this directly to your server!
+			console.log('Full Name: ' + profile.getName());
+			console.log('Given Name: ' + profile.getGivenName());
+			console.log('Family Name: ' + profile.getFamilyName());
+			console.log("Image URL: " + profile.getImageUrl());
+			console.log("Email: " + profile.getEmail());
+
+			var name = profile.getEmail();
+
+			// The ID token you need to pass to your backend:
+			var id_token = googleUser.getAuthResponse().id_token;
+			console.log("ID Token: " + id_token);
+			if (name !== null) {
+				window.location
+						.replace("http://localhost:8080/ParkSeongWoong1/Login/GoogleLogin_result.jsp?name="
+								+ name);
+			} else if (name == null) {
+
+				window.location
+						.replace("http://localhost:8080/ParkSeongWoong1/Login/GoogleLogin_result.jsp");
+			}
+
+		}
+	</script>
    <!-- 메뉴 js -->
    <script src="<c:url value='/resources/bootstrap/js/toucheffects.js'/>"></script>
   <script src="<c:url value='/resources/bootstrap/js/jquery.min.js'/>"></script>
@@ -170,70 +283,6 @@
   <script src="<c:url value='/resources/bootstrap/js/scrollax.min.js'/>"></script>
 
   <script src="<c:url value='/resources/bootstrap/js/main.js'/>"></script>
-  
-  <!-- 메신저 창 -->
-
-<div id="messenger">
-	<img class="img_messenger" id='btn_messenger' src="<c:url value="/resources/messenger/f.JPG"/>"  >
-	<div id="messenger_board">
-		<div class="row"style="margin-left: 65px;">
-			<div id="messnger_content" style="display: none;">
-				<div class="row" >
-					<h3>채팅목록</h3>
-				</div>
-				<div class="row">
-					<h3>채티</h3>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-<!-- 메신저끝-->
-
-   <script>
-	//메신져 따라다니기
-	var currentPosition = parseInt($("#messenger").css("top")); 
-	$(window).scroll(function() { 
-		var position = $(window).scrollTop(); 
-		$("#messenger").stop().animate({
-			"top":position+currentPosition+"px"}
-		,500); 
-		});
-	var f=0;
-	$('#messenger').click(function(){
-		if(f==0){
-			/* anime({
-				  targets: '#messenger_board',
-				  translateX: -250,
-				  scaleX: 100,
-				  scaleY: 300
-				}); */
-			anime({
-				  targets: '#messenger_board',
-				  width: '400px', // -> from '28px' to '100%',
-				  height:'700px',
-				  easing: 'easeInOutQuad',
-				});
-				setTimeout(function() {
-					$('#messnger_content').fadeIn();
-					}, 1000);
-				
-			f=1;
-		}else{
-			anime({
-				  targets: '#messenger_board',
-				  translateX: 0,
-				  width: '1px', // -> from '28px' to '100%',
-				  height:'1px',
-				  easing: 'easeInOutQuad',
-				});
-				$('#messnger_content').hide();
-			f=0;
-		}
-		
-	});
-	</script>
+   
   </body>
 </html>
