@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace속성:매퍼파일의 완전한경로.xml는 생략 -->
+<!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
+<mapper namespace="mybatis.SearchMap">
+
+	<select id="searchDongList" parameterType="java.util.Map" resultType="dongDTO">
+      select * from LOC_DB  WHERE dong LIKE '%' || #{dong} || '%' OR dong_sub LIKE'%' || #{dong} || '%' OR sido LIKE'%' || #{dong} || '%' ORDER BY code 
+      
+    </select>
+   
+	<select id="getMarkerList" parameterType="java.util.Map" resultType="storeDTO">
+		 select * from stores <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng}]]>  
+	</select>
+	
+	<select id="getMarkerWithMenuList" parameterType="java.util.Map" resultType="storeDTO">
+		 select * from stores s join foodmenu f on s.username = f.username  <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng}]]>  order by s.username desc  
+	</select>
+	<select id="getMenuCount" parameterType="java.util.Map" resultType="int">
+		   select count(*) from foodmenu where username = #{store_name}
+	</select>
+	
+	
+	
+	<select id="getEatTogetherList" parameterType="java.util.Map" resultType="eRDTO">
+		 SELECT * FROM eattogether_room er join users u on u.username=er.ER_MASTER where er.username = #{store_id}
+	</select>
+	
+	<select id="insertER" parameterType="java.util.Map" resultType="int">
+		INSERT INTO eattogether_room (er_no,ER_MASTER,username,er_title,er_content,er_time,er_tend,er_max,er_postdate) 
+        SELECT SEQ_ERR.nextval,#{username},#{store_id},#{ERtitle},#{ERcontent},#{ERtime},#{ER_TEND},#{ERmax},SYSDATE FROM DUAL
+        WHERE NOT EXISTS 
+        (SELECT * FROM eattogether_room WHERE USERNAME = #{store_id} AND ER_MASTER=#{username})
+	</select>
+	
+	
+	
+	
+	 <insert id="joinER" parameterType="java.util.Map">
+		   INSERT INTO er_members (erjoin_num,er_no,username,erjoin_date,erjoin_role,erc_no) 
+            SELECT SEQ_ERMEMBERS.nextval,#{er_no},#{username},sysdate,0,#{erc_no} FROM DUAL
+            WHERE NOT EXISTS 
+            (SELECT * FROM er_members em join eattogether_room er on er.er_no=em.er_no            
+            WHERE em.USERNAME = #{username} and er.USERNAME=#{store_id})
+	</insert> 
+	
+	<insert id="joinERC" parameterType="java.util.Map">
+		INSERT INTO er_chat(erc_no,er_no,erc_content) 
+        SELECT SEQ_ERC.nextval,#{er_no},'어서오세요 같이먹자 채팅방입니다.즐거운 시간되세요!' FROM DUAL
+        WHERE not EXISTS 
+        (SELECT * FROM er_chat ec join eattogether_room er on ec.er_no=er.er_no
+        WHERE USERNAME = #{store_id} AND ER_MASTER=#{er_master})
+	</insert>
+	
+	 <select id="currcount" parameterType="java.util.Map" resultType="int">
+		 select count(*) from er_members where er_no = #{er_no}
+	</select>
+	
+	<select id="getERno" parameterType="java.util.Map" resultType="int">
+		 select er_no from eattogether_room where er_master = #{username} and username = #{store_id}
+	</select>
+	<select id="getERmaster" parameterType="java.util.Map" resultType="java.lang.String">
+		 select ER_MASTER from eattogether_room where er_no = #{er_no}
+	</select>
+	
+	<update id="setupERjoin_role" parameterType="java.util.Map" >
+		update er_members set ERJOIN_ROLE = 1 where username = #{username}
+	</update>
+	
+	<select id="getERCno" parameterType="java.util.Map" resultType="int">
+		 select erc_no from er_chat where er_no = #{er_no}
+	</select>
+	
+</mapper>

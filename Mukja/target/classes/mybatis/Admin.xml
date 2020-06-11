@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace속성:매퍼파일의 완전한경로.xml는 생략 -->
+<!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
+<mapper namespace="mybatis.Admin">
+
+	<select id="adminLogin" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM admins WHERE username=#{id} AND password=#{pwd}
+	</select>
+	
+	<!-- 공지사항(Notice) -->
+	<select id="noticeList" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM
+		(SELECT T.*, ROWNUM R FROM 
+		(SELECT n.* FROM NOTICE n JOIN ADMINS a on n.username = a.username 
+		<if test="searchWord != null">
+			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+		ORDER BY NT_NO DESC) T) 
+		WHERE R BETWEEN ${start} AND ${end}	
+	</select>
+	
+	<select id="noticeGetTotalRecord" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM notice 
+		<if test="searchWord != null">
+		WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	
+	<select id="noticeSelectOne" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT n.* FROM NOTICE N WHERE NT_NO = #{NT_NO}
+	</select>
+	
+	<delete id="noticeDelete" parameterType="java.util.Map">
+		Delete n.*,username FROM notice n JOIN admin a ON n.username=a.username  
+		WHERE no = #{no}
+	</delete>
+	
+	<update id="noticeUpdate" parameterType="java.util.Map">
+		UPDATE notice SET title=#{title},content=#{content} WHERE no=#{no} 
+	</update>
+	
+	<insert id="noticeInsert" parameterType="java.util.Map">
+		INSERT INTO notice(no,title,content,username)
+		VALUES(SEQ_notice.NEXTVAL,#{title},#{content},#{id})
+	</insert>
+	<!-- 공지사항(Notice) 끝 -->
+</mapper>
