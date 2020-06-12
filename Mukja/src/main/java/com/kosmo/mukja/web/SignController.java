@@ -38,23 +38,6 @@ public class SignController {
 	@Resource(name = "signService")
 	private SignService signService;
 	
-	
-	@RequestMapping(value="",produces = "text/html; charset=UTF-8")
-	@ResponseBody
-	public String isSignIn(Authentication auth) {//Security 사용시
-		//스프링 씨큐리티 적용시 인증(로그인)되었다면
-		//Authentication객체에 로그인과 관련된 정보가 전달됨
-		//로그인이 안되어 있으면 auth는 null
-		JSONObject json = new JSONObject();
-
-		if(auth == null) {//로그인이 안된 경우
-			json.put("IsLogin", "NO");
-			return json.toJSONString();
-		}
-		json.put("IsLogin", "YES");
-		return json.toJSONString();
-	}
-	
 
 	// 로그인 폼으로 이동]
 
