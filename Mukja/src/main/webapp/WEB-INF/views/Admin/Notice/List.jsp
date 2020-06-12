@@ -59,8 +59,8 @@
 					<!-- table 다이브 끝 -->
 					
 					
-							<!-- 페이징 -->
-					<div style="display: inline-block;text-align: center;" class="card-footer" >
+					<!-- 페이징 -->
+					<div style="display:inline-block; text-align: center;" class="card-footer" >
 						${pagingString}
 					</div>
 				

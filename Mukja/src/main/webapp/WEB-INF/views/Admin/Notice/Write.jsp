@@ -8,7 +8,7 @@
 			<div class="page-title-wrapper">
 				<div class="page-title-icon">
 					<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
-					
+
 				</div>
 				<!-- page-title-icon끝 -->
 			</div>
@@ -18,51 +18,50 @@
 
 		<!-- app-main__inner 본내용 시작 -->
 		<div class="row">
-		<div class="col-md-12">
-			<div class="main-card card">
-				<div class="card-header">
-					${record.NT_TITLE }
-					<div class="btn-actions-pane-right">
-						<div role="group" class="btn-group-sm btn-group">
-							<a href="#"><button class="btn btn-transition btn-outline-light">이전 글</button></a>
-							<a href="#"><button class="btn btn-transition btn-outline-light">다음 글</button></a>
-						</div>
-					</div>
-				</div>
-				<!-- card-header -->
-				<div class="card-body">
-					<div class="tab-content">
-						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">작성자 : ${record.username}</h6></div>
-						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">${record.NT_REGITDATE}</h6></div>
-						<div class="scroll-area-md">
-							<div class="scroll-container ps--active-yps">
-								${record.NT_CONTENT }
+			<div class="col-md-12">
+				<div class="main-card card">
+					<div class="card-body">
+						<h5 class="card-title">글 등록</h5>
+						<form class="" action="<c:url value="/WriteNotice.bbs"/>" method="post">
+							<div class="position-relative row form-group">
+								<label for="NT_TITLE" class="col-sm-2 col-form-label">제목</label>
+								<div class="col-sm-10">
+									<input name="NT_TITLE" id="NT_TITLE" placeholder="제목을 입력하세요." type="text" class="form-control">
+								</div>
 							</div>
-						</div>
-							
-						<div>
-						</div>
-						<div class="d-block text-center card-footer">
-							<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
-								<i class="pe-7s-trash btn-icon-wrapper"></i>
-							</button>
-						</div>
-						</div>
-						<!-- tab-content -->
-						</div>
-						<!-- card-body -->
+							<div class="position-relative row form-group">
+								<label for="NT_CONTENT" class="col-sm-2 col-form-label">내용</label>
+								<div class="col-sm-10">
+									<textarea name="NT_CONTENT" id="NT_CONTENT" class="form-control"></textarea>
+								</div>
+							</div>
+							<div class="position-relative row form-group">
+								<label for="NT_IMAGE" class="col-sm-2 col-form-label">이미지</label>
+								<div class="col-sm-10">
+									<input name="NT_IMAGE" id="NT_IMAGE" type="file" class="form-control-file">
+									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
+								</div>
+							</div>
+							<div class="position-relative row form-group">
+								<div class="col-sm-10 offset-sm-2">
+									<button class="mt-2 btn btn-primary">등록</button>
+									<button class="mt-2 btn btn-warning">취소</button>
+								</div>
+							</div>
+							<input name="username" id="username" value="${username}" type="hidden" class="form-control">
+						</form>
 					</div>
-					<!-- -->
 				</div>
 				<!-- main-card -->
 			</div>
-			<!-- col-md-12끝 -->
 		</div>
-		<!-- 처음 row 끝 -->
-
-
-
+		<!-- col-md-12끝 -->
 	</div>
-	<!-- app-main__inner 끝 -->
+	<!-- 처음 row 끝 -->
+
+
+
+</div>
+<!-- app-main__inner 끝 -->
 </div>
 <!-- app-main__outer 끝 -->

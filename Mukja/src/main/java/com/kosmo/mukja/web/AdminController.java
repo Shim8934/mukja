@@ -1,5 +1,6 @@
 package com.kosmo.mukja.web;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -8,6 +9,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -144,21 +147,31 @@ public class AdminController {
 		return "/Notice/View.admins";
 	}
 	
-	// 주영형 담당 공지사항 등록 컨트롤러
+	// 공지사항 등록 컨트롤러
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
-	public String writeNotice(Locale locale, String str) {
-		
+	public String moveWriteNotice(Authentication auth, Model model) {
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		String username = userDetails.getUsername();		
+		model.addAttribute("username",username);
 		return "Notice/Write.admins";
 	}
 	
-	// 주영형 담당 공지사항 수정 컨트롤러
+	// 공지사항 등록 컨트롤러
+	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
+	public String writeNotice(@RequestParam Map map, Model model) {
+		adminService.insert(map);
+		model.addAttribute("username",map.get("username"));
+		return "Notice/Write.admins?username=";
+	}
+	
+	// 공지사항 수정 컨트롤러
 	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
-	public String editNotice(Locale locale, String str) {
-		
+	public String editNotice() {
+	
 		return "Notice/Edit.admins";
 	}
 	
-	// 주영형 담당 공지사항 삭제 컨트롤러
+	// 공지사항 삭제 컨트롤러
 	@RequestMapping(value="/DeleteNotice.bbs", method=RequestMethod.GET)
 	public String deleteNotice(Locale locale, String str) {
 		
