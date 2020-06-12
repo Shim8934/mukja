@@ -142,8 +142,6 @@
 	margin: 5px;
   }
   
-
-
   .lb_size{
   	width:50px;
   	background-color: white; 
@@ -241,7 +239,6 @@
       overflow-y:auto;
     }
     
-
     .storeOverlay{
 		margin-top:-280px;
 		width:300px;
@@ -801,23 +798,16 @@
 
 
 <script>
-
 var mapContainer = document.getElementById('map'), // 지도의 중심좌표
     mapOption = { 
         center: new kakao.maps.LatLng(37.498825, 126.722265), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
         level: 2 // 지도의 확대 레벨
     }; 
-
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 var bounds = map.getBounds();  
-
-
-
 console.log("맵생성시 바운즈 초기화");
 //인풋타입 히든에 위경도 바운더리 주는 함수
 latLngSendInput(bounds);
-
-
 function latLngSendInput(bounds){
 	 //남서 위경도
 	  namsua= bounds.getSouthWest();
@@ -846,27 +836,18 @@ kakao.maps.event.addListener(map, 'dragend', function() {
 	  latLngSendInput(bounds);
 	 
 });
-
 //바운더리 변경시  바운즈 설정
 kakao.maps.event.addListener(map, 'bounds_changed', function() {
 	 var bounds = map.getBounds();     
 	//인풋타입 히든에 위경도 바운더리 주는 함수
 	  latLngSendInput(bounds);
 });
-
-
 //중앙점 잡아서 이동하는 메소드
 function setCenter() {            
     var moveLatLon = new kakao.maps.LatLng(lat, lng);    
     // 지도 중심을 이동 시킵니다
     map.setCenter(moveLatLon);
 }
-
-
-
-
-
-
 function panTo(lat,lan) {
     // 이동할 위도 경도 위치를 생성합니다 
     var moveLatLon = new kakao.maps.LatLng(lat, lng);
@@ -880,9 +861,6 @@ function panTo(lat,lan) {
 	$('#popupSearch').fadeOut();
   
 }        
-
-
-
 </script>
 
 
@@ -900,7 +878,6 @@ $('.container-fluid').click(function (){
 	$('#popupSearch').fadeOut();
 	
 });
-
 function request_ERList_Ajax(store_id){
 	//----------------------생성한 동적 다이브에 에이젝스 송출
     $.ajax({
@@ -1070,7 +1047,6 @@ function request_ERList_Ajax(store_id){
 			     
 			   all_erjoin.forEach(function(ele,i){
 				   Object.assign(er_no, store_id);
-
 				   console.log("[ele]");
 				   console.log(er_no);
 					console.log(ele.getAttribute('id'));
@@ -1102,14 +1078,10 @@ function request_ERList_Ajax(store_id){
 					request.status,request.responseText,error,status);
 		}
 	});
-
-
 		    
      //----------------------생성한 동적 다이브에 에이젝스 송출
 	
 }
-
-
 function requets_maker_Ajax(){
 	  $.ajax({
 			url:"<c:url value='/getMarker.pbs'/>",
@@ -1139,7 +1111,6 @@ function requets_maker_Ajax(){
 				
 				
 				
-
 				
 				//마커상태를 세팅하는 함수	
 			  function setMarkers(markers) {
@@ -1173,7 +1144,6 @@ function requets_maker_Ajax(){
 					var imageSrc = '<c:url value="/resources/markers/custom_marker.png"/>', // 마커이미지의 주소입니다    
 				    imageSize = new kakao.maps.Size(37, 60), // 마커이미지의 크기입니다
 				    imageOption = {offset: new kakao.maps.Point(19,58)}; 
-
 					// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				   
@@ -1304,8 +1274,6 @@ function requets_maker_Ajax(){
 									var trimExp = /\s/g;
 								 	//숫자
 									var intExp = /^[0-9]*$/;
-
-
 								 
 								 //1.ertitle 체크
 								 if($('#ERtitle').val()==""){
@@ -1454,8 +1422,6 @@ function requets_maker_Ajax(){
 	 
 	
 }
-
-
 function request_Ajax(){
 	  var dong=document.getElementById('dong').value;
 	  if(!dong){
@@ -1693,7 +1659,6 @@ function request_Ajax(){
 							}
 					});//번호클릭				
 				});//번호 모음
-
 				 for(var j in  data_array[page_no]){						
 					 //console.log(data_array[page_no][j]);
 					 $('#searchWindow').append(data_array[page_no][j]);
@@ -1760,7 +1725,6 @@ function request_Ajax(){
 			
 		}); 
 	  }
-
   var lat,lng;
 	
   $('#dong').keydown(function(e){
@@ -1773,7 +1737,6 @@ function request_Ajax(){
 	  }
 	 
   });
-
   
   function fnToaddr(index,fnlat,fnlng){	
 	  console.log("lat"+fnlat);
@@ -1785,7 +1748,6 @@ function request_Ajax(){
   
   var all_img = document.querySelectorAll(".img_size");	
   
-
 	  $('.wrapper').hide();
 	  $('.wrapper').fadeIn();
 		//마커들이 들어가는 배열
@@ -1800,7 +1762,6 @@ function request_Ajax(){
 			request_Ajax();	
 		});
 	  
-
 		
 	  	//마커 받기
 		$("#getMarker").click(function(){
@@ -1808,7 +1769,6 @@ function request_Ajax(){
 		});
 	  	
 	 
-
   
   
   //성향 클릭
@@ -1915,7 +1875,6 @@ function request_Ajax(){
 		 $('#ERtime').val(""); */
 	 });
 	  
-
 	 $('#createER').click(function(){
 			console.log("작성하기돌입");
 			$('#createERFORM').fadeIn();
@@ -1930,21 +1889,15 @@ function request_Ajax(){
 <script type="text/javascript" src="<c:url value="/resources/Time-Pic/dist/bootstrap-clockpicker.min.js"/>"></script>
 <script type="text/javascript">
 $('.clockpicker').clockpicker()
-
 .find('input').change(function(){
 	console.log(this.value);
 });
-
 var input = $('#single-input').clockpicker({
 	placement: 'bottom',
 	align: 'left',
 	autoclose: true,
 	'default': 'now'
 });
-
-
-
-
 // Manually toggle to the minutes view
 $('#check-minutes').click(function(e){
 	// Have to stop propagation here
@@ -1955,14 +1908,11 @@ $('#check-minutes').click(function(e){
 if (/mobile/i.test(navigator.userAgent)) {
 	$('input').prop('readOnly', true);
 }
-
-
 $(".input-group-addon").click(function(){
 	console.log("시계버튼클릭")
 	$('#timepic').css('z-index','999999');
 	$('#timepic').css('position','absolute');
 	$('#timepic').css('background-color','#FAFAFA');
-
 	
 });
 $("#ERtime").click(function(){
@@ -1970,9 +1920,6 @@ $("#ERtime").click(function(){
 	$('#timepic').css('z-index','999999');
 	$('#timepic').css('position','absolute');
 	$('#timepic').css('background-color','#FAFAFA');
-
 	
 });
-
-
 </script>
