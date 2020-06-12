@@ -16,9 +16,9 @@
 			<!-- page-title-wrapper끝 -->
 		</div>
 		<!-- 여기까지는 항상 고정!!! 아래에 내용 작성  / app-main__inner 본내용 시작  -->
-		<div class="tab-content">
-			<div class="tab-pane tabs-animation fade show active" id="tab-content-0" role="tabpanel">
-				<h5 class="card-title">Grid Rows</h5>
+		<div class="main-card card">
+			<div class="card-body">
+				<h5 class="card-title">글 등록 페이지</h5>
 				<form class="">
 					<div class="position-relative form-group">
 						<label for="NT_TITLE" class="col-sm-2 col-form-label">제목</label>
@@ -39,7 +39,6 @@
 				</form>
 			</div>
 		</div>
-		<!-- tab content 끝 -->
 	</div>
 	<!-- app-main__inner 끝 -->
 </div>
