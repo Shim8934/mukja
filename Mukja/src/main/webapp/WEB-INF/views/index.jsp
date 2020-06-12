@@ -30,7 +30,7 @@
 	
 <!-- kokomap -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>    
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cab0340f505e3743996a8af7ba8a84ed&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
 	
 
 	
@@ -142,8 +142,6 @@
 	margin: 5px;
   }
   
-
-
   .lb_size{
   	width:50px;
   	background-color: white; 
@@ -241,7 +239,6 @@
       overflow-y:auto;
     }
     
-
     .storeOverlay{
 		margin-top:-280px;
 		width:300px;
@@ -798,87 +795,19 @@
 <!-- 섬머노트 -->
  			
 
-<<<<<<< HEAD
-<script>
-//웹소켓 객체 저장용
-var wsocket;
-//닉 네임 저장용
-var nickname;
-$(function() {
-	//입장버튼 클릭시 ]-서버와 연결된 웹소켓 클라이언트 생성
-	$('#enterBtn').one('click',function(){
-		console.log("ws://115.91.88.230:9998<c:url value='/chat.do'/>");
-		wsocket = new WebSocket("ws://115.91.88.230:9998<c:url value='/chat.do'/>");
-		//서버와 연결된 소켓에 이벤트 등록
-		wsocket.onopen = open;
-		wsocket.onclose = function(){
-			appendMessage("연결이 끊어졌어요");
-		};
-		//메세지를 받는 이벤트 리스너 설정 <리시브 메시지는 아래에 정의되어있음.
-		//연결이 되면 부착한다 = 연결이 되면 서버로부터 오는 브로드 캐스팅을 받을 수 있다./
-		wsocket.addEventListener('message',receiveMessage);
-	});
-	//퇴장버튼 클릭시]
-	$('#exitBtn').one('click',function(){
-		wsocket.send('msg:'+nickname+'가(이) 퇴장 했어요');
-		wsocket.close();
-		
-	});
-	//전송버튼 클릭시]
-	$('#sendBtn').click(function(){
-		sendMessage();
-	});
-	
-	//메시지 입력후 전송 버튼 클릭이 아닌 엔터키 처리]
-	$('#message').on('keypress',function(e){
-		
-		console.log("e.keyCode:%s,e.which:%s",e.keyCode,e.which);
-		var keyValue = e.keyCode ? e.keyCode : e.which;
-		if(keyValue == 13){//엔터 입력
-			sendMessage();
-		}
-	});
-	
-	
-	
-});
-//함수 정의]
-//서버에 연결되었을때 호출되는 콜백함수
-var open =function(){
-	//서버로 연결한 사람의 정보(닉네임) 전송
-	//msg:kim가(이) 입장했어요
-	//사용자가 입력한 닉네임 저장
-	nickname = $('#nickname').val();
-	wsocket.send('msg:'+nickname+'가(이) 입장했어요');
-	appendMessage('연결되었습니다');
-};
-//메시지를 DIV태그에 뿌려주기 위한 함수]
-var appendMessage = function(msg){
-	//메시지 출력
-	$('#chatMessage').append(msg+"<br/>");
-};
-=======
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 
 
 <script>
-
 var mapContainer = document.getElementById('map'), // 지도의 중심좌표
     mapOption = { 
         center: new kakao.maps.LatLng(37.498825, 126.722265), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
         level: 2 // 지도의 확대 레벨
     }; 
-
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 var bounds = map.getBounds();  
-
-
-
 console.log("맵생성시 바운즈 초기화");
 //인풋타입 히든에 위경도 바운더리 주는 함수
 latLngSendInput(bounds);
-
-
 function latLngSendInput(bounds){
 	 //남서 위경도
 	  namsua= bounds.getSouthWest();
@@ -907,27 +836,18 @@ kakao.maps.event.addListener(map, 'dragend', function() {
 	  latLngSendInput(bounds);
 	 
 });
-
 //바운더리 변경시  바운즈 설정
 kakao.maps.event.addListener(map, 'bounds_changed', function() {
 	 var bounds = map.getBounds();     
 	//인풋타입 히든에 위경도 바운더리 주는 함수
 	  latLngSendInput(bounds);
 });
-
-
 //중앙점 잡아서 이동하는 메소드
 function setCenter() {            
     var moveLatLon = new kakao.maps.LatLng(lat, lng);    
     // 지도 중심을 이동 시킵니다
     map.setCenter(moveLatLon);
 }
-
-
-
-
-
-
 function panTo(lat,lan) {
     // 이동할 위도 경도 위치를 생성합니다 
     var moveLatLon = new kakao.maps.LatLng(lat, lng);
@@ -941,9 +861,6 @@ function panTo(lat,lan) {
 	$('#popupSearch').fadeOut();
   
 }        
-
-
-
 </script>
 
 
@@ -961,7 +878,6 @@ $('.container-fluid').click(function (){
 	$('#popupSearch').fadeOut();
 	
 });
-
 function request_ERList_Ajax(store_id){
 	//----------------------생성한 동적 다이브에 에이젝스 송출
     $.ajax({
@@ -1131,7 +1047,6 @@ function request_ERList_Ajax(store_id){
 			     
 			   all_erjoin.forEach(function(ele,i){
 				   Object.assign(er_no, store_id);
-
 				   console.log("[ele]");
 				   console.log(er_no);
 					console.log(ele.getAttribute('id'));
@@ -1163,14 +1078,10 @@ function request_ERList_Ajax(store_id){
 					request.status,request.responseText,error,status);
 		}
 	});
-
-
 		    
      //----------------------생성한 동적 다이브에 에이젝스 송출
 	
 }
-
-
 function requets_maker_Ajax(){
 	  $.ajax({
 			url:"<c:url value='/getMarker.pbs'/>",
@@ -1200,7 +1111,6 @@ function requets_maker_Ajax(){
 				
 				
 				
-
 				
 				//마커상태를 세팅하는 함수	
 			  function setMarkers(markers) {
@@ -1234,7 +1144,6 @@ function requets_maker_Ajax(){
 					var imageSrc = '<c:url value="/resources/markers/custom_marker.png"/>', // 마커이미지의 주소입니다    
 				    imageSize = new kakao.maps.Size(37, 60), // 마커이미지의 크기입니다
 				    imageOption = {offset: new kakao.maps.Point(19,58)}; 
-
 					// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				   
@@ -1365,8 +1274,6 @@ function requets_maker_Ajax(){
 									var trimExp = /\s/g;
 								 	//숫자
 									var intExp = /^[0-9]*$/;
-
-
 								 
 								 //1.ertitle 체크
 								 if($('#ERtitle').val()==""){
@@ -1515,8 +1422,6 @@ function requets_maker_Ajax(){
 	 
 	
 }
-
-
 function request_Ajax(){
 	  var dong=document.getElementById('dong').value;
 	  if(!dong){
@@ -1754,7 +1659,6 @@ function request_Ajax(){
 							}
 					});//번호클릭				
 				});//번호 모음
-
 				 for(var j in  data_array[page_no]){						
 					 //console.log(data_array[page_no][j]);
 					 $('#searchWindow').append(data_array[page_no][j]);
@@ -1821,7 +1725,6 @@ function request_Ajax(){
 			
 		}); 
 	  }
-
   var lat,lng;
 	
   $('#dong').keydown(function(e){
@@ -1834,7 +1737,6 @@ function request_Ajax(){
 	  }
 	 
   });
-
   
   function fnToaddr(index,fnlat,fnlng){	
 	  console.log("lat"+fnlat);
@@ -1846,7 +1748,6 @@ function request_Ajax(){
   
   var all_img = document.querySelectorAll(".img_size");	
   
-
 	  $('.wrapper').hide();
 	  $('.wrapper').fadeIn();
 		//마커들이 들어가는 배열
@@ -1861,7 +1762,6 @@ function request_Ajax(){
 			request_Ajax();	
 		});
 	  
-
 		
 	  	//마커 받기
 		$("#getMarker").click(function(){
@@ -1869,7 +1769,6 @@ function request_Ajax(){
 		});
 	  	
 	 
-
   
   
   //성향 클릭
@@ -1976,7 +1875,6 @@ function request_Ajax(){
 		 $('#ERtime').val(""); */
 	 });
 	  
-
 	 $('#createER').click(function(){
 			console.log("작성하기돌입");
 			$('#createERFORM').fadeIn();
@@ -1991,21 +1889,15 @@ function request_Ajax(){
 <script type="text/javascript" src="<c:url value="/resources/Time-Pic/dist/bootstrap-clockpicker.min.js"/>"></script>
 <script type="text/javascript">
 $('.clockpicker').clockpicker()
-
 .find('input').change(function(){
 	console.log(this.value);
 });
-
 var input = $('#single-input').clockpicker({
 	placement: 'bottom',
 	align: 'left',
 	autoclose: true,
 	'default': 'now'
 });
-
-
-
-
 // Manually toggle to the minutes view
 $('#check-minutes').click(function(e){
 	// Have to stop propagation here
@@ -2016,14 +1908,11 @@ $('#check-minutes').click(function(e){
 if (/mobile/i.test(navigator.userAgent)) {
 	$('input').prop('readOnly', true);
 }
-
-
 $(".input-group-addon").click(function(){
 	console.log("시계버튼클릭")
 	$('#timepic').css('z-index','999999');
 	$('#timepic').css('position','absolute');
 	$('#timepic').css('background-color','#FAFAFA');
-
 	
 });
 $("#ERtime").click(function(){
@@ -2031,9 +1920,6 @@ $("#ERtime").click(function(){
 	$('#timepic').css('z-index','999999');
 	$('#timepic').css('position','absolute');
 	$('#timepic').css('background-color','#FAFAFA');
-
 	
 });
-
-
 </script>
