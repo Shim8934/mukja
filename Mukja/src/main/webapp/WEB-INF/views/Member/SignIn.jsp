@@ -36,7 +36,7 @@
 						<table style="width: 100%;">
 						<tr >
 							<td style="width:80%">
-							<input type="email" class="form-control" id="username" name="username" placeholder="아이디">
+							<input type="text" class="form-control" id="username" name="username" placeholder="아이디">
 							</td>
 							<td rowspan="2" style="padding-left: 10px;">
 							<input type="submit" value="로그인" class="btn btn-primary py-3 px-5" style="width: 100px; height: 100px">

@@ -56,7 +56,12 @@
 					<li class="nav-item"><a href="<c:url value="/Mypage.bbs"/>"class="nav-link">MyPage</a></li>
 				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
-				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">AdminTest</a></li>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin</a></li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_STORE')">
+				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin22</a></li>
+				</sec:authorize>
 			</ul>
 		</div>
 	</div>

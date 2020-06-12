@@ -29,7 +29,7 @@
 	
 <!-- kokomap -->
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>    
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cab0340f505e3743996a8af7ba8a84ed&libraries=services"></script>
 	
 <!-- anime.js  https://animejs.com/documentation/#duration -->
 <script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
@@ -846,8 +846,8 @@ var nickname;
 $(function() {
 	//입장버튼 클릭시 ]-서버와 연결된 웹소켓 클라이언트 생성
 	$('#enterBtn').one('click',function(){
-		console.log("ws://localhost:8080<c:url value='/chat.do'/>");
-		wsocket = new WebSocket("ws://localhost:8080<c:url value='/chat.do'/>");
+		console.log("ws://115.91.88.230:9998<c:url value='/chat.do'/>");
+		wsocket = new WebSocket("ws://115.91.88.230:9998<c:url value='/chat.do'/>");
 		//서버와 연결된 소켓에 이벤트 등록
 		wsocket.onopen = open;
 		wsocket.onclose = function(){
