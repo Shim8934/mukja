@@ -8,9 +8,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.DongDTO;
 import com.kosmo.mukja.service.ERDTO;
+import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.impl.SearchMapServiceImpl;
 
@@ -382,7 +386,9 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	}//together_list
 	@ResponseBody
 	@RequestMapping( value = "/submitER.do", produces = "application/json; charset=utf8")
-	public String submitER(@RequestParam Map map) {
+	public String submitER(@RequestParam Map map,Authentication auth) {
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
 		JSONArray jsonArray = new JSONArray();
 		Iterator<String> iter = map.keySet().iterator();
 		StringBuffer tendbutt = new StringBuffer();
@@ -397,7 +403,8 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			}
 		}
 		map.put("ER_TEND", tendbutt.toString());
-		map.put("username","pbs@naver.com");
+		map.put("username",username);
+		System.out.println("로그인된 유저의 아이디 : "+username);
 		System.out.println("store_id:"+map.get("store_id"));
 		System.out.println("ERcontent:"+map.get("ERcontent"));
 		System.out.println("ERtitle:"+map.get("ERtitle"));
@@ -448,9 +455,12 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	@ResponseBody
 	@RequestMapping( value = "/requestERjoin.do", produces = "application/json; charset=utf8")
-	public String requestERjoin(@RequestParam Map map) {
+	public String requestERjoin(@RequestParam Map map,Authentication auth) {
 		System.out.println("-------------------참가하기 컨트롤러 진입------------------------");
-		map.put("username","sim@naver.com");
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
+		map.put("username",username);
+		System.out.println("로그인된 유저의 아이디 : "+username);
 		map.put("er_master",map.get("username"));
 		int erc_no = service.getERCno(map);
 		map.put("erc_no",erc_no);
@@ -466,5 +476,107 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 		int joinER = service.joinER(map);
 		return "{'joinER':"+joinER+"}";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/enterERC.do",produces = "application/json; charset=utf8")
+	public String getMyERCList(@RequestParam Map map,Authentication auth) {
+		System.out.println("-------------------채팅 컨트롤러 진입------------------------");
+		//키값확인 디버그코드
+		/*
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+		*/
+		//아이디얻기
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
+		System.out.println("로그인된 유저의 아이디 : "+username);
+		map.put("username", username);
+		
+		map.put("er_master",map.get("username"));
+		
+		//내가 참여중인 방 정보 얻기
+		List<ErcDTO> ercList =service.myERCList(map);
+		
+		//리스트 디버깅용
+		for(ErcDTO dtos:ercList) {
+			System.out.println(dtos.toString());
+		}
+		//얻어온 리스트를 통해서 내가 지금 참여중인 채팅방 정보를 송신(json파싱)
+		JSONArray jsonArray = new JSONArray();
+		if(ercList!=null){
+			for(ErcDTO erc:ercList) {
+				JSONObject jsonDto = new JSONObject();
+				jsonDto.put("er_no",erc.getEr_no() );
+				jsonDto.put("erc_no",erc.getErc_no() );	
+				jsonDto.put("erMaster",erc.getEr_master());
+				jsonDto.put("u_nick",service.getUserNick(map));
+				System.out.println(erc.getEr_master());
+				jsonDto.put("erjoin_date",erc.getErjoin_date());
+				jsonDto.put("erjoin_num",erc.getErjoin_num());
+				jsonDto.put("erjoin_role",erc.getErjoin_role());
+				jsonDto.put("store_id",erc.getstore_id());
+				map.put("store_id", erc.getstore_id());
+				System.out.println(erc.getstore_id());
+				jsonDto.put("store_name",service.getStoreInfo(map).getStore_name());
+				jsonDto.put("er_title",erc.getEr_title());
+				jsonDto.put("er_content",erc.getEr_content());
+				jsonDto.put("er_time",erc.getEr_time());
+				jsonDto.put("er_tend",erc.getEr_tend());
+				jsonDto.put("er_max",erc.getEr_max());
+				jsonDto.put("er_postdate",erc.getEr_postdate());
+				System.out.println(jsonDto.toJSONString());
+				jsonArray.add(jsonDto);
+			}//for
+			System.out.println( jsonArray.toJSONString());
+		}//if
+		return jsonArray.toJSONString();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getERCcontent.do",produces = "application/json; charset=utf8")
+	public String getERCcontent(@RequestParam Map map) {
+		System.out.println("-------------------채팅방  내용 부르기 컨트롤러 진입------------------------");
+		//키값확인 디버그코드
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+		JSONObject jObject = new JSONObject();
+		String erc_content = service.getERC_content(map);
+		jObject.put("erc_content", erc_content);
+	
+		return jObject.toJSONString();
+	}
+	@ResponseBody
+	@RequestMapping(value = "/sendToTable.do",produces = "application/json; charset=utf8")
+	public String sendToTable(@RequestParam Map map) {
+		System.out.println("-------------------채팅방  내용 업데이트 컨트롤러 진입------------------------");
+		//키값확인 디버그코드
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+	
+		int result = service.updateErcContent(map);
+		JSONObject jObject = new JSONObject();
+		jObject.put("result", result);
+		return jObject.toJSONString();
+	}
+	
+	
+	
+	
 	
 }

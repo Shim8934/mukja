@@ -17,4 +17,9 @@ public interface SearchMapService {
 	public String getERmaster(Map map);
 	public int setupERjoin_role(Map map);
 	public int getERCno(Map map);
+	public StoreDTO getStoreInfo(Map map);
+	public List<ErcDTO> myERCList(Map map);
+	public String getERC_content(Map map);
+	public String getUserNick(Map map);
+	public int updateErcContent(Map map);
 }

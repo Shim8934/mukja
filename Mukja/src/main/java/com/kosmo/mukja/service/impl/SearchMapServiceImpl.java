@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kosmo.mukja.service.DongDTO;
 import com.kosmo.mukja.service.ERDTO;
+import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.SearchMapService;
 import com.kosmo.mukja.service.StoreDTO;
 
@@ -82,6 +83,32 @@ public class SearchMapServiceImpl implements SearchMapService{
 	public int getERCno(Map map) {
 		return dao.getERCno(map);
 	}
+
+	@Override
+	public List<ErcDTO> myERCList(Map map) {
+		return dao.myERCList(map);
+	}
+
+	@Override
+	public StoreDTO getStoreInfo(Map map) {
+		return dao.getStoreInfo(map);
+	}
+
+	@Override
+	public String getERC_content(Map map) {
+		return dao.getERC_content(map);
+	}
+
+	@Override
+	public String getUserNick(Map map) {
+		return dao.getUserNick(map);
+	}
+
+	@Override
+	public int updateErcContent(Map map) {
+		return dao.updateErcContent(map);
+	}
+
 	
 	
 	

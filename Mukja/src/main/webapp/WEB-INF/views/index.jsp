@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>    
     
 
 
@@ -31,10 +32,7 @@
 <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>    
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=cab0340f505e3743996a8af7ba8a84ed&libraries=services"></script>
 	
-<!-- anime.js  https://animejs.com/documentation/#duration -->
-<script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
-	
-	
+
 	
 <!-- 섬머노트 -->
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
@@ -280,7 +278,7 @@
 
 <!-- 커스텀모달 -->
 <div id="mask"></div>
-<div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none;' class="lb_size" >
+<div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none; ' class="lb_size" >
 	<div class="container" style="margin-top: 20px;width: 800px;">
 		<div class="row"style="margin-bottom:20px;"> 
 			<div class="col-md-1 col-md-offset-11" >
@@ -305,7 +303,9 @@
             <div class="col-md-9 ftco-animate text-center">
                <h1 class="mb-2 bread" style="width: 800px; margin-bottom: 10px;margin-top: 5px;">같이 먹을 사람들을 찾아보세요!</h1>
                <h3 class="mb-2 bread" style="width: 800px; margin-bottom: 10px;margin-top: 5px;">같이 먹으면 재미가 두 배, 맛도 두 배!</h3>
-               <p><a id="createER" style=" margin-top:20px; margin-left:200px; color: #5C5C5C; font-weight: bold; "class="btn btn-default btn-lg ">모임개설</a></p>
+                <sec:authorize access="isAuthenticated()">
+					<p><a id="createER" style=" margin-top:20px; margin-left:200px; color: #5C5C5C; font-weight: bold; "class="btn btn-default btn-lg ">모임개설</a></p>
+               </sec:authorize>
             </div>
          </div>
       </div>
@@ -318,7 +318,7 @@
 		</div>	
 		
 		<div class="row" style="margin-bottom:20px;"> 	
-			<div  class="col-md-1 col-md-offset-11">
+			<div class="col-md-1 col-md-offset-11">
 				 <a class="close btn btn-default ">닫기</a>
 			</div>
 		</div>	
@@ -612,47 +612,7 @@
 
 
 
- <!-- ---------------------------------채팅방 다이브--------------------------- -->
-		  <!--   <div class='row'>컨테이너
-		     <div class="col-sm-12"> 
-		
-			
-				<form>
-					<div class="form-group">
-						<label for="nickname" class="col-sm-1">닉네임</label>
-						<div class="col-sm-4">
-							<input class="form-control " type="text" id="nickname">
-						</div>
-					</div>
-					<input class="btn btn-info" type="button" id="enterBtn" value="입장">
-					<input class="btn btn-danger" type="button" id="exitBtn" value="퇴장">
 
-
-					<div class="form-group">
-						<h4>대화내용</h4>
-						<div id="chatArea">
-							<div id="chatMessage"
-								style="height: 300px; border: 1px gray solid; overflow: auto"></div>
-						</div>
-					</div>
-
-					<div class="form-group">
-						<label for="message" class="col-sm-1">메시지</label>
-						<div class="col-sm-8">
-							<input class="form-control" type="text" id="message" />
-						</div>
-					</div>
-					<input class="btn btn-success" type="button" id="sendBtn"
-						value="닫기">
-				</form>
-
-		
-		
-
-	</div>
-    
-    </div> -->
-  <!-- ---------------------------------채팅방 다이브끝--------------------------- -->
   
   <!-- 섬머노트 다이브 -->
 <div  id="createERFORM"  class="lb_size"  style="display: none;">
@@ -838,6 +798,7 @@
 <!-- 섬머노트 -->
  			
 
+<<<<<<< HEAD
 <script>
 //웹소켓 객체 저장용
 var wsocket;
@@ -896,30 +857,9 @@ var appendMessage = function(msg){
 	//메시지 출력
 	$('#chatMessage').append(msg+"<br/>");
 };
+=======
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 
-//서버에서 메시지를 받을때마다 호출되는 함수 
-var receiveMessage = function(e){
-	//서버로부터 받은 데이타는 이벤트객체(e).data속성에 저장되어 있다
-	var receiveData=e.data;
-	if(receiveData.substring(0,4) =='msg:')
-		//서버로부터 받은 메시지를 msg:부분을 제외하고 
-		//div에 출력
-		appendMessage(receiveData.substring(4));
-	
-};
-//서버로 메시지 전송하는 함수]
-function sendMessage(){
-	//서버로 메시지 전송
-	wsocket.send('msg:'+nickname+':'+$('#message').val());//msg:Superman:안녕
-	//DIV(대화영역)에 메시지 출력
-	appendMessage($('#message').val());
-	//기존 메시지 클리어
-	$('#message').val('');
-	//포커스 주기
-	$('#message').focus();
-}
-</script>
-<!-- 채팅방 스크립트 -->
 
 <script>
 
@@ -1058,13 +998,18 @@ function request_ERList_Ajax(store_id){
 				     '     <h4>모임날 : '+data[i].er_time+'</h4>'+
 				     '     <hr>'+
 				     '     <a id="btn_show'+i+'" class="btn btn-default" >모임장 정보보기</a>'+
-				     '     <a id="btn_erjoin'+data[i].er_no+'" class="all_erjoin btn btn-default">참가신청하기</a>'+
+				     '	   <sec:authorize access="isAuthenticated()">'+
+				     '   	  <a id="btn_erjoin'+data[i].er_no+'" class="all_erjoin btn btn-default">'+
+				     '				참가신청하기'+
+				     '			</a>'+
+				     '	   </sec:authorize>'+
 				     ' </div>';
 				     var er_no={"er_no":data[i].er_no};
 				     console.log("[er_no]" );
 				     console.log(er_no);
 				 	
-				     
+				    
+						
 				     
 				     
 				 
@@ -1604,9 +1549,6 @@ function request_Ajax(){
 				var button_count_max=4;
 		
 				 for(var i in data){		
-					
-					 
-					 
 					//json배열에서 각 방의  데이터를 시 군구 동으로 파싱하여 다이브에 삽입
 					   	list_html+=data[i].sido+" "+data[i].si_goon_go+" "+data[i].dong;
 					   	//삽입

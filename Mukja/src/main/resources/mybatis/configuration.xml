@@ -13,6 +13,7 @@
 		<typeAlias alias="storeDTO" type="com.kosmo.mukja.service.StoreDTO"/>	
 		<typeAlias alias="eRDTO" type="com.kosmo.mukja.service.ERDTO"/>		
 		<typeAlias alias="AdminDTO" type="com.kosmo.mukja.service.AdminDTO"/>
+		<typeAlias alias="ercDTO" type="com.kosmo.mukja.service.ErcDTO"/>
 	</typeAliases>	
 	
 	<mappers>
