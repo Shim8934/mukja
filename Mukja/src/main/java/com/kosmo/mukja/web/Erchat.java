@@ -1,6 +1,7 @@
 package com.kosmo.mukja.web;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.springframework.web.socket.CloseStatus;
@@ -24,8 +25,24 @@ public class Erchat extends TextWebSocketHandler {
 	//-컬렉션에 연결된 클라이언트 추가
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-		System.out.println(session.getId()+"연결 했어요");
-		clients.put(session.getId(), session);
+		System.out.println("---------<웹소켓 서버 접속 시도 메소드>-----------");
+			//서버 최초  접속시
+			clients.put(session.getId(), session);
+			System.out.println("---최초 클라이언트 접속 !---");
+			System.out.println("클라이언트 방 길이:"+clients.size());
+			System.out.println(session.getId()+"연결 했어요");		
+			//서버 최초 접속 아닐시
+			Iterator<String> iter = clients.keySet().iterator();
+		/*
+		 * while(iter.hasNext()){ String id = iter.next(); WebSocketSession client =
+		 * clients.get(id); System.out.println(String.format("키 : %s 값 : %s",
+		 * id,client)); System.out.println("client:"+client.getUri().toString());
+		 * System.out.println("session:"+session.getUri().toString()); }
+		 */
+			clients.put(session.getId(), session);
+			System.out.println(session.getId()+"연결 했어요");
+		
+		
 	}
 	
 	//클라이언트와 연결이 끊었졌을때 호출되는 콜백 메소드]
@@ -45,6 +62,7 @@ public class Erchat extends TextWebSocketHandler {
 		//메시지 뿌려주기]
 		for(WebSocketSession client: clients.values()) {
 			if(!session.getId().equals(client.getId())) {//자기가 보낸 메시지를 다시 받지 않도록
+			System.out.println("message:"+message);
 				client.sendMessage(message);
 			}
 		}

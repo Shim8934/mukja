@@ -71,4 +71,28 @@
 		 select erc_no from er_chat where er_no = #{er_no}
 	</select>
 	
+	<select id="myERCList" parameterType="java.util.Map" resultType="ercDTO">
+		 select em.er_no,  em.username , em.erjoin_date, 
+          em.erjoin_num, em.erjoin_role, em.erc_no,
+          er.er_master,er.username as store_id,
+          er.er_title,er.er_content,er.er_time,er.er_tend,
+          er.er_max,er.er_max, er.er_postdate
+          from er_members em join  eattogether_room er 
+          on em.er_no = er.er_no 
+          where em.username=#{username}
+                and em.erjoin_role=1
+          ORDER BY erc_no DESC
+	</select>
+	
+	<select id="getStoreInfo" parameterType="java.util.Map" resultType="storeDTO">
+		select * from stores where username = #{store_id}
+	</select>
+	<select id="getERC_content" parameterType="java.util.Map" resultType="java.lang.String">
+		select erc_content from er_chat where erc_no = #{erc_no}
+	</select>
+	
+	<select id="getUserNick" parameterType="java.util.Map" resultType="java.lang.String">
+		select u_nick from users where username = #{username}
+	</select>
+	
 </mapper>

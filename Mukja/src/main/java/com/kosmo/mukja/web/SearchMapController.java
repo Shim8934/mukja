@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.DongDTO;
 import com.kosmo.mukja.service.ERDTO;
+import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.impl.SearchMapServiceImpl;
 
@@ -465,6 +466,81 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 		
 		int joinER = service.joinER(map);
 		return "{'joinER':"+joinER+"}";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/enterERC.do",produces = "application/json; charset=utf8")
+	public String getMyERCList(@RequestParam Map map) {
+		System.out.println("-------------------채팅 컨트롤러 진입------------------------");
+		//키값확인 디버그코드
+		/*
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+		*/
+		//세션넣기 전 임시데이터
+		map.put("username", "pbs@naver.com");
+		
+		//내가 참여중인 방 정보 얻기
+		List<ErcDTO> ercList =service.myERCList(map);
+		
+		//리스트 디버깅용
+		for(ErcDTO dtos:ercList) {
+			System.out.println(dtos.toString());
+		}
+		//얻어온 리스트를 통해서 내가 지금 참여중인 채팅방 정보를 송신(json파싱)
+		JSONArray jsonArray = new JSONArray();
+		if(ercList!=null){
+			for(ErcDTO erc:ercList) {
+				JSONObject jsonDto = new JSONObject();
+				jsonDto.put("er_no",erc.getEr_no() );
+				jsonDto.put("erc_no",erc.getErc_no() );	
+				jsonDto.put("erMaster",erc.getEr_master());
+				jsonDto.put("u_nick",service.getUserNick(map));
+				System.out.println(erc.getEr_master());
+				jsonDto.put("erjoin_date",erc.getErjoin_date());
+				jsonDto.put("erjoin_num",erc.getErjoin_num());
+				jsonDto.put("erjoin_role",erc.getErjoin_role());
+				jsonDto.put("store_id",erc.getstore_id());
+				map.put("store_id", erc.getstore_id());
+				System.out.println(erc.getstore_id());
+				jsonDto.put("store_name",service.getStoreInfo(map).getStore_name());
+				jsonDto.put("er_title",erc.getEr_title());
+				jsonDto.put("er_content",erc.getEr_content());
+				jsonDto.put("er_time",erc.getEr_time());
+				jsonDto.put("er_tend",erc.getEr_tend());
+				jsonDto.put("er_max",erc.getEr_max());
+				jsonDto.put("er_postdate",erc.getEr_postdate());
+				System.out.println(jsonDto.toJSONString());
+				jsonArray.add(jsonDto);
+			}//for
+			System.out.println( jsonArray.toJSONString());
+		}//if
+		return jsonArray.toJSONString();
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getERCcontent.do",produces = "application/json; charset=utf8")
+	public String getERCcontent(@RequestParam Map map) {
+		System.out.println("-------------------채팅방  내용 부르기 컨트롤러 진입------------------------");
+		//키값확인 디버그코드
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+		JSONObject jObject = new JSONObject();
+		String erc_content = service.getERC_content(map);
+		jObject.put("erc_content", erc_content);
+	
+		return jObject.toJSONString();
 	}
 	
 }

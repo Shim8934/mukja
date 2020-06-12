@@ -17,7 +17,7 @@
 	
 		<!-- 폼 기반 로그인 설정 -->
 		<!-- 
-		login-page ="사용젖 정의 로그인 페이지 URL지정" .기본값은 /login(Security 프레임워크에서 제공하는 기본 로그인 폼 사용시)
+		login-page ="사용자 정의 로그인 페이지 URL지정" .기본값은 /login(Security 프레임워크에서 제공하는 기본 로그인 폼 사용시)
 		default-target-url:로그인 한 후에 보여질 페이지 URL지정.
 		authentication-failure-url: 로그인 실패시 보여질 페이지 URL지정.
 						                           기본값은 /login?error.또한 ENABLED컬럼값이 0인 경우(아이디와 비번이 일치해도)에도 로그인 실패

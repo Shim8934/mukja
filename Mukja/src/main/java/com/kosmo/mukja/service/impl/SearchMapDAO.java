@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kosmo.mukja.service.DongDTO;
 import com.kosmo.mukja.service.ERDTO;
+import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.SearchMapService;
 import com.kosmo.mukja.service.StoreDTO;
 
@@ -83,6 +84,27 @@ public class SearchMapDAO implements SearchMapService{
 		public int getERCno(Map map) {
 			return sqlMapper.selectOne("getERCno",map);
 		}
+
+		@Override
+		public List<ErcDTO> myERCList(Map map) {
+			return sqlMapper.selectList("myERCList",map);
+		}
+
+		@Override
+		public StoreDTO getStoreInfo(Map map) {
+			return sqlMapper.selectOne("getStoreInfo",map);
+		}
+
+		@Override
+		public String getERC_content(Map map) {
+			return sqlMapper.selectOne("getERC_content",map);
+		}
+
+		@Override
+		public String getUserNick(Map map) {
+			return sqlMapper.selectOne("getUserNick",map);
+		}
+
 		
 		
 
