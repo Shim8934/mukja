@@ -95,4 +95,9 @@
 		select u_nick from users where username = #{username}
 	</select>
 	
+	<update id="updateErcContent" parameterType="java.util.Map" >
+		update er_chat set erc_content = #{erc_content} where erc_no = #{erc_no}
+	</update>
+	
+	
 </mapper>

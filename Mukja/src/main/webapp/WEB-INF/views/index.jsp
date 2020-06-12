@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-    
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>    
     
 
 
@@ -277,7 +278,7 @@
 
 <!-- 커스텀모달 -->
 <div id="mask"></div>
-<div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none;' class="lb_size" >
+<div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none; ' class="lb_size" >
 	<div class="container" style="margin-top: 20px;width: 800px;">
 		<div class="row"style="margin-bottom:20px;"> 
 			<div class="col-md-1 col-md-offset-11" >
@@ -302,7 +303,9 @@
             <div class="col-md-9 ftco-animate text-center">
                <h1 class="mb-2 bread" style="width: 800px; margin-bottom: 10px;margin-top: 5px;">같이 먹을 사람들을 찾아보세요!</h1>
                <h3 class="mb-2 bread" style="width: 800px; margin-bottom: 10px;margin-top: 5px;">같이 먹으면 재미가 두 배, 맛도 두 배!</h3>
-               <p><a id="createER" style=" margin-top:20px; margin-left:200px; color: #5C5C5C; font-weight: bold; "class="btn btn-default btn-lg ">모임개설</a></p>
+                <sec:authorize access="isAuthenticated()">
+					<p><a id="createER" style=" margin-top:20px; margin-left:200px; color: #5C5C5C; font-weight: bold; "class="btn btn-default btn-lg ">모임개설</a></p>
+               </sec:authorize>
             </div>
          </div>
       </div>
@@ -315,7 +318,7 @@
 		</div>	
 		
 		<div class="row" style="margin-bottom:20px;"> 	
-			<div  class="col-md-1 col-md-offset-11">
+			<div class="col-md-1 col-md-offset-11">
 				 <a class="close btn btn-default ">닫기</a>
 			</div>
 		</div>	
@@ -934,13 +937,18 @@ function request_ERList_Ajax(store_id){
 				     '     <h4>모임날 : '+data[i].er_time+'</h4>'+
 				     '     <hr>'+
 				     '     <a id="btn_show'+i+'" class="btn btn-default" >모임장 정보보기</a>'+
-				     '     <a id="btn_erjoin'+data[i].er_no+'" class="all_erjoin btn btn-default">참가신청하기</a>'+
+				     '	   <sec:authorize access="isAuthenticated()">'+
+				     '   	  <a id="btn_erjoin'+data[i].er_no+'" class="all_erjoin btn btn-default">'+
+				     '				참가신청하기'+
+				     '			</a>'+
+				     '	   </sec:authorize>'+
 				     ' </div>';
 				     var er_no={"er_no":data[i].er_no};
 				     console.log("[er_no]" );
 				     console.log(er_no);
 				 	
-				     
+				    
+						
 				     
 				     
 				 
@@ -1480,9 +1488,6 @@ function request_Ajax(){
 				var button_count_max=4;
 		
 				 for(var i in data){		
-					
-					 
-					 
 					//json배열에서 각 방의  데이터를 시 군구 동으로 파싱하여 다이브에 삽입
 					   	list_html+=data[i].sido+" "+data[i].si_goon_go+" "+data[i].dong;
 					   	//삽입

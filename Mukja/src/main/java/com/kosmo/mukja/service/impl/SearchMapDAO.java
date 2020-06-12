@@ -105,6 +105,11 @@ public class SearchMapDAO implements SearchMapService{
 			return sqlMapper.selectOne("getUserNick",map);
 		}
 
+		@Override
+		public int updateErcContent(Map map) {
+			return sqlMapper.update("updateErcContent",map);
+		}
+
 		
 		
 

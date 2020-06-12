@@ -8,9 +8,12 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -383,7 +386,9 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	}//together_list
 	@ResponseBody
 	@RequestMapping( value = "/submitER.do", produces = "application/json; charset=utf8")
-	public String submitER(@RequestParam Map map) {
+	public String submitER(@RequestParam Map map,Authentication auth) {
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
 		JSONArray jsonArray = new JSONArray();
 		Iterator<String> iter = map.keySet().iterator();
 		StringBuffer tendbutt = new StringBuffer();
@@ -398,7 +403,8 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			}
 		}
 		map.put("ER_TEND", tendbutt.toString());
-		map.put("username","pbs@naver.com");
+		map.put("username",username);
+		System.out.println("로그인된 유저의 아이디 : "+username);
 		System.out.println("store_id:"+map.get("store_id"));
 		System.out.println("ERcontent:"+map.get("ERcontent"));
 		System.out.println("ERtitle:"+map.get("ERtitle"));
@@ -449,9 +455,12 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	@ResponseBody
 	@RequestMapping( value = "/requestERjoin.do", produces = "application/json; charset=utf8")
-	public String requestERjoin(@RequestParam Map map) {
+	public String requestERjoin(@RequestParam Map map,Authentication auth) {
 		System.out.println("-------------------참가하기 컨트롤러 진입------------------------");
-		map.put("username","sim@naver.com");
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
+		map.put("username",username);
+		System.out.println("로그인된 유저의 아이디 : "+username);
 		map.put("er_master",map.get("username"));
 		int erc_no = service.getERCno(map);
 		map.put("erc_no",erc_no);
@@ -470,7 +479,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	@ResponseBody
 	@RequestMapping(value = "/enterERC.do",produces = "application/json; charset=utf8")
-	public String getMyERCList(@RequestParam Map map) {
+	public String getMyERCList(@RequestParam Map map,Authentication auth) {
 		System.out.println("-------------------채팅 컨트롤러 진입------------------------");
 		//키값확인 디버그코드
 		/*
@@ -482,8 +491,13 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 		}
 		//키값확인 디버그코드 끝
 		*/
-		//세션넣기 전 임시데이터
-		map.put("username", "pbs@naver.com");
+		//아이디얻기
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
+		System.out.println("로그인된 유저의 아이디 : "+username);
+		map.put("username", username);
+		
+		map.put("er_master",map.get("username"));
 		
 		//내가 참여중인 방 정보 얻기
 		List<ErcDTO> ercList =service.myERCList(map);
@@ -542,5 +556,27 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 		return jObject.toJSONString();
 	}
+	@ResponseBody
+	@RequestMapping(value = "/sendToTable.do",produces = "application/json; charset=utf8")
+	public String sendToTable(@RequestParam Map map) {
+		System.out.println("-------------------채팅방  내용 업데이트 컨트롤러 진입------------------------");
+		//키값확인 디버그코드
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+	
+		int result = service.updateErcContent(map);
+		JSONObject jObject = new JSONObject();
+		jObject.put("result", result);
+		return jObject.toJSONString();
+	}
+	
+	
+	
+	
 	
 }
