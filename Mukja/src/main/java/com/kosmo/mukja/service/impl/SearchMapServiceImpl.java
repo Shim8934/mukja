@@ -104,6 +104,11 @@ public class SearchMapServiceImpl implements SearchMapService{
 		return dao.getUserNick(map);
 	}
 
+	@Override
+	public int updateErcContent(Map map) {
+		return dao.updateErcContent(map);
+	}
+
 	
 	
 	
