@@ -55,7 +55,7 @@
 	
 	<!-- 파일 업로드 관련 -->
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <beans:property name="defaultEncoding" value="utf-8" />    <!-- 인코딩 -->
-    </beans:bean><!-- 신기하게 이건 남아있네 우라질 -->
-	
+        <beans:property name="defaultEncoding" value="utf-8" />  
+    </beans:bean>
+    
 </beans:beans>

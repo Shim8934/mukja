@@ -168,7 +168,7 @@ public class AdminController {
 		return "/Notice/View.admins";
 	}
 	
-	// 공지사항 등록 컨트롤러
+	// 공지사항 등록 페이지 이동
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
 	public String moveWriteNotice(Authentication auth, Model model) {
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -177,15 +177,15 @@ public class AdminController {
 		return "Notice/Write.admins";
 	}
 	
-	// 공지사항 등록 컨트롤러
+	// 공지사항 등록 컨트롤러 (본격 등록)
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-	public String writeNotice(MultipartHttpServletRequest req,
-							  @RequestParam Map map,
+	public String writeNotice(MultipartHttpServletRequest mreq,
 							  Model model) {
-		String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
-		map = fileUploadService.restore(req, path, map);
+		// String saveDirectory = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+		// FileUtility.upLoad(req, saveDirectory);
+		// map = fileUploadService.restore(req, path, map);
 		
-		adminService.insert(map);
+		// adminService.insert(map);
 		return "Notice/Write.admins?username=";
 		
 	}
