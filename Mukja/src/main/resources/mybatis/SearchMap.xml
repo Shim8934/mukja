@@ -16,6 +16,7 @@
 	<select id="getMarkerWithMenuList" parameterType="java.util.Map" resultType="storeDTO">
 		 select * from stores s join foodmenu f on s.username = f.username  <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng}]]>  order by s.username desc  
 	</select>
+	
 	<select id="getMenuCount" parameterType="java.util.Map" resultType="int">
 		   select count(*) from foodmenu where username = #{store_name}
 	</select>

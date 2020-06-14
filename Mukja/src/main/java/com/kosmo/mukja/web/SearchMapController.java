@@ -225,6 +225,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 		jsonDto.put("store_time", dto.getStore_time());
 		jsonDto.put("store_lat", dto.getStore_lat());
 		jsonDto.put("store_lng", dto.getStore_lng());	
+		jsonDto.put("store_addr", dto.getStore_addr());	
 		//여기부턴 메뉴
 		jsonDto.put("menu_no", dto.getMenu_no());
 		jsonDto.put("menu_name", dto.getMenu_name());
@@ -373,7 +374,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 				jsonDto.put("u_age", er.getU_age());		
 				jsonDto.put("u_tend", er.getU_tend());		
 				jsonDto.put("u_lat", er.getU_lat());		
-				jsonDto.put("u_lng", er.getU_lng());		
+				jsonDto.put("u_lng", er.getU_lng());
 				jsonDto.put("u_ph", er.getU_ph());		
 				jsonDto.put("enabled", er.getEnabled());		
 				jsonDto.put("authority", er.getAuthority());

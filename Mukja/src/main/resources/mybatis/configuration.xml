@@ -14,12 +14,14 @@
 		<typeAlias alias="eRDTO" type="com.kosmo.mukja.service.ERDTO"/>		
 		<typeAlias alias="AdminDTO" type="com.kosmo.mukja.service.AdminDTO"/>
 		<typeAlias alias="ercDTO" type="com.kosmo.mukja.service.ErcDTO"/>
+		<typeAlias alias="foodMenuDTO" type="com.kosmo.mukja.service.FoodMenuDTO"/>
 	</typeAliases>	
 	
 	<mappers>
 		<mapper resource="mybatis/SearchMap.xml" />		
 		<mapper resource="mybatis/Admin.xml" />
 		<mapper resource="mybatis/Sign.xml" />
+		<mapper resource="mybatis/StoreDetail.xml" />
 	</mappers>
 	
 </configuration>

@@ -46,7 +46,7 @@
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a href="<c:url value="/"/>" class="nav-link">Home</a></li>
-				<li class="nav-item"><a href="<c:url value="/Restaurants.bbs"/>" class="nav-link">Restaurants</a></li>
+				<li class="nav-item active"><a href="<c:url value="/Store/DetailView.do"/>" class="nav-link">Restaurants</a></li>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
 					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
@@ -56,12 +56,7 @@
 					<li class="nav-item"><a href="<c:url value="/Mypage.bbs"/>"class="nav-link">MyPage</a></li>
 				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin</a></li>
-				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_STORE')">
-				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin22</a></li>
-				</sec:authorize>
+				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">AdminTest</a></li>
 			</ul>
 		</div>
 	</div>

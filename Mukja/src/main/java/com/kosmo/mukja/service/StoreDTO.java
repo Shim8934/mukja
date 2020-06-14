@@ -12,6 +12,7 @@ public class StoreDTO {
 	private String store_time;
 	private double store_lat;
 	private double store_lng;
+	private String store_addr;
 	private String store_role;
 	private String enabled;
 	private String authority;
@@ -24,9 +25,8 @@ public class StoreDTO {
 	private String username_1;
 	public StoreDTO(String username, String password, String store_name, String store_regnum, String store_phnum,
 			String store_email, int store_avg, String store_intro, String store_time, double store_lat,
-			double store_lng, String store_role, String enabled, String authority, String menu_no, String menu_name,
-			String menu_tend, String menu_info, String menu_regidate, String username_1) {
-		super();
+			double store_lng, String store_addr, String store_role, String enabled, String authority, String menu_no,
+			String menu_name, String menu_tend, String menu_info, String menu_regidate, String username_1) {
 		this.username = username;
 		this.password = password;
 		this.store_name = store_name;
@@ -38,6 +38,7 @@ public class StoreDTO {
 		this.store_time = store_time;
 		this.store_lat = store_lat;
 		this.store_lng = store_lng;
+		this.store_addr = store_addr;
 		this.store_role = store_role;
 		this.enabled = enabled;
 		this.authority = authority;
@@ -115,6 +116,12 @@ public class StoreDTO {
 	}
 	public void setStore_lng(double store_lng) {
 		this.store_lng = store_lng;
+	}
+	public String getStore_addr() {
+		return store_addr;
+	}
+	public void setStore_addr(String store_addr) {
+		this.store_addr = store_addr;
 	}
 	public String getStore_role() {
 		return store_role;
