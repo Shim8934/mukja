@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/flaticon.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icomoon.css'/>">
     <link rel="stylesheet" href="  <c:url value='/resources/bootstrap/css/style.css'/>">   
- 
+   <!-- 친구리스트 -->
+   <%-- <link rel="stylesheet" href="<c:url value='/resources/adminbootstrap/assets/css/material-dashbooard.css'/>"> --%>
    <!-- 아이콘  css -->
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icon-common.css'/>">
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icon-style.css'/>">
@@ -41,38 +42,27 @@
    <!-- 영어폰트 -->
     <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Lovers+Quarrel" rel="stylesheet">
-	
+
    <!-- 탭형 css -->
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/tab-style.css'/>">
    <!-- 로그인용 -->
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
-  
+    <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
+    <!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
-  
    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
    <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"/></script>
 	<!-- anime.js  https://animejs.com/documentation/#duration -->
 	<script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
 	
 	
-	 
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  jQuery( document ).ready(function( $ ) {
-
-    $( "#ERCwindow" ).draggable();
-  } );
-  </script>
-	
    <style>
-   body {
-   font-family:Verdana;
-   overflow-x:hidden; overflow-y:auto;
-   }
    
    .img_messenger{
   	position:relative;
@@ -207,8 +197,6 @@
 					
 
   <!-- 메신저 창 -->
-  
-  
  <sec:authorize access="isAuthenticated()">
 	<div id="messenger">
 		<img class="img_messenger" id='btn_messenger' src="<c:url value="/resources/messenger/f.JPG"/>"  >
@@ -252,7 +240,7 @@
 		<sec:authentication var="principal" property="principal" />
 
 		 <!-- ---------------------------------채팅방 다이브--------------------------- -->
-		<div id="ERCwindow" class="chat_board ui-widget-content" style ='background-color: #B2C7D9; '>
+		<div id="ERCwindow" class="chat_board" style ='background-color: #B2C7D9; '>
 			<div class='row' style="margin: 0;padding: 0;height: 100%;">
 			<div class="col-sm-12" > 
 						<span class="hideERC glyphicon glyphicon-remove" style="float: right; clear: both;"></span>
@@ -284,7 +272,6 @@
 		  <!-- ---------------------------------채팅방 다이브끝--------------------------- -->
 	</div>
 </sec:authorize> 
-
 <!-- 메신저끝-->
 <script type="text/javascript">
 //----------------웹소켓---------------//
@@ -461,7 +448,6 @@ $(function (){
   
    function request_erc_ajax(){
 		  //메신저에 채팅방목록 출력
-		  erc_noInfo=new Array();
 		 $.ajax({
 			url:"<c:url value='/enterERC.do'/>",
 			dataType:'json',
@@ -527,7 +513,7 @@ $(function (){
 									console.log('채팅방 기존 입력된 내용 부르기');
 									console.log(ERCConData.erc_content);
 									$("#chatMessage").empty();
-									$("#chatMessage").prepend(ERCConData.erc_content);
+									$("#chatMessage").append(ERCConData.erc_content);
 									console.log('내닉 : '+nickname);
 									//채팅내용 좌우정렬
 									divAlign();
@@ -639,11 +625,8 @@ $(function (){
 $('.hideERC').click(function(){
 	$("#ERCwindow").fadeOut();
 });
-<<<<<<< HEAD
-=======
 	
 	
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 	</script>
 	<!-- 메신저 스크립트 끝-->
   </body>

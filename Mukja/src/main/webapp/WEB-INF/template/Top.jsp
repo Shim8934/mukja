@@ -32,7 +32,6 @@
 			
 		});
 	}
-
 </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light ftco-navbar-light-2" id="ftco-navbar">
@@ -46,11 +45,7 @@
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a href="<c:url value="/"/>" class="nav-link">Home</a></li>
-<<<<<<< HEAD
-				<li class="nav-item active"><a href="<c:url value="/Store/DetailView.do"/>" class="nav-link">Restaurants</a></li>
-=======
 				<li class="nav-item"><a href="<c:url value="/Restaurants.bbs"/>" class="nav-link">Restaurants</a></li>
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
 					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
