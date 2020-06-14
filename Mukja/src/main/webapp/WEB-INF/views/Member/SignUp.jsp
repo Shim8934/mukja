@@ -1,9 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script type="text/javascript">
+$(function(){
+  $('#img').click(function() {
+		console.log('여기')
+	  $('.trs').slideToggle(300)
+})
+});
+</script>
 
 <style type="text/css">
-body {
+section {
 	font-family: "나눔고딕", NanumGothic, "Nanum Gothic", 돋움, dotum,
 		Apple SD Gothic Neo, sans-serif;
 }
@@ -28,6 +36,46 @@ body {
 	border: 1px red solid;
 	background: white;
 	color: red;
+}
+
+.trs {
+	clear: both;
+	float: left;
+	width: 100%;
+	height: 200px;
+	border: 1px solid skyblue;
+	border-radius: 10px;
+}
+
+.img_size {
+	display: block;
+	width: 50px;
+	height: 50px;
+	max-width: 65px;
+	max-height: 65px;
+	background-color: white;
+	border: 2px #66B9E3 solid;
+	border-radius: 45px;
+	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px;
+	background-color: rgb(255, 255, 255);
+	
+}
+
+  .lb_size{
+  	width:50px;
+  	background-color: white; 
+	border: 2px #66B9E3 solid; 
+	border-radius:5px;  
+	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
+	background-color: rgb(255, 255, 255);
+	margin-top: 5px;
+	text-align: center;
+  }
+.wrapper {
+  padding-top:10px;
+  padding-left:10px;
+  display: grid;
+  grid-template-columns: 16% 16% 16% 16% 16% 16%;
 }
 </style>
 
@@ -60,7 +108,6 @@ body {
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
 					<form action="<c:url value='/isSignUp.bbs'/>" method="post">
-
 						<div class="row">
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group" id="input">
@@ -112,21 +159,16 @@ body {
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">나이</label>
+									<label for="">연령대</label>
 									<div class="select-wrap one-third">
-										<div class="icon">
-											<span class="ion-ios-arrow-down"></span>
-										</div>
 										<select name="u_age" id="u_age" class="form-control">
-											<option value="">나이를 선택하세요</option>
-											<option value="10">10대</option>
-											<option value="20">20대</option>
-											<option value="30">30대</option>
-											<option value="40">40대</option>
-											<option value="50">50대</option>
-											<option value="60">60대</option>
-											<option value="70">70대</option>
-											<option value="80">80대</option>
+											<option value="">연령대를 선택하세요</option>
+											<option value="10">10~19세</option>
+											<option value="20">20~29세</option>
+											<option value="30">30~39세</option>
+											<option value="40">40~49세</option>
+											<option value="50">50~59세</option>
+											<option value="60">60~69세</option>
 										</select>
 									</div>
 								</div>
@@ -135,12 +177,102 @@ body {
 								<div class="form-group">
 									<label for="">관심지역</label> <a onclick="addr();"><input
 										type="text" class="form-control" id="addr" name="addr"
-										placeholder="관심지역을 선택하세요"></a>
-										<input type="hidden" id="u_lat" name="u_lat"/>
-										<input type="hidden" id="u_lng" name="u_lng"/>
-										
+										placeholder="관심지역을 선택하세요"></a> <input type="hidden"
+										id="u_lat" name="u_lat" /> <input type="hidden" id="u_lng"
+										name="u_lng" />
 								</div>
 							</div>
+							<div class="col-md-offset-3 col-md-6">
+								<div class="form-group">
+									<label for="">골라먹자 필터 지정하기</label> <span
+										class="ion-ios-arrow-down" id="img"></span>
+								</div>
+								<div class="col-md-12 trs" style="display: none;">
+											<div class="wrapper" style="text-align:center;">
+											<div >
+												<!-- 물고기 -->
+												<img id='FS'
+													src="<c:url value="/resources/tend_IMG/pesco_b.png"/>"
+													alt="F" class="img-circle img_size">
+												<div class="lb_size">생선</div>
+											</div>
+											<div>
+												<!-- 달걀-->
+												<img id='EG'
+													src="<c:url value="/resources/tend_IMG/ovo_b.png"/>"
+													alt="E" class="img-circle img_size">
+												<div class="lb_size">달걀</div>
+											</div>
+											<div>
+												<!-- 우유-->
+												<img id='MK'
+													src="<c:url value="/resources/tend_IMG/dairy_b.png"/>"
+													alt="M" class="img-circle img_size">
+												<div class="lb_size">우유</div>
+											</div>
+											<div>
+												<!-- 가금류-->
+												<img id='BD'
+													src="<c:url value="/resources/tend_IMG/chicken_b.png"/>"
+													alt="B" class="img-circle img_size">
+												<div class="lb_size">가금류</div>
+											</div>
+											<div>
+												<!-- 돼지고기-->
+												<img id='PK'
+													src="<c:url value="/resources/tend_IMG/pig_b.png"/>"
+													alt="P" class="img-circle img_size">
+												<div class="lb_size">돼지</div>
+											</div>
+											<div>
+												<!-- 소고기-->
+												<img id='CW'
+													src="<c:url value="/resources/tend_IMG/cow2_b.png"/>"
+													alt="C" class="img_size">
+												<div class="lb_size">소</div>
+											</div>
+											</div>
+											<div class="wrapper">
+											<div class="">
+												<!-- 땅콩-->
+												<img id='PE'
+													src="<c:url value="/resources/tend_IMG/nuts_b.png"/>"
+													alt="PE" class="img-circle img_size">
+												<div class="lb_size">땅콩</div>
+											</div>
+											<div class="">
+												<!-- 각갑류-->
+												<img id='SF'
+													src="<c:url value="/resources/tend_IMG/shrimp_b.png"/>"
+													alt="SF" class="img-circle img_size">
+												<div class="lb_size">갑각류</div>
+											</div>
+											<div class="">
+												<!-- 치즈-->
+												<img id='DP'
+													src="<c:url value="/resources/tend_IMG/dp_b.JPG"/>"
+													alt="DP" class="img-circle img_size">
+												<div class="lb_size">유제품</div>
+											</div>
+											<div class="">
+												<!-- 콩-->
+												<img id='SB'
+													src="<c:url value="/resources/tend_IMG/s_b.png"/>" alt="SB"
+													class="img-circle img_size">
+												<div class="lb_size">대두</div>
+											</div>
+											<div>
+												<!-- 밀가루 -->
+												<img id='FL'
+													src="<c:url value="/resources/tend_IMG/gluten_b.png"/>"
+													alt="FL" class="img-circle img_size">
+												<div class="lb_size">글루텐</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<input type="submit" value="회원가입"
@@ -151,38 +283,48 @@ body {
 						</div>
 					</form>
 				</div>
-				<div class="col-md-12">
-					<div class="form-group" style="text-align: center">
 
-						<div class="btn-group" role="group" aria-label="..."
-							style="text-align: center; padding: 0 auto; margin: 0 auto">
+			</div>
+			<div class="col-md-12">
+				<div class="form-group" style="text-align: center">
 
-							<a class="btn" onclick="loginWithKakao()"
-								style="border-radius: 1em;"> <img alt="카카오"
-								src="<c:url value='/resources/bootstrap/images/kakao.png'/>"
-								style="border-radius: 1.2em;">
-							</a> <a type="button" id="naver_id_login" class="btn"
-								style="border-radius: 1.2em;">Middle</a> <a type="button"
-								class="btn" onclick="fbLoginAction();"> <img alt="카카오"
-								src="<c:url value='/resources/bootstrap/images/facebook.jpg'/>"
-								style="border-radius: 1.2em;">
-							</a> <a type="button" class="btn " data-onsuccess="onSignIn"
-								data-theme="dark" onclick="onSignIn();"> <img alt="카카오"
-								src="<c:url value='/resources/bootstrap/images/google.png'/>"
-								style="border-radius: 1.2em;">
-							</a>
+					<div class="btn-group" role="group" aria-label="..."
+						style="text-align: center; padding: 0 auto; margin: 0 auto">
+
+						<a class="btn" onclick="loginWithKakao()"
+							style="border-radius: 1em;"> <img alt="카카오"
+							src="<c:url value='/resources/bootstrap/images/kakao.png'/>"
+							style="border-radius: 1.2em;">
+						</a> <a class="btn" id="naver_id_login" style="border-radius: 1.2em;">Middle</a>
+						<a class="btn" onclick="fbLoginAction();"> <img alt="페이스북"
+							src="<c:url value='/resources/bootstrap/images/facebook.jpg'/>"
+							style="border-radius: 1.2em;">
+						</a> <a type="button" class="btn " data-onsuccess="onSignIn"
+							data-theme="dark" onclick="onSignIn();"> <img alt="구글"
+							src="<c:url value='/resources/bootstrap/images/google.png'/>"
+							style="border-radius: 1.2em;">
+						</a>
 
 
-						</div>
 					</div>
-
 				</div>
+
 			</div>
 		</div>
+
 	</section>
 
-	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
+
+	<script
+		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script
+		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
+	<script>
+  	$( function() { 
+  		$( "#accordion" ).accordion();
+  	}
+  	);
+  </script>
 	<script>
     function addr() {
     	var geocoder = new daum.maps.services.Geocoder();

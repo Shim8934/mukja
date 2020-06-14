@@ -9684,34 +9684,39 @@ textarea.form-control {
 .mypage{
   position: relative; 
 }
-
-.mypage span, h2, p{
-	color: black;
-}
-
-.mypage button{
-	float: right;
+.mtNet{
+	margin-left: 50px;
 }
 
 .mypage .mt, .et{
-	border: 1px black solid;
-	padding: 50px 30px;
-	margin: 0 20px;
+	border: 3px black solid;
+	padding: 20px ;
 	font-family: 'Do Hyeon', sans-serif;
 	background: white;
+	display: inline-block;
+	margin: 20px;
 }
+.mypage .mt{
+	margin-left: 20px;
+}
+.mypage .et{
+	display: inline-block;
+	vertical-align: top;
+}
+
 .mypage-wrap {
   display: inline;
   position: static;
   color: rgba(255, 255, 255, 0.7);
-  overflow: hid }
+  overflow: hidden; }
   .mypage-wrap .user-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     position: relative;
-    margin: 0 auto;
-    background-position: top center; }
+    background-position: top center; 
+    margin-bottom: 1rem;}
+    
     .mypage-wrap .user-img .quote {
       position: absolute;
       bottom: -10px;
@@ -9724,73 +9729,186 @@ textarea.form-control {
       -ms-border-radius: 50%;
       border-radius: 50%; }
       .mypage-wrap .user-img .quote i {
-        color: #f34949; }
-        /*
-  .mypage-wrap .name {
+        color: #f34949; }  
+  .mypage .text{  
+  	display: inline;
+  	}            
+  .mypage-wrap .text p{
+    color:  black; 
     font-weight: 400;
-    font-size: 18px;
-    margin-bottom: 0;
-    color: #fff; }
-  .mypage-wrap .position {
-  	word-wrap:break-word;
-    font-size: 18px;
-    color: gray; }    
-	.mypage-wrap p{
-  	word-wrap:break-word;
-	}*/
+    font-size: 15px;
+    margin-bottom: 0rem;
+    }
 
+.mypage span, h2, p{
+	color: black;
+	margin-bottom: 0rem;
+}
+.mypage h4{
+	display: inline;
+}
+.mypage button{
+	float: right;
+}
 
 /******** 골라 먹자 ********/
+
+/******** 골라 먹자 - 성향 ********/
 .mt_taste{
-	background: yellow;
+	border: 1px solid green; 
+	background: white;
+}
+.jNs{
+	padding: 10px 0;
+}
+	.joa{
+    	margin: 10px;
+    	padding: 10px;
+    	display: inline-block;
+    	background: orange;
+	}
+	.siro{
+    	margin: 10px;
+    	padding: 10px; 
+    	display: inline-block;
+    	background: red;
+		vertical-align: top;
+	}
+
+
+.mypage-box{
+    width: 70px;
+    height: 70px; 
+    border-radius: 70%;
+    overflow: hidden;
+    display: inline-block;
+}
+.mypage-img {
+    width: 70px;
+    height: 70px; 
+    border-radius: 70%;
+    overflow: hidden;
+    object-fit: cover;  
+    display: inline-block;  
 }
 
 
-.likes{
-	background: red; 
+
+.mpjjim{	  
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  transition: all 0.3s ease; 
+	border: 1px solid black;
+	padding-bottom: 10px;
+	margin: 10px 0 ;
+}
+	.mpjjim .img{	  
+	height: 100px;
+}
+	.foodjjim, .storejjim{
+	padding-left: 10px;
+	padding-right: 10px;
+	}
+
+
+
+
+/******** 골라 먹자 - 찜 ********/
+.jjim{
+	border: 1px solid green; 
+	background: white;
+}
+	.foodjjim{
+		border: 1px solid red; 
+	}
+	.storejjim{
+		border: 1px solid purple;
+	}
+
+.mn-name{
+	font-weight: bold;
+	padding-top: 1rem;
+}
+.st-name{
+	size:10px;
+	color: gray;
+	
+}
+.pref-icon{
+	
 }
 
+
+/******** 골라 먹자 - 리뷰 ********/
 .reviews{
-	background: violet; 
+	border: 1px solid green;
+	background: white;
 }
+	.reviews th{
+		color: black;
+		font-size: 14px;
+	}
 
+	.mplist table{
+		margin-left: 10px;
+		margin-right: 10px;
+		
+	}
+	.mplist td{
+		color: black;
+		padding-bottom: 1rem;
+		height: 20px;
+	    overflow: hidden;
+    	text-overflow: ellipsis;
+		font-size: 12px;
+	}
+	.mplist .col-md-1, .col-md-2, .col-md-3{
+		  position: relative;
+	}
 
 /******** 같이 먹자 ********/
 .et_taste{
-	background: violet; 
+	border: 1px solid green;
+	background: white;
 }
 
 .groups{
-	background: yellow; 
-	display: inline;
+	border: 1px solid green;
+	background: white;
+}
+	.recent_group{
+	border: 1px solid red;
+	}
+	.im_group{
+	border: 1px solid blue;
+	}
+.groups .item{
+	border: 1px solid black;
+	padding:10px;
+	margin: 10px;
+	display: inline-block;
 }
 
 /******** 공통 ********/
-.jNs{
-	background: blue; 
-	height: auto;
-	
+
+.mgtb10{
+	margin: 10px 0;
+  	padding-bottom: 1.5rem !important;
 }
-	.joa{
-		background: red; 
-	}
-	.siro{
-		background: red; 
-		float: right;
-	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+.mypage .title{
+	font-weight: bold;
+	width: 100%;
+	font-family: 'Gugi', sans-serif;
+	margin-top: 1rem;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+.sub-title{	
+	padding-top: 2rem;
+	padding-bottom: 1rem;
+}
 
 

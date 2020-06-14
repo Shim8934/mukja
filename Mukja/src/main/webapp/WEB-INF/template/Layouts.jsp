@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles" %>
 <%@ taglib prefix="sec"
@@ -115,7 +114,6 @@
  	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
  }
  .chat_board{
-
  	position:relative;
  	z-index:9999999;
  	top:50%;
@@ -289,22 +287,17 @@
 
 <!-- 메신저끝-->
 <script type="text/javascript">
-
 //----------------웹소켓---------------//
 //웹소켓 객체 저장용
 var wsocket;
 //닉 네임 저장용
 var nickname;
-
 //유저아이디 저장
 var erc_username='${principal.username}';
-
 //방번호 배열
 var erc_noInfo=[];
-
 //현재 방번호 담는 변수
 var cur_erc_no;
-
 //다이브 정렬함수
 function divAlign(){
 		for(var i=0;i<$('#chatMessage div').length;i++){
@@ -320,10 +313,9 @@ function divAlign(){
 			}
 		}
 	}
-
 $(function (){
 	
-		console.log("ws://localhost:8080<c:url value='/chat.do'/>");
+		console.log("ws://192.168.0.18:8080<c:url value='/chat.do'/>");
 		
 		wsocket = new WebSocket("ws://192.168.0.18:8080<c:url value='/chat.do'/>");
 		console.log("erc_username:"+erc_username);
@@ -361,7 +353,6 @@ $(function (){
 			$("#chatMessage").scrollTop($("#chatMessage")[0].scrollHeight);
 			//다이브정렬
 			divAlign();
-
 		});
 		//입장버튼 클릭시 ]-서버와 연결된 웹소켓 클라이언트 생성
 		
@@ -526,7 +517,6 @@ $(function (){
 							$('#ERCwindow').hide();
 							$('#ERCwindow').fadeIn();
 							
-
 							var erc_no={"erc_no":cur_erc_no};
 							
 							 $.ajax({
@@ -649,6 +639,11 @@ $(function (){
 $('.hideERC').click(function(){
 	$("#ERCwindow").fadeOut();
 });
+<<<<<<< HEAD
+=======
+	
+	
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 	</script>
 	<!-- 메신저 스크립트 끝-->
   </body>

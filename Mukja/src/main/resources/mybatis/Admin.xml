@@ -41,8 +41,8 @@
 	</update>
 	
 	<insert id="noticeInsert" parameterType="java.util.Map">
-		INSERT INTO notice(no,title,content,username)
-		VALUES(SEQ_notice.NEXTVAL,#{title},#{content},#{id})
+		INSERT INTO notice(NT_NO,NT_TITLE,NT_CONTENT,username)
+		VALUES(SEQ_notice.NEXTVAL,#{NT_TITLE},#{NT_CONTENT},#{username})
 	</insert>
 	<!-- 공지사항(Notice) 끝 -->
 </mapper>

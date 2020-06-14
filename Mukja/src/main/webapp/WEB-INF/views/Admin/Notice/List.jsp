@@ -24,7 +24,7 @@
 			<div class="card-body">
 		<h3 class="card-title">공지사항</h3>
 			<div class="text-right">
-				<a href="<c:url value='/Admin/Notice/Write.bbs'/>"
+				<a href="<c:url value='/WriteNotice.bbs'/>"
 					class="btn btn-success" style="margin-bottom: 1em;">등록 </a>
 			</div>
 					<div class="table-responsive">
@@ -57,29 +57,53 @@
 						</table>
 					</div>
 					<!-- table 다이브 끝 -->
-								<!-- 페이징 -->
-						<div class="d-block text-center card-footer">
-							<div>${pagingString}</div>
-						<!-- 검색 -->						
+					
+					
+					<!-- 페이징 -->
+					<div style="display:inline-block; text-align: center;" class="card-footer" >
+						${pagingString}
+					</div>
+				
 						
-							<form class="form-inline text-center" method="get" action="<c:url value='/NoticeList.bbs'/>">
-								<div class="form-group">
-									<select name="searchColumn" class="form-control">
-										<option value="NT_TITLE">제목</option>
-										<option value="USERNAME">작성자</option>
-										<option value="NT_CONTENT">내용</option>
-									</select>
+						<!-- 검색 -->
+					</div>
+					<!-- main-card -->
+					<div class="main-card card">
+						<div class="card-body">
+							<!-- <div class="text-center">
+								<form class="form-inline" method="get" action="<c:url value='/OneMemo/BBS/List.bbs'/>">
+									<div class="form-group">
+										<select name="searchColumn" class="form-control">
+											<option value="title">제목</option>
+											<option value="name">작성자</option>
+											<option value="content">내용</option>
+										</select>
+									</div>
+									<div class="form-group">
+										<input type="text" name="searchWord" class="form-control" />
+									</div>
+									<button type="submit" class="btn btn-primary">검색</button>
+
+								</form>
+							</div>-->
+							<form action="<c:url value="/NoticeList.bbs"/>" method="get">
+								<div class="input-group">
+									<div class="input-group-prepend">
+										<select class="form-control-mb-2" name="searchColumn">
+											<option value="NT_TITLE">제목</option>
+											<option value="username">작성자</option>
+											<option value="NT_CONTENT">내용</option>
+										</select>
+									</div>
+									<input type="text" class="form-control" name="searchWord">
+									<div class="input-group-prepend">
+										<button class="btn btn-secondary" type="submit">검색</button>
+									</div>
 								</div>
-								<div class="form-group">
-									<input type="text" name="searchWord" class="form-control" />
-								</div>
-								<button type="submit" class="btn btn-primary">검색</button>
 							</form>
 						</div>
 					</div>
-					</div>
-					<!-- main-card -->
-					</div>
+				</div>
 				</div>
 				<!-- 처음 row 끝 -->
 			
