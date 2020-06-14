@@ -6,9 +6,7 @@
     
 
 
-<!-- 제이쿼리  ui -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
  
  
  <!-- 타임피커 -->
@@ -439,12 +437,12 @@
 				<div id='extendMap' class="row"style="height:900px" >
 				
 				
-					 <div id='mapWrap'class="col-md-12"style="position:absolute; height:900px; margin-top:50px; margin-bottom:30px;">
+					 <div id='mapWrap'class="col-md-12"style="position:absolute; height:900px; margin-top:30px; margin-bottom:30px;">
 					 
 					 
 			
-						   <div class="row no-gutters slider-text align-items-center justify-content-center">				     
-				            <div class="col-md-9 ftco-animate text-center">
+						<div class="row no-gutters slider-text align-items-center justify-content-center">				     
+				        <div class="col-md-12 ftco-animate text-center">
 					 
 						 <!-- 맵이 뜨는 곳 -->
 						<div id="map" style=" position:absolute;  z-index: 1;width:100%;height:800px;; 
@@ -862,7 +860,13 @@ function setCenter() {
     map.setCenter(moveLatLon);
 }
 
-
+function setCenter(lat,lan) {            
+    // 이동할 위도 경도 위치를 생성합니다 
+    var moveLatLon = new kakao.maps.LatLng(lat, lan);
+    
+    // 지도 중심을 이동 시킵니다
+    map.setCenter(moveLatLon);
+}
 
 
 
@@ -1207,17 +1211,22 @@ function requets_maker_Ajax(){
 						// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 						// 별도의 이벤트 메소드를 제공하지 않습니다 
 						//오버레이아웃 컨텐츠
+						var curLatLng=marker.getPosition();
+						 map.panTo(curLatLng);
 					    closeOverlay();
 						 var content =  
 							'<div id ="div_'+data.store_id+'" class="storeOverlay">' +
 							'  <div class="row">'+
 							'		<div  class="col-xs-12">'+
 							'			<div class="row" style="margin-top:-20px;">'+
-							'				<h3>'+data.store_name+'</h3>'+
+							'				<h3><a href="<c:url value="/Store/DetailView.do?username='+data.store_id+'"/>">'+data.store_name+'<a/></h3>'+
 							'			</div>'+
 							'			<hr style="margin: 0; padding: 0;">'+
 							'			<div class="row">'+
 							'				<p>'+data.store_intro+'</p>'+
+							'			</div>'+
+							'			<div class="row">'+
+							'				<p>'+data.store_addr+'</p>'+
 							'			</div>'+
 							'			<div class="row">'+
 							'				<p>'+data.store_phonenumber+'</p>'+

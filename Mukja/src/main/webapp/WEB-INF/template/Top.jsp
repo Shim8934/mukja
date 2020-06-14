@@ -46,7 +46,7 @@
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a href="<c:url value="/"/>" class="nav-link">Home</a></li>
-				<li class="nav-item active"><a href="<c:url value="/Restaurants.bbs"/>" class="nav-link">Restaurants</a></li>
+				<li class="nav-item active"><a href="<c:url value="/Store/DetailView.do"/>" class="nav-link">Restaurants</a></li>
 				<sec:authorize access="isAnonymous()">
 					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
 					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>

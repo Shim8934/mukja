@@ -10,9 +10,6 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 
-
-
-
 //웹소켓 서버
 public class Erchat extends TextWebSocketHandler {
 

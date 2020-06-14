@@ -8,92 +8,70 @@
 
 			<!-- INFROMATION -->
 				<section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
-					<div class="container">
-						<div class="row no-gutters">
+					<div class="container"style="width: 1000px;">
+						<div class="row no-gutters" >
 							<!-- left-side picture -->
 							<div class="col-sm-5 img img-2 d-flex align-items-center justify-content-center justify-content-md-end"
 								style="background-image: url(<c:url value="/resources/bootstrap/images/about.jpg"/>); food-type: relative">
-								<a href="https://vimeo.com/45830194"
-									class="icon-video popup-vimeo d-flex justify-content-center align-items-center">
-									<span class="ion-ios-play"></span>
-								</a>
+								
 							</div>
-							<div class="col-sm-7 wrap-about py-5 ftco-animate">
+							<div class="col-sm-7 wrap-about py-5 ftco-animate" >
 								<div class="heading-section mt-5 mb-4">
 									<div class="pl-lg-5 ml-md-5">
 										<span class="subheading">About</span>
-										<h2 class="mb-4" style="display: inline">SUBWAY</h2>
-										<h4 class="mb-4" style="display: inline; font-family: 'Black Han Sans', sans-serif;">샌드위치 전문점</h4>
+										<h2 class="mb-4" style="display: inline">${list[0].store_name}</h2>
+										<h4 class="mb-4" style="display: inline; ">음식점 정보</h4>
 									</div>
 								</div>
-								<div class="pl-lg-5 ml-md-5">
+								<div class="pl-lg-5 ml-md-5" style="margin-top: 15px;">
 									<!-- 가게 정보 -->
 									<div>
 										<!-- 가게 정보 -->
-										<div class="restInfo col-md-8">
-											<ul>
-												<li class="img" style="background-image: url(<c:url value="/resources/bootstrap/images/subway/subway_logo.jpg"/>); width: 100px;"></li>
-												<li style="font-family: 'Black Han Sans', sans-serif;"><h3
-														class="mt-5" style="display: inline; font-family: 'Gugi'">
-														주소 :</h3> 서울특별시 금천구 가산동 가산디지털1로 165 가산비즈니스센터 102호</li>
-												<li style="font-family: 'Black Han Sans', sans-serif;"><h3
-														class="mt-5" style="display: inline; font-family: 'Gugi'">
-														평점 :</h3> 4.1</li>
-												<li style="font-family: 'Black Han Sans', sans-serif;"><h3
-														class="mt-5" style="display: inline; font-family: 'Gugi'">
-														가게 전화번호 :</h3> 02-1544-1852</li>
-												<li style="font-family: 'Black Han Sans', sans-serif;"><h3
-														class="mt-5" style="display: inline; font-family: 'Gugi'">
-														가게 영업시간 :</h3>
-													<ul style="font-family: 'Black Han Sans', sans-serif;">
-														<li style="font-family: 'Gugi', sans-serif;">월-금요일 오전
-															8:00~오후 11:00</li>
-														<li style="font-family: 'Gugi', sans-serif;">토요일 오전
-															8:00~오후 11:00</li>
-														<li style="font-family: 'Gugi', sans-serif;">일요일 오전
-															8:00~오후 11:00</li>
-													</ul></li>
-											</ul>
+										<div class="restInfo col-md-12" style="font-size: 1.2em;">
+												<div class="img" style="background-image: url(<c:url value="/resources/bootstrap/images/subway/subway_logo.jpg"/>); width: 100px;"></div>
+												<div style="margin-bottom: 5px; margin-left: -30px;">
+													<div class="row">
+														<div class="col-xs-3" style="text-align: right;">소개 :</div>
+														<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_intro}</div>
+													</div>  
+												</div>
+												<div style="margin-bottom: 5px; margin-left: -30px;">
+													<div class="row">
+														<div class="col-xs-3" style="text-align: right;">주소 :</div>
+														<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_addr}</div>
+													</div>  
+												</div>
+												<div style="margin-bottom: 5px; margin-left: -30px;" >
+													<div class="row" >
+														<div class="col-xs-3" style="text-align: right;">평점 :</div>
+														<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_avg}</div>
+													</div>
+													 
+												</div>
+												<div style="margin-bottom: 5px; margin-left: -30px;">
+													<div class="row">
+														<div class="col-xs-3" style="text-align: right;">영업번호 :</div>
+														<div class="col-xs-9" style="margin-left: -100xp;"> ${list[0].store_phnum}</div>
+													</div>
+												</div>
+												<div style="margin-bottom: 5px; margin-left: -30px;">
+													<div class="row">
+														<div class="col-xs-3" style="text-align: right;">이메일 :</div>
+														<div class="col-xs-9" style="margin-left: -100xp;"> ${list[0].store_email}</div>
+													</div>
+												</div>
+												<hr>
+												
+												<div  style="margin-bottom: 30px">
+												<div style="font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">가게 영업시간</div>
+												<div style="margin-left: 15px;margin-bottom: 5px">${list[0].store_time}</div>
+												</div>
+												<hr>
 										</div>
-										<!-- 
-										<div class="col-md-3 sidebar-box ftco-animate">
-											<h3>Category</h3>
-											<ul class="categories">
-												<li><a href="#">Vegan <span>(6)</span></a></li>
-												<li><a href="#">Lacto <span>(8)</span></a></li>
-												<li><a href="#">Ovo <span>(2)</span></a></li>
-												<li><a href="#">Pesc <span>(2)</span></a></li>
-												<li><a href="#">Pork-free <span>(2)</span></a></li>
-												<li><a href="#">Gluten-free <span>(2)</span></a></li>
-											</ul>
-										</div>
-										 -->
+										
+										
 									</div>
-									<!-- 3 besties -->
-									<div class="row">
-										<div class="col-md-9">
-											<h3 class="mt-5" style="display: inline">Best Menus</h3>
-										</div>
-										<div class="best3">
-											<a class="menuplus" href="<c:url value='/MenuList.bbs'/>"
-												style="font-family: 'Gugi', sans-serif;"> +메뉴 더 보기</a>
-										</div>
-									</div>
-									<div class="thumb my-4 d-flex">
-										<a href="#" class="thumb-menu pr-md-4 text-center">
-											<div class="img" style="background-image: url(<c:url value="/resources/bootstrap/images/subway/Italy_bmt.jpg"/>);"></div>
-											<h5>Italian BMT</h5>
-											<h4>Chicken, XBeef, XNuts</h4>
-										</a> <a href="#" class="thumb-menu pr-md-4 text-center">
-											<div class="img" style="background-image: url(<c:url value="/resources/bootstrap/images/subway/eggmayo.jpg"/>);"></div>
-											<h5>Egg-Mayo</h5>
-											<h4>Lacto, XChicken, XBeef, XPork, XNuts</h4>
-										</a> <a href="#" class="thumb-menu pr-md-4 text-center">
-											<div class="img" style="background-image: url(<c:url value="/resources/bootstrap/images/subway/tuna.jpg"/>);"></div>
-											<h5>Tuna</h5>
-											<h4>Lacto, Ovo, Pesco, XChicken, XBeef, XPork, XNuts</h4>
-										</a>
-									</div>
+								
 								</div>
 							</div>
 						</div>
@@ -103,7 +81,7 @@
 
 			<!-- COUNTING -->
 				<section class="ftco-section ftco-counter img" id="section-counter"
-					style="background-image: url(<c:url value="/resources/bootstrap/images/bg_4.jpg"/>);"
+					style="margin-top:30px; background-image: url(<c:url value="/resources/bootstrap/images/bg_4.jpg"/>);"
 					data-stellar-background-ratio="0.5">
 					<div class="container">
 						<div class="row d-md-flex align-items-center justify-content-center">
@@ -113,8 +91,26 @@
 										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 										<div class="block-18">
 											<div class="text">
-												<strong class="number" data-number="18">0</strong> <span
-													style="font-family: 'Gugi', sans-serif;">가게 추천 수</span>
+												<strong class="number" data-number="${list[0].store_avg}">0</strong> 
+												<span>가게 추천 수</span>
+											</div>
+										</div>
+									</div>
+								<!-- 	<div
+										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+										<div class="block-18">
+											<div class="text">
+												<strong class="number" data-number="750">0</strong> 
+												<span>가게 ♥ 수</span>
+											</div>
+										</div>
+									</div> -->
+									<div
+										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+										<div class="block-18">
+											<div class="text">
+												<strong class="number" data-number="${reviewCount}">0</strong> 
+												<span>리뷰수</span>
 											</div>
 										</div>
 									</div>
@@ -122,26 +118,8 @@
 										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 										<div class="block-18">
 											<div class="text">
-												<strong class="number" data-number="750">0</strong> <span
-													style="font-family: 'Do Hyeon', sans-serif;">가게 ♥ 수</span>
-											</div>
-										</div>
-									</div>
-									<div
-										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-										<div class="block-18">
-											<div class="text">
-												<strong class="number" data-number="564">0</strong> <span>리뷰
-													수</span>
-											</div>
-										</div>
-									</div>
-									<div
-										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-										<div class="block-18">
-											<div class="text">
-												<strong class="number" data-number="10">0</strong> <span>가게
-													랭킹</span>
+												<strong class="number" data-number="10">0</strong> 
+												<span>가게랭킹</span>
 											</div>
 										</div>
 									</div>
@@ -151,7 +129,7 @@
 					</div>
 				</section>
 
-				
+		<%-- 		
 			<!-- SUGGESTION -->			
 				<section class="ftco-section ">
 					<div class="container">
@@ -272,367 +250,56 @@
 							</div>
 						</div>
 					</div>
-				</section>
+				</section> --%>
 
 				<section class="ftco-section">
 					<div class="container">
 						<div class="row justify-content-center mb-5 pb-2">
 							<div class="col-md-7 text-center heading-section ftco-animate">
-								<span class="subheading">Specialties</span>
-								<h2 class="mb-4">Our Menu</h2>
+								<span class="subheading">Gollamukja</span>
+								<h2 class="mb-4">${list[0].store_name} Menu</h2>
 							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-6 col-lg-4 menu-wrap">
+						<div class="row" style="text-align: center;"> 
+							<div class="col-md-6 col-md-offset-3 menu-wrap" style="display: inline-block;" >
 								<div class="heading-menu text-center ftco-animate">
-									<h3>Breakfast</h3>
+									<h3>메인메뉴</h3>
 								</div>
+								<c:forEach items="${foodMenuList}" var="foodMenuDto">
+								<!-- 메뉴반복-->
 								<div class="menus d-flex ftco-animate">
 									<div class="menu-img img"
-										style="background-image: url(images/breakfast-1.jpg);"></div>
+										style="background-image: url(<c:url value='/resources/images/breakfast-1.jpg'/>);">
+									</div>
 									<div class="text">
 										<div class="d-flex">
 											<div class="one-half">
-												<h3>Grilled Beef with potatoes</h3>
+												<h3>${foodMenuDto.menu_name}</h3>
 											</div>
 											<div class="one-forth">
-												<span class="price">$29</span>
+												<span class="price">${foodMenuDto.menu_price}원</span>
 											</div>
 										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/breakfast-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
+										<div>
+											<div>재료 : ${foodMenuDto.menu_tend}</div>
+											<div class="price">설명 : ${foodMenuDto.menu_info}</div>
+											
 										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
+									
 									</div>
 								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/breakfast-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
+								<!-- 메뉴반복끝 -->
+								</c:forEach>
+							
 							</div>
 				
-							<div class="col-md-6 col-lg-4 menu-wrap">
-								<div class="heading-menu text-center ftco-animate">
-									<h3>Lunch</h3>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/lunch-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Beef with potatoes</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/lunch-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/lunch-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-							</div>
-				
-							<div class="col-md-6 col-lg-4 menu-wrap">
-								<div class="heading-menu text-center ftco-animate">
-									<h3>Dinner</h3>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/dinner-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Beef with potatoes</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/dinner-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/dinner-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-							</div>
-				
+						
+							
 							<!--  -->
-							<div class="col-md-6 col-lg-4 menu-wrap">
-								<div class="heading-menu text-center ftco-animate">
-									<h3>Desserts</h3>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/dessert-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Beef with potatoes</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/dessert-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/dessert-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-							</div>
-				
-							<div class="col-md-6 col-lg-4 menu-wrap">
-								<div class="heading-menu text-center ftco-animate">
-									<h3>Wine Card</h3>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/wine-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Beef with potatoes</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/wine-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/wine-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-							</div>
-				
-							<div class="col-md-6 col-lg-4 menu-wrap">
-								<div class="heading-menu text-center ftco-animate">
-									<h3>Drinks</h3>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/drink-1.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Beef with potatoes</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/drink-2.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-								<div class="menus d-flex ftco-animate">
-									<div class="menu-img img"
-										style="background-image: url(images/drink-3.jpg);"></div>
-									<div class="text">
-										<div class="d-flex">
-											<div class="one-half">
-												<h3>Grilled Crab with Onion</h3>
-											</div>
-											<div class="one-forth">
-												<span class="price">$29</span>
-											</div>
-										</div>
-										<p>
-											<span>Meat</span>, <span>Potatoes</span>, <span>Rice</span>, <span>Tomatoe</span>
-										</p>
-									</div>
-								</div>
-							</div>
 						</div>
-						<div class="row">
-							<div class="col-md-12 text-center ftco-animate">
-								<p>
-									<a href="#" class="btn btn-black py-3 px-5">View All Menu</a>
-								</p>
+						<div style="text-align: center;">
+								<a style="font-size:1.2em; display: inline-block;" href="<c:url value='/MenuList.bbs'/>">+ 메뉴 더 보기</a>
 							</div>
-						</div>
 					</div>
 				
 				</section>
@@ -645,7 +312,7 @@
 						<div class="row justify-content-center mb-5 pb-2">
 							<div class="col-md-10 text-center heading-section heading-section-white ftco-animate" style="display: inline">
 								<span class="subheading">Review</span>
-								<h2 class="mb-4" style="font-family: 'Gugi', sans-serif;">베스트
+								<h2 class="mb-4" >베스트
 									메뉴 후기</h2>
 							</div>
 							<div>
@@ -819,7 +486,7 @@
 					</div>
 					<!-- </div> </div> -->
 					<div class="container">		
-						<h3 class="mb-5 h4 font-weight-bold p-4" style="font-family: 'Gugi', sans-serif; text-align: center">모든 리뷰 보기</h3>
+						<h3 class="mb-5 h4 font-weight-bold p-4" style=" text-align: center">모든 리뷰 보기</h3>
 						<div>
 						<ul class="comment-list">
 							<li class="comment">
@@ -1005,158 +672,6 @@
 							</form>
 						</div>
 					</div>
-					<!-- 
-					<div class="row">
-						<div class="col-md-offset-2 col-md-8">
-							<!-- .center-block 사용시 해당 블락의 크기를 지정하자 -->
-							<!-- <ul id="pillMenu" class="nav nav-pills center-block"
-								style="width: 205px; margin-bottom: 10px">
-								<%--
-								<c:if test="${sessionScope.id == record.id }">
-								--%>
-								<c:if test="${username == record.id }">
-									<li><a
-										href="<c:url value='/OneMemo/BBS/Edit.bbs?no=${record.no}'/>"
-										class="btn btn-success">수정</a></li>
-									<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
-								</c:if>
 				
-								<li><a
-									href="<c:url value='/OneMemo/BBS/List.bbs?nowPage=${param.nowPage}'/>"
-									class="btn btn-success">목록</a></li>
-				
-							</ul>
-						</div>
-					</div>
-					 -->
 				</section>
 
-
-
-<!-- 오른쪽 페이지!!!!!!! 
-			<div class="col-lg-3 sidebar ftco-animate" style="background: #fff">
-				<div class="sidebar-box">
-					<form action="#" class="search-form">
-						<div class="form-group">
-							<span class="icon icon-search"></span> <input type="text"
-								class="form-control" placeholder="Type a keyword and hit enter">
-						</div>
-					</form>
-				</div>
-				<div class="sidebar-box ftco-animate">
-					<h3>Category</h3>
-					<ul class="categories">
-						<li><a href="#">Vegan <span>(6)</span></a></li>
-						<li><a href="#">Lacto <span>(8)</span></a></li>
-						<li><a href="#">Ovo <span>(2)</span></a></li>
-						<li><a href="#">Pesc <span>(2)</span></a></li>
-						<li><a href="#">Pork-free <span>(2)</span></a></li>
-						<li><a href="#">Gluten-free <span>(2)</span></a></li>
-					</ul>
-				</div>
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Best Menu</h3>
-					<div class="block-21 mb-4 d-flex">
-						<a class="blog-img mr-4" style="background-image: url(<c:url value="/resources/bootstrap/images/image_1.jpg"/>);"></a>
-						<div class="text">
-							<div class="meta">
-								<div>
-									<a href="#"><span class="icon-calendar"></span> Feb. 04, 2019</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-person"></span> Dave Lewis</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-chat"></span> 19</a>
-								</div>
-							</div>
-							<h3 class="heading">
-								<a href="#">Even the all-powerful Pointing has no control
-									about the blind texts</a>
-							</h3>							
-						</div>
-					</div>
-					<div class="block-21 mb-4 d-flex">
-						<a class="blog-img mr-4"
-							style="background-image: url(images/image_2.jpg);"></a>
-						<div class="text">
-							<h3 class="heading">
-								<a href="#">Even the all-powerful Pointing has no control
-									about the blind texts</a>
-							</h3>
-							<div class="meta">
-								<div>
-									<a href="#"><span class="icon-calendar"></span> Feb. 04,
-										2019</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-person"></span> Dave Lewis</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-chat"></span> 19</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="block-21 mb-4 d-flex">
-						<a class="blog-img mr-4"
-							style="background-image: url(images/image_3.jpg);"></a>
-						<div class="text">
-							<h3 class="heading">
-								<a href="#">Even the all-powerful Pointing has no control
-									about the blind texts</a>
-							</h3>
-							<div class="meta">
-								<div>
-									<a href="#"><span class="icon-calendar"></span> Feb. 04,
-										2019</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-person"></span> Dave Lewis</a>
-								</div>
-								<div>
-									<a href="#"><span class="icon-chat"></span> 19</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Tag Cloud</h3>
-					<ul class="tagcloud m-0 p-0">
-						<a href="#" class="tag-cloud-link">Dish</a>
-						<a href="#" class="tag-cloud-link">Food</a>
-						<a href="#" class="tag-cloud-link">Lunch</a>
-						<a href="#" class="tag-cloud-link">Menu</a>
-						<a href="#" class="tag-cloud-link">Dessert</a>
-						<a href="#" class="tag-cloud-link">Drinks</a>
-						<a href="#" class="tag-cloud-link">Sweets</a>
-					</ul>
-				</div>
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Archives</h3>
-					<ul class="categories">
-						<li><a href="#">January 2019 <span>(20)</span></a></li>
-						<li><a href="#">December 2018 <span>(30)</span></a></li>
-						<li><a href="#">Novemmber 2018 <span>(20)</span></a></li>
-						<li><a href="#">September 2018 <span>(6)</span></a></li>
-						<li><a href="#">August 2018 <span>(8)</span></a></li>
-					</ul>
-				</div>
-
-
-				<div class="sidebar-box ftco-animate">
-					<h3>Paragraph</h3>
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-						Ducimus itaque, autem necessitatibus voluptate quod mollitia
-						delectus aut, sunt placeat nam vero culpa sapiente consectetur
-						similique, inventore eos fugit cupiditate numquam!</p>
-				</div>
-			</div>-->
-			<!-- END COL 
-		</div>
-	</div>
-</section>-->
