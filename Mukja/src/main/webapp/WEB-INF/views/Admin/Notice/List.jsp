@@ -60,8 +60,8 @@
 					
 					
 					<!-- 페이징 -->
-					<div style="display:inline-block; text-align: center;" class="card-footer" >
-						${pagingString}
+					<div class="card-footer" >
+						<div style="display:inline-block; text-align:center">${pagingString}</div>
 					</div>
 				
 						

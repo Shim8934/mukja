@@ -58,5 +58,7 @@
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern><!-- /*로 모든 요청을 security 필터를 이용 -->
-	</filter-mapping> 
+	</filter-mapping>
+
+
 </web-app>

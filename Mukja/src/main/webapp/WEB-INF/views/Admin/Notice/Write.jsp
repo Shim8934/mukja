@@ -22,7 +22,7 @@
 				<div class="main-card card">
 					<div class="card-body">
 						<h5 class="card-title">글 등록</h5>
-						<form class="" action="<c:url value="/WriteNotice.bbs"/>" method="post">
+						<form class="" action="<c:url value='/WriteNotice.bbs'/>" enctype="multipart/form-data" method="post">
 							<div class="position-relative row form-group">
 								<label for="NT_TITLE" class="col-sm-2 col-form-label">제목</label>
 								<div class="col-sm-10">
@@ -32,24 +32,32 @@
 							<div class="position-relative row form-group">
 								<label for="NT_CONTENT" class="col-sm-2 col-form-label">내용</label>
 								<div class="col-sm-10">
-									<textarea name="NT_CONTENT" id="NT_CONTENT" class="form-control"></textarea>
+									<textarea name="NT_CONTENT" id="NT_CONTENT" class="form-control" rows="15"></textarea>
 								</div>
 							</div>
 							<div class="position-relative row form-group">
-								<label for="NT_IMAGE" class="col-sm-2 col-form-label">이미지</label>
+								<label for="NT_IMG" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-									<input name="NT_IMAGE" id="NT_IMAGE" type="file" class="form-control-file">
+									<input name="NT_IMG" id="NT_IMG" type="file" class="form-control-file" multiple="multiple">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
+								</div>
+								<div id="filelist">
 								</div>
 							</div>
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
-									<button class="mt-2 btn btn-primary">등록</button>
+									<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
 									<button class="mt-2 btn btn-warning">취소</button>
-								</div>
+								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">
 						</form>
+						
+						<!-- 
+						컨트롤러에서  MultipartHttpServletRequest 쓰려고 할 때 쓸 버튼
+						<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
+						<button class="mt-2 btn btn-warning">취소</button>
+						 -->
 					</div>
 				</div>
 				<!-- main-card -->

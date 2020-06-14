@@ -1,5 +1,9 @@
 package com.kosmo.mukja.web;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Locale;
@@ -16,16 +20,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
-import com.kosmo.mukja.service.PagingUtil;
+import com.kosmo.mukja.service.FileUploadService;
+import com.kosmo.mukja.web.util.PagingUtil;
 
 @Controller
 public class AdminController {
 	
 	@Resource(name="adminService")
 	private AdminService adminService;
+	
+	@Resource(name="fileUploadService")
+	private FileUploadService fileUploadService;
 
 	//리소스파일(resource.properties)에서 읽어오기
 	@Value("${PAGE_SIZE}")
@@ -107,7 +117,7 @@ public class AdminController {
 	
 	
 	// 주영형 담당 공지사항 리스트 컨트롤러
-	@RequestMapping(value="/NoticeList.bbs", method=RequestMethod.GET)
+	@RequestMapping(value="/NoticeList.bbs")
 	public String noticeList(@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
 			HttpServletRequest req,//컨텍스트 루트 얻기용
@@ -115,6 +125,8 @@ public class AdminController {
 		//서비스 호출]
 		//페이징을 위한 로직 시작]
 		//전체 레코드수	
+		String searchColumn = "";
+		String searchWord = "";
 		int totalRecordCount = adminService.getTotalRecord(map);
 		//전체 페이지수]
 		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
@@ -126,7 +138,16 @@ public class AdminController {
 		map.put("end", end);
 		List<AdminDTO> list = adminService.selectList(map);
 		//데이타 저장]
-		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/NoticeList.bbs?");
+		if(map.get("searchColumn")!=null && map.get("searchWord")!=null) {
+			searchColumn = map.get("searchColumn").toString();
+			searchWord = map.get("searchWord").toString();
+		}
+		else {
+			searchColumn ="";
+			searchWord = "";
+		}
+		
+		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/NoticeList.bbs?", searchColumn, searchWord);
 		System.out.println("list 존재?"+list);
 		model.addAttribute("list", list);
 		model.addAttribute("pagingString", pagingString);
@@ -158,16 +179,20 @@ public class AdminController {
 	
 	// 공지사항 등록 컨트롤러
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-	public String writeNotice(@RequestParam Map map, Model model) {
+	public String writeNotice(MultipartHttpServletRequest req,
+							  @RequestParam Map map,
+							  Model model) {
+		String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+		map = fileUploadService.restore(req, path, map);
+		
 		adminService.insert(map);
-		model.addAttribute("username",map.get("username"));
 		return "Notice/Write.admins?username=";
+		
 	}
 	
 	// 공지사항 수정 컨트롤러
 	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
 	public String editNotice() {
-	
 		return "Notice/Edit.admins";
 	}
 	

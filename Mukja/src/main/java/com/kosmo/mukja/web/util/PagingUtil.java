@@ -1,8 +1,8 @@
-package com.kosmo.mukja.service;
+package com.kosmo.mukja.web.util;
 
 public class PagingUtil {
 
-	public static String pagingBootStrapStyle(int totalRecordCount,int pageSize,int blockPage,int nowPage,String page){
+	public static String pagingBootStrapStyle(int totalRecordCount,int pageSize,int blockPage,int nowPage,String page, String searchColumn, String searchWord){
 		
 		String pagingStr="<div><nav class=\"\"><ul class=\"pagination\">";
 		
@@ -37,9 +37,14 @@ public class PagingUtil {
 			if(intTemp == nowPage){  
 				pagingStr+="<li class=\"page-item\"><a href='#'><span style='Color:red'>"+intTemp+"</span></a></li>";
 			}
-		     else
-		    	 pagingStr+="<li class=\"page-item\"><a href='"+page+"nowPage="+intTemp+"' class=\"page-link\">"+intTemp+"</a></li>";
-		       
+		     else {
+		    	 if(searchColumn == "" && searchWord == "") {
+		    		 pagingStr+="<li class=\"page-item\"><a href='"+page+"nowPage="+intTemp+"' class=\"page-link\">"+intTemp+"</a></li>";
+		    	 }
+		    	 else {
+		    		 pagingStr+="<li class=\"page-item\"><a href='"+page+"nowPage="+intTemp+"&searchColumn="+searchColumn+"&searchWord="+searchWord+"' class=\"page-link\">"+intTemp+"</a></li>";
+		    	 }
+		    }
 			intTemp = intTemp + 1;
 			blockCount = blockCount + 1;
 		
