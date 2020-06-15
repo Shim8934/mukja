@@ -38,7 +38,8 @@
 							<div class="position-relative row form-group">
 								<label for="NT_IMG" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-									<input name="NT_IMG" id="NT_IMG" type="file" class="form-control-file" multiple="multiple">
+									<input multiple="multiple" name="NT_IMG1" id="NT_IMG1" type="file" class="form-control-file" multiple="multiple">
+									<input multiple="multiple" name="NT_IMG2" id="NT_IMG2" type="file" class="form-control-file" multiple="multiple">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
 								</div>
 								<div id="filelist">
