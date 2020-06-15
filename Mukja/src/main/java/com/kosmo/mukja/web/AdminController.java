@@ -4,10 +4,16 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -20,13 +26,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
 import com.kosmo.mukja.service.FileUploadService;
+import com.kosmo.mukja.web.util.FileUtility;
 import com.kosmo.mukja.web.util.PagingUtil;
+import com.oreilly.servlet.MultipartRequest;
 
 @Controller
 public class AdminController {
@@ -116,7 +123,7 @@ public class AdminController {
 	
 	
 	
-	// 주영형 담당 공지사항 리스트 컨트롤러
+	// 공지사항 리스트 컨트롤러
 	@RequestMapping(value="/NoticeList.bbs")
 	public String noticeList(@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
@@ -165,7 +172,7 @@ public class AdminController {
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
 		
-		return "/Notice/View.admins";
+		return "Notice/View.admins";
 	}
 	
 	// 공지사항 등록 페이지 이동
@@ -179,16 +186,51 @@ public class AdminController {
 	
 	// 공지사항 등록 컨트롤러 (본격 등록)
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-	public String writeNotice(MultipartHttpServletRequest mreq,
-							  Model model) {
-		// String saveDirectory = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
-		// FileUtility.upLoad(req, saveDirectory);
-		// map = fileUploadService.restore(req, path, map);
+	public String writeNotice(@RequestParam Map map,
+							  HttpServletRequest req,
+							  Authentication auth,
+							  Model model) throws Exception {
+		System.out.println("req 제대로 됨..?   "+req);
+		String sFileName;
+		String name;
+		String saveDirectory = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+		MultipartRequest mr = FileUtility.upLoad(req, saveDirectory);
+		StringBuffer fileBuf = new StringBuffer();
+		Enumeration<String> fileNames = mr.getFileNames();
+		while(fileNames.hasMoreElements()) {
+			name = fileNames.nextElement();
+			sFileName= mr.getFilesystemName(name);
+			System.out.println(sFileName);
+			fileBuf.append(sFileName);
+			map.put("BF_PATH",saveDirectory+File.separator+sFileName);
+			System.out.println(saveDirectory+File.separator+sFileName);
+		}
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		String username = userDetails.getUsername();
+		map.put("username", username);
+		System.out.println("MR 체크  "+mr.getParameter("NT_TITLE"));
+		map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
+		map.put("NT_CONTENT",mr.getParameter("NT_CONTENT"));
+		map.put("NT_IMG", fileBuf.toString());
+		adminService.insert(map);
 		
-		// adminService.insert(map);
-		return "Notice/Write.admins?username=";
+		return "Notice/List.admins";
+	}
+	
+	/*
+	// 공지사항 등록 컨트롤러 (본격 등록)
+	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
+	public String writeNotice(@RequestParam Map map,
+							  Model model) {
+		String username = map.get("username").toString();
+		System.out.println(username);
+		model.addAttribute("username",username);
+		
+		adminService.insert(map);
+		return "Notice/List.admins";
 		
 	}
+	*/
 	
 	// 공지사항 수정 컨트롤러
 	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
@@ -198,8 +240,11 @@ public class AdminController {
 	
 	// 공지사항 삭제 컨트롤러
 	@RequestMapping(value="/DeleteNotice.bbs", method=RequestMethod.GET)
-	public String deleteNotice(Locale locale, String str) {
-		
+	public String deleteNotice(@RequestParam Map map) {
+		int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
+		map.put("NT_NO", NT_NO);
+		System.out.println(NT_NO);
+		adminService.delete(map);
 		return "Notice/List.admins";
 	}
 	

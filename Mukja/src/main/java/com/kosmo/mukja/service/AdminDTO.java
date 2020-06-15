@@ -10,6 +10,7 @@ public class AdminDTO {
 	private String NT_CONTENT;
 	private String USERNAME;
 	private Date NT_REGITDATE;
+	private String NT_IMG;
 	
 	
 	// 관리자 로그인 정보용 변수
@@ -44,7 +45,7 @@ public class AdminDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE,
+	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE, String nT_IMG,
 			String enabled, String admin_role, String authority, String store_name, String store_regnum,
 			String store_phnum, String store_email, String store_intro, double store_lat, double store_lng,
 			String menu_no, String menu_name, String menu_tend, String menu_info, String menu_regidate, Date postDate,
@@ -55,6 +56,7 @@ public class AdminDTO {
 		NT_CONTENT = nT_CONTENT;
 		USERNAME = uSERNAME;
 		NT_REGITDATE = nT_REGITDATE;
+		NT_IMG = nT_IMG;
 		this.enabled = enabled;
 		this.admin_role = admin_role;
 		this.authority = authority;
@@ -114,6 +116,14 @@ public class AdminDTO {
 
 	public void setNT_REGITDATE(Date nT_REGITDATE) {
 		NT_REGITDATE = nT_REGITDATE;
+	}
+
+	public String getNT_IMG() {
+		return NT_IMG;
+	}
+
+	public void setNT_IMG(String nT_IMG) {
+		NT_IMG = nT_IMG;
 	}
 
 	public String getEnabled() {
@@ -267,6 +277,5 @@ public class AdminDTO {
 	public void setUsername_2(String username_2) {
 		this.username_2 = username_2;
 	}
-	
 		
 }///// class AdminDTO

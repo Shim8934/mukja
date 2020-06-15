@@ -53,9 +53,9 @@
 		<websocket:mapping handler="chatServer" path="/chat.do"/>
 	</websocket:handlers>
 	
-	<!-- 파일 업로드 관련 -->
+	<!-- 파일 업로드 관련 
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <beans:property name="defaultEncoding" value="utf-8" />  
-    </beans:bean>
+    </beans:bean>-->
     
 </beans:beans>

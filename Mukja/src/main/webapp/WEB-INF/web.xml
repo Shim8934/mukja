@@ -49,6 +49,7 @@
 		<filter-name>CharacterEncoding</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+	
 	<!-- spring-security filter -->
     <!-- 필터명은 반드시 springSecurityFilterChain으로-->
 	<filter>

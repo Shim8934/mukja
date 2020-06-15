@@ -18,18 +18,13 @@ public class FileUtility {
 	public static MultipartRequest upLoad(HttpServletRequest req, String saveDirectory) {
 		MultipartRequest mr = null;
 		try {
-			mr = new MultipartRequest(req,
-									  saveDirectory,
-									  1024*900,
-									  "UTF-8",
-									  new DefaultFileRenamePolicy());
+			mr = new MultipartRequest(req,saveDirectory,1024*900,"UTF-8",new DefaultFileRenamePolicy());
 		} catch (IOException e) {e.printStackTrace();}
 		return mr;
 	}///upLoad
 	
-	/*
 	public static void deleteFile(HttpServletRequest req, String uploadPath, String fileAttached) {
-		String saveDirectory = req.getServletContext().getRealPath(uploadPath);
+		String saveDirectory = req.getSession().getServletContext().getRealPath(uploadPath);
 		System.out.println(saveDirectory);
 		File file = new File(saveDirectory+File.separator+fileAttached);
 		System.out.println(file + " 파일 삭제 직전 위치 / 파일유틸 안에!");
@@ -44,11 +39,11 @@ public class FileUtility {
 	
 	public static void downLoad(HttpServletRequest req, HttpServletResponse resp, String fileName, String uploadDir) {
 		try {
-			String saveDirectory = req.getServletContext().getRealPath(uploadDir);
+			String saveDirectory = req.getSession().getServletContext().getRealPath(uploadDir);
 			File file = new File(saveDirectory+File.separator+fileName);
 			long length=file.length();
 			resp.setContentType("application/octet-stream");
-			resp.setContentLengthLong(length);
+			resp.setContentLength((int)length);
 			boolean isIe =req.getHeader("user-agent").toUpperCase().indexOf("MSIE") != -1 ||
 					  req.getHeader("user-agent").indexOf("11.0") != -1 ||
 					  req.getHeader("user-agent").toUpperCase().indexOf("EDGE") !=-1;
@@ -71,5 +66,5 @@ public class FileUtility {
 			bis.close();
 		} catch(Exception e) {e.printStackTrace();}
 	}//downLoad
-	*/
+	
 }//class FileUtility
