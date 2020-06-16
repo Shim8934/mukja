@@ -24,25 +24,16 @@ import com.kosmo.mukja.service.StoreService;
 
 
 @Controller
-public class StoreDetailController {
+public class StoreMypageController {
 	@Resource(name = "StoreInfoService")
 	private StoreService service;
 	
-	@RequestMapping("/Store/DetailView.do")
+	@RequestMapping("/StroeMypage/StroeMypageMain.do")
 	public String StoreDetail(@RequestParam Map map, Model model, Authentication authentication) {
-		System.out.println("username : "+map.get("username"));
 		
-		if(authentication!=null) {
-			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			map.put("user_id", userDetails.getUsername());
-			System.out.println("user_id:"+map.get("user_id"));
-			int is_Thumb =service.isThumb(map);
-			System.out.println("is_Thumb:"+is_Thumb);
-			model.addAttribute("is_Thumb",is_Thumb);
-		}else {
-			System.out.println("is_Thumb:"+0);
-			model.addAttribute("is_Thumb",0);
-		}
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		map.put("username", userDetails.getUsername());
+	
 		List<StoreDTO> list = service.getStoreInfo(map);
 		model.addAttribute("list",list);
 		
@@ -98,32 +89,41 @@ public class StoreDetailController {
 		
 		int store_Thumb = service.getStoreThumb(map);
 		model.addAttribute("store_Thumb",store_Thumb);
-		
+		model.addAttribute("imglist",imglist);
+		System.out.println("imglist:"+imglist.toString());
 		
 	
-		return "/Store/DetailView.tiles";
+		return "Store/StoreMyPage/StoreMypageMain.tiles";
 		
 	}
+
 	
-	@ResponseBody
-	@RequestMapping("/updateStoreAvg.do")
-	public String updateStoreAvg(@RequestParam Map map) {
-		System.out.println("------------------updateStoreAvg----------");
-		Iterator<String> iter = map.keySet().iterator();
-		while(iter.hasNext()){
-			String key = iter.next();
-			String val = map.get(key).toString();
-			System.out.println(String.format("키 : %s 값 : %s", key,val));
-			}
-		int result = service.updateStoreAvg(map);
+	@RequestMapping("/StroeMypage/ImgPop.do")
+	public String ImgPop(@RequestParam Map map, Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		map.put("username", userDetails.getUsername());
+	
 		
-		return "{'result':"+result+"}";
+		
+		return "Store/StoreMyPage/ImgPop.tiles";
 	}
-	
-	@ResponseBody
-	@RequestMapping("/updateStoreRecommand.do")
-	public String updateStoreRecommand(@RequestParam Map map) {
-		int result=service.updateStoreRecommand(map);
-		return "{'result':"+result+"}";
-	}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/updateStoreAvg.do") public String
+	 * updateStoreAvg(@RequestParam Map map) {
+	 * System.out.println("------------------updateStoreAvg----------");
+	 * Iterator<String> iter = map.keySet().iterator(); while(iter.hasNext()){
+	 * String key = iter.next(); String val = map.get(key).toString();
+	 * System.out.println(String.format("키 : %s 값 : %s", key,val)); } int result =
+	 * service.updateStoreAvg(map);
+	 * 
+	 * return "{'result':"+result+"}"; }
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping("/updateStoreRecommand.do") public String
+	 * updateStoreRecommand(@RequestParam Map map) { int
+	 * result=service.updateStoreRecommand(map); return "{'result':"+result+"}"; }
+	 */
 }

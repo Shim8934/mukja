@@ -8,7 +8,17 @@
 		SELECT COUNT(*) FROM users WHERE USERNAME=#{USERNAME} and PASSWORD=#{PASSWORD}
 	</select>
 	
+	<select id="idCheck" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM stores WHERE USERNAME=#{username}
+	</select>
+	
 	<insert id="signup" parameterType="java.util.Map">
-		INSERT INTO users(username,password,u_nick,u_regidate,u_age,u_lat,u_lng,u_ph) VALUES(#{username},#{password},#{u_nick},sysdate,#{u_age},#{u_lat},#{u_lng},#{u_ph})
+		INSERT INTO users(username,password,u_nick,u_regidate,u_age,u_lat,u_lng,u_ph,u_addr) VALUES(#{username},#{password},#{u_nick},sysdate,#{u_age},#{u_lat},#{u_lng},#{u_ph}#{u_addr})
+	</insert>
+	<insert id="storesignup" parameterType="java.util.Map">
+		INSERT INTO stores(username,password,STORE_NAME,STORE_REGINUM,STORE_PHNUM,STORE_EMAIL,STORE_INTRO,STORE_TIME,STORE_LAT,STORE_LNG,STORE_ADDR) VALUES(#{username},#{password},#{STORE_NAME},sysdate,#{STORE_PHNUM},#{STORE_EMAIL},#{STORE_INTRO},#{STORE_TIME},#{STORE_LAT},#{STORE_LNG},#{STORE_ADDR})
+	</insert>
+	<insert id="foodmenu" parameterType="java.util.Map">
+		INSERT INTO foodmenu(MENU_NO,MENU_NAME,MENU_TEND,MENU_INFO,MENU_REGIDATE,username,MENU_PRICE) VALUES(SEQ_FOODMENU.nextval,#{MENU_NAME},#{MENU_TEND},#{MENU_INFO},sysdate,#{username},#{MENU_PRICE})
 	</insert>
 </mapper>

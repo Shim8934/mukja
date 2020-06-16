@@ -18,8 +18,22 @@ public class SignServiceImpl implements SignService {
 		public boolean isLogin(Map map) {
 			return dao.isLogin(map);
 		}
+		
 		@Override
 		public int signup(Map map) {
 			return dao.signup(map);
+		}
+		
+		@Override
+		public int storesignup(Map map) {
+			return dao.storesignup(map);
+		}
+		@Override
+		public int foodmenu(Map map) {
+			return dao.foodmenu(map);
+		}
+		@Override
+		public int idCheck(Map map) {
+			return dao.idCheck(map);
 		}
 }

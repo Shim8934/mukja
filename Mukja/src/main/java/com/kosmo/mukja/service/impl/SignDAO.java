@@ -27,6 +27,16 @@ public class SignDAO implements SignService {
 		return sqlMapper.insert("signup",map);
 	}
     
-
-	
+	@Override
+	public int storesignup(Map map) {
+		return sqlMapper.insert("storesignup",map);
+	}
+	@Override
+	public int foodmenu(Map map) {
+		return sqlMapper.insert("foodmenu",map);
+	}
+	@Override
+	public int idCheck(Map map) {
+		return sqlMapper.selectOne("idCheck",map);
+	}
 }

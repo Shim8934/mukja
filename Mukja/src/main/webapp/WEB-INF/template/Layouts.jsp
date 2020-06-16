@@ -14,6 +14,10 @@
    <meta name="google-signin-client_id" content="548176436735-1d5a6bdmnjb40n7du817u27omto0341n.apps.googleusercontent.com">
     <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     <title>골라먹자 : 세상의 모든 음식을 골라먹자</title>
+    
+	
+	
+  
    <!-- 템플릿 CSS -->
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/open-iconic-bootstrap.min.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/animate.css'/>">    
@@ -52,7 +56,6 @@
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  
    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
    <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"/></script>
 	<!-- anime.js  https://animejs.com/documentation/#duration -->
@@ -72,8 +75,14 @@
  
 
    body {
-   font-family:Verdana;
-   overflow-x:hidden; overflow-y:auto;
+	   font-family:Verdana;
+	   overflow-x:hidden; overflow-y:auto;
+   }
+   .thumbNomal{
+   		 color: #FA9494;
+   }
+   .thumbClick{
+   		color: #D8264C  !important;
    }
    
  	#star_grade a{
@@ -181,6 +190,10 @@
  	 float: right;
  	 clear: both;
  }
+ .popdiv{
+ 
+ 
+ }
    </style>
 
    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
@@ -230,7 +243,7 @@
   <!-- 메신저 창 -->
   
   
- <sec:authorize access="isAuthenticated()">
+ <sec:authorize access="hasRole('ROLE_USER')">
 	<div id="messenger">
 		<img class="img_messenger" id='btn_messenger' src="<c:url value="/resources/messenger/f.JPG"/>"  >
 		<div id="messenger_board">

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xmlns:security="http://www.springframework.org/schema/security"
-   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-      http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
-   <!-- 보안과 관련된 설정파일 -->
-   <security:http auto-config="true" use-expressions="true">
-      <!-- X-Frame-Options' to 'deny'관련 오류:씨큐리티 적용시 iframe사용 오류 -->
-      <security:headers>
-         <security:frame-options disabled="true"/>
-      </security:headers>
-      <!-- URL패턴에 따른 접근 권한 설정 :접근범위가 좁은 경우를 위쪽으로-->
-      <!-- 역할에 ROLE_를 미 지정시 자동으로 ROLE_가 추가된다 즉  USER는 ROLE_USER라는 역할을 의미-->
-     <security:intercept-url pattern="/Mukja/Admin" access="hasAnyRole('ROLE_ADMIN')"/>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+	<!-- 보안과 관련된 설정파일 -->
+	<security:http auto-config="true" use-expressions="true">
+		<!-- X-Frame-Options' to 'deny'관련 오류:씨큐리티 적용시 iframe사용 오류 -->
+		<security:headers>
+			<security:frame-options disabled="true"/>
+		</security:headers>
+		<!-- URL패턴에 따른 접근 권한 설정 :접근범위가 좁은 경우를 위쪽으로-->
+		<!-- 역할에 ROLE_를 미 지정시 자동으로 ROLE_가 추가된다 즉  USER는 ROLE_USER라는 역할을 의미-->
+	  <security:intercept-url pattern="/Mukja/Admin" access="hasAnyRole('ROLE_ADMIN')"/>
       <security:intercept-url pattern="/Mukja/Store" access="hasAnyRole('ROLE_STORE')"/>
       <security:intercept-url pattern="/Mukja/User" access="hasAnyRole('ROLE_USER')"/>
       <security:intercept-url pattern="/**" access="permitAll"/>
