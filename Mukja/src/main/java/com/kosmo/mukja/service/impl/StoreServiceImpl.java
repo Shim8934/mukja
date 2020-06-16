@@ -50,5 +50,25 @@ public class StoreServiceImpl implements StoreService{
 	public int updateStoreAvg(Map map) {
 		return dao.updateStoreAvg(map);
 	}
+
+	@Override
+	public float getStoreAvg(Map map) {
+		return dao.getStoreAvg(map);
+	}
+
+	@Override
+	public int updateStoreRecommand(Map map) {
+		return dao.updateStoreRecommand(map);
+	}
+
+	@Override
+	public int getStoreThumb(Map map) {
+		return dao.getStoreThumb(map);
+	}
+
+	@Override
+	public int isThumb(Map map) {
+		return dao.isThumb(map);
+	}
 	
 }

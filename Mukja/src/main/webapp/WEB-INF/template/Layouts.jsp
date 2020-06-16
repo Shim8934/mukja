@@ -72,8 +72,14 @@
  
 
    body {
-   font-family:Verdana;
-   overflow-x:hidden; overflow-y:auto;
+	   font-family:Verdana;
+	   overflow-x:hidden; overflow-y:auto;
+   }
+   .thumbNomal{
+   		 color: #FA9494;
+   }
+   .thumbClick{
+   		color: #D8264C  !important;
    }
    
  	#star_grade a{

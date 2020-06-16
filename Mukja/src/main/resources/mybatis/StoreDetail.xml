@@ -34,6 +34,26 @@
     <select id="selectAvg" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_avg where store_id=#{store_id} and user_id=#{user_id}
     </select>
+     <select id="getStoreAvg" parameterType="java.util.Map" resultType="float">
+    	select avg(sa_avg) from store_avg where store_id=#{username}
+    </select>
     
-	
+     <select id="selectThumb" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_thumb where user_id=#{user_id}
+    </select>
+    
+	<delete id="deleteThumb" parameterType="java.util.Map">
+    	delete store_thumb where store_id=#{store_id} and user_id=#{user_id}
+    </delete>
+    
+    <insert id="insertThumb"  parameterType="java.util.Map">
+    	insert into store_thumb values(SEQ_thumb.nextval,#{store_id},#{user_id})
+    </insert>
+    
+     <select id="getStoreThumb" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_thumb where store_id=#{username}
+    </select>
+        <select id="isThumb" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_thumb where store_id=#{username} and user_id=#{user_id}
+    </select>
 </mapper>

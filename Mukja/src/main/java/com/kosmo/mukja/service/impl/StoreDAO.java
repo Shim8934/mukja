@@ -53,7 +53,7 @@ public class StoreDAO  implements StoreService{
 		System.out.println("평점을 준적이 있다:");
 		System.out.println(selectResult==1?"있음":"없음");
 		int result=0;
-		if(selectResult==1) {
+		if(selectResult!=0) {
 			result = sqlMapper.update("updateStoreAvg",map);
 			System.out.println("기존내역 발견  : update진행");
 		}else {
@@ -61,6 +61,34 @@ public class StoreDAO  implements StoreService{
 			System.out.println("기존내역 미발견  : insert진행");
 		}
 		return result;
+	}
+
+	@Override
+	public float getStoreAvg(Map map) {
+		return Float.parseFloat(String.valueOf(sqlMapper.selectOne("getStoreAvg",map)==null?0.0:sqlMapper.selectOne("getStoreAvg",map))) ;
+	}
+
+	@Override
+	public int updateStoreRecommand(Map map) {
+		int result=0;
+		int selectResult = sqlMapper.selectOne("selectThumb",map);
+		if(selectResult!=0) {
+			result = sqlMapper.update("deleteThumb",map);
+		}else {
+			result = sqlMapper.update("insertThumb",map);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int getStoreThumb(Map map) {
+		return (Integer) (sqlMapper.selectOne("getStoreThumb",map)==null?0:sqlMapper.selectOne("getStoreThumb",map)) ;
+	}
+
+	@Override
+	public int isThumb(Map map) {
+		return (Integer) (sqlMapper.selectOne("isThumb",map)==null?0:sqlMapper.selectOne("isThumb",map)) ;
 	}
 	
 }

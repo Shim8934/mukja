@@ -12,12 +12,12 @@
 <!-- INFROMATION -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
 	<div class="container" style="width: 1400px;">
-		<div class="row no-gutters">
+		<div class="row no-gutters" style="margin-top: -50px;">
 
 			<!-- left-side picture -->
 			<!-- 카라셀 -->
 			<div id="carousel-example-generic" class="carousel slide casize"
-				data-ride="carousel">
+				data-ride="carousel" style="margin-top: 100px;">
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
 					<c:forEach items="${imglist}" var="imgDTO" varStatus="status">
@@ -69,7 +69,9 @@
 				<div class="heading-section mt-5 mb-4">
 					<div class="pl-lg-5 ml-md-5">
 						<span class="subheading">About</span>
-						<h2 class="mb-4" style="font-size: 3.0em; display: inline">${list[0].store_name}</h2>
+						<h2 class="mb-4" style="font-size: 3.0em; display: inline">${list[0].store_name}
+							
+						</h2>
 					</div>
 				</div>
 				<div class="pl-lg-5 ml-md-5" style="margin-top: 15px;">
@@ -135,17 +137,30 @@
 								      
 
 								</div>
-								<sec:authentication var="user" property="principal" />
+								<sec:authorize access="isAuthenticated()">
+									<sec:authentication var="user" property="principal.username"/>
+								</sec:authorize>
+								<sec:authorize access="isAnonymous()">
+									<c:set var="user" value="anonymousUser" />
+								</sec:authorize>
+
+								
+								
 								 <script>
 								  jQuery( document ).ready(function( $ ) {
-								  
+									 
+									var user_id='${user}';
 								    $('#star_grade a').click(function(){
+								    	if(user_id=='anonymousUser'){
+								    		alert('로그인 후 이용하세요');
+								   			 return;
+								   		 }//로그인여부if
 								        $(this).parent().children("a").removeClass("onStar");  /* 별점의 on 클래스 전부 제거 */ 
 								        $(this).addClass("onStar").prevAll("a").addClass("onStar"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
 								        
 								        var allStarts=document.querySelectorAll(".onStar");
 								        var starCount = allStarts.length;
-								        var user_id='${user.username}';
+								    
 								        var store_id='${list[0].username}';
 								        console.log("클릭한 별 의 수: "+starCount);
 								       	var updateData={'starCount':starCount,'store_id':store_id,'user_id':user_id}; 
@@ -164,19 +179,59 @@
 													
 												}
 											}); //ajax
-								   		 }else{
-								   			 alert('로그인을 해야 평점이 반영됩니다.');
-								   		 }//로그인여부if
+								   		 }
 									 });//별클릭
 								  } );//제이쿼리
 								  </script>
 								
 							</div>
+							<div style="margin-bottom: 30px">
+								<div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">
+									추천하기 
+								</div>
+								<c:if test="${is_Thumb==0}" >
+									<span id="thumbs-up" style="font-size: 2em" class="glyphicon glyphicon-thumbs-up thumbNomal"></span>
+								</c:if>
+								<c:if test="${is_Thumb==1}" >
+									<span id="thumbs-up" style="font-size: 2em" class="glyphicon glyphicon-thumbs-up thumbClick"></span>
+								</c:if>
+								
+							</div>
+							<script >
+							    var user_id='${user}';
+								$('#thumbs-up').click(function(){
+									if(user_id=='anonymousUser'){
+							   			 alert('로그인 후 이용하세요');
+							   			 return;
+							   		}
+									if($(this).attr('class')=='glyphicon glyphicon-thumbs-up thumbNomal'){
+										$(this).attr('class','glyphicon glyphicon-thumbs-up thumbClick');
+										console.log("엄지클래스");
+										console.log($(this).attr('class'));
+									}else{
+										console.log("엄지클래스");
+										console.log($(this).attr('class'));
+										$(this).attr('class','glyphicon glyphicon-thumbs-up thumbNomal');
+									}
+									
+								 	var store_id='${list[0].username}';
+									var thumbData={'store_id':store_id,'user_id':user_id};
+								    if(user_id!='anonymousUser'){
+								         $.ajax({
+											data:thumbData ,
+											url:"<c:url value='/updateStoreRecommand.do'/>",
+											dataType:'json',
+											success:function(data){
+												console.log(data);
+											},
+											error:function(){
+											}
+										}); //ajax
+							   		 }
+								});//좋아요클릭
+							</script>
 						</div>
-
-
 					</div>
-
 				</div>
 			</div>
 		</div>
@@ -196,7 +251,7 @@
 						class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<strong class="number" data-number="${list[0].store_avg}">0</strong>
+								<strong class="number" data-number="${store_Thumb}">0</strong>
 								<span>가게 추천 수</span>
 							</div>
 						</div>
@@ -213,21 +268,15 @@
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<strong class="number" data-number="${reviewCount}">0</strong> <span>리뷰수</span>
+								<strong class="number" data-number="${reviewCount}">200</strong> <span>리뷰수</span>
 							</div>
 						</div>
 					</div>
+				
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<strong class="number" data-number="10">0</strong> <span>가게랭킹</span>
-							</div>
-						</div>
-					</div>
-					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-						<div class="block-18">
-							<div class="text">
-								<strong class="number" data-number="10">0</strong> <span>평점</span>
+								<strong class="number" data-number="${store_avg }">200</strong> <span>평점</span>
 							</div>
 						</div>
 					</div>
@@ -260,7 +309,7 @@
 						<div class="col-xs-6 menus d-flex ftco-animate">
 
 							<!-- 메뉴이미지 카라셀 컨테이너 -->
-							<div style="display: inline-block;">
+							<div style="display: inline-block; ">
 								<!-- 카라셀 -->
 								<div id="carousel-example-generic"
 									class="carousel slide menucasize" data-ride="carousel">

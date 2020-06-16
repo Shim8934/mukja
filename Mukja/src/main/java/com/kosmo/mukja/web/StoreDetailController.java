@@ -1,5 +1,6 @@
 package com.kosmo.mukja.web;
 
+import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,8 @@ import java.util.Vector;
 
 import javax.annotation.Resource;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,11 +29,24 @@ public class StoreDetailController {
 	private StoreService service;
 	
 	@RequestMapping("/Store/DetailView.do")
-	public String StoreDetail(@RequestParam Map map, Model model) {
+	public String StoreDetail(@RequestParam Map map, Model model, Authentication authentication) {
 		System.out.println("username : "+map.get("username"));
 		
+		if(authentication!=null) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			map.put("user_id", userDetails.getUsername());
+			System.out.println("user_id:"+map.get("user_id"));
+			int is_Thumb =service.isThumb(map);
+			System.out.println("is_Thumb:"+is_Thumb);
+			model.addAttribute("is_Thumb",is_Thumb);
+		}else {
+			System.out.println("is_Thumb:"+0);
+			model.addAttribute("is_Thumb",0);
+		}
 		List<StoreDTO> list = service.getStoreInfo(map);
 		model.addAttribute("list",list);
+		
+		
 		
 		int reviewCount= service.getReviewCount(map);
 		model.addAttribute("reviewCount",reviewCount);
@@ -76,7 +92,17 @@ public class StoreDetailController {
 		}
 		model.addAttribute("allFoodImgList",allFoodImgList);
 		System.out.println("allFoodImgList:"+allFoodImgList.toString());
+		
+		float store_avg =  service.getStoreAvg(map);
+		model.addAttribute("store_avg",store_avg);
+		
+		int store_Thumb = service.getStoreThumb(map);
+		model.addAttribute("store_Thumb",store_Thumb);
+		
+		
+	
 		return "/Store/DetailView.tiles";
+		
 	}
 	
 	@ResponseBody
@@ -91,6 +117,13 @@ public class StoreDetailController {
 			}
 		int result = service.updateStoreAvg(map);
 		
+		return "{'result':"+result+"}";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateStoreRecommand.do")
+	public String updateStoreRecommand(@RequestParam Map map) {
+		int result=service.updateStoreRecommand(map);
 		return "{'result':"+result+"}";
 	}
 }
