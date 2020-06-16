@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -17,18 +19,23 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
 import com.kosmo.mukja.service.FileUploadService;
@@ -70,11 +77,11 @@ public class AdminController {
 		return "Manage/BlackList/View.admins";
 	}
 
-	// 2-1) 신고 리스트 컨트롤러
-	@RequestMapping(value = "/AdminReportList.bbs", method = RequestMethod.GET)
+	// 2-1) 유저신고 리스트 컨트롤러
+	@RequestMapping(value = "/UserReportList.bbs", method = RequestMethod.GET)
 	public String reportList(Locale locale, Model model) {		
 		
-		return "Manage/Report/List.admins";
+		return "Manage/Report/UserList.admins";
 	}
 	
 	// 2-2) 신고 관리 컨트롤러
@@ -123,6 +130,7 @@ public class AdminController {
 	
 	
 	// 공지사항 리스트 컨트롤러
+	// 이게 목록 하는 명령
 	@RequestMapping(value="/NoticeList.bbs")
 	public String noticeList(@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
@@ -164,10 +172,6 @@ public class AdminController {
 	public String oneViewNotice(@RequestParam Map map, Model model) {
 		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
 		AdminDTO record = adminService.selectOne(map);
-		int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
-		map.put("NT_NO", NT_NO);
-		AdminDTO prev = adminService.selectOne(map);
-		map.put("prev", prev.getNT_TITLE());
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
 		
@@ -182,15 +186,25 @@ public class AdminController {
 		model.addAttribute("username",username);
 		return "Notice/Write.admins";
 	}
-	
+	/*
+	// 공지사항 등록 페이지 이동
+	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
+	public String moveWriteNotice(Authentication auth, Model model) {
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		String username = userDetails.getUsername();		
+		model.addAttribute("username",username);
+		return "/Admin/Notice/NewFile";
+	}
+	*/
 	// 공지사항 등록 컨트롤러 (본격 등록)
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
 	public String writeNotice(MultipartHttpServletRequest req,
 							  Authentication auth,
 							  Model model,
 							  @RequestParam Map map){
-		System.out.println("MultipartHttpServletRequest 테스팅 : "+req);
+		// 파일 이름 저장용 변수
 		String fileName = "";
+		// 파일이 저장될 경로 지정
 		String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
 		System.out.println(path);
 		
@@ -207,15 +221,13 @@ public class AdminController {
 		// MultipartHttpServletRequest로 얻어온 파일 데이터 저장용
 		Iterator<String> fileNames = req.getFileNames();
 		
-		// MultipartHttpServletRequest로 얻어온 파일 데이터를 MultipartFile객체로 저장
-		// 이건 필요한지 모르겠음.
-		
 		// 파일 input 태그(name=NT_IMG)로 얻어온 파일들 저장할 리스트 선언  
 		List<MultipartFile> fileList = req.getFiles("NT_IMG");
 		System.out.println("파일 체크 "+req.getFiles("NT_IMG"));
 		
 		// 파일 해체 시작
 		for(MultipartFile filePart : fileList) {
+			// 올린 파일의 이름(확장자까지)
 			fileName = filePart.getOriginalFilename();
 			System.out.println(fileName);
 			NT_IMG+=fileName+"/";
@@ -228,34 +240,16 @@ public class AdminController {
 				} catch(IOException e) {e.printStackTrace();}
 			}
 		}
-		// 쿼리문 작업용으로 집어넣음
-		map.put("NT_IMG",NT_IMG);
-
-		
+		if(NT_IMG.equals("/")) {
+			NT_IMG="";
+			map.put("NT_IMG",NT_IMG);
+		}
+		else {
+			// 쿼리문 작업용으로 집어넣음
+			map.put("NT_IMG",NT_IMG);
+		}
 		adminService.insert(map);
-		
-		return "Notice/List.admins";
-	}
-	
-	/*
-	// 공지사항 등록 컨트롤러 (본격 등록)
-	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-	public String writeNotice(@RequestParam Map map,
-							  Model model) {
-		String username = map.get("username").toString();
-		System.out.println(username);
-		model.addAttribute("username",username);
-		
-		adminService.insert(map);
-		return "Notice/List.admins";
-		
-	}
-	*/
-	
-	// 공지사항 수정 컨트롤러
-	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
-	public String editNotice() {
-		return "Notice/Edit.admins";
+		return "forward:NoticeList.bbs";
 	}
 	
 	// 공지사항 삭제 컨트롤러
@@ -265,9 +259,55 @@ public class AdminController {
 		map.put("NT_NO", NT_NO);
 		System.out.println(NT_NO);
 		adminService.delete(map);
-		return "Notice/List.admins";
+		return "forward:NoticeList.bbs";
 	}
 	
+	// 공지사항 수정 컨트롤러 수정폼 이동
+	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
+	public String goEditNotice(@RequestParam Map map, Model model) {
+		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
+		AdminDTO record = adminService.selectOne(map);
+		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
+		model.addAttribute("record",record);
+		return "Notice/Edit.admins";
+	}
+	
+	// 공지사항 수정 컨트롤러 수정폼 이동
+	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.POST)
+	public String editNotice(MultipartHttpServletRequest req,Map map) {
+		
+		
+		return "forward:/OneNoticeView.bbs";
+	}
+	
+	@PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
+	@ResponseBody
+	public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
+		
+		JsonObject jsonObject = new JsonObject();
+		
+		String fileRoot = "D:/SKY/drawable";	//저장될 외부 파일 경로
+		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
+		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
+				
+		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
+		
+		File targetFile = new File(fileRoot + savedFileName);	
+		
+		try {
+			InputStream fileStream = multipartFile.getInputStream();
+			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
+			jsonObject.addProperty("url", "/summernoteImage/"+savedFileName);
+			jsonObject.addProperty("responseCode", "success");
+				
+		} catch (IOException e) {
+			FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
+			jsonObject.addProperty("responseCode", "error");
+			e.printStackTrace();
+		}
+		
+		return jsonObject;
+	}
 	
 }//////////class AdminController
 

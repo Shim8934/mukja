@@ -37,8 +37,7 @@
 							</thead>
 							<c:if test="${empty list}" var="isEmpty">
 								<tr>
-									<td colspan="5" style="text-align: center;">등록된 게시물이
-										없습니다.</td>
+									<td colspan="5" style="text-align: center;">등록된 게시물이 없습니다.</td>
 								</tr>
 							</c:if>
 							<c:if test="${not isEmpty}">
@@ -61,7 +60,7 @@
 					
 					<!-- 페이징 -->
 					<div class="card-footer" >
-						<div style="display:inline-block; text-align:center">${pagingString}</div>
+						<div style="display:inline-block; text-align:center;">${pagingString}</div>
 					</div>
 				
 						

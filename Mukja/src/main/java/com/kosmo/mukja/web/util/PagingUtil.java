@@ -4,7 +4,7 @@ public class PagingUtil {
 
 	public static String pagingBootStrapStyle(int totalRecordCount,int pageSize,int blockPage,int nowPage,String page, String searchColumn, String searchWord){
 		
-		String pagingStr="<div><nav class=\"\"><ul class=\"pagination\">";
+		String pagingStr="<div ><nav class=\"\"><ul class=\"pagination\">";
 		
 		//1.전체 페이지 구하기
 		int totalPage= (int)(Math.ceil(((double)totalRecordCount/pageSize)));

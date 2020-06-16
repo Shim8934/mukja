@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+	
 <div class="app-main__outer">
 	<div class="app-main__inner">
 		<div class="app-page-title">
@@ -36,7 +36,7 @@
 						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">${record.NT_REGITDATE}</h6></div>
 						<div class="scroll-area-md">
 							<div class="scroll-container ps--active-yps">
-								${record.NT_CONTENT }
+								${record.NT_CONTENT}
 							</div>
 						</div>
 						<div class="text-center"><h6 class="text-uppercase font-size-md font-weight-normal">${record.NT_IMG}</h6></div>							
@@ -47,7 +47,7 @@
 								<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
 								<i class="pe-7s-trash btn-icon-wrapper"></i></button>
 							</a>
-							<a href="<c:url value="/EditNotice.bbs"/>">
+							<a href="<c:url value="/EditNotice.bbs?NT_NO=${record.NT_NO}"/>">
 								<button class="mr-2 btn-icon btn-icon-only btn btn-outline-info">
 								<i class="pe-7s-diskette btn-icon-wrapper"></i></button>
 							</a>
