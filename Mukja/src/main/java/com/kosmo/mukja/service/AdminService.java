@@ -13,6 +13,8 @@ public interface AdminService {
 	int getTotalRecord(Map map);
 	//상세보기용]
 	AdminDTO selectOne(Map map);
+	AdminDTO selectPrev(Map map);
+	AdminDTO selectNext(Map map);
 	//입력/수정/삭제용]
 	int delete(Map map);
 	int insert(Map map);

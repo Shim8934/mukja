@@ -24,8 +24,8 @@
 					${record.NT_TITLE }
 					<div class="btn-actions-pane-right">
 						<div role="group" class="btn-group-sm btn-group">
-							<a href="#"><button class="btn btn-transition btn-outline-light">이전 글</button></a>
-							<a href="#"><button class="btn btn-transition btn-outline-light">다음 글</button></a>
+							<a href="<c:url value="/OneNoticeView.bbs?NT_NO=${prev.NT_NO}"/>"><button class="btn btn-transition btn-outline-light">이전 글</button></a>
+							<a href="<c:url value="/OneNoticeView.bbs?NT_NO=${next.NT_NO}"/>"><button class="btn btn-transition btn-outline-light">다음 글</button></a>
 						</div>
 					</div>
 				</div>

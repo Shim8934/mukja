@@ -63,6 +63,18 @@ public class AdminDAO implements AdminService{
 		// TODO Auto-generated method stub
 		return sqlMapper.update("noticeUpdate",map);
 	}
+
+	@Override
+	public AdminDTO selectPrev(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("noticeSelectPrev",map);
+	}
+
+	@Override
+	public AdminDTO selectNext(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("noticeSelectNext",map);
+	}
 	
 
 }

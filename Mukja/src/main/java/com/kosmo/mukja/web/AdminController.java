@@ -46,9 +46,6 @@ public class AdminController {
 	
 	@Resource(name="adminService")
 	private AdminService adminService;
-	
-	@Resource(name="fileUploadService")
-	private FileUploadService fileUploadService;
 
 	//리소스파일(resource.properties)에서 읽어오기
 	@Value("${PAGE_SIZE}")
@@ -127,8 +124,6 @@ public class AdminController {
 		return "Manage/User/UserETList.admins";
 	}	
 	
-	
-	
 	// 공지사항 리스트 컨트롤러
 	// 이게 목록 하는 명령
 	@RequestMapping(value="/NoticeList.bbs")
@@ -174,7 +169,8 @@ public class AdminController {
 		AdminDTO record = adminService.selectOne(map);
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
-		
+		AdminDTO prev = adminService.selectPrev(map);
+		AdminDTO next = adminService.selectNext(map);
 		return "Notice/View.admins";
 	}
 	
