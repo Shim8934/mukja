@@ -38,27 +38,50 @@ public class SignController {
 	@Resource(name = "signService")
 	private SignService signService;
 
-	// 로그인 폼으로 이동]
-
+	//로그인 폼으로 이동]
 	@RequestMapping(value = "/SignIn.bbs", method = RequestMethod.GET)
 	public String SignIn(String str) {
 		return "/Member/SignIn.tiles";
 	}
-	// 회원가입 폼으로 이동]
+	//사용자 회원가입 폼으로 이동]
 	@RequestMapping(value = "/SignUp.bbs", method = RequestMethod.GET)
 	public String SignUp(String str) {
 		return "/Member/SignUp.tiles";
 	}
-
+	
+	//판매자 회원가입 폼으로 이동]
+		@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.GET)
+		public String StoreSignUp(String str) {
+			return "/Member/StoreSignUp.tiles";
+		}
+	
 	// 회원가입 처리]
 	@RequestMapping(value = "/isSignUp.bbs", method = RequestMethod.POST)
 	public String SignUp(@RequestParam Map map) {
 		System.out.println(map);
 		map.remove("passwordOk");
-		map.remove("addr");
 		System.out.println(map);
 		signService.signup(map);
 		return "/index.tiles";
 	}///////////
+	
+	// 스토어 회원가입 처리]
+		@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.POST)
+		public String StoreSignUp(@RequestParam Map map) {
+
+			if(signService.storesignup(map)==1) {
+				signService.foodmenu(map);
+			}
+			return "/index.tiles";
+		}///////////
+		
+		@ResponseBody
+		@RequestMapping(value = "/idCheck.bbs", method = RequestMethod.GET)
+		public int IdCheck(@RequestParam Map map) {
+			System.out.println(map);
+			return signService.idCheck(map);
+			
+		}///////////
+	
 
 }

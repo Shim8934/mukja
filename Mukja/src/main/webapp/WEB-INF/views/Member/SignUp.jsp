@@ -107,7 +107,7 @@ section {
 		<div class="container" id='signup'>
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
-					<form action="<c:url value='/isSignUp.bbs'/>" method="post">
+					<form action="<c:url value='/StoreSignUp.bbs'/>" method="post">
 						<div class="row">
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group" id="input">
@@ -280,8 +280,9 @@ section {
 										style="width: 100%; height: 100%; font-size: 20px;">
 								</div>
 							</div>
+							</form>
 						</div>
-					</form>
+					
 				</div>
 
 			</div>
@@ -310,7 +311,7 @@ section {
 				</div>
 
 			</div>
-		</div>
+	
 
 	</section>
 

@@ -12,7 +12,7 @@
 		</security:headers>
 		<!-- URL패턴에 따른 접근 권한 설정 :접근범위가 좁은 경우를 위쪽으로-->
 		<!-- 역할에 ROLE_를 미 지정시 자동으로 ROLE_가 추가된다 즉  USER는 ROLE_USER라는 역할을 의미-->
-		<security:intercept-url pattern="/Mukja/Admin" access="hasAnyRole('ROLE_ADMIN')"/>
+	  <security:intercept-url pattern="/Mukja/Admin" access="hasAnyRole('ROLE_ADMIN')"/>
       <security:intercept-url pattern="/Mukja/Store" access="hasAnyRole('ROLE_STORE')"/>
       <security:intercept-url pattern="/Mukja/User" access="hasAnyRole('ROLE_USER')"/>
       <security:intercept-url pattern="/**" access="permitAll"/>

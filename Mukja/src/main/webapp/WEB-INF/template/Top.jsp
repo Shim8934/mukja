@@ -60,7 +60,7 @@
 				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin</a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_STORE')">
-				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin22</a></li>
+				<li class="nav-item"><a href="<c:url value="/Store.bbs"/>"class="nav-link">Store</a></li>
 				</sec:authorize>
 			</ul>
 		</div>

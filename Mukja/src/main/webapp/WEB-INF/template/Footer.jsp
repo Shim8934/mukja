@@ -19,37 +19,14 @@
 						</ul>
 					</div>
 				</div>
-				<!-- 
-				<div class="col-md-6 col-lg-3">
-					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Open Hours</h2>
-						<ul class="list-unstyled open-hours">
-							<li class="d-flex"><span>Monday</span><span>9:00 -
-									24:00</span></li>
-							<li class="d-flex"><span>Tuesday</span><span>9:00 -
-									24:00</span></li>
-							<li class="d-flex"><span>Wednesday</span><span>9:00 -
-									24:00</span></li>
-							<li class="d-flex"><span>Thursday</span><span>9:00 -
-									24:00</span></li>
-							<li class="d-flex"><span>Friday</span><span>9:00 -
-									02:00</span></li>
-							<li class="d-flex"><span>Saturday</span><span>9:00 -
-									02:00</span></li>
-							<li class="d-flex"><span>Sunday</span><span> Closed</span></li>
-						</ul>
-					</div>
-				</div>
-				 -->
+			
 				<div class="col-md-6 col-lg-3">
 					<div class="ftco-footer-widget mb-4">
 						<h2 class="ftco-heading-2">협업신청</h2>
 						<p>골라먹자 협업을 신청해보세요</p>
-						<form action="#" class="subscribe-form">
+						<form action="<c:url value='/StoreSignUp.bbs'/>" class="subscribe-form">
 							<div class="form-group">
-								<input type="text" class="form-control mb-2 text-center"
-									placeholder="Enter email address"> <input type="submit"
-									value="Subscribe" class="form-control submit px-3">
+							<input type="submit" value="협업신청 하러가기!" class="form-control submit px-3">
 							</div>
 						</form>
 					</div>
