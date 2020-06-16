@@ -7,8 +7,10 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.StoreDTO;
+import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 
 @Service("StoreInfoService")
@@ -32,6 +34,16 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public List<FoodMenuDTO> getFoodMenu(Map map) {
 		return dao.getFoodMenu(map);
+	}
+
+	@Override
+	public List<StoreIMGDTO> getStoreIMG(Map map) {
+		return dao.getStoreIMG(map);
+	}
+
+	@Override
+	public List<FoodIMGDTO> getFoodIMG(String menu_no) {
+		return dao.getFoodIMG(menu_no);
 	}
 	
 }

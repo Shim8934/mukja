@@ -1212,10 +1212,11 @@ function requets_maker_Ajax(){
 						// 별도의 이벤트 메소드를 제공하지 않습니다 
 						//오버레이아웃 컨텐츠
 						var curLatLng=marker.getPosition();
+						
 						 map.panTo(curLatLng);
 					    closeOverlay();
 						 var content =  
-							'<div id ="div_'+data.store_id+'" class="storeOverlay">' +
+							'<div id ="div_'+data.store_id+'" style="white-space: pre-line; " class="storeOverlay">' +
 							'  <div class="row">'+
 							'		<div  class="col-xs-12">'+
 							'			<div class="row" style="margin-top:-20px;">'+
