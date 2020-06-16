@@ -198,16 +198,29 @@ public class AdminController {
 		if(!file.exists()) {
 			file.mkdir();
 		}
+		
+		// 디비에 저장할 파일 이름 저장용 변수 선언
 		String NT_IMG ="";
+		
 		System.out.println(map==null?"맵널":"널 아님");
+		
+		// MultipartHttpServletRequest로 얻어온 파일 데이터 저장용
 		Iterator<String> fileNames = req.getFileNames();
+		
+		// MultipartHttpServletRequest로 얻어온 파일 데이터를 MultipartFile객체로 저장
+		// 이건 필요한지 모르겠음.
 		MultipartFile mpFile = req.getFile(fileName);
+		
+		// 파일 input 태그(name=NT_IMG)로 얻어온 파일들 저장할 리스트 선언  
 		List<MultipartFile> fileList = req.getFiles("NT_IMG");
 		System.out.println("파일 체크 "+req.getFiles("NT_IMG"));
+		
+		// 파일 해체 시작
 		for(MultipartFile filePart : fileList) {
 			fileName = filePart.getOriginalFilename();
 			System.out.println(fileName);
 			NT_IMG+=fileName+"/";
+			System.out.println(NT_IMG);
 			if(!fileName.equals("")) {
 				try {
 					FileOutputStream fs = new FileOutputStream(path+fileName);
@@ -216,9 +229,9 @@ public class AdminController {
 				} catch(IOException e) {e.printStackTrace();}
 			}
 		}
-		
-		StringBuffer listFile = new StringBuffer();
-		
+		// 쿼리문 작업용으로 집어넣음
+		map.put("NT_IMG",NT_IMG);
+
 		
 		adminService.insert(map);
 		
