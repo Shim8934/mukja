@@ -188,27 +188,36 @@ public class AdminController {
 	public String writeNotice(MultipartHttpServletRequest req,
 							  Authentication auth,
 							  Model model,
-							  @RequestParam Map map) throws Exception {
+							  @RequestParam Map map){
 		System.out.println("MultipartHttpServletRequest 테스팅 : "+req);
+		String fileName = "";
+		String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+		System.out.println(path);
+		
+		File file = new File(path);
+		if(!file.exists()) {
+			file.mkdir();
+		}
+		String NT_IMG ="";
+		System.out.println(map==null?"맵널":"널 아님");
 		Iterator<String> fileNames = req.getFileNames();
-		while(fileNames.hasNext()) {
-			String fileName = fileNames.next();
-			MultipartFile mtfile = req.getFile(fileName);
-			File file = new File(fileName);
-			if(mtfile.getSize()!=0) {
-				if(!file.exists()) { // 파일 존재 체크
-					if(file.getParentFile().mkdirs()) { // 경로 생성
-						try {
-							file.createNewFile();
-						} catch(Exception e) {e.printStackTrace();}
-					}
-				}
+		MultipartFile mpFile = req.getFile(fileName);
+		List<MultipartFile> fileList = req.getFiles("NT_IMG");
+		System.out.println("파일 체크 "+req.getFiles("NT_IMG"));
+		for(MultipartFile filePart : fileList) {
+			fileName = filePart.getOriginalFilename();
+			System.out.println(fileName);
+			NT_IMG+=fileName+"/";
+			if(!fileName.equals("")) {
 				try {
-					mtfile.transferTo(file);
-				} catch(Exception e) {e.printStackTrace();}
+					FileOutputStream fs = new FileOutputStream(path+fileName);
+					fs.write(filePart.getBytes());
+					fs.close();
+				} catch(IOException e) {e.printStackTrace();}
 			}
 		}
-		System.out.println("맵 체크 중  :  "+map.get("NT_TITLE").toString());
+		
+		StringBuffer listFile = new StringBuffer();
 		
 		
 		adminService.insert(map);
