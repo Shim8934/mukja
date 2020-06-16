@@ -22,5 +22,18 @@
      <select id="getFoodIMG" parameterType="java.lang.String" resultType="foodIMGDTO">
     	 select * from fm_file where menu_no = #{menu_no}
     </select>
+    
+    <update id="updateStoreAvg" parameterType="java.util.Map">
+    	update store_avg set sa_avg=#{starCount} where  store_id=#{store_id} and user_id=#{user_id}
+    </update>
+    
+    <insert id="insertStoreAvg"  parameterType="java.util.Map">
+    	insert into store_avg values(SEQ_SA.nextval,#{store_id},#{starCount},#{user_id})
+    </insert>
+    
+    <select id="selectAvg" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_avg where store_id=#{store_id} and user_id=#{user_id}
+    </select>
+    
 	
 </mapper>

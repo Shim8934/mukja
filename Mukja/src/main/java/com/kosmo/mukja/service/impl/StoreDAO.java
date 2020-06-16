@@ -46,5 +46,21 @@ public class StoreDAO  implements StoreService{
 	public List<FoodIMGDTO> getFoodIMG(String menu_no) {
 		return sqlMapper.selectList("getFoodIMG",menu_no);
 	}
+
+	@Override
+	public int updateStoreAvg(Map map) {
+		int selectResult = sqlMapper.selectOne("selectAvg",map);
+		System.out.println("평점을 준적이 있다:");
+		System.out.println(selectResult==1?"있음":"없음");
+		int result=0;
+		if(selectResult==1) {
+			result = sqlMapper.update("updateStoreAvg",map);
+			System.out.println("기존내역 발견  : update진행");
+		}else {
+			result = sqlMapper.insert("insertStoreAvg",map);
+			System.out.println("기존내역 미발견  : insert진행");
+		}
+		return result;
+	}
 	
 }

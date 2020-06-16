@@ -10,4 +10,5 @@ public interface StoreService {
 	public List<FoodMenuDTO> getFoodMenu(Map map);
 	public List<StoreIMGDTO> getStoreIMG(Map map);
 	public List<FoodIMGDTO> getFoodIMG(String menu_no);
+	public int updateStoreAvg(Map map);
 }

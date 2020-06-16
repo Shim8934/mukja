@@ -45,5 +45,10 @@ public class StoreServiceImpl implements StoreService{
 	public List<FoodIMGDTO> getFoodIMG(String menu_no) {
 		return dao.getFoodIMG(menu_no);
 	}
+
+	@Override
+	public int updateStoreAvg(Map map) {
+		return dao.updateStoreAvg(map);
+	}
 	
 }
