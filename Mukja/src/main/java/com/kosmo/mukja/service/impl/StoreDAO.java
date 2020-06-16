@@ -55,8 +55,10 @@ public class StoreDAO  implements StoreService{
 		int result=0;
 		if(selectResult==1) {
 			result = sqlMapper.update("updateStoreAvg",map);
+			System.out.println("기존내역 발견  : update진행");
 		}else {
 			result = sqlMapper.insert("insertStoreAvg",map);
+			System.out.println("기존내역 미발견  : insert진행");
 		}
 		return result;
 	}
