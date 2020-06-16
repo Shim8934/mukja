@@ -66,13 +66,38 @@
   jQuery( document ).ready(function( $ ) {
 
     $( "#ERCwindow" ).draggable();
+  
+    $('#star_grade a').click(function(){
+        $(this).parent().children("a").removeClass("on");  /* 별점의 on 클래스 전부 제거 */ 
+        $(this).addClass("on").prevAll("a").addClass("on"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
+    });
+    
   } );
   </script>
-	
-   <style>
+<style>
+ 
+
    body {
    font-family:Verdana;
    overflow-x:hidden; overflow-y:auto;
+   }
+   
+   #star_grade a{
+    text-decoration: none;
+    color: #D3E4F5;
+    }
+    
+    #star_grade a.on{
+        color: #1CB2E2;
+    }
+   
+   .casize{
+   width: 400px; 
+   height: 700px;
+   }
+    .menucasize{
+   width: 300px; 
+   height:250px;
    }
    
    .img_messenger{
@@ -649,6 +674,8 @@ $(function (){
 $('.hideERC').click(function(){
 	$("#ERCwindow").fadeOut();
 });
+
+
 	</script>
 	<!-- 메신저 스크립트 끝-->
   </body>

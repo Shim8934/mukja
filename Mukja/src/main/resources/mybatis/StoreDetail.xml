@@ -14,5 +14,13 @@
  	 <select id="getFoodMenu" parameterType="java.util.Map" resultType="foodMenuDTO">
     	 select * from foodmenu where username = #{username}
     </select>
+    
+     <select id="getStoreIMG" parameterType="java.util.Map" resultType="storeIMGDTO">
+    	 select * from store_file where username = #{username}
+    </select>
+    
+     <select id="getFoodIMG" parameterType="java.lang.String" resultType="foodIMGDTO">
+    	 select * from fm_file where menu_no = #{menu_no}
+    </select>
 	
 </mapper>

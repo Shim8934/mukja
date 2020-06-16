@@ -8,8 +8,10 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.StoreDTO;
+import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 
 @Repository("storeDAO")
@@ -33,6 +35,16 @@ public class StoreDAO  implements StoreService{
 	@Override
 	public List<FoodMenuDTO> getFoodMenu(Map map) {
 		return sqlMapper.selectList("getFoodMenu",map);
+	}
+
+	@Override
+	public List<StoreIMGDTO> getStoreIMG(Map map) {
+		return sqlMapper.selectList("getStoreIMG",map);
+	}
+
+	@Override
+	public List<FoodIMGDTO> getFoodIMG(String menu_no) {
+		return sqlMapper.selectList("getFoodIMG",menu_no);
 	}
 	
 }
