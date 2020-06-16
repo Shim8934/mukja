@@ -27,7 +27,7 @@
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/flaticon.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icomoon.css'/>">
     <link rel="stylesheet" href="  <c:url value='/resources/bootstrap/css/style.css'/>">   
- 
+ <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
    <!-- 아이콘  css -->
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icon-common.css'/>">
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icon-style.css'/>">
