@@ -25,7 +25,8 @@
 				</div>
 			</div>
 		<!-- 대쉬보드 1 끝 -->
-		
+		</div>
+		<div class="col-lg-6">
 	<!-- 대쉬보드 2 시작 -->
 			<div class="card main-card lg-6">
 		    	<div class="card-header card-header-info card-header-icon">
@@ -44,7 +45,8 @@
 			</div>
 		</div>
 		<!-- 대쉬보드 2 끝 -->
-		
+		</div>
+		<div class="row">
 		<!-- 대쉬보드 3 시작 -->
 		<div class="col-lg-6">
 			<div class="card main-card lg-6">
@@ -62,8 +64,10 @@
 		            </div>
 				</div>
 			</div>
+		</div>
 		<!-- 대쉬보드 3 끝 -->
 		
+		<div class="col-lg-6">
 		<!-- 대쉬보드 4 시작 -->
 			<div class="card main-card lg-6">
 		    	<div class="card-header card-header-info card-header-icon">
@@ -81,8 +85,9 @@
 				</div>
 			</div>
 		</div>
-		<!-- 대쉬보드 4 끝 -->
 	</div>
+		<!-- 대쉬보드 4 끝 -->
+</div>
 	<!-- row 끝-->
 </div>
 <!-- app-main__inner 끝 -->

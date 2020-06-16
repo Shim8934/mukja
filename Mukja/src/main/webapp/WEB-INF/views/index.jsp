@@ -6,9 +6,7 @@
     
 
 
-<!-- 제이쿼리  ui -->
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
  
  
  <!-- 타임피커 -->
@@ -34,11 +32,11 @@
 	
 
 	
-<!-- 섬머노트 -->
+
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+<!-- 섬머노트 -->
 <!-- include summernote css/js -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -142,6 +140,8 @@
 	margin: 5px;
   }
   
+
+
   .lb_size{
   	width:50px;
   	background-color: white; 
@@ -239,6 +239,7 @@
       overflow-y:auto;
     }
     
+
     .storeOverlay{
 		margin-top:-280px;
 		width:300px;
@@ -436,12 +437,12 @@
 				<div id='extendMap' class="row"style="height:900px" >
 				
 				
-					 <div id='mapWrap'class="col-md-12"style="position:absolute; height:900px; margin-top:50px; margin-bottom:30px;">
+					 <div id='mapWrap'class="col-md-12"style="position:absolute; height:900px; margin-top:30px; margin-bottom:30px;">
 					 
 					 
 			
-						   <div class="row no-gutters slider-text align-items-center justify-content-center">				     
-				            <div class="col-md-9 ftco-animate text-center">
+						<div class="row no-gutters slider-text align-items-center justify-content-center">				     
+				        <div class="col-md-12 ftco-animate text-center">
 					 
 						 <!-- 맵이 뜨는 곳 -->
 						<div id="map" style=" position:absolute;  z-index: 1;width:100%;height:800px;; 
@@ -798,16 +799,23 @@
 
 
 <script>
+
 var mapContainer = document.getElementById('map'), // 지도의 중심좌표
     mapOption = { 
         center: new kakao.maps.LatLng(37.498825, 126.722265), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
         level: 2 // 지도의 확대 레벨
     }; 
+
 var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 var bounds = map.getBounds();  
+
+
+
 console.log("맵생성시 바운즈 초기화");
 //인풋타입 히든에 위경도 바운더리 주는 함수
 latLngSendInput(bounds);
+
+
 function latLngSendInput(bounds){
 	 //남서 위경도
 	  namsua= bounds.getSouthWest();
@@ -836,18 +844,33 @@ kakao.maps.event.addListener(map, 'dragend', function() {
 	  latLngSendInput(bounds);
 	 
 });
+
 //바운더리 변경시  바운즈 설정
 kakao.maps.event.addListener(map, 'bounds_changed', function() {
 	 var bounds = map.getBounds();     
 	//인풋타입 히든에 위경도 바운더리 주는 함수
 	  latLngSendInput(bounds);
 });
+
+
 //중앙점 잡아서 이동하는 메소드
 function setCenter() {            
     var moveLatLon = new kakao.maps.LatLng(lat, lng);    
     // 지도 중심을 이동 시킵니다
     map.setCenter(moveLatLon);
 }
+
+function setCenter(lat,lan) {            
+    // 이동할 위도 경도 위치를 생성합니다 
+    var moveLatLon = new kakao.maps.LatLng(lat, lan);
+    
+    // 지도 중심을 이동 시킵니다
+    map.setCenter(moveLatLon);
+}
+
+
+
+
 function panTo(lat,lan) {
     // 이동할 위도 경도 위치를 생성합니다 
     var moveLatLon = new kakao.maps.LatLng(lat, lng);
@@ -861,6 +884,9 @@ function panTo(lat,lan) {
 	$('#popupSearch').fadeOut();
   
 }        
+
+
+
 </script>
 
 
@@ -878,6 +904,7 @@ $('.container-fluid').click(function (){
 	$('#popupSearch').fadeOut();
 	
 });
+
 function request_ERList_Ajax(store_id){
 	//----------------------생성한 동적 다이브에 에이젝스 송출
     $.ajax({
@@ -1047,6 +1074,7 @@ function request_ERList_Ajax(store_id){
 			     
 			   all_erjoin.forEach(function(ele,i){
 				   Object.assign(er_no, store_id);
+
 				   console.log("[ele]");
 				   console.log(er_no);
 					console.log(ele.getAttribute('id'));
@@ -1078,10 +1106,14 @@ function request_ERList_Ajax(store_id){
 					request.status,request.responseText,error,status);
 		}
 	});
+
+
 		    
      //----------------------생성한 동적 다이브에 에이젝스 송출
 	
 }
+
+
 function requets_maker_Ajax(){
 	  $.ajax({
 			url:"<c:url value='/getMarker.pbs'/>",
@@ -1111,6 +1143,7 @@ function requets_maker_Ajax(){
 				
 				
 				
+
 				
 				//마커상태를 세팅하는 함수	
 			  function setMarkers(markers) {
@@ -1144,6 +1177,7 @@ function requets_maker_Ajax(){
 					var imageSrc = '<c:url value="/resources/markers/custom_marker.png"/>', // 마커이미지의 주소입니다    
 				    imageSize = new kakao.maps.Size(37, 60), // 마커이미지의 크기입니다
 				    imageOption = {offset: new kakao.maps.Point(19,58)}; 
+
 					// 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
 					var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 				   
@@ -1177,17 +1211,23 @@ function requets_maker_Ajax(){
 						// 커스텀 오버레이는 아래와 같이 사용자가 자유롭게 컨텐츠를 구성하고 이벤트를 제어할 수 있기 때문에
 						// 별도의 이벤트 메소드를 제공하지 않습니다 
 						//오버레이아웃 컨텐츠
+						var curLatLng=marker.getPosition();
+						
+						 map.panTo(curLatLng);
 					    closeOverlay();
 						 var content =  
-							'<div id ="div_'+data.store_id+'" class="storeOverlay">' +
+							'<div id ="div_'+data.store_id+'" style="white-space: pre-line; " class="storeOverlay">' +
 							'  <div class="row">'+
 							'		<div  class="col-xs-12">'+
 							'			<div class="row" style="margin-top:-20px;">'+
-							'				<h3>'+data.store_name+'</h3>'+
+							'				<h3><a href="<c:url value="/Store/DetailView.do?username='+data.store_id+'"/>">'+data.store_name+'<a/></h3>'+
 							'			</div>'+
 							'			<hr style="margin: 0; padding: 0;">'+
 							'			<div class="row">'+
 							'				<p>'+data.store_intro+'</p>'+
+							'			</div>'+
+							'			<div class="row">'+
+							'				<p>'+data.store_addr+'</p>'+
 							'			</div>'+
 							'			<div class="row">'+
 							'				<p>'+data.store_phonenumber+'</p>'+
@@ -1274,6 +1314,8 @@ function requets_maker_Ajax(){
 									var trimExp = /\s/g;
 								 	//숫자
 									var intExp = /^[0-9]*$/;
+
+
 								 
 								 //1.ertitle 체크
 								 if($('#ERtitle').val()==""){
@@ -1422,6 +1464,8 @@ function requets_maker_Ajax(){
 	 
 	
 }
+
+
 function request_Ajax(){
 	  var dong=document.getElementById('dong').value;
 	  if(!dong){
@@ -1659,6 +1703,7 @@ function request_Ajax(){
 							}
 					});//번호클릭				
 				});//번호 모음
+
 				 for(var j in  data_array[page_no]){						
 					 //console.log(data_array[page_no][j]);
 					 $('#searchWindow').append(data_array[page_no][j]);
@@ -1725,6 +1770,7 @@ function request_Ajax(){
 			
 		}); 
 	  }
+
   var lat,lng;
 	
   $('#dong').keydown(function(e){
@@ -1737,6 +1783,7 @@ function request_Ajax(){
 	  }
 	 
   });
+
   
   function fnToaddr(index,fnlat,fnlng){	
 	  console.log("lat"+fnlat);
@@ -1748,6 +1795,7 @@ function request_Ajax(){
   
   var all_img = document.querySelectorAll(".img_size");	
   
+
 	  $('.wrapper').hide();
 	  $('.wrapper').fadeIn();
 		//마커들이 들어가는 배열
@@ -1762,6 +1810,7 @@ function request_Ajax(){
 			request_Ajax();	
 		});
 	  
+
 		
 	  	//마커 받기
 		$("#getMarker").click(function(){
@@ -1769,6 +1818,7 @@ function request_Ajax(){
 		});
 	  	
 	 
+
   
   
   //성향 클릭
@@ -1875,6 +1925,7 @@ function request_Ajax(){
 		 $('#ERtime').val(""); */
 	 });
 	  
+
 	 $('#createER').click(function(){
 			console.log("작성하기돌입");
 			$('#createERFORM').fadeIn();
@@ -1889,15 +1940,21 @@ function request_Ajax(){
 <script type="text/javascript" src="<c:url value="/resources/Time-Pic/dist/bootstrap-clockpicker.min.js"/>"></script>
 <script type="text/javascript">
 $('.clockpicker').clockpicker()
+
 .find('input').change(function(){
 	console.log(this.value);
 });
+
 var input = $('#single-input').clockpicker({
 	placement: 'bottom',
 	align: 'left',
 	autoclose: true,
 	'default': 'now'
 });
+
+
+
+
 // Manually toggle to the minutes view
 $('#check-minutes').click(function(e){
 	// Have to stop propagation here
@@ -1908,11 +1965,14 @@ $('#check-minutes').click(function(e){
 if (/mobile/i.test(navigator.userAgent)) {
 	$('input').prop('readOnly', true);
 }
+
+
 $(".input-group-addon").click(function(){
 	console.log("시계버튼클릭")
 	$('#timepic').css('z-index','999999');
 	$('#timepic').css('position','absolute');
 	$('#timepic').css('background-color','#FAFAFA');
+
 	
 });
 $("#ERtime").click(function(){
@@ -1920,6 +1980,9 @@ $("#ERtime").click(function(){
 	$('#timepic').css('z-index','999999');
 	$('#timepic').css('position','absolute');
 	$('#timepic').css('background-color','#FAFAFA');
+
 	
 });
+
+
 </script>

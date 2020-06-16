@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace속성:매퍼파일의 완전한경로.xml는 생략 -->
+<!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
+<mapper namespace="mybatis.SearchMap">
+
+	<select id="getStoreDetailInfo" parameterType="java.util.Map" resultType="storeDTO">
+     select * from Stores s join foodmenu f on s.username = f.username where s.username = #{username}
+    </select>
+    
+ 	 <select id="getReviewCount" parameterType="java.util.Map" resultType="int">
+    	 select count(*) from storereview where store_name = #{username}
+    </select>
+ 	 <select id="getFoodMenu" parameterType="java.util.Map" resultType="foodMenuDTO">
+    	 select * from foodmenu where username = #{username}
+    </select>
+    
+     <select id="getStoreIMG" parameterType="java.util.Map" resultType="storeIMGDTO">
+    	 select * from store_file where username = #{username}
+    </select>
+    
+     <select id="getFoodIMG" parameterType="java.lang.String" resultType="foodIMGDTO">
+    	 select * from fm_file where menu_no = #{menu_no}
+    </select>
+    
+    <update id="updateStoreAvg" parameterType="java.util.Map">
+    	update store_avg set sa_avg=#{starCount} where  store_id=#{store_id} and user_id=#{user_id}
+    </update>
+    
+    <insert id="insertStoreAvg"  parameterType="java.util.Map">
+    	insert into store_avg values(SEQ_SA.nextval,#{store_id},#{starCount},#{user_id})
+    </insert>
+    
+    <select id="selectAvg" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_avg where store_id=#{store_id} and user_id=#{user_id}
+    </select>
+     <select id="getStoreAvg" parameterType="java.util.Map" resultType="float">
+    	select avg(sa_avg) from store_avg where store_id=#{username}
+    </select>
+    
+     <select id="selectThumb" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_thumb where user_id=#{user_id}
+    </select>
+    
+	<delete id="deleteThumb" parameterType="java.util.Map">
+    	delete store_thumb where store_id=#{store_id} and user_id=#{user_id}
+    </delete>
+    
+    <insert id="insertThumb"  parameterType="java.util.Map">
+    	insert into store_thumb values(SEQ_thumb.nextval,#{store_id},#{user_id})
+    </insert>
+    
+     <select id="getStoreThumb" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_thumb where store_id=#{username}
+    </select>
+        <select id="isThumb" parameterType="java.util.Map" resultType="int">
+    	select count(*) from store_thumb where store_id=#{username} and user_id=#{user_id}
+    </select>
+</mapper>

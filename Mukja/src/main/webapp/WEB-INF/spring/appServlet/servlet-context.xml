@@ -46,11 +46,16 @@
 	<!-- 리소스파일(.properties) 사용을 위한 설정 -->
 	<context:property-placeholder location="classpath:memo/memo.properties"/>
 	
-	
 	<!-- 웹소켓 서버용 빈 만들기 -->
 	<beans:bean id="chatServer" class="com.kosmo.mukja.web.Erchat"/>
 	<!-- 웹소켓 서버와 클라이언트에서 접속하는 path와 매핑 -->
 	<websocket:handlers>
 		<websocket:mapping handler="chatServer" path="/chat.do"/>
 	</websocket:handlers>
+	
+	<!-- 파일 업로드 관련 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <beans:property name="defaultEncoding" value="UTF-8"/>  
+    </beans:bean>
+
 </beans:beans>

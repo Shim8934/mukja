@@ -32,7 +32,6 @@
 				<!-- 로그인 -->
 				<div class="col-md-offset-3 col-md-6 ftco-animate makereservation p-4 p-md-5" >
 					<form action="<c:url value='/LoginProcess.bbs'/>" method="post" >
-					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 						<table style="width: 100%;">
 						<tr >
 							<td style="width:80%">

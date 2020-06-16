@@ -1,28 +1,47 @@
 package com.kosmo.mukja.web;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
-import com.kosmo.mukja.service.PagingUtil;
+import com.kosmo.mukja.service.FileUploadService;
+import com.kosmo.mukja.web.util.PagingUtil;
 
 @Controller
 public class AdminController {
 	
 	@Resource(name="adminService")
 	private AdminService adminService;
+	
+	@Resource(name="fileUploadService")
+	private FileUploadService fileUploadService;
 
 	//리소스파일(resource.properties)에서 읽어오기
 	@Value("${PAGE_SIZE}")
@@ -103,8 +122,8 @@ public class AdminController {
 	
 	
 	
-	// 주영형 담당 공지사항 리스트 컨트롤러
-	@RequestMapping(value="/NoticeList.bbs", method=RequestMethod.GET)
+	// 공지사항 리스트 컨트롤러
+	@RequestMapping(value="/NoticeList.bbs")
 	public String noticeList(@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
 			HttpServletRequest req,//컨텍스트 루트 얻기용
@@ -112,6 +131,8 @@ public class AdminController {
 		//서비스 호출]
 		//페이징을 위한 로직 시작]
 		//전체 레코드수	
+		String searchColumn = "";
+		String searchWord = "";
 		int totalRecordCount = adminService.getTotalRecord(map);
 		//전체 페이지수]
 		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
@@ -123,7 +144,16 @@ public class AdminController {
 		map.put("end", end);
 		List<AdminDTO> list = adminService.selectList(map);
 		//데이타 저장]
-		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/NoticeList.bbs?");
+		if(map.get("searchColumn")!=null && map.get("searchWord")!=null) {
+			searchColumn = map.get("searchColumn").toString();
+			searchWord = map.get("searchWord").toString();
+		}
+		else {
+			searchColumn ="";
+			searchWord = "";
+		}
+		
+		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/NoticeList.bbs?", searchColumn, searchWord);
 		System.out.println("list 존재?"+list);
 		model.addAttribute("list", list);
 		model.addAttribute("pagingString", pagingString);
@@ -141,27 +171,79 @@ public class AdminController {
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
 		
-		return "/Notice/View.admins";
+		return "Notice/View.admins";
 	}
 	
-	// 주영형 담당 공지사항 등록 컨트롤러
+	// 공지사항 등록 페이지 이동
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
-	public String writeNotice(Locale locale, String str) {
-		
+	public String moveWriteNotice(Authentication auth, Model model) {
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		String username = userDetails.getUsername();		
+		model.addAttribute("username",username);
 		return "Notice/Write.admins";
 	}
 	
-	// 주영형 담당 공지사항 수정 컨트롤러
-	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
-	public String editNotice(Locale locale, String str) {
+	// 공지사항 등록 컨트롤러 (본격 등록)
+	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
+	public String writeNotice(MultipartHttpServletRequest req,
+							  Authentication auth,
+							  Model model,
+							  @RequestParam Map map) throws Exception {
+		System.out.println("MultipartHttpServletRequest 테스팅 : "+req);
+		Iterator<String> fileNames = req.getFileNames();
+		while(fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mtfile = req.getFile(fileName);
+			File file = new File(fileName);
+			if(mtfile.getSize()!=0) {
+				if(!file.exists()) { // 파일 존재 체크
+					if(file.getParentFile().mkdirs()) { // 경로 생성
+						try {
+							file.createNewFile();
+						} catch(Exception e) {e.printStackTrace();}
+					}
+				}
+				try {
+					mtfile.transferTo(file);
+				} catch(Exception e) {e.printStackTrace();}
+			}
+		}
+		System.out.println("맵 체크 중  :  "+map.get("NT_TITLE").toString());
 		
+		
+		adminService.insert(map);
+		
+		return "Notice/List.admins";
+	}
+	
+	/*
+	// 공지사항 등록 컨트롤러 (본격 등록)
+	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
+	public String writeNotice(@RequestParam Map map,
+							  Model model) {
+		String username = map.get("username").toString();
+		System.out.println(username);
+		model.addAttribute("username",username);
+		
+		adminService.insert(map);
+		return "Notice/List.admins";
+		
+	}
+	*/
+	
+	// 공지사항 수정 컨트롤러
+	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
+	public String editNotice() {
 		return "Notice/Edit.admins";
 	}
 	
-	// 주영형 담당 공지사항 삭제 컨트롤러
+	// 공지사항 삭제 컨트롤러
 	@RequestMapping(value="/DeleteNotice.bbs", method=RequestMethod.GET)
-	public String deleteNotice(Locale locale, String str) {
-		
+	public String deleteNotice(@RequestParam Map map) {
+		int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
+		map.put("NT_NO", NT_NO);
+		System.out.println(NT_NO);
+		adminService.delete(map);
 		return "Notice/List.admins";
 	}
 	

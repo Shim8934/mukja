@@ -32,8 +32,7 @@
 	</select>
 	
 	<delete id="noticeDelete" parameterType="java.util.Map">
-		Delete n.*,username FROM notice n JOIN admin a ON n.username=a.username  
-		WHERE no = #{no}
+		Delete FROM notice WHERE NT_NO = #{NT_NO}
 	</delete>
 	
 	<update id="noticeUpdate" parameterType="java.util.Map">
@@ -41,8 +40,18 @@
 	</update>
 	
 	<insert id="noticeInsert" parameterType="java.util.Map">
-		INSERT INTO notice(no,title,content,username)
-		VALUES(SEQ_notice.NEXTVAL,#{title},#{content},#{id})
+		<if test="NT_IMG == null">
+			INSERT INTO notice(NT_NO,NT_TITLE,NT_CONTENT,username)
+			VALUES(SEQ_notice.NEXTVAL,#{NT_TITLE},#{NT_CONTENT},#{username})
+		</if>
+		<if test="NT_IMG != null">
+			INSERT INTO notice(NT_NO,NT_TITLE,NT_CONTENT,username,NT_IMG)
+			VALUES(SEQ_notice.NEXTVAL,#{NT_TITLE},#{NT_CONTENT},#{username},#{NT_IMG})
+		</if>
+	</insert>
+	<insert id="bbsFileInsert" parameterType="java.util.Map">
+			INSERT INTO BBS_FILE(BF_NO,NT_NO,BF_PATH)
+			VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
 	</insert>
 	<!-- 공지사항(Notice) 끝 -->
 </mapper>

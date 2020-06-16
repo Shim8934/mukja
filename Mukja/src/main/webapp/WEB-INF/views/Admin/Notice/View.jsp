@@ -39,13 +39,18 @@
 								${record.NT_CONTENT }
 							</div>
 						</div>
-							
+						<div class="text-center"><h6 class="text-uppercase font-size-md font-weight-normal">${record.NT_IMG}</h6></div>							
 						<div>
 						</div>
 						<div class="d-block text-center card-footer">
-							<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
-								<i class="pe-7s-trash btn-icon-wrapper"></i>
-							</button>
+							<a href="<c:url value="/DeleteNotice.bbs?NT_NO=${record.NT_NO}"/>">
+								<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
+								<i class="pe-7s-trash btn-icon-wrapper"></i></button>
+							</a>
+							<a href="<c:url value="/EditNotice.bbs"/>">
+								<button class="mr-2 btn-icon btn-icon-only btn btn-outline-info">
+								<i class="pe-7s-diskette btn-icon-wrapper"></i></button>
+							</a>
 						</div>
 						</div>
 						<!-- tab-content -->
