@@ -190,20 +190,22 @@ public class AdminController {
 							  HttpServletRequest req,
 							  Authentication auth,
 							  Model model) throws Exception {
+		int i=1;
 		System.out.println("req 제대로 됨..?   "+req);
 		String sFileName;
 		String name;
 		String saveDirectory = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
 		MultipartRequest mr = FileUtility.upLoad(req, saveDirectory);
-		StringBuffer fileBuf = new StringBuffer();
+		
 		Enumeration<String> fileNames = mr.getFileNames();
 		while(fileNames.hasMoreElements()) {
 			name = fileNames.nextElement();
 			sFileName= mr.getFilesystemName(name);
 			System.out.println(sFileName);
-			fileBuf.append(sFileName);
 			map.put("BF_PATH",saveDirectory+File.separator+sFileName);
 			System.out.println(saveDirectory+File.separator+sFileName);
+			System.out.println("i체크 = "+i);
+			i++;
 		}
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		String username = userDetails.getUsername();
@@ -211,7 +213,7 @@ public class AdminController {
 		System.out.println("MR 체크  "+mr.getParameter("NT_TITLE"));
 		map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
 		map.put("NT_CONTENT",mr.getParameter("NT_CONTENT"));
-		map.put("NT_IMG", fileBuf.toString());
+		// map.put("NT_IMG", fileBuf.toString());
 		adminService.insert(map);
 		
 		return "Notice/List.admins";
