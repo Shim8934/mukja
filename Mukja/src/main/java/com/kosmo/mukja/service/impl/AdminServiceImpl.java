@@ -60,13 +60,13 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public AdminDTO selectPrev(Map map) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectPrev(map);
 	}
 
 	@Override
 	public AdminDTO selectNext(Map map) {
 		// TODO Auto-generated method stub
-		return null;
+		return dao.selectNext(map);
 	}
 
 }

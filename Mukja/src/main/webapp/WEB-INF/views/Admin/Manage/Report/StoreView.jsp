@@ -1,44 +1,52 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
- <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-	
-	<!-- 테이블 감싸는 div Content 시작 -->
-	  <div class="content">
-        <div class="container-fluid">
-          <div class="row">            
-            <div class="col-md-12">
-              <div class="card card-plain">
-                <div class="card-header card-header-primary">
-                  <h4 class="card-title mt-0"> 신고 목록</h4>
-                  <!-- <p class="card-category"> 전체 목록 정리</p> -->
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover">
-                      <thead class="">
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Country</th>
-                        <th>City</th>
-                        <th>Salary</th>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Dakota Rice</td>
-                          <td>Niger</td>
-                          <td>Oud-Turnhout</td>
-                          <td>$36,738</td>
-                        </tr>
-                        
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- 테이블 감싸는 Content div 끝 -->
+
+
+<div class="app-main__outer">
+	<div class="app-main__inner">
+		<div class="app-page-title">
+			<div class="page-title-wrapper">
+				<div class="page-title-icon">
+					<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"> </i>
+				</div>
+				<!-- page-title-icon끝 -->
+			</div>
+			<!-- page-title-wrapper끝 -->
+		</div>
+		<!-- 여기까지는 항상 고정!!! 아래에 내용 작성  / app-main__inner 본내용 시작  -->
+		<div class="col-lg-12">
+			<div class="main-card mb-3 card">
+				<div class="card-body">
+					<h5 class="card-title">신고 목록</h5>
+					<table class="mb-0 table table-striped">
+						<thead>
+							<tr>
+								<th>신고 제목</th>
+								<th>신고자</th>
+								<th>신고 대상자</th>
+								<th>신고 내용</th>
+								<th>신고 일시</th>
+								<th>신고 처리 상태</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>Mark</td>
+								<td>Otto</td>
+								<td>@mdo</td>
+								<td>@mdo</td>
+								<td>@mdo</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<!-- app-main__inner 끝 -->
+</div>
+<!-- app-main__outer 끝 -->

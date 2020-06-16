@@ -24,8 +24,18 @@
 					${record.NT_TITLE }
 					<div class="btn-actions-pane-right">
 						<div role="group" class="btn-group-sm btn-group">
+						<c:if test="${empty prev}" var="isPrev">
+							<a href="#"><button class="btn btn-transition btn-outline-light">이전 글</button></a>
+						</c:if>
+						<c:if test="${not isPrev}">
 							<a href="<c:url value="/OneNoticeView.bbs?NT_NO=${prev.NT_NO}"/>"><button class="btn btn-transition btn-outline-light">이전 글</button></a>
+						</c:if>
+						<c:if test="${empty next}" var="isNext">
+							<a href="#"><button class="btn btn-transition btn-outline-light">다음 글</button></a>
+						</c:if>
+						<c:if test="${not isNext}">
 							<a href="<c:url value="/OneNoticeView.bbs?NT_NO=${next.NT_NO}"/>"><button class="btn btn-transition btn-outline-light">다음 글</button></a>
+						</c:if>
 						</div>
 					</div>
 				</div>

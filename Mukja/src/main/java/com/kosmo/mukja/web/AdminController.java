@@ -76,17 +76,31 @@ public class AdminController {
 
 	// 2-1) 유저신고 리스트 컨트롤러
 	@RequestMapping(value = "/UserReportList.bbs", method = RequestMethod.GET)
-	public String reportList(Locale locale, Model model) {		
+	public String userReportList(Locale locale, Model model) {		
 		
 		return "Manage/Report/UserList.admins";
 	}
 	
-	// 2-2) 신고 관리 컨트롤러
-	@RequestMapping(value = "/AdminReportManage.bbs", method = RequestMethod.GET)
-	public String reportManage(Locale locale, Model model) {		
+	// 2-2) 유저 신고 관리 컨트롤러
+	@RequestMapping(value = "/UserAdminReportManage.bbs", method = RequestMethod.GET)
+	public String userReportManage(Locale locale, Model model) {		
 		
-		return "Manage/Report/View.admins";
-	}	
+		return "Manage/Report/UserView.admins";
+	}
+	
+	// 2-1) 유저신고 리스트 컨트롤러
+	@RequestMapping(value = "/StoreReportList.bbs", method = RequestMethod.GET)
+	public String storeReportList(Locale locale, Model model) {		
+		
+		return "Manage/Report/StoreList.admins";
+	}
+	
+	// 2-2) 유저 신고 관리 컨트롤러
+	@RequestMapping(value = "/StoreAdminReportManage.bbs", method = RequestMethod.GET)
+	public String storeeportManage(Locale locale, Model model) {		
+		
+		return "Manage/Report/StoreView.admins";
+	}
 	
 	// 3-1) 가게 메뉴 리스트 컨트롤러
 	@RequestMapping(value="/AdminStoreList.bbs", method=RequestMethod.GET)
@@ -155,7 +169,9 @@ public class AdminController {
 			searchColumn ="";
 			searchWord = "";
 		}
-		
+		model.addAttribute("totalRecordCount",totalRecordCount);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("nowPage",nowPage);
 		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/NoticeList.bbs?", searchColumn, searchWord);
 		System.out.println("list 존재?"+list);
 		model.addAttribute("list", list);
@@ -167,10 +183,21 @@ public class AdminController {
 	public String oneViewNotice(@RequestParam Map map, Model model) {
 		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
 		AdminDTO record = adminService.selectOne(map);
+		System.out.println(record);
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
-		model.addAttribute("record",record);
+		System.out.println(record);
+		
 		AdminDTO prev = adminService.selectPrev(map);
+		System.out.println(map);
+		System.out.println(prev);
 		AdminDTO next = adminService.selectNext(map);
+		System.out.println(map);
+		System.out.println(next);
+		
+		model.addAttribute("record",record);
+		model.addAttribute("prev",prev);
+		model.addAttribute("next",next);
+		System.out.println(prev==null?"널이래":"널아니래");
 		return "Notice/View.admins";
 	}
 	

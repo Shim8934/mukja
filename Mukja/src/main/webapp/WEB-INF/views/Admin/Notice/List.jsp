@@ -44,7 +44,7 @@
 							<c:forEach items="${list}" var="item" varStatus="loop">
 							<tbody>
 								<tr>
-									<td style="text-align: center;">${item.NT_NO}</td>
+									<td style="text-align: center;">${totalRecordCount - (((nowPage-1)*pageSize)+loop.index)}</td>
 									<td style="text-align: center;">
 										<a href='<c:url value="/OneNoticeView.bbs?NT_NO=${item.NT_NO}"/>'>${item.NT_TITLE}</a></td>
 									<td style="text-align: center;">${item.username}</td>
