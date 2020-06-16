@@ -26,14 +26,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
 import com.kosmo.mukja.service.FileUploadService;
-import com.kosmo.mukja.web.util.FileUtility;
 import com.kosmo.mukja.web.util.PagingUtil;
-import com.oreilly.servlet.MultipartRequest;
 
 @Controller
 public class AdminController {
@@ -186,32 +185,32 @@ public class AdminController {
 	
 	// 공지사항 등록 컨트롤러 (본격 등록)
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-	public String writeNotice(@RequestParam Map map,
-							  HttpServletRequest req,
+	public String writeNotice(MultipartHttpServletRequest req,
 							  Authentication auth,
-							  Model model) throws Exception {
-		System.out.println("req 제대로 됨..?   "+req);
-		String sFileName;
-		String name;
-		String saveDirectory = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
-		MultipartRequest mr = FileUtility.upLoad(req, saveDirectory);
-		StringBuffer fileBuf = new StringBuffer();
-		Enumeration<String> fileNames = mr.getFileNames();
-		while(fileNames.hasMoreElements()) {
-			name = fileNames.nextElement();
-			sFileName= mr.getFilesystemName(name);
-			System.out.println(sFileName);
-			fileBuf.append(sFileName);
-			map.put("BF_PATH",saveDirectory+File.separator+sFileName);
-			System.out.println(saveDirectory+File.separator+sFileName);
+							  Model model,
+							  @RequestParam Map map) throws Exception {
+		System.out.println("MultipartHttpServletRequest 테스팅 : "+req);
+		Iterator<String> fileNames = req.getFileNames();
+		while(fileNames.hasNext()) {
+			String fileName = fileNames.next();
+			MultipartFile mtfile = req.getFile(fileName);
+			File file = new File(fileName);
+			if(mtfile.getSize()!=0) {
+				if(!file.exists()) { // 파일 존재 체크
+					if(file.getParentFile().mkdirs()) { // 경로 생성
+						try {
+							file.createNewFile();
+						} catch(Exception e) {e.printStackTrace();}
+					}
+				}
+				try {
+					mtfile.transferTo(file);
+				} catch(Exception e) {e.printStackTrace();}
+			}
 		}
-		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		String username = userDetails.getUsername();
-		map.put("username", username);
-		System.out.println("MR 체크  "+mr.getParameter("NT_TITLE"));
-		map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
-		map.put("NT_CONTENT",mr.getParameter("NT_CONTENT"));
-		map.put("NT_IMG", fileBuf.toString());
+		System.out.println("맵 체크 중  :  "+map.get("NT_TITLE").toString());
+		
+		
 		adminService.insert(map);
 		
 		return "Notice/List.admins";
