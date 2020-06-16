@@ -66,12 +66,6 @@
   jQuery( document ).ready(function( $ ) {
 
     $( "#ERCwindow" ).draggable();
-  
-    $('#star_grade a').click(function(){
-        $(this).parent().children("a").removeClass("on");  /* 별점의 on 클래스 전부 제거 */ 
-        $(this).addClass("on").prevAll("a").addClass("on"); /* 클릭한 별과, 그 앞 까지 별점에 on 클래스 추가 */
-    });
-    
   } );
   </script>
 <style>
@@ -82,13 +76,14 @@
    overflow-x:hidden; overflow-y:auto;
    }
    
-   #star_grade a{
-    text-decoration: none;
-    color: #D3E4F5;
-    }
+ 	#star_grade a{
+	    text-decoration: none;
+	    color: #D3E4F5;
+    } 
     
-    #star_grade a.on{
-        color: #1CB2E2;
+   .onStar{
+        color: #179CC6  !important;
+        
     }
    
    .casize{
@@ -140,7 +135,6 @@
  	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
  }
  .chat_board{
-
  	position:relative;
  	z-index:9999999;
  	top:50%;

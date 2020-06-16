@@ -1,5 +1,6 @@
 package com.kosmo.mukja.web;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
@@ -75,5 +77,20 @@ public class StoreDetailController {
 		model.addAttribute("allFoodImgList",allFoodImgList);
 		System.out.println("allFoodImgList:"+allFoodImgList.toString());
 		return "/Store/DetailView.tiles";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateStoreAvg.do")
+	public String updateStoreAvg(@RequestParam Map map) {
+		System.out.println("------------------updateStoreAvg----------");
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		int result = service.updateStoreAvg(map);
+		
+		return "{'result':"+result+"}";
 	}
 }
