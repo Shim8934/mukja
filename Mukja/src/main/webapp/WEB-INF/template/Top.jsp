@@ -51,16 +51,18 @@
 					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
 					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
 				</sec:authorize>
-				<sec:authorize access="isAuthenticated()">
+				<sec:authorize access="hasRole('ROLE_USER')">
 					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
 					<li class="nav-item"><a href="<c:url value="/Mypage.bbs"/>"class="nav-link">MyPage</a></li>
 				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin</a></li>
+				<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_STORE')">
-				<li class="nav-item"><a href="<c:url value="/Store.bbs"/>"class="nav-link">Store</a></li>
+				<li class="nav-item"><a href="<c:url value="/StroeMypage/StroeMypageMain.do"/>"class="nav-link">MyPage</a></li>
+				<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
 				</sec:authorize>
 			</ul>
 		</div>
