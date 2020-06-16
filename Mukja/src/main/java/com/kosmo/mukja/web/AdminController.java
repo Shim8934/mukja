@@ -209,7 +209,6 @@ public class AdminController {
 		
 		// MultipartHttpServletRequest로 얻어온 파일 데이터를 MultipartFile객체로 저장
 		// 이건 필요한지 모르겠음.
-		MultipartFile mpFile = req.getFile(fileName);
 		
 		// 파일 input 태그(name=NT_IMG)로 얻어온 파일들 저장할 리스트 선언  
 		List<MultipartFile> fileList = req.getFiles("NT_IMG");
@@ -223,7 +222,7 @@ public class AdminController {
 			System.out.println(NT_IMG);
 			if(!fileName.equals("")) {
 				try {
-					FileOutputStream fs = new FileOutputStream(path+fileName);
+					FileOutputStream fs = new FileOutputStream(path+"/"+fileName);
 					fs.write(filePart.getBytes());
 					fs.close();
 				} catch(IOException e) {e.printStackTrace();}
