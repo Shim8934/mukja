@@ -54,17 +54,7 @@ public class AdminDAO implements AdminService{
 	// 글 등록 // 파일 존재 시 경우의 수로 insert문 실행
 	@Override
 	public int insert(Map map) {
-		if(map.get("NT_IMG")==null) {
 			return sqlMapper.insert("noticeInsert",map);
-		}
-		else {
-			System.out.println("파일 저장하기 시작");
-			sqlMapper.insert("noticeInsert",map);
-			System.out.println("NT_NO?  "+map.get("NT_NO"));
-			map.put("NT_NO", map.get("NT_NO"));
-			System.out.println("파일 경로 따로 저장?");
-			return sqlMapper.insert("bbsFileInsert",map);
-		}
 	}
 
 	// 글 수정

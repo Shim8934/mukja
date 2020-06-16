@@ -32,8 +32,7 @@
 	</select>
 	
 	<delete id="noticeDelete" parameterType="java.util.Map">
-		Delete n.*,username FROM notice n JOIN admin a ON n.username=a.username  
-		WHERE no = #{no}
+		Delete FROM notice WHERE NT_NO = #{NT_NO}
 	</delete>
 	
 	<update id="noticeUpdate" parameterType="java.util.Map">
