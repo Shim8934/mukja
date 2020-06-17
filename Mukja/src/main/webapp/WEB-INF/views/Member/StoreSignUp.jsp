@@ -193,11 +193,11 @@ section {
 											</div>
 										</div>
 										<div class="col-md-offset-3 col-md-6">
-											<a class="btn btn-primary py-3 px-5" href="#carousel-g"
-												data-slide="prev" id="btnleft" style="color: white"><<
-												이전</a> <a class="btn btn-primary py-3 px-5" href="#carousel-g"
+											<a class="btn btn-primary py-3 px-5" 
+												data-slide="prev" id="btnleft" style="color: white">&lt;&lt;
+												이전</a> <a class="btn btn-primary py-3 px-5"
 												data-slide="next" id="btnright"
-												style="color: white; float: right">다음 >></a>
+												style="color: white; float: right">다음 &gt;&gt;</a>
 										</div>
 									</div>
 								</div>
@@ -331,7 +331,7 @@ section {
 														</div>
 														<div class="form-group">
 															<a class="btn btn-primary py-3 px-5" href="#carousel-g"
-																data-slide="prev" id="btnleft" style="color: white"><<
+																data-slide="prev" id="btnleft" style="color: white">&lt;&lt;
 																이전</a> <input type="submit" value="회원가입"
 																class="btn btn-primary py-3 px-5"
 																style="font-size: 20px; float: right;">
@@ -441,25 +441,25 @@ ertend_codes.forEach(function(ele,index){
 
 	<script><!--유효성 검사 하기-->
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
-
-
-	$(".container").keyup(function() {
 		//모든 공백 체크 정규식
 		var empJ = /\s/g;
 		//아이디 정규식
 		var idJ = /^[a-z0-9]{4,12}$/;
 		// 비밀번호 정규식
-		var pwJ = /^[A-Za-z0-9]{4,12}$/; 
+		var pwJ = /^[A-Za-z0-9]{6,12}$/; 
 		// 이름 정규식
 		var nameJ = /^[가-힣]{2,6}$/;
 		// 이메일 검사 정규식
-		var mailJ = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+		var mailJ = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		// 휴대폰 번호 정규식
 		var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-		user = $("#username").val();
+
+// 		id 유효성 검사 하기
+		$("#username").keyup(function() {
+		username = $("#username").val();
 		$.ajax({
 			url : "<c:url value='/idCheck.bbs'/>",
-			data: $('#frm').serialize(),
+			data:  {"username":username},
 			dataType: 'json',
 			success : function(data) {			
 				if (data==1) {
@@ -468,12 +468,11 @@ ertend_codes.forEach(function(ele,index){
 						$("#id_check").css("color", "red");
 					} 
 				else {
-					if(user.keyup()){
-						if(idJ.test(user)){
+						if(idJ.test(username)){
 							// 0 : 아이디 길이 / 문자열 검사
 							$("#id_check").text("");
 						} 
-						else if(user == ""){
+						else if(username == ""){
 							$('#id_check').text('아이디를 입력해주세요');
 							$('#id_check').css('color', 'red');		
 						} 
@@ -482,30 +481,57 @@ ertend_codes.forEach(function(ele,index){
 							$('#id_check').css('color', 'red');	
 						}
 					}
-					
-					if (nameJ.test($("#store_name").val())){
-						$("#name_check").text('');
-					} 
-					else{
-						 $('#name_check').text('가게 이름을 확인해주세요');
-						 $('#name_check').css('color', 'red');
-					}
-					if(phoneJ.test($("#store_phnum").val())){
-					  console.log(nameJ.test($(this).val()));
-						$("#phnum_check").text('');
-					} 
-					else {
-						 $('#phnum_check').text('휴대폰번호를 확인해주세요 :)');
-						 $('#phnum_check').css('color', 'red');
-					}
-				}
-			
-			}, error : function() {console.log("실패");}
+				}, error : function() {console.log("실패");}
 		});
 	});
+	
+// 비밀번호 검사 하기
+var password;
+$("#password").keyup(function() {	
+		password = $(this).val();
+		if(pwJ.test(password)){ $('#password_check').text("") } 
+		else{
+			$('#password_check').text('숫자나 문자로 6~12자리 입력')
+			$('#password_check').css('color', 'red');
+		}	
+});
+
+$("#passwordok").keyup(function() {	
+	passwordok = $(this).val();
+		if(password == passwordok){ 
+			$('#passwordok_check').text("") 
+			} 
+		else{
+			$('#passwordok_check').text('비밀번호가 일치 하지 않습니다.')
+			$('#passwordok_check').css('color', 'red');
+		}	
+});
+
+// 이메일 검사 하기
+
+$("#store_email").keyup(function() {	
+		email = $(this).val();
+		if(mailJ.test(email)){ $('#email_check').text("") } 
+		else{
+			$('#email_check').text('이메일 형식이 아닙니다.')
+			$('#email_check').css('color', 'red');
+		}	
+});
+
+//사업자 등록번호 검사 하기
+
+$("#store_reginum").keyup(function() {	
+		email = $(this).val();
+		if(mailJ.test(email)){ $('#reginum_check').text("") } 
+		else{
+			$('#reginum_check').text('이메일 형식이 아닙니다.')
+			$('#reginum_check').css('color', 'red');
+		}	
+});
+
+
 
 </script>
-
 
 </body>
 </html>

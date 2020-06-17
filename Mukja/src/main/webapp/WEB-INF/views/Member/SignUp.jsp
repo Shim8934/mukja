@@ -107,7 +107,7 @@ section {
 		<div class="container" id='signup'>
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
-					<form action="<c:url value='/StoreSignUp.bbs'/>" method="post">
+					<form action="<c:url value='/isSignUp.bbs'/>" method="post">
 						<div class="row">
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group" id="input">
@@ -176,7 +176,7 @@ section {
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<label for="">관심지역</label> <a onclick="addr();"><input
-										type="text" class="form-control" id="addr" name="addr"
+										type="text" class="form-control" id="u_addr" name="u_addr"
 										placeholder="관심지역을 선택하세요"></a> <input type="hidden"
 										id="u_lat" name="u_lat" /> <input type="hidden" id="u_lng"
 										name="u_lng" />
@@ -321,12 +321,6 @@ section {
 	<script
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
 	<script>
-  	$( function() { 
-  		$( "#accordion" ).accordion();
-  	}
-  	);
-  </script>
-	<script>
     function addr() {
     	var geocoder = new daum.maps.services.Geocoder();
     	var width = 400; 
@@ -337,7 +331,7 @@ section {
              oncomplete: function(data) {
                 var addr = data.address; // 최종 주소 변수
                 // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("addr").value = addr;
+                document.getElementById("u_addr").value = addr;
                 // 주소로 상세 정보를 검색
                 geocoder.addressSearch(data.address, function(results, status) {
                     // 정상적으로 검색이 완료됐으면

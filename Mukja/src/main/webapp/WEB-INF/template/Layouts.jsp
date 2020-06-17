@@ -55,16 +55,16 @@
   
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
    <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"/></script>
 	<!-- anime.js  https://animejs.com/documentation/#duration -->
-	<script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
+   <script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
 	
 	
 	 
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
   <script>
   jQuery( document ).ready(function( $ ) {
 
