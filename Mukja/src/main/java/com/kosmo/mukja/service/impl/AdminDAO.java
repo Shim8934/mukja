@@ -75,6 +75,54 @@ public class AdminDAO implements AdminService{
 		// TODO Auto-generated method stub
 		return sqlMapper.selectOne("noticeSelectNext",map);
 	}
+
+	@Override
+	public List<AdminDTO> selectUserRpList(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectList("UsRpList",map);
+	}
+
+	@Override
+	public int getUsRPTotalRecord(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpGetTotalRecord",map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPOne(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpOne",map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPPrev(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpSelectPrev",map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPNext(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpSelectNext",map);
+	}
+
+	@Override
+	public int deleteUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.delete("",map);
+	}
+
+	@Override
+	public int insertUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("",map);
+	}
+
+	@Override
+	public int updateUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("UsRpUpdate",map);
+	}
 	
 
-}
+}//////class AdminDAO

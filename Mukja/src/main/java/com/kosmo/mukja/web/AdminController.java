@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -74,30 +75,86 @@ public class AdminController {
 		return "Manage/BlackList/View.admins";
 	}
 
-	// 2-1) 유저신고 리스트 컨트롤러
+	// 2-1-1) 유저신고 리스트 컨트롤러
 	@RequestMapping(value = "/UserReportList.bbs", method = RequestMethod.GET)
-	public String userReportList(Locale locale, Model model) {		
+	public String userReportList(@RequestParam Map map,
+								 @RequestParam(required = false,defaultValue = "1") int nowPage,
+								 HttpServletRequest req,
+								 Model model) {		
+		String searchColumn = "";
+		String searchWord = "";
+		int totalRecordCount = adminService.getUsRPTotalRecord(map);
+		//전체 페이지수]
+		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		//시작 및 끝 ROWNUM구하기]
+		int start = (nowPage-1)*pageSize+1;
+		int end   = nowPage*pageSize;	
+		//페이징을 위한 로직 끝]	
+		map.put("start", start);
+		map.put("end", end);
+		List<AdminDTO> list = adminService.selectUserRpList(map);
+		//데이타 저장]
+		if(map.get("searchColumn")!=null && map.get("searchWord")!=null) {
+			searchColumn = map.get("searchColumn").toString();
+			searchWord = map.get("searchWord").toString();
+		}
+		else {
+			searchColumn ="";
+			searchWord = "";
+		}
 		
+		System.out.println(map.toString());
+		model.addAttribute("totalRecordCount",totalRecordCount);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("nowPage",nowPage);
+		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/UserReportList.bbs?", searchColumn, searchWord);
+		System.out.println("list 존재?"+list);
+		model.addAttribute("list", list);
+		model.addAttribute("pagingString", pagingString);
 		return "Manage/Report/UserList.admins";
 	}
 	
-	// 2-2) 유저 신고 관리 컨트롤러
-	@RequestMapping(value = "/UserAdminReportManage.bbs", method = RequestMethod.GET)
-	public String userReportManage(Locale locale, Model model) {		
+	// 2-1-2) 유저 신고 관리 컨트롤러
+	@RequestMapping(value = "/UserReportView.bbs", method = RequestMethod.GET)
+	public String userReportManage(@RequestParam Map map, Model model) {
+		System.out.println("UR_no 넘어옴?  "+map.get("UR_NO").toString());
+		AdminDTO record = adminService.selectUsRPOne(map);
+		record.setUR_CONTENT(record.getUR_CONTENT().replace("\r\n", "<br>"));
 		
+		AdminDTO prev = adminService.selectUsRPPrev(map);
+		System.out.println(map);
+		System.out.println(prev);
+		AdminDTO next = adminService.selectUsRPNext(map);
+		System.out.println(map);
+		System.out.println(next);
+		
+		model.addAttribute("record",record);
+		model.addAttribute("prev",prev);
+		model.addAttribute("next",next);
+		System.out.println(prev==null?"널이래":"널아니래");
 		return "Manage/Report/UserView.admins";
 	}
 	
-	// 2-1) 유저신고 리스트 컨트롤러
+	@ResponseBody
+	@RequestMapping(value = "/UsReportUpdate.bbs")
+	public String updateUserByRp(@RequestParam Map map) {
+		System.out.println(map.get("username").toString());
+		int result = adminService.updateUsRP(map);
+		JSONObject json = new JSONObject();
+		json.put("result",result==1?"성공":"실패");
+		return json.toJSONString();
+	}
+	
+	// 2-2-1) 스토어신고 리스트 컨트롤러
 	@RequestMapping(value = "/StoreReportList.bbs", method = RequestMethod.GET)
-	public String storeReportList(Locale locale, Model model) {		
+	public String storeReportList(@RequestParam Map map, Model model) {		
 		
 		return "Manage/Report/StoreList.admins";
 	}
 	
-	// 2-2) 유저 신고 관리 컨트롤러
+	// 2-2-2) 스토어 신고 관리 컨트롤러
 	@RequestMapping(value = "/StoreAdminReportManage.bbs", method = RequestMethod.GET)
-	public String storeeportManage(Locale locale, Model model) {		
+	public String storeeportManage(@RequestParam Map map, Model model) {		
 		
 		return "Manage/Report/StoreView.admins";
 	}
@@ -139,7 +196,6 @@ public class AdminController {
 	}	
 	
 	// 공지사항 리스트 컨트롤러
-	// 이게 목록 하는 명령
 	@RequestMapping(value="/NoticeList.bbs")
 	public String noticeList(@RequestParam Map map,
 			@RequestParam(required = false,defaultValue = "1") int nowPage,
@@ -303,34 +359,6 @@ public class AdminController {
 		return "forward:/OneNoticeView.bbs";
 	}
 	
-	@PostMapping(value="/uploadSummernoteImageFile", produces = "application/json")
-	@ResponseBody
-	public JsonObject uploadSummernoteImageFile(@RequestParam("file") MultipartFile multipartFile) {
-		
-		JsonObject jsonObject = new JsonObject();
-		
-		String fileRoot = "D:/SKY/drawable";	//저장될 외부 파일 경로
-		String originalFileName = multipartFile.getOriginalFilename();	//오리지날 파일명
-		String extension = originalFileName.substring(originalFileName.lastIndexOf("."));	//파일 확장자
-				
-		String savedFileName = UUID.randomUUID() + extension;	//저장될 파일 명
-		
-		File targetFile = new File(fileRoot + savedFileName);	
-		
-		try {
-			InputStream fileStream = multipartFile.getInputStream();
-			FileUtils.copyInputStreamToFile(fileStream, targetFile);	//파일 저장
-			jsonObject.addProperty("url", "/summernoteImage/"+savedFileName);
-			jsonObject.addProperty("responseCode", "success");
-				
-		} catch (IOException e) {
-			FileUtils.deleteQuietly(targetFile);	//저장된 파일 삭제
-			jsonObject.addProperty("responseCode", "error");
-			e.printStackTrace();
-		}
-		
-		return jsonObject;
-	}
 	
 }//////////class AdminController
 

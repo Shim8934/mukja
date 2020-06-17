@@ -31,8 +31,8 @@
 		<span>
 			<button type="button"
 				class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-				<span class="btn-icon-wrapper"> <i
-					class="fa fa-ellipsis-v fa-w-6"></i>
+				<span class="btn-icon-wrapper">
+				 <i class="fa fa-ellipsis-v fa-w-6"></i>
 				</span>
 			</button>
 		</span>
@@ -43,8 +43,8 @@
 				<div class="widget-content p-0">
 					<div class="widget-content-wrapper">
 						<div class="widget-content-right header-user-info ml-3">
-							<a href="<c:url value="/"/>"><button type="button"
-									class="btn btn-danger active ">LogOut</button></a>
+							<a href="<c:url value="/"/>">
+							<button type="button" class="btn btn-danger active ">LogOut</button></a>
 						</div>
 					</div>
 				</div>
@@ -157,7 +157,7 @@
 					<li>
 						<a href="#">
 							<i class="metismenu-icon pe-7s-display2"></i>
-							신고 내용
+							유저 신고
 							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
 						<ul>
@@ -168,8 +168,8 @@
 							</li>
 						
 							<li>
-								<a href="<c:url value="/StoreReportList.bbs"/>">
-									<i class="metismenu-icon"></i>스토어 신고 목록
+								<a href="<c:url value="/UserAdminReportManage.bbs"/>">
+									<i class="metismenu-icon"></i>유저 신고 처리
 								</a>
 							</li>						
 						</ul>
@@ -178,16 +178,15 @@
 					<li>
 						<a href="<c:url value="/AdminReportManage.bbs"/>">
 							<i class="metismenu-icon pe-7s-display2"></i>
-							신고 처리 여부
+							스토어 신고
 							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
 						<ul>
 							<li>
-								<a href="<c:url value="/UserAdminReportManage.bbs"/>">
-									<i class="metismenu-icon"></i>유저 신고 처리
+								<a href="<c:url value="/StoreReportList.bbs"/>">
+									<i class="metismenu-icon"></i>스토어 신고 목록
 								</a>
 							</li>
-						
 							<li>
 								<a href="<c:url value="/StoreAdminReportManage.bbs"/>">
 									<i class="metismenu-icon"></i>스토어 신고 처리

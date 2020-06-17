@@ -1,22 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<style>
+thead th{
+	text-align:center;
+}
+tr td{
+	text-align:center;
+}
+</style>
 
 <div class="app-main__outer">
 	<div class="app-main__inner">
-		<div class="app-page-title">
-			<div class="page-title-wrapper">
-				<div class="page-title-icon">
-                    <i class="pe-7s-drawer icon-gradient bg-happy-itmeo">
-                    </i>
-                </div>
-                <!-- page-title-icon끝 -->
-			</div>
-			<!-- page-title-wrapper끝 -->
-		</div>
-		<!-- app-page-title끝 -->
-		
 	<!-- app-main__inner 본내용 시작 -->
 	<div class="row">
 	<div class="col-md-12">
@@ -31,24 +26,24 @@
 						<table class="table table-hover" style="font-family: baedal;">
 							<thead>
 								<th></th>
-								<th style="text-align: center;">제목</th>
-								<th style="text-align: center;">작성자</th>
-								<th style="text-align: center;">작성일</th>
+								<th >제목</th>
+								<th >작성자</th>
+								<th >작성일</th>
 							</thead>
 							<c:if test="${empty list}" var="isEmpty">
 								<tr>
-									<td colspan="5" style="text-align: center;">등록된 게시물이 없습니다.</td>
+									<td colspan="5" >등록된 게시물이 없습니다.</td>
 								</tr>
 							</c:if>
 							<c:if test="${not isEmpty}">
 							<c:forEach items="${list}" var="item" varStatus="loop">
 							<tbody>
 								<tr>
-									<td style="text-align: center;">${totalRecordCount - (((nowPage-1)*pageSize)+loop.index)}</td>
-									<td style="text-align: center;">
+									<td >${totalRecordCount - (((nowPage-1)*pageSize)+loop.index)}</td>
+									<td >
 										<a href='<c:url value="/OneNoticeView.bbs?NT_NO=${item.NT_NO}"/>'>${item.NT_TITLE}</a></td>
-									<td style="text-align: center;">${item.username}</td>
-									<td style="text-align: center;">${item.NT_REGITDATE}</td>
+									<td >${item.username}</td>
+									<td >${item.NT_REGITDATE}</td>
 								</tr>
 							</tbody>
 							</c:forEach>
