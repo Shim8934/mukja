@@ -37,15 +37,14 @@
 							</thead>
 							<c:if test="${empty list}" var="isEmpty">
 								<tr>
-									<td colspan="5" style="text-align: center;">등록된 게시물이
-										없습니다.</td>
+									<td colspan="5" style="text-align: center;">등록된 게시물이 없습니다.</td>
 								</tr>
 							</c:if>
 							<c:if test="${not isEmpty}">
 							<c:forEach items="${list}" var="item" varStatus="loop">
 							<tbody>
 								<tr>
-									<td style="text-align: center;">${item.NT_NO}</td>
+									<td style="text-align: center;">${totalRecordCount - (((nowPage-1)*pageSize)+loop.index)}</td>
 									<td style="text-align: center;">
 										<a href='<c:url value="/OneNoticeView.bbs?NT_NO=${item.NT_NO}"/>'>${item.NT_TITLE}</a></td>
 									<td style="text-align: center;">${item.username}</td>
@@ -61,7 +60,7 @@
 					
 					<!-- 페이징 -->
 					<div class="card-footer" >
-						<div style="display:inline-block; text-align:center">${pagingString}</div>
+						<div style="display:inline-block; text-align:center;">${pagingString}</div>
 					</div>
 				
 						

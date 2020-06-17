@@ -20,6 +20,15 @@
 		WHERE R BETWEEN ${start} AND ${end}	
 	</select>
 	
+	<!-- 공지사항(Notice) 전글-->
+	<select id="noticeSelectPrev" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM NOTICE WHERE NT_NO = (SELECT MAX(NT_NO) FROM NOTICE WHERE NT_NO <![CDATA[<]]> ${NT_NO})
+	</select>
+	<!-- 공지사항(Notice) 다음 글-->
+	<select id="noticeSelectNext" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM NOTICE WHERE NT_NO = (SELECT MIN(NT_NO) FROM NOTICE WHERE NT_NO <![CDATA[>]]> ${NT_NO})
+	</select>
+	
 	<select id="noticeGetTotalRecord" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM notice 
 		<if test="searchWord != null">

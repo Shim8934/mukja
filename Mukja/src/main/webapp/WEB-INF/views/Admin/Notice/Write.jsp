@@ -1,25 +1,14 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!-- 
 <script>
-$.ajax({ type: "POST",
-	enctype: 'multipart/form-data', 
-	url: '/WriteNotice.bbs',
-	data: formData,
-	processData: false, 
-	contentType: false,
-	cache: false,
-	success: function (result) {
+$(function(){
+	$('#btnCancel').click(function(){
 		
-	},
-	error: function (e) {
-		
-	}});
+	});
+});
 
 </script>
- -->
-
 <div class="app-main__outer">
 	<div class="app-main__inner">
 		<div class="app-page-title">
@@ -40,7 +29,8 @@ $.ajax({ type: "POST",
 				<div class="main-card card">
 					<div class="card-body">
 						<h5 class="card-title">글 등록</h5>
-						<form class="" action="<c:url value='/WriteNotice.bbs'/>" enctype="multipart/form-data" method="post">
+
+				 <form class="" action="<c:url value='/WriteNotice.bbs'/>" enctype="multipart/form-data" method="post">
 							<div class="position-relative row form-group">
 								<label for="NT_TITLE" class="col-sm-2 col-form-label">제목</label>
 								<div class="col-sm-10">
@@ -65,16 +55,13 @@ $.ajax({ type: "POST",
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
 									<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
-									<button class="mt-2 btn btn-warning">취소</button>
+									<button class="mt-2 btn btn-warning" id="btnCancel">취소</button>
 								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">
 						</form>
-						
 						<!-- 
 						컨트롤러에서  MultipartHttpServletRequest 쓰려고 할 때 쓸 버튼
-						<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
-						<button class="mt-2 btn btn-warning">취소</button>
 						 -->
 					</div>
 				</div>

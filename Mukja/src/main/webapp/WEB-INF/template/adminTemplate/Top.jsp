@@ -155,32 +155,23 @@
 					<!-- 신고 관리 -->
 					<li class="app-sidebar__heading">신고 관리</li>
 					<li>
-						<a href="<c:url value="/AdminReportList.bbs"/>">
+						<a href="#">
 							<i class="metismenu-icon pe-7s-display2"></i>
 							신고 내용
 							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
 						<ul>
 							<li>
-								<a href="elements-buttons-standard.html">
-									<i class="metismenu-icon"></i>유저 신고 조회
+								<a href="<c:url value="/UserReportList.bbs"/>">
+									<i class="metismenu-icon"></i>유저 신고 목록
 								</a>
 							</li>
+						
 							<li>
-								<a href="elements-dropdowns.html">
-									<i class="metismenu-icon"></i>유저 신고 처리
+								<a href="<c:url value="/StoreReportList.bbs"/>">
+									<i class="metismenu-icon"></i>스토어 신고 목록
 								</a>
-							</li>
-							<li>
-								<a href="elements-icons.html">
-									<i class="metismenu-icon"></i>스토어 신고 조회
-								</a>
-							</li>
-							<li>
-								<a href="elements-badges-labels.html">
-									<i class="metismenu-icon"></i>스토어 신고 처리
-								</a>
-							</li>
+							</li>						
 						</ul>
 					</li>
 					
@@ -188,7 +179,21 @@
 						<a href="<c:url value="/AdminReportManage.bbs"/>">
 							<i class="metismenu-icon pe-7s-display2"></i>
 							신고 처리 여부
+							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
+						<ul>
+							<li>
+								<a href="<c:url value="/UserAdminReportManage.bbs"/>">
+									<i class="metismenu-icon"></i>유저 신고 처리
+								</a>
+							</li>
+						
+							<li>
+								<a href="<c:url value="/StoreAdminReportManage.bbs"/>">
+									<i class="metismenu-icon"></i>스토어 신고 처리
+								</a>
+							</li>						
+						</ul>
 					</li>	
 				</ul>
 			</div>

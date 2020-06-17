@@ -57,4 +57,16 @@ public class AdminServiceImpl implements AdminService{
 		return dao.update(map);
 	}
 
+	@Override
+	public AdminDTO selectPrev(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectPrev(map);
+	}
+
+	@Override
+	public AdminDTO selectNext(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectNext(map);
+	}
+
 }
