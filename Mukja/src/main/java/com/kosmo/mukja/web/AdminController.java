@@ -4,6 +4,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -17,18 +19,24 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
 import com.kosmo.mukja.service.FileUploadService;
@@ -39,9 +47,6 @@ public class AdminController {
 	
 	@Resource(name="adminService")
 	private AdminService adminService;
-	
-	@Resource(name="fileUploadService")
-	private FileUploadService fileUploadService;
 
 	//리소스파일(resource.properties)에서 읽어오기
 	@Value("${PAGE_SIZE}")
@@ -70,19 +75,89 @@ public class AdminController {
 		return "Manage/BlackList/View.admins";
 	}
 
-	// 2-1) 신고 리스트 컨트롤러
-	@RequestMapping(value = "/AdminReportList.bbs", method = RequestMethod.GET)
-	public String reportList(Locale locale, Model model) {		
+	// 2-1-1) 유저신고 리스트 컨트롤러
+	@RequestMapping(value = "/UserReportList.bbs", method = RequestMethod.GET)
+	public String userReportList(@RequestParam Map map,
+								 @RequestParam(required = false,defaultValue = "1") int nowPage,
+								 HttpServletRequest req,
+								 Model model) {		
+		String searchColumn = "";
+		String searchWord = "";
+		int totalRecordCount = adminService.getUsRPTotalRecord(map);
+		//전체 페이지수]
+		int totalPage = (int)Math.ceil((double)totalRecordCount/pageSize);
+		//시작 및 끝 ROWNUM구하기]
+		int start = (nowPage-1)*pageSize+1;
+		int end   = nowPage*pageSize;	
+		//페이징을 위한 로직 끝]	
+		map.put("start", start);
+		map.put("end", end);
+		List<AdminDTO> list = adminService.selectUserRpList(map);
+		//데이타 저장]
+		if(map.get("searchColumn")!=null && map.get("searchWord")!=null) {
+			searchColumn = map.get("searchColumn").toString();
+			searchWord = map.get("searchWord").toString();
+		}
+		else {
+			searchColumn ="";
+			searchWord = "";
+		}
 		
-		return "Manage/Report/List.admins";
+		System.out.println(map.toString());
+		model.addAttribute("totalRecordCount",totalRecordCount);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("nowPage",nowPage);
+		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/UserReportList.bbs?", searchColumn, searchWord);
+		System.out.println("list 존재?"+list);
+		model.addAttribute("list", list);
+		model.addAttribute("pagingString", pagingString);
+		return "Manage/Report/UserList.admins";
 	}
 	
-	// 2-2) 신고 관리 컨트롤러
-	@RequestMapping(value = "/AdminReportManage.bbs", method = RequestMethod.GET)
-	public String reportManage(Locale locale, Model model) {		
+	// 2-1-2) 유저 신고 관리 컨트롤러
+	@RequestMapping(value = "/UserReportView.bbs", method = RequestMethod.GET)
+	public String userReportManage(@RequestParam Map map, Model model) {
+		System.out.println("UR_no 넘어옴?  "+map.get("UR_NO").toString());
+		AdminDTO record = adminService.selectUsRPOne(map);
+		record.setUR_CONTENT(record.getUR_CONTENT().replace("\r\n", "<br>"));
 		
-		return "Manage/Report/View.admins";
-	}	
+		AdminDTO prev = adminService.selectUsRPPrev(map);
+		System.out.println(map);
+		System.out.println(prev);
+		AdminDTO next = adminService.selectUsRPNext(map);
+		System.out.println(map);
+		System.out.println(next);
+		
+		model.addAttribute("record",record);
+		model.addAttribute("prev",prev);
+		model.addAttribute("next",next);
+		System.out.println(prev==null?"널이래":"널아니래");
+		return "Manage/Report/UserView.admins";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/UsReportUpdate.bbs")
+	public String updateUserByRp(@RequestParam Map map) {
+		System.out.println(map.get("username").toString());
+		int result = adminService.updateUsRP(map);
+		JSONObject json = new JSONObject();
+		json.put("result",result==1?"성공":"실패");
+		return json.toJSONString();
+	}
+	
+	// 2-2-1) 스토어신고 리스트 컨트롤러
+	@RequestMapping(value = "/StoreReportList.bbs", method = RequestMethod.GET)
+	public String storeReportList(@RequestParam Map map, Model model) {		
+		
+		return "Manage/Report/StoreList.admins";
+	}
+	
+	// 2-2-2) 스토어 신고 관리 컨트롤러
+	@RequestMapping(value = "/StoreAdminReportManage.bbs", method = RequestMethod.GET)
+	public String storeeportManage(@RequestParam Map map, Model model) {		
+		
+		return "Manage/Report/StoreView.admins";
+	}
 	
 	// 3-1) 가게 메뉴 리스트 컨트롤러
 	@RequestMapping(value="/AdminStoreList.bbs", method=RequestMethod.GET)
@@ -120,8 +195,6 @@ public class AdminController {
 		return "Manage/User/UserETList.admins";
 	}	
 	
-	
-	
 	// 공지사항 리스트 컨트롤러
 	@RequestMapping(value="/NoticeList.bbs")
 	public String noticeList(@RequestParam Map map,
@@ -152,7 +225,9 @@ public class AdminController {
 			searchColumn ="";
 			searchWord = "";
 		}
-		
+		model.addAttribute("totalRecordCount",totalRecordCount);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("nowPage",nowPage);
 		String pagingString = PagingUtil.pagingBootStrapStyle(totalRecordCount, pageSize,blockPage, nowPage, req.getContextPath()+"/NoticeList.bbs?", searchColumn, searchWord);
 		System.out.println("list 존재?"+list);
 		model.addAttribute("list", list);
@@ -164,13 +239,21 @@ public class AdminController {
 	public String oneViewNotice(@RequestParam Map map, Model model) {
 		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
 		AdminDTO record = adminService.selectOne(map);
-		int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
-		map.put("NT_NO", NT_NO);
-		AdminDTO prev = adminService.selectOne(map);
-		map.put("prev", prev.getNT_TITLE());
+		System.out.println(record);
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
-		model.addAttribute("record",record);
+		System.out.println(record);
 		
+		AdminDTO prev = adminService.selectPrev(map);
+		System.out.println(map);
+		System.out.println(prev);
+		AdminDTO next = adminService.selectNext(map);
+		System.out.println(map);
+		System.out.println(next);
+		
+		model.addAttribute("record",record);
+		model.addAttribute("prev",prev);
+		model.addAttribute("next",next);
+		System.out.println(prev==null?"널이래":"널아니래");
 		return "Notice/View.admins";
 	}
 	
@@ -182,59 +265,70 @@ public class AdminController {
 		model.addAttribute("username",username);
 		return "Notice/Write.admins";
 	}
-	
+	/*
+	// 공지사항 등록 페이지 이동
+	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
+	public String moveWriteNotice(Authentication auth, Model model) {
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		String username = userDetails.getUsername();		
+		model.addAttribute("username",username);
+		return "/Admin/Notice/NewFile";
+	}
+	*/
 	// 공지사항 등록 컨트롤러 (본격 등록)
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
 	public String writeNotice(MultipartHttpServletRequest req,
 							  Authentication auth,
 							  Model model,
-							  @RequestParam Map map) throws Exception {
-		System.out.println("MultipartHttpServletRequest 테스팅 : "+req);
+							  @RequestParam Map map){
+		// 파일 이름 저장용 변수
+		String fileName = "";
+		// 파일이 저장될 경로 지정
+		String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+		System.out.println(path);
+		
+		File file = new File(path);
+		if(!file.exists()) {
+			file.mkdir();
+		}
+		
+		// 디비에 저장할 파일 이름 저장용 변수 선언
+		String NT_IMG ="";
+		
+		System.out.println(map==null?"맵널":"널 아님");
+		
+		// MultipartHttpServletRequest로 얻어온 파일 데이터 저장용
 		Iterator<String> fileNames = req.getFileNames();
-		while(fileNames.hasNext()) {
-			String fileName = fileNames.next();
-			MultipartFile mtfile = req.getFile(fileName);
-			File file = new File(fileName);
-			if(mtfile.getSize()!=0) {
-				if(!file.exists()) { // 파일 존재 체크
-					if(file.getParentFile().mkdirs()) { // 경로 생성
-						try {
-							file.createNewFile();
-						} catch(Exception e) {e.printStackTrace();}
-					}
-				}
+		
+		// 파일 input 태그(name=NT_IMG)로 얻어온 파일들 저장할 리스트 선언  
+		List<MultipartFile> fileList = req.getFiles("NT_IMG");
+		System.out.println("파일 체크 "+req.getFiles("NT_IMG"));
+		
+		// 파일 해체 시작
+		for(MultipartFile filePart : fileList) {
+			// 올린 파일의 이름(확장자까지)
+			fileName = filePart.getOriginalFilename();
+			System.out.println(fileName);
+			NT_IMG+=fileName+"/";
+			System.out.println(NT_IMG);
+			if(!fileName.equals("")) {
 				try {
-					mtfile.transferTo(file);
-				} catch(Exception e) {e.printStackTrace();}
+					FileOutputStream fs = new FileOutputStream(path+"/"+fileName);
+					fs.write(filePart.getBytes());
+					fs.close();
+				} catch(IOException e) {e.printStackTrace();}
 			}
 		}
-		System.out.println("맵 체크 중  :  "+map.get("NT_TITLE").toString());
-		
-		
+		if(NT_IMG.equals("/")) {
+			NT_IMG="";
+			map.put("NT_IMG",NT_IMG);
+		}
+		else {
+			// 쿼리문 작업용으로 집어넣음
+			map.put("NT_IMG",NT_IMG);
+		}
 		adminService.insert(map);
-		
-		return "Notice/List.admins";
-	}
-	
-	/*
-	// 공지사항 등록 컨트롤러 (본격 등록)
-	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-	public String writeNotice(@RequestParam Map map,
-							  Model model) {
-		String username = map.get("username").toString();
-		System.out.println(username);
-		model.addAttribute("username",username);
-		
-		adminService.insert(map);
-		return "Notice/List.admins";
-		
-	}
-	*/
-	
-	// 공지사항 수정 컨트롤러
-	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
-	public String editNotice() {
-		return "Notice/Edit.admins";
+		return "forward:NoticeList.bbs";
 	}
 	
 	// 공지사항 삭제 컨트롤러
@@ -244,7 +338,25 @@ public class AdminController {
 		map.put("NT_NO", NT_NO);
 		System.out.println(NT_NO);
 		adminService.delete(map);
-		return "Notice/List.admins";
+		return "forward:NoticeList.bbs";
+	}
+	
+	// 공지사항 수정 컨트롤러 수정폼 이동
+	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
+	public String goEditNotice(@RequestParam Map map, Model model) {
+		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
+		AdminDTO record = adminService.selectOne(map);
+		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
+		model.addAttribute("record",record);
+		return "Notice/Edit.admins";
+	}
+	
+	// 공지사항 수정 컨트롤러 수정폼 이동
+	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.POST)
+	public String editNotice(MultipartHttpServletRequest req,Map map) {
+		
+		
+		return "forward:/OneNoticeView.bbs";
 	}
 	
 	

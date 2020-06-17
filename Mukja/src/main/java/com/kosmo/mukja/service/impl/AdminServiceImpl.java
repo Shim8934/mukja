@@ -57,4 +57,64 @@ public class AdminServiceImpl implements AdminService{
 		return dao.update(map);
 	}
 
+	@Override
+	public AdminDTO selectPrev(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectPrev(map);
+	}
+
+	@Override
+	public AdminDTO selectNext(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectNext(map);
+	}
+
+	@Override
+	public List<AdminDTO> selectUserRpList(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectUserRpList(map);
+	}
+
+	@Override
+	public int getUsRPTotalRecord(Map map) {
+		// TODO Auto-generated method stub
+		return dao.getUsRPTotalRecord(map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPOne(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectUsRPOne(map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPPrev(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectUsRPPrev(map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPNext(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectUsRPNext(map);
+	}
+
+	@Override
+	public int deleteUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return dao.deleteUsRP(map);
+	}
+
+	@Override
+	public int insertUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertUsRP(map);
+	}
+
+	@Override
+	public int updateUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateUsRP(map);
+	}
+
 }

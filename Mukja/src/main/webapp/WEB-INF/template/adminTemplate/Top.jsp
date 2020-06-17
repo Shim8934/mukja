@@ -31,8 +31,8 @@
 		<span>
 			<button type="button"
 				class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-				<span class="btn-icon-wrapper"> <i
-					class="fa fa-ellipsis-v fa-w-6"></i>
+				<span class="btn-icon-wrapper">
+				 <i class="fa fa-ellipsis-v fa-w-6"></i>
 				</span>
 			</button>
 		</span>
@@ -43,8 +43,8 @@
 				<div class="widget-content p-0">
 					<div class="widget-content-wrapper">
 						<div class="widget-content-right header-user-info ml-3">
-							<a href="<c:url value="/"/>"><button type="button"
-									class="btn btn-danger active ">LogOut</button></a>
+							<a href="<c:url value="/"/>">
+							<button type="button" class="btn btn-danger active ">LogOut</button></a>
 						</div>
 					</div>
 				</div>
@@ -155,40 +155,44 @@
 					<!-- 신고 관리 -->
 					<li class="app-sidebar__heading">신고 관리</li>
 					<li>
-						<a href="<c:url value="/AdminReportList.bbs"/>">
+						<a href="#">
 							<i class="metismenu-icon pe-7s-display2"></i>
-							신고 내용
+							유저 신고
 							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
 						<ul>
 							<li>
-								<a href="elements-buttons-standard.html">
-									<i class="metismenu-icon"></i>유저 신고 조회
+								<a href="<c:url value="/UserReportList.bbs"/>">
+									<i class="metismenu-icon"></i>유저 신고 목록
 								</a>
 							</li>
+						
 							<li>
-								<a href="elements-dropdowns.html">
+								<a href="<c:url value="/UserAdminReportManage.bbs"/>">
 									<i class="metismenu-icon"></i>유저 신고 처리
 								</a>
-							</li>
-							<li>
-								<a href="elements-icons.html">
-									<i class="metismenu-icon"></i>스토어 신고 조회
-								</a>
-							</li>
-							<li>
-								<a href="elements-badges-labels.html">
-									<i class="metismenu-icon"></i>스토어 신고 처리
-								</a>
-							</li>
+							</li>						
 						</ul>
 					</li>
 					
 					<li>
 						<a href="<c:url value="/AdminReportManage.bbs"/>">
 							<i class="metismenu-icon pe-7s-display2"></i>
-							신고 처리 여부
+							스토어 신고
+							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
+						<ul>
+							<li>
+								<a href="<c:url value="/StoreReportList.bbs"/>">
+									<i class="metismenu-icon"></i>스토어 신고 목록
+								</a>
+							</li>
+							<li>
+								<a href="<c:url value="/StoreAdminReportManage.bbs"/>">
+									<i class="metismenu-icon"></i>스토어 신고 처리
+								</a>
+							</li>						
+						</ul>
 					</li>	
 				</ul>
 			</div>

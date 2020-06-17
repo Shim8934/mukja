@@ -163,11 +163,11 @@
 		</dependency>
 		
 		<!-- dto와  json을 서로 바꿔주는 라이브러리 -->
-	      <dependency>
-			    <groupId>com.fasterxml.jackson.core</groupId>
-			    <artifactId>jackson-databind</artifactId>
-			    <version>2.11.0</version>
-			</dependency>
+     	<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.11.0</version>
+		</dependency>
 			
 			<!-- 웹소켓 라이브러리 -->
 	<!-- https://mvnrepository.com/artifact/org.springframework/spring-websocket -->
@@ -237,6 +237,19 @@
 		    <artifactId>commons-io</artifactId>
 		    <version>2.2</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery -->
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.5.1</version>
+		</dependency>
+			
 		<!-- 파일 업로드 관련 끝 -->
 				
 		

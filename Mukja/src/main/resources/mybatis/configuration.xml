@@ -9,10 +9,10 @@
 
 	<!-- 게시판 자바빈 별칭 -->
 	<typeAliases>
+		<typeAlias alias="AdminDTO" type="com.kosmo.mukja.service.AdminDTO"/>
 		<typeAlias alias="dongDTO" type="com.kosmo.mukja.service.DongDTO"/>
 		<typeAlias alias="storeDTO" type="com.kosmo.mukja.service.StoreDTO"/>	
 		<typeAlias alias="eRDTO" type="com.kosmo.mukja.service.ERDTO"/>		
-		<typeAlias alias="AdminDTO" type="com.kosmo.mukja.service.AdminDTO"/>
 		<typeAlias alias="ercDTO" type="com.kosmo.mukja.service.ErcDTO"/>
 		<typeAlias alias="foodMenuDTO" type="com.kosmo.mukja.service.FoodMenuDTO"/>
 		<typeAlias alias="storeIMGDTO" type="com.kosmo.mukja.service.StoreIMGDTO"/>

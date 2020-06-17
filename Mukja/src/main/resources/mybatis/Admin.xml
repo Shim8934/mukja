@@ -20,6 +20,15 @@
 		WHERE R BETWEEN ${start} AND ${end}	
 	</select>
 	
+	<!-- 공지사항(Notice) 전글-->
+	<select id="noticeSelectPrev" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM NOTICE WHERE NT_NO = (SELECT MAX(NT_NO) FROM NOTICE WHERE NT_NO <![CDATA[<]]> ${NT_NO})
+	</select>
+	<!-- 공지사항(Notice) 다음 글-->
+	<select id="noticeSelectNext" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM NOTICE WHERE NT_NO = (SELECT MIN(NT_NO) FROM NOTICE WHERE NT_NO <![CDATA[>]]> ${NT_NO})
+	</select>
+	
 	<select id="noticeGetTotalRecord" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM notice 
 		<if test="searchWord != null">
@@ -54,4 +63,38 @@
 			VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
 	</insert>
 	<!-- 공지사항(Notice) 끝 -->
+	
+	<!-- 유저 신고 시작 -->
+	<select id="UsRpList" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM
+		(SELECT T.*, ROWNUM R FROM 
+		(SELECT UR.* FROM user_report UR JOIN users US on ur.ur_target = us.username 
+		<if test="searchWord != null">
+			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+		ORDER BY ur_no DESC) T) 
+		WHERE R BETWEEN ${start} AND ${end}	
+	</select>
+	<select id="UsRpGetTotalRecord" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM user_report 
+		<if test="searchWord != null">
+		WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	<select id="UsRpOne" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM user_report WHERE UR_NO = #{UR_NO}
+	</select>
+	<!-- 유저신고뷰 전글-->
+	<select id="UsRpSelectPrev" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM user_report WHERE UR_NO = (SELECT MAX(UR_NO) FROM user_report WHERE UR_NO <![CDATA[<]]> ${UR_NO})
+	</select>
+	<!-- 유저신고뷰 다음 글-->
+	<select id="UsRpSelectNext" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM user_report WHERE UR_NO = (SELECT MIN(UR_NO) FROM user_report WHERE UR_NO <![CDATA[>]]> ${UR_NO})
+	</select>
+	<!-- 유저신고벤 처리 -->
+	<update id="UsRpUpdate" parameterType="java.util.Map">
+		UPDATE users SET ENABLED=0 WHERE username = #{username}
+	</update>
+	<!-- 유저 신고 끝 -->
 </mapper>
