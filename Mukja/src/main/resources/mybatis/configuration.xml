@@ -17,6 +17,7 @@
 		<typeAlias alias="foodMenuDTO" type="com.kosmo.mukja.service.FoodMenuDTO"/>
 		<typeAlias alias="storeIMGDTO" type="com.kosmo.mukja.service.StoreIMGDTO"/>
 		<typeAlias alias="foodIMGDTO" type="com.kosmo.mukja.service.FoodIMGDTO"/>
+		<typeAlias alias="tableDTO" type="com.kosmo.mukja.service.TableDTO"/>
 	</typeAliases>	
 	
 	<mappers>
@@ -24,6 +25,7 @@
 		<mapper resource="mybatis/Admin.xml" />
 		<mapper resource="mybatis/Sign.xml" />
 		<mapper resource="mybatis/StoreDetail.xml" />
+		<mapper resource="mybatis/Reservation.xml" />	
 	</mappers>
 	
 </configuration>

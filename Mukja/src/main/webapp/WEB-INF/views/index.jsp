@@ -265,17 +265,39 @@
 		background-color: rgb(255, 255, 255);
 	  }
 	 p {white-space: normal ;}
+	 
+	.realTimeTableInfo{
+	  position:absolute;  
+      width:900px;
+      height:800px;
+      left:50%;
+      top:50%;
+      margin-left:-450px;
+      margin-top:-400px;
+      z-index:10000;
+      background-color: white;
+      overflow-y:auto;
+      display: none;
+	}
 </style>
  
 </head>
 <body>
 
 
+<!-- 실시간 다이브-->
+<div id="tableDivWrap" class="realTimeTableInfo">
+	<div id="tableDiv" >
+		
+	</div>
+	<a id="btn_tableDiv_close" class="btn btn-default">닫기</a>
+</div>
 
 
 
-<!-- 커스텀모달 -->
-<div id="mask"></div>
+<!-- 커스텀모달 (같이먹자)-->
+<div id="mask">
+</div>
 <div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none; ' class="lb_size" >
 	<div class="container" style="margin-top: 20px;width: 800px;">
 		<div class="row"style="margin-bottom:20px;"> 
@@ -1236,6 +1258,7 @@ function requets_maker_Ajax(){
 							'				<p>'+data.store_time+'</p>'+
 							'			</div>'+
 							'			<div class="row">'+
+							'		        <a id="btn_TBinfo'+data.store_id+'" class="btn btn-default">남은 좌석</a>'+
 							'		        <a id="btn_'+data.store_id+'" class="btn btn-default">모임리스트</a>'+
 							'      			<a id="closeOver" class="btn btn-default">닫기</a>'+
 							'			</div>'+
@@ -1243,17 +1266,6 @@ function requets_maker_Ajax(){
 							'	  </div>'+
 							'</div>'; 
 							 
-							 
-							 /* '<div id ="div_'+data.store_id+'" class="overlayDiv">' +
-							'    <div><a href="<c:url value="Store/StoreDetail.do"/>"></a></div>' +
-							'    <div>' +
-							'        <div>'+data.store_intro+'</div>' +
-							'        <div>'+data.store_phonenumber+'</div>' +
-							'        <div>'+data.store_time+'</div>' +
-							'        <a id="closeOver" class="btn btn-info">닫기</a>'+
-							'        <a id="btn_'+data.store_id+'" class="btn btn-success">모임리스트</a>'+
-							'    </div>'; */
-							
 							
 			
 						//마커 클릭시
@@ -1287,6 +1299,52 @@ function requets_maker_Ajax(){
 								closeOverlay();
 							});	
 						 
+						 //---------------------실시간 좌석현황------------------------
+						
+						 	$(document).on("click","#btn_TBinfo"+data.store_id,function(){
+						 		$("#tableDivWrap").fadeIn();
+						 		console.log('클릭');
+						 		 var sendJson={'store_id':data.store_id};
+						 		 setInterval(() => {
+						 			$.ajax({
+										url:"<c:url value='/getRealTimeReservation.do'/>",
+										data : sendJson,
+										dataType:'json',
+										success:function(data){
+											console.log("성공");
+											console.log("data");
+											console.log(data);
+											$("#tableDiv").empty();
+											var table_info =data;
+											console.log(table_info);
+											var row = table_info["y_boundary"];
+											var col = table_info["x_boundary"];
+											console.log("행 : "+row+" / 열 : "+col);
+											for(var i =0; i<row;i++){
+												for(var j=0; j<col;j++){
+													console.log(i+"행 "+j+"열 : "+table_info[""+i][j]);
+													var innerDiv= '<div id="'+i+'n'+j+'" class="tableInfoInner '+table_info[i][j]+'">'+
+																  ' '
+											        			  '</div>';
+													$("#tableDiv").append(innerDiv);
+												}
+												$("#tableDiv").append("<div></div>");
+											}
+											
+											
+										},
+										error:function(){
+											console.log("실패");
+										}
+									})
+								}, 300);
+						 		 
+						 	
+						 		
+						 	});
+						 
+						 
+						 //---------------------실시간 좌석현황 끝------------------------
 						 
 						//------------커스텀모달--------------------------------------
 							$(document).on("click","#btn_"+data.store_id,function(){
@@ -1984,5 +2042,11 @@ $("#ERtime").click(function(){
 	
 });
 
+$("#btn_tableDiv_close").click(function(){
+	console.log("시계버튼클릭")
+	$("#tableDivWrap").fadeOut();
+
+	
+});
 
 </script>

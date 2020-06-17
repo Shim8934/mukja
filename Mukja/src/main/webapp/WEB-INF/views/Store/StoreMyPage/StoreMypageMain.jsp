@@ -55,6 +55,7 @@
 
 				</div>
 				<a href="<c:url value='/StroeMypage/ImgPop.do'/>" class="btn btn-info">가게사진 수정하기</a>
+				<a href="<c:url value='/Resevation/CreateStoreTableMap.do'/>" class="btn btn-info">매장 좌석 수정/생성</a>
 				<!-- Controls -->
 				<a class="left carousel-control" href="#carousel-example-generic"
 					role="button" data-slide="prev"> <span

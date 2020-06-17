@@ -15,4 +15,6 @@ public interface StoreService {
 	public int updateStoreRecommand(Map map);
 	public int getStoreThumb(Map map);
 	public int isThumb(Map map);
+	public TableDTO getTable (Map map);
+	public int updateTableInfo(Map map);
 }

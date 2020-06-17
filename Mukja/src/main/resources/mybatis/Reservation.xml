@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace속성:매퍼파일의 완전한경로.xml는 생략 -->
+<!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
+<mapper namespace="mybatis.Reservation">
+
+	<select id="getTable" parameterType="java.util.Map" resultType="tableDTO">
+     	select * from reservation where store_id=#{store_id}
+    </select>
+    
+    <update id="updateTableInfo"  parameterType="java.util.Map" >
+    	update reservation set xy_data=#{xy_data}, xy_boundary=#{xy_boundary}  where store_id=#{store_id}
+    </update>
+ 	
+</mapper>

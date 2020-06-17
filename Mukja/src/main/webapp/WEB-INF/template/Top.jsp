@@ -63,6 +63,7 @@
 				<sec:authorize access="hasRole('ROLE_STORE')">
 				<li class="nav-item"><a href="<c:url value="/StroeMypage/StroeMypageMain.do"/>"class="nav-link">MyPage</a></li>
 				<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
+				<li class="nav-item"><a href="<c:url value="reservationInfo.do"/>"class="nav-link">매장좌석 현황관리</a></li>
 				</sec:authorize>
 			</ul>
 		</div>

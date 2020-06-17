@@ -194,6 +194,35 @@
  
  
  }
+ 
+ .tableInfoInner{
+ 	width: 30px;
+ 	height: 30px;
+ 	background-color: #D6D6D6;
+ 	display: inline-block;
+ 	border: 1px solide gray;
+ 	border-radius: 3px;
+ 	margin: 3px;
+ }
+  .tableInfoInner2{
+ 	width: 30px;
+ 	height: 30px;
+ 	background-color: #D6D6D6;
+ 	display: inline-block;
+ 	border: 1px solide gray;
+ 	border-radius: 3px;
+ 	margin: 3px;
+ }
+ .w{
+ 	background-color: #D6D6D6;
+ }
+  .g{
+ 	background-color: #B4C7C8;
+ }
+  .b{
+  
+ 	background-color: #257FB9;
+ }
    </style>
 
    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
