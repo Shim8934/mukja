@@ -21,7 +21,6 @@ public class AdminDTO {
 	private Date UR_REGIDATE;
 	private String UR_TYPE;
 	
-	
 	// 관리자 로그인 정보용 변수
 	private String enabled;
 	private String admin_role;

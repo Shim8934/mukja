@@ -53,8 +53,8 @@ tr td{
 					
 					
 					<!-- 페이징 -->
-					<div class="card-footer" >
-						<div style="display:inline-block; text-align:center;">${pagingString}</div>
+					<div class="d-block text-center card-footer">
+						<div class="text-center" style="display:inline-block; text-align:center;">${pagingString}</div>
 					</div>
 				
 						
