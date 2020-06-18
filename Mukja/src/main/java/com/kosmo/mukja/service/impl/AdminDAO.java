@@ -54,7 +54,7 @@ public class AdminDAO implements AdminService{
 	// 글 등록 // 파일 존재 시 경우의 수로 insert문 실행
 	@Override
 	public int insert(Map map) {
-			return sqlMapper.insert("noticeInsert",map);
+		return sqlMapper.insert("noticeInsert",map);
 	}
 
 	// 글 수정

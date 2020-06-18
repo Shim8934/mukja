@@ -19,8 +19,7 @@ tr td{
 			<div class="card-body">
 		<h3 class="card-title">공지사항</h3>
 			<div class="text-right">
-				<a href="<c:url value='/WriteNotice.bbs'/>"
-					class="btn btn-success" style="margin-bottom: 1em;">등록 </a>
+				<a href="<c:url value='/WriteNotice.bbs'/>" class="btn btn-success" style="margin-bottom: 1em;">등록 </a>
 			</div>
 					<div class="table-responsive">
 						<table class="table table-hover" style="font-family: baedal;">
