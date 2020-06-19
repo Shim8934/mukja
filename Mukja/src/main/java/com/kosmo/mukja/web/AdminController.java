@@ -219,6 +219,7 @@ public class AdminController {
 		map.put("start", start);
 		map.put("end", end);
 		List<AdminDTO> list = adminService.selectList(map);
+		
 		//데이타 저장]
 		if(map.get("searchColumn")!=null && map.get("searchWord")!=null) {
 			searchColumn = map.get("searchColumn").toString();
@@ -228,6 +229,7 @@ public class AdminController {
 			searchColumn ="";
 			searchWord = "";
 		}
+		
 		model.addAttribute("totalRecordCount",totalRecordCount);
 		model.addAttribute("pageSize",pageSize);
 		model.addAttribute("nowPage",nowPage);
@@ -252,8 +254,8 @@ public class AdminController {
 		AdminDTO next = adminService.selectNext(map);
 		System.out.println(map);
 		System.out.println(next);
-		System.out.println(record.getNT_IMG());
-		StringTokenizer imageList = new StringTokenizer(record.getNT_IMG()," / ");
+		System.out.println(record.getBF_PATH());
+		StringTokenizer imageList = new StringTokenizer(record.getBF_PATH()," / ");
 		List<String> image = new ArrayList<String>();
 		while(imageList.hasMoreTokens()) {
 			image.add(imageList.nextToken());
@@ -273,16 +275,7 @@ public class AdminController {
 		model.addAttribute("username",username);
 		return "Notice/Write.admins";
 	}
-	/*
-	// 공지사항 등록 페이지 이동
-	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
-	public String moveWriteNotice(Authentication auth, Model model) {
-		UserDetails userDetails = (UserDetails) auth.getPrincipal();
-		String username = userDetails.getUsername();		
-		model.addAttribute("username",username);
-		return "/Admin/Notice/NewFile";
-	}
-	*/
+	 
 	// 공지사항 등록 컨트롤러 (본격 등록)
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
 	public String writeNotice(MultipartHttpServletRequest req,
@@ -291,22 +284,22 @@ public class AdminController {
 							  @RequestParam Map map){
 		// 파일 이름 저장용 변수
 		String fileName = "";
-		String columnName = "NT_IMG";
+		String columnName = "BF_PATH";
 		// 파일이 저장될 경로 지정
 		String path = "/resources/Upload/AdminNotice";
 		
 		// 디비에 저장할 파일 이름 저장용 변수 선언 및 
-		String NT_IMG =FileUtil.getNewFile(req, path,columnName);;
-		
+		String BF_PATH =FileUtil.getNewFile(req, path,columnName);;
+		System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
 		System.out.println(map==null?"맵널":"널 아님");
 		
-		if(NT_IMG.equals("/")) {
-			NT_IMG="";
-			map.put("NT_IMG",NT_IMG);
+		if(BF_PATH.equals("/")) {
+			BF_PATH = "";
+			map.put("BF_PATH",BF_PATH);
 		}
 		else {
 			// 쿼리문 작업용으로 집어넣음
-			map.put("NT_IMG",NT_IMG);
+			map.put("BF_PATH",BF_PATH);
 		}
 		adminService.insert(map);
 		return "forward:NoticeList.bbs";
@@ -315,8 +308,8 @@ public class AdminController {
 	// 공지사항 삭제 컨트롤러
 	@RequestMapping(value="/DeleteNotice.bbs", method=RequestMethod.GET)
 	public String deleteNotice(@RequestParam Map map, HttpServletRequest req) {
-		if(map.get("NT_IMG")!=null) {
-			StringTokenizer fileName = new StringTokenizer(map.get("NT_IMG").toString(),"/");
+		if(map.get("BF_PATH")!=null) {
+			StringTokenizer fileName = new StringTokenizer(map.get("BF_PATH").toString(),"/");
 			System.out.println("Tokenizer 출력 = "+fileName);
 			System.out.println("읽어온 파일 갯수 체크 = "+fileName.countTokens());
 			for(int i=0;i<fileName.countTokens();i++) {

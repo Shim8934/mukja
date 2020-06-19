@@ -10,7 +10,9 @@ public class AdminDTO {
 	private String NT_CONTENT;
 	private String USERNAME;
 	private Date NT_REGITDATE;
-	private String NT_IMG;
+	// 공지사항 이미지용 변수
+	private String BF_NO;
+	private String BF_PATH;
 	
 	// 유저신고게시판 변수
 	private String UR_NO;
@@ -55,19 +57,21 @@ public class AdminDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE, String nT_IMG,
-			String uR_NO, String uR_TITLE, String uR_CONTENT, String uR_TARGET, String uR_REPORTER, Date uR_REGIDATE,
-			String uR_TYPE, String enabled, String admin_role, String authority, String store_name, String store_regnum,
-			String store_phnum, String store_email, String store_intro, double store_lat, double store_lng,
-			String menu_no, String menu_name, String menu_tend, String menu_info, String menu_regidate, Date postDate,
-			String username2, String username_1, String username_2, String store_name1, String store_name2) {
+	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE, String bF_NO,
+			String bF_PATH, String uR_NO, String uR_TITLE, String uR_CONTENT, String uR_TARGET, String uR_REPORTER,
+			Date uR_REGIDATE, String uR_TYPE, String enabled, String admin_role, String authority, String store_name,
+			String store_regnum, String store_phnum, String store_email, String store_intro, double store_lat,
+			double store_lng, String menu_no, String menu_name, String menu_tend, String menu_info,
+			String menu_regidate, Date postDate, String username2, String username_1, String username_2,
+			String store_name1, String store_name2) {
 		super();
 		NT_NO = nT_NO;
 		NT_TITLE = nT_TITLE;
 		NT_CONTENT = nT_CONTENT;
 		USERNAME = uSERNAME;
 		NT_REGITDATE = nT_REGITDATE;
-		NT_IMG = nT_IMG;
+		BF_NO = bF_NO;
+		BF_PATH = bF_PATH;
 		UR_NO = uR_NO;
 		UR_TITLE = uR_TITLE;
 		UR_CONTENT = uR_CONTENT;
@@ -138,12 +142,20 @@ public class AdminDTO {
 		NT_REGITDATE = nT_REGITDATE;
 	}
 
-	public String getNT_IMG() {
-		return NT_IMG;
+	public String getBF_NO() {
+		return BF_NO;
 	}
 
-	public void setNT_IMG(String nT_IMG) {
-		NT_IMG = nT_IMG;
+	public void setBF_NO(String bF_NO) {
+		BF_NO = bF_NO;
+	}
+
+	public String getBF_PATH() {
+		return BF_PATH;
+	}
+
+	public void setBF_PATH(String bF_PATH) {
+		BF_PATH = bF_PATH;
 	}
 
 	public String getUR_NO() {

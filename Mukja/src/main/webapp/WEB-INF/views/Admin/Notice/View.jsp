@@ -52,7 +52,7 @@
 								${record.NT_CONTENT}
 							</div>
 						</div>
-						<c:if test="${empty record.NT_IMG}" var="isEmpty">
+						<c:if test="${empty record.BF_PATH}" var="isEmpty">
 							<div class="scroll-container ps--active-yps">
 								등록된 이미지가 없습니다.
 							</div>
