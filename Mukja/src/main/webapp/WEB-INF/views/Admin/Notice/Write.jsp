@@ -4,7 +4,7 @@
 <script>
 $(function(){
 	$('#btnCancel').click(function(){
-		
+		window.history.back();
 	});
 });
 
@@ -45,7 +45,7 @@ $(function(){
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
 									<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
-									<button class="mt-2 btn btn-warning" id="btnCancel" >취소</button>
+									<button class="mt-2 btn btn-warning" id="btnCancel" type="button">취소</button>
 								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">

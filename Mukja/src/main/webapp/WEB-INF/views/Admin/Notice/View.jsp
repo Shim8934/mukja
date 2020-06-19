@@ -66,9 +66,6 @@
 							<div class="scroll-container ps--active-yps">
 								${record.NT_CONTENT}
 							</div>
-							<div class="scroll-container ps--active-yps">
-								${record.NT_CONTENT}
-							</div>
 						</div>
 						
 													

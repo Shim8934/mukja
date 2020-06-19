@@ -346,6 +346,8 @@ public class AdminController {
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
 		
+		System.out.println("수정 폼 이동 시 파일 존재? ="+record.getBF_PATH().toString());
+		
 		if(record.getBF_PATH()!=null) {
 			
 			String checkFile = "";
@@ -375,6 +377,15 @@ public class AdminController {
 		
 		
 		return "forward:/OneNoticeView.bbs";
+	}
+	
+	// 공지사항 수정 컨트롤러 수정폼 이동
+	@RequestMapping(value="/selectFiles.bbs", method=RequestMethod.POST)
+	public String selectFilesforEdit(MultipartHttpServletRequest req,Map map) {
+		System.out.println("req.getATT NT_NO찍어봄 = "+req.getAttribute("NT_NO"));
+		
+		
+		return "";
 	}
 	
 	
