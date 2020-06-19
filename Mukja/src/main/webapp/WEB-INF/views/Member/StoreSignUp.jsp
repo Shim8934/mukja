@@ -78,6 +78,7 @@ section {
 	display: grid;
 	grid-template-columns: 16% 16% 16% 16% 16% 16%;
 }
+
 </style>
 
 
@@ -110,7 +111,8 @@ section {
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
 					<form id="frm" action="<c:url value='/StoreSignUp.bbs'/>"
-						method="post">
+						method="post" onsubmit="return false;">
+						<input hidden="hidden" />
 						<!-- 카라셀 -->
 						<div id="carousel-g" class="carousel slide" data-ride="carousel">
 							<!-- Indicators -->
@@ -167,37 +169,35 @@ section {
 										</div>
 										<div class="col-md-offset-3 col-md-6">
 											<div class="form-group">
-												<label for="">가게 이름</label> <input type="text"
+												<label for="">매장 명</label> <input type="text"
 													class="form-control" id="store_name" name="store_name"
-													placeholder="가게 이름">
+													placeholder="매장 명">
 												<div class="check_font" id="name_check"></div>
 											</div>
 										</div>
 										<div class="col-md-offset-3 col-md-6"
 											style="padding-top: 10px;">
 											<div class="form-group">
-												<label for="">가게 연락처</label> <input type="text"
+												<label for="">매장 전화번호</label> <input type="text"
 													class="form-control" id="store_phnum" name="store_phnum"
-													placeholder="연락처">
+													placeholder="매장 전화번호">
 												<div class="check_font" id="phnum_check"></div>
 											</div>
 										</div>
 										<div class="col-md-offset-3 col-md-6">
 											<div class="form-group">
-												<label for="">가게 주소</label> <a onclick="addr();"><input
+												<label for="">매장 주소</label> <a onclick="addr();"><input
 													type="text" class="form-control" id="store_addr"
-													name="store_addr" placeholder="매장주소를 등록해주세요"></a> <input
-													type="hidden" id="store_lat" name="store_lat" /> <input
-													type="hidden" id="store_lng" name="store_lng" />
+													name="store_addr" placeholder="매장주소를 등록해주세요"></a> 
+													<input type="text" id="store_lat" name="store_lat" value=""/> 
+													<input type="text" id="store_lng" name="store_lng" value=""/>
 												<div class="check_font" id="addr_check"></div>
 											</div>
 										</div>
 										<div class="col-md-offset-3 col-md-6">
-											<a class="btn btn-primary py-3 px-5" 
-												data-slide="prev" id="btnleft" style="color: white">&lt;&lt;
-												이전</a> <a class="btn btn-primary py-3 px-5"
-												data-slide="next" id="btnright"
-												style="color: white; float: right">다음 &gt;&gt;</a>
+											<a class="btn btn-primary py-3 px-5"
+												data-slide="next" id="btnright" onclick="nullval()"
+												style="color: white; float: right; cursor: pointer;">다음 &gt;&gt;</a>
 										</div>
 									</div>
 								</div>
@@ -209,14 +209,14 @@ section {
 												<div class="row">
 													<div class="form-group">
 														<div class="cal-md-offset-4 cal-md-8">
-															<label for="">가게 소개글</label>
+															<label for="">매장 홍보글</label>
 															<textarea id="summernote" name="store_intro"></textarea>
 															<div class="check_font" id="intro_check"></div>
 														</div>
 													</div>
 													<div class="form-group" style="width: 100%">
 														<div class="cal-md-offset-4 cal-md-8">
-															<label for="">영업시간</label> <span
+															<label for="">매장 영업시간</label> <span
 																class="ion-ios-arrow-down" id="img"></span>
 															<textarea id="summernote1" name="store_time"></textarea>
 															<div class="check_font" id="time_check"></div>
@@ -380,7 +380,7 @@ $(".note-view").empty();
              oncomplete: function(data) {
                 var addr = data.address; // 최종 주소 변수
                 // 주소 정보를 해당 필드에 넣는다.
-                document.getElementById("STORE_ADDR").value = addr;
+                document.getElementById("store_addr").value = addr;
                 // 주소로 상세 정보를 검색
                 geocoder.addressSearch(data.address, function(results, status) {
                     // 정상적으로 검색이 완료됐으면
@@ -388,8 +388,8 @@ $(".note-view").empty();
                         var result = results[0]; //첫번째 결과의 값을 활용
                         // 해당 주소에 대한 좌표를 받아서
                         var coords = new daum.maps.LatLng(result.y, result.x);
-                        document.getElementById("STORE_LAT").value = result.y;
-                        document.getElementById("STORE_LNG").value = result.x;
+                        document.getElementById("store_lat").value = result.y;
+                        document.getElementById("store_lng").value = result.x;
                     }
                 });
             }
@@ -403,7 +403,7 @@ $(".note-view").empty();
 var ertend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
 ertend_codes.forEach(function(ele,index){
 		$('#T_'+ele).click(function() {
-			var eles = document.getElementById('MENU_TEND').value
+			var eles = document.getElementById('menu_tend').value
 			if($('#T_'+ele).attr('src').includes('_x')){
 				console.log('여기')
 				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
@@ -439,7 +439,7 @@ ertend_codes.forEach(function(ele,index){
 		})
 	</script>
 
-	<script><!--유효성 검사 하기-->
+<script><!--유효성 검사 하기-->
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 		//모든 공백 체크 정규식
 		var empJ = /\s/g;
@@ -447,16 +447,24 @@ ertend_codes.forEach(function(ele,index){
 		var idJ = /^[a-z0-9]{4,12}$/;
 		// 비밀번호 정규식
 		var pwJ = /^[A-Za-z0-9]{6,12}$/; 
-		// 이름 정규식
-		var nameJ = /^[가-힣]{2,6}$/;
 		// 이메일 검사 정규식
 		var mailJ = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		// 휴대폰 번호 정규식
 		var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-
+		// 사업자 등록번호 정규식
+		var regJ = /^[0-9]{1,10}$/;
+		// 전화번호 정규식
+		var numJ = /^[0-9]{1,12}$/;
+		
+	
+	
+		
+		
+		
 // 		id 유효성 검사 하기
-		$("#username").keyup(function() {
-		username = $("#username").val();
+var username = $('#username').val();
+		$('#username').keyup(function() {
+		username = $('#username').val();
 		$.ajax({
 			url : "<c:url value='/idCheck.bbs'/>",
 			data:  {"username":username},
@@ -472,10 +480,6 @@ ertend_codes.forEach(function(ele,index){
 							// 0 : 아이디 길이 / 문자열 검사
 							$("#id_check").text("");
 						} 
-						else if(username == ""){
-							$('#id_check').text('아이디를 입력해주세요');
-							$('#id_check').css('color', 'red');		
-						} 
 						else {
 							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다");
 							$('#id_check').css('color', 'red');	
@@ -484,18 +488,31 @@ ertend_codes.forEach(function(ele,index){
 				}, error : function() {console.log("실패");}
 		});
 	});
-	
+$("#username").blur(function() {	
+if (username==""){
+	$('#id_check').text('아이디를 입력해주세요')
+	$('#id_check').css('color', 'red');
+}
+});	
 // 비밀번호 검사 하기
-var password;
-$("#password").keyup(function() {	
-		password = $(this).val();
-		if(pwJ.test(password)){ $('#password_check').text("") } 
+var password=$("#password").val();
+$("#password").keyup(function() {
+	password=$("#password").val();
+		if(pwJ.test(password)){
+			$('#password_check').text("")
+		} 
 		else{
-			$('#password_check').text('숫자나 문자로 6~12자리 입력')
+			$('#password_check').text('숫자나 문자로 6~12자리  입력해주세요')
 			$('#password_check').css('color', 'red');
 		}	
 });
-
+$("#password").blur(function() {
+	if (password==""){
+		$('#password_check').text('비밀번호를 입력해주세요')
+		$('#password_check').css('color', 'red');
+	}
+});
+var passwordok= $('#passwordok').val();
 $("#passwordok").keyup(function() {	
 	passwordok = $(this).val();
 		if(password == passwordok){ 
@@ -508,30 +525,133 @@ $("#passwordok").keyup(function() {
 });
 
 // 이메일 검사 하기
-
-$("#store_email").keyup(function() {	
-		email = $(this).val();
-		if(mailJ.test(email)){ $('#email_check').text("") } 
+var email = $("#store_email").val();
+$("#store_email").keyup(function() {
+		email = $("#store_email").val();
+		if(mailJ.test(email)){
+			$('#email_check').text("") 
+		}
 		else{
-			$('#email_check').text('이메일 형식이 아닙니다.')
+			$('#email_check').text('이메일 형식이 아닙니다.');
 			$('#email_check').css('color', 'red');
 		}	
 });
-
-//사업자 등록번호 검사 하기
-
-$("#store_reginum").keyup(function() {	
-		email = $(this).val();
-		if(mailJ.test(email)){ $('#reginum_check').text("") } 
-		else{
-			$('#reginum_check').text('이메일 형식이 아닙니다.')
-			$('#reginum_check').css('color', 'red');
-		}	
+$("#store_email").blur(function() {	
+	if (email==""){
+		$('#email_check').text('이메일을 입력해주세요');
+		$('#email_check').css('color', 'red');
+	}else{
+		$('#email_check').text("") 
+	}
 });
 
 
+//사업자 등록번호 검사 하기
+var reginum=$("#store_reginum").val();
+$("#store_reginum").keyup(function() {
+	reginum=$("#store_reginum").val();
+		if(regJ.test(reginum)){ 
+			$('#reginum_check').text("")
+		}
+		else{
+			$('#reginum_check').text('숫자를 입력해주세요');
+			$('#reginum_check').css('color', 'red');
+		}
+		
+		if(reginum.length>10){
+			console.log("여기")
+			var result = reginum.substring(0, 10)
+			$("#store_reginum").val(result);
+			$('#reginum_check').text('사업자 등록번호는 10자리입니다.');
+			$('#reginum_check').css('color', 'red');
+		}		
+});
 
+$("#store_reginum").blur(function() {	
+	if(reginum==""){
+		$('#reginum_check').text('사업자 등록번호를 입력해주세요');
+		$('#reginum_check').css('color', 'red');
+	}
+	else if(reginum.length<10){
+		$('#reginum_check').text('사업자 등록번호는 10자리입니다.');
+		$('#reginum_check').css('color', 'red');
+	}
+	else{
+		$('#reginum_check').text("")
+	}
+	
+});
+
+//가게이름 검사하기
+var store_name=$("#store_name").val();
+$("#store_name").keyup(function() {
+	store_name=$("#store_name").val();
+	if (store_name==""){
+		$('#name_check').text('매장 명을 입력해주세요')
+		$('#name_check').css('color', 'red');
+	}
+	else{
+		$('#name_check').text("")
+	}
+});
+$("#store_name").blur(function() {
+	if (store_name==""){
+		$('#name_check').text('매장 명을 입력해주세요')
+		$('#name_check').css('color', 'red');
+	}
+});
+
+//매장연락처 검사하기
+var store_phnum=$("#store_phnum").val();
+$("#store_phnum").keyup(function() {
+	store_phnum=$("#store_phnum").val();
+	if (numJ.test(store_phnum)){
+		$('#phnum_check').text('')
+	}
+	else if(store_phnum==""){
+		$('#phnum_check').text('매장 전화번호를 입력해주세요')
+		$('#phnum_check').css('color', 'red');
+	}
+	else if(store_phnum.length>12){
+		$('#phnum_check').text("전화번호 형식이 아닙니다.")
+		$('#phnum_check').css('color', 'red');
+		}
+	else{
+		$('#phnum_check').text("숫자만 입력해주세요")
+		$('#phnum_check').css('color', 'red');
+	}
+});
+$("#store_phnum").blur(function() {
+	if (store_phnum==""){
+		$('#phnum_check').text('매장 전화번호을 입력해주세요')
+		$('#phnum_check').css('color', 'red');
+	}
+	else if (store_phnum.length<12){
+		$('#phnum_check').text("전화번호 형식이 아닙니다.")
+		$('#phnum_check').css('color', 'red');
+	}
+});
+
+function nullval() {
+	if(username=='' || password=='' || email=='' || reginum=='' || store_name=='' || store_phnum=='' || store_addr=='' || passwordok==''){
+		console.log('여기')
+	}
+	else{
+		$('#btnright').attr('href','#carousel-g');
+	}
+}	
 </script>
 
+
+
+
+
+<script>
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
+	}, true);
+</script>
 </body>
 </html>

@@ -2,7 +2,17 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<script>
 
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
+	}, true);
+
+
+
+</script>
 
 	
 	<!-- 인증되지 않은 모든 사용자인 경우:로그인 폼 보여주기 -->
@@ -63,7 +73,7 @@
 								<div class="btn-group" role="group" aria-label="..."
 									style="text-align: center; padding: 0 auto; margin: 0 auto">
 
-									<a  class="btn" onclick="loginWithKakao()"
+									<a  class="btn" id="btnkakao" onclick="loginWithKakao()"
 										style="border-radius: 1em;">
 										<img alt="카카오" src="<c:url value='/resources/bootstrap/images/kakao.png'/>"
 											style="border-radius: 1.2em;">

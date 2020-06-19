@@ -8,6 +8,7 @@
 		SELECT COUNT(*) FROM users WHERE USERNAME=#{USERNAME} and PASSWORD=#{PASSWORD}
 	</select>
 	
+	
 	<select id="idCheck" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM stores WHERE USERNAME=#{username}
 	</select>

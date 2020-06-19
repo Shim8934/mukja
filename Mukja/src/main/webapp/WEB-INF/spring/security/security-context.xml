@@ -29,13 +29,13 @@
       -->
       <security:form-login 
          login-page="/SignIn.bbs"
-         default-target-url="/"
+         default-target-url="/LoginProcess.bbs"
          authentication-failure-url="/SignIn.bbs?NotLogin=error"
          login-processing-url="/LoginProcess.bbs"
          username-parameter="username"
          password-parameter="password"
+         
       />
-      
       <!-- 
       logout-url :로그아웃 URL지정. 기본값은 "/logout" .      
       delete-cookies : 쿠키 삭제 여부
