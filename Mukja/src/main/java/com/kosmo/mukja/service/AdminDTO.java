@@ -10,8 +10,18 @@ public class AdminDTO {
 	private String NT_CONTENT;
 	private String USERNAME;
 	private Date NT_REGITDATE;
-	private String NT_IMG;
+	// 공지사항 이미지용 변수
+	private String BF_NO;
+	private String BF_PATH;
 	
+	// 유저신고게시판 변수
+	private String UR_NO;
+	private String UR_TITLE;
+	private String UR_CONTENT;
+	private String UR_TARGET;
+	private String UR_REPORTER;
+	private Date UR_REGIDATE;
+	private String UR_TYPE;
 	
 	// 관리자 로그인 정보용 변수
 	private String enabled;
@@ -34,29 +44,41 @@ public class AdminDTO {
 	private String menu_info;
 	private String menu_regidate;
 	private java.sql.Date postDate;
+	
+	// 신고 관리용 유저 및 스토어
 	private String username;
 	private String username_1;
 	private String username_2;
-	
-	// 신고 관리용 변수
+	private String store_name1;
+	private String store_name2;
 	
 	public AdminDTO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE, String nT_IMG,
-			String enabled, String admin_role, String authority, String store_name, String store_regnum,
-			String store_phnum, String store_email, String store_intro, double store_lat, double store_lng,
-			String menu_no, String menu_name, String menu_tend, String menu_info, String menu_regidate, Date postDate,
-			String username2, String username_1, String username_2) {
+	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE, String bF_NO,
+			String bF_PATH, String uR_NO, String uR_TITLE, String uR_CONTENT, String uR_TARGET, String uR_REPORTER,
+			Date uR_REGIDATE, String uR_TYPE, String enabled, String admin_role, String authority, String store_name,
+			String store_regnum, String store_phnum, String store_email, String store_intro, double store_lat,
+			double store_lng, String menu_no, String menu_name, String menu_tend, String menu_info,
+			String menu_regidate, Date postDate, String username2, String username_1, String username_2,
+			String store_name1, String store_name2) {
 		super();
 		NT_NO = nT_NO;
 		NT_TITLE = nT_TITLE;
 		NT_CONTENT = nT_CONTENT;
 		USERNAME = uSERNAME;
 		NT_REGITDATE = nT_REGITDATE;
-		NT_IMG = nT_IMG;
+		BF_NO = bF_NO;
+		BF_PATH = bF_PATH;
+		UR_NO = uR_NO;
+		UR_TITLE = uR_TITLE;
+		UR_CONTENT = uR_CONTENT;
+		UR_TARGET = uR_TARGET;
+		UR_REPORTER = uR_REPORTER;
+		UR_REGIDATE = uR_REGIDATE;
+		UR_TYPE = uR_TYPE;
 		this.enabled = enabled;
 		this.admin_role = admin_role;
 		this.authority = authority;
@@ -76,6 +98,8 @@ public class AdminDTO {
 		username = username2;
 		this.username_1 = username_1;
 		this.username_2 = username_2;
+		this.store_name1 = store_name1;
+		this.store_name2 = store_name2;
 	}
 
 	public String getNT_NO() {
@@ -118,12 +142,76 @@ public class AdminDTO {
 		NT_REGITDATE = nT_REGITDATE;
 	}
 
-	public String getNT_IMG() {
-		return NT_IMG;
+	public String getBF_NO() {
+		return BF_NO;
 	}
 
-	public void setNT_IMG(String nT_IMG) {
-		NT_IMG = nT_IMG;
+	public void setBF_NO(String bF_NO) {
+		BF_NO = bF_NO;
+	}
+
+	public String getBF_PATH() {
+		return BF_PATH;
+	}
+
+	public void setBF_PATH(String bF_PATH) {
+		BF_PATH = bF_PATH;
+	}
+
+	public String getUR_NO() {
+		return UR_NO;
+	}
+
+	public void setUR_NO(String uR_NO) {
+		UR_NO = uR_NO;
+	}
+
+	public String getUR_TITLE() {
+		return UR_TITLE;
+	}
+
+	public void setUR_TITLE(String uR_TITLE) {
+		UR_TITLE = uR_TITLE;
+	}
+
+	public String getUR_CONTENT() {
+		return UR_CONTENT;
+	}
+
+	public void setUR_CONTENT(String uR_CONTENT) {
+		UR_CONTENT = uR_CONTENT;
+	}
+
+	public String getUR_TARGET() {
+		return UR_TARGET;
+	}
+
+	public void setUR_TARGET(String uR_TARGET) {
+		UR_TARGET = uR_TARGET;
+	}
+
+	public String getUR_REPORTER() {
+		return UR_REPORTER;
+	}
+
+	public void setUR_REPORTER(String uR_REPORTER) {
+		UR_REPORTER = uR_REPORTER;
+	}
+
+	public Date getUR_REGIDATE() {
+		return UR_REGIDATE;
+	}
+
+	public void setUR_REGIDATE(Date uR_REGIDATE) {
+		UR_REGIDATE = uR_REGIDATE;
+	}
+
+	public String getUR_TYPE() {
+		return UR_TYPE;
+	}
+
+	public void setUR_TYPE(String uR_TYPE) {
+		UR_TYPE = uR_TYPE;
 	}
 
 	public String getEnabled() {
@@ -277,5 +365,21 @@ public class AdminDTO {
 	public void setUsername_2(String username_2) {
 		this.username_2 = username_2;
 	}
-		
+
+	public String getStore_name1() {
+		return store_name1;
+	}
+
+	public void setStore_name1(String store_name1) {
+		this.store_name1 = store_name1;
+	}
+
+	public String getStore_name2() {
+		return store_name2;
+	}
+
+	public void setStore_name2(String store_name2) {
+		this.store_name2 = store_name2;
+	}
+	
 }///// class AdminDTO

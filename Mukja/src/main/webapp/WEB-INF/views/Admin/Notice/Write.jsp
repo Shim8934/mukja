@@ -4,23 +4,13 @@
 <script>
 $(function(){
 	$('#btnCancel').click(function(){
-		
+		window.history.back();
 	});
 });
 
 </script>
 <div class="app-main__outer">
 	<div class="app-main__inner">
-		<div class="app-page-title">
-			<div class="page-title-wrapper">
-				<div class="page-title-icon">
-					<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
-
-				</div>
-				<!-- page-title-icon끝 -->
-			</div>
-			<!-- page-title-wrapper끝 -->
-		</div>
 		<!-- 여기까지는 항상 고정!!! 아래에 내용 작성 -->
 
 		<!-- app-main__inner 본내용 시작 -->
@@ -44,9 +34,9 @@ $(function(){
 								</div>
 							</div>
 							<div class="position-relative row form-group">
-								<label for="NT_IMG" class="col-sm-2 col-form-label">이미지</label>
+								<label for="BF_PATH" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-									<input multiple="multiple" name="NT_IMG" id="NT_IMG" type="file" class="form-control-file" multiple="multiple">
+									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" multiple="multiple">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
 								</div>
 								<div id="filelist">
@@ -55,7 +45,7 @@ $(function(){
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
 									<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
-									<button class="mt-2 btn btn-warning" id="btnCancel">취소</button>
+									<button class="mt-2 btn btn-warning" id="btnCancel" type="button">취소</button>
 								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">

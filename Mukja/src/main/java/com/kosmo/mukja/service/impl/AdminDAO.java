@@ -46,15 +46,16 @@ public class AdminDAO implements AdminService{
 
 	// 글 삭제
 	@Override
-	public int delete(Map map) {
+	public int deleteNotice(Map map) {
 		// TODO Auto-generated method stub
 		return sqlMapper.delete("noticeDelete",map);
 	}
 
 	// 글 등록 // 파일 존재 시 경우의 수로 insert문 실행
 	@Override
-	public int insert(Map map) {
-			return sqlMapper.insert("noticeInsert",map);
+	public int noticeInsert(Map map) {
+		
+		return sqlMapper.insert("noticeInsert",map);
 	}
 
 	// 글 수정
@@ -75,6 +76,72 @@ public class AdminDAO implements AdminService{
 		// TODO Auto-generated method stub
 		return sqlMapper.selectOne("noticeSelectNext",map);
 	}
+
+	@Override
+	public List<AdminDTO> selectUserRpList(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectList("UsRpList",map);
+	}
+
+	@Override
+	public int getUsRPTotalRecord(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpGetTotalRecord",map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPOne(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpOne",map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPPrev(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpSelectPrev",map);
+	}
+
+	@Override
+	public AdminDTO selectUsRPNext(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpSelectNext",map);
+	}
+
+	@Override
+	public int deleteUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.delete("",map);
+	}
+
+	@Override
+	public int insertUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("",map);
+	}
+
+	@Override
+	public int updateUsRP(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("UsRpUpdate",map);
+	}
+
+	@Override
+	public int bfInsert(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("bf_pathInsert",map);
+	}
+
+	@Override
+	public AdminDTO selectForBf(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("selectForBf",map);
+	}
+
+	@Override
+	public int deleteBf(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.delete("deleteBf",map);
+	}
 	
 
-}
+}//////class AdminDAO

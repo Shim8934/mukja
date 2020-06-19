@@ -13,6 +13,7 @@ import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
+import com.kosmo.mukja.service.TableDTO;
 
 @Repository("storeDAO")
 public class StoreDAO  implements StoreService{
@@ -89,6 +90,16 @@ public class StoreDAO  implements StoreService{
 	@Override
 	public int isThumb(Map map) {
 		return (Integer) (sqlMapper.selectOne("isThumb",map)==null?0:sqlMapper.selectOne("isThumb",map)) ;
+	}
+
+	@Override
+	public  TableDTO getTable(Map map) {
+		return sqlMapper.selectOne("getTable",map);
+	}
+
+	@Override
+	public int updateTableInfo(Map map) {
+		return sqlMapper.update("updateTableInfo",map);
 	}
 	
 }

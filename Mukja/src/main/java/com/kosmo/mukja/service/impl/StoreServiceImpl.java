@@ -12,6 +12,7 @@ import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
+import com.kosmo.mukja.service.TableDTO;
 
 @Service("StoreInfoService")
 public class StoreServiceImpl implements StoreService{
@@ -69,6 +70,16 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public int isThumb(Map map) {
 		return dao.isThumb(map);
+	}
+
+	@Override
+	public TableDTO getTable(Map map) {
+		return dao.getTable(map);
+	}
+
+	@Override
+	public int updateTableInfo(Map map) {
+		return dao.updateTableInfo(map);
 	}
 	
 }

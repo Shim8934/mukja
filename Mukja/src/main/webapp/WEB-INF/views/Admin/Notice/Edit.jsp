@@ -1,6 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<script>
+		
+	$(function(){
+		var NT_NO = document.getElementById('NT_NO').value;
+		console.log('NT_NO 출력 제이쿼리 안')
+		console.log(NT_NO)
+		window.onload = FileLoad();		
+		var formData = new FormData($('#editForm'));
+		// 
+		function FileLoad(){
+			
+			$.ajax({
+				type: "POST",
+				enctype: 'multipart/form-data',
+				url: "<c:url value='/selectFiles.bbs'/>",
+				data: formData,
+				processData: false, 
+				contentType: false, 
+				cache: false,
+				success: function (result) {
+					console.log('파일 조회 성공?')
+				},
+				error: function (e) {
+					
+				}
+
+			});
+		}
+	})
+	/* 페이지 로드 시점에, 파일 조회해서 input 파일태그 안에 장착 */
+	
+	
+	
+	$(function(){
+		
+	});
+</script>
 
 <div class="app-main__outer">
 	<div class="app-main__inner">
@@ -22,7 +59,7 @@
 				<div class="main-card card">
 					<div class="card-body">
 						<h5 class="card-title">글 수정</h5>
-						<form class="" action="<c:url value='/EditNotice.bbs'/>" enctype="multipart/form-data" method="post">
+						<form class="" action="<c:url value='/EditNotice.bbs'/>" id="editForm" enctype="multipart/form-data" method="post">
 							<div class="position-relative row form-group">
 								<label for="NT_TITLE" class="col-sm-2 col-form-label">제목</label>
 								<div class="col-sm-10">
@@ -36,12 +73,14 @@
 								</div>
 							</div>
 							<div class="position-relative row form-group">
-								<label for="NT_IMG" class="col-sm-2 col-form-label">이미지</label>
+								<label for="BF_PATH" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-									<input multiple="multiple" name="NT_IMG" id="NT_IMG" type="file" class="form-control-file" multiple="multiple">
+									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file"
+									 multiple="multiple" value="">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
 								</div>
 								<div id="filelist">
+									
 								</div>
 							</div>
 							<div class="position-relative row form-group">
@@ -51,6 +90,7 @@
 								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">
+							<input name="NT_NO" id="NT_NO" value="${record.NT_NO}" type="text" class="form-control">
 						</form>
 						
 						<!-- 

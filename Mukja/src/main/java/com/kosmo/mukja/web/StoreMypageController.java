@@ -107,23 +107,9 @@ public class StoreMypageController {
 		
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
-	/*
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/updateStoreAvg.do") public String
-	 * updateStoreAvg(@RequestParam Map map) {
-	 * System.out.println("------------------updateStoreAvg----------");
-	 * Iterator<String> iter = map.keySet().iterator(); while(iter.hasNext()){
-	 * String key = iter.next(); String val = map.get(key).toString();
-	 * System.out.println(String.format("키 : %s 값 : %s", key,val)); } int result =
-	 * service.updateStoreAvg(map);
-	 * 
-	 * return "{'result':"+result+"}"; }
-	 * 
-	 * @ResponseBody
-	 * 
-	 * @RequestMapping("/updateStoreRecommand.do") public String
-	 * updateStoreRecommand(@RequestParam Map map) { int
-	 * result=service.updateStoreRecommand(map); return "{'result':"+result+"}"; }
-	 */
+	
+	
+
+	
+	
 }

@@ -31,8 +31,8 @@
 		<span>
 			<button type="button"
 				class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
-				<span class="btn-icon-wrapper"> <i
-					class="fa fa-ellipsis-v fa-w-6"></i>
+				<span class="btn-icon-wrapper">
+				 <i class="fa fa-ellipsis-v fa-w-6"></i>
 				</span>
 			</button>
 		</span>
@@ -43,8 +43,8 @@
 				<div class="widget-content p-0">
 					<div class="widget-content-wrapper">
 						<div class="widget-content-right header-user-info ml-3">
-							<a href="<c:url value="/"/>"><button type="button"
-									class="btn btn-danger active ">LogOut</button></a>
+							<a href="<c:url value="/"/>">
+							<button type="button" class="btn btn-danger active ">LogOut</button></a>
 						</div>
 					</div>
 				</div>
@@ -107,31 +107,43 @@
 						</a>
 						</li>
 					<!-- 가게 관리 -->
-					<li class="app-sidebar__heading">가게 관리</li>
+					<li class="app-sidebar__heading">제휴 관리</li>
+					
 					<li>
 						<a href="<c:url value="/NewFile.bbs"/>">
 							<i class="metismenu-icon pe-7s-display2"></i>
-							가게 정보 관리
+							제휴 승인 관리
+							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
+						<ul>
+							<li>
+								<a href="#">
+									<i class="metismenu-icon pe-7s-display2"></i>
+									제휴 관리
+								</a>
+							</li>
+						</ul>
+							<li>
+								<a href="#">
+									<i class="metismenu-icon pe-7s-display2"></i>
+									가게 신고 관리
+									<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
+								</a>
+								<ul>
+									<li>
+										<a href="<c:url value="/StoreReportList.bbs"/>">
+											<i class="metismenu-icon"></i>스토어 신고 목록
+										</a>
+									</li>
+									<li>
+										<a href="<c:url value="/StoreAdminReportManage.bbs"/>">
+											<i class="metismenu-icon"></i>스토어 신고 처리
+										</a>
+									</li>						
+								</ul>
+							</li>				
 					</li>
-					<li>
-						<a href="#">
-							<i class="metismenu-icon pe-7s-display2"></i>
-							가게 메뉴 관리
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="metismenu-icon pe-7s-display2"></i>
-							가게 리뷰 관리
-						</a>
-					</li>
-					<li>
-						<a href="#">
-							<i class="metismenu-icon pe-7s-display2"></i>
-							가게 신고 관리
-						</a>
-					</li>
+				
 					<!-- 이용자 -->
 					<li class="app-sidebar__heading">이용자 관리</li>
 					<li>
@@ -152,12 +164,10 @@
 							채팅 내역 관리
 						</a>
 					</li>
-					<!-- 신고 관리 -->
-					<li class="app-sidebar__heading">신고 관리</li>
 					<li>
 						<a href="#">
 							<i class="metismenu-icon pe-7s-display2"></i>
-							신고 내용
+							유저 신고
 							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
 						</a>
 						<ul>
@@ -168,33 +178,12 @@
 							</li>
 						
 							<li>
-								<a href="<c:url value="/StoreReportList.bbs"/>">
-									<i class="metismenu-icon"></i>스토어 신고 목록
+								<a href="<c:url value="/UserAdminReportManage.bbs"/>">
+									<i class="metismenu-icon"></i>유저 신고 처리
 								</a>
 							</li>						
 						</ul>
 					</li>
-					
-					<li>
-						<a href="<c:url value="/AdminReportManage.bbs"/>">
-							<i class="metismenu-icon pe-7s-display2"></i>
-							신고 처리 여부
-							<i class="metismenu-state-icon pe-7s-angle-down caret-left"></i>
-						</a>
-						<ul>
-							<li>
-								<a href="<c:url value="/UserAdminReportManage.bbs"/>">
-									<i class="metismenu-icon"></i>유저 신고 처리
-								</a>
-							</li>
-						
-							<li>
-								<a href="<c:url value="/StoreAdminReportManage.bbs"/>">
-									<i class="metismenu-icon"></i>스토어 신고 처리
-								</a>
-							</li>						
-						</ul>
-					</li>	
 				</ul>
 			</div>
 		</div>
