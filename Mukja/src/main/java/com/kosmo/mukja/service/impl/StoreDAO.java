@@ -99,7 +99,17 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateTableInfo(Map map) {
-		return sqlMapper.update("updateTableInfo",map);
+		int result=0;
+		int affected=sqlMapper.selectOne("isFindTableInfo",map);
+		if(affected==1) {
+			sqlMapper.update("updateTableInfo",map);
+		}else {
+			sqlMapper.update("insertTableInfo",map);	
+		}
+		
+		
+		
+		return result;
 	}
 	
 }

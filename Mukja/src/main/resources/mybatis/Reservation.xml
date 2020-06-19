@@ -9,7 +9,14 @@
     </select>
     
     <update id="updateTableInfo"  parameterType="java.util.Map" >
-    	update reservation set xy_data=#{xy_data}, xy_boundary=#{xy_boundary}  where store_id=#{store_id}
+    	update reservation set xy_data=#{xy_data}, xy_boundary=#{xy_boundary}, wating_count=#{wating_count}, avg_wating_time=#{avg_wating_time}  where store_id=#{store_id}
     </update>
+    
+    <select id="isFindTableInfo" parameterType="java.util.Map" resultType="int">
+    	select count(*) from reservation where store_id=#{store_id}
+    </select>
  	
+ 	<insert id="insertTableInfo" parameterType="java.util.Map">
+ 		insert into reservation values(#{store_id},#{xy_boundary},#{xy_data}wating_count=#{wating_count}, avg_wating_time=#{avg_wating_time} )
+ 	</insert>
 </mapper>

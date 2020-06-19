@@ -36,13 +36,14 @@ public class ReservationController {
 		System.out.println();
 		//가게 좌석정보 얻어오기
 		TableDTO tableDTO =  service.getTable(map);
-		System.out.println(tableDTO);
-		System.out.println(tableDTO.getStore_id());
-		JSONObject tableInfo = DBJson.DBtoJson(tableDTO);
-		System.out.println(tableInfo.toJSONString());
-		model.addAttribute("table_Info",tableInfo.toJSONString());
-		
-	
+		if(tableDTO!=null) {
+			System.out.println(tableDTO);
+			System.out.println(tableDTO.getStore_id());
+			JSONObject tableInfo = DBJson.DBtoJson(tableDTO);
+			System.out.println(tableInfo.toJSONString());
+			model.addAttribute("table_Info",tableInfo.toJSONString());
+			
+		}
 		return "Store/Reservation/ReservationView.tiles";
 	}
 	
@@ -53,14 +54,16 @@ public class ReservationController {
 		//현재 로그인해있는 가게아이디 얻기
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("store_id", userDetails.getUsername());
-		
+		System.out.println("updateReservation 돌입");
 		JSONParser parser = new JSONParser();
 		StringBuffer sb = new StringBuffer();
 		try {
 			JSONObject tableinfo = (JSONObject)(parser.parse(map.get("data").toString()));
 			int row =Integer.parseInt(tableinfo.get("y_boundary").toString());
 			int col =Integer.parseInt(tableinfo.get("x_boundary").toString());
-			
+			System.out.println("row : "+row+" col:"+col);
+			int wating_count=Integer.parseInt( tableinfo.get("wating_count").toString());
+			int avg_wating_time=Integer.parseInt( tableinfo.get("avg_wating_time").toString());
 			for(int i=0; i<row;i++) {
 				for(int j=0; j<col;j++) {
 					JSONArray innerData= (JSONArray)tableinfo.get(String.valueOf(i));
@@ -72,16 +75,22 @@ public class ReservationController {
 					}
 				}
 			}
+			System.out.println("sb.toString()");
 			System.out.println(sb.toString());
+		
 			map.put("xy_data", sb.toString());
-			map.put("xy_boundary",row+","+col);
+			map.put("xy_boundary",col+","+row);
+			map.put("wating_count",wating_count );
+			map.put("avg_wating_time",avg_wating_time );
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 	
 		
 		int result = service.updateTableInfo(map);
-		return "{'result':"+result+"}";
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", result);
+		return jsonObject.toJSONString();
 	}
 	
 	
@@ -91,12 +100,16 @@ public class ReservationController {
 		System.out.println("store_id : "+map.get("store_id"));
 		//가게 좌석정보 얻어오기
 		TableDTO tableDTO =  service.getTable(map);
-		
+		if(tableDTO!=null) {
 		JSONObject tableInfo = DBJson.DBtoJson(tableDTO);
 		System.out.println(tableInfo.toJSONString());
 		
 	
 		return tableInfo.toJSONString();
+		}else {
+			
+		return "flase";
+		}
 	}
 	
 	@RequestMapping("/Resevation/CreateStoreTableMap.do")

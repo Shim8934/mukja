@@ -217,11 +217,23 @@
  	background-color: #D6D6D6;
  }
   .g{
- 	background-color: #B4C7C8;
+ 	background-color: #7A7A7A;
  }
   .b{
   
- 	background-color: #257FB9;
+ 	background-color: #DF101C;
+ }
+ 
+ .myCon{
+	 justify-content: center; 
+	 align-item: center; 
+ }
+ .item{
+	text-align: center;
+ }
+ .realIMG{
+ 	 width: 150px;
+ 	height: 150px;
  }
    </style>
 
