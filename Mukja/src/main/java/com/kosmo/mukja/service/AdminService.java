@@ -17,8 +17,13 @@ public interface AdminService {
 	AdminDTO selectPrev(Map map);
 	AdminDTO selectNext(Map map);
 	//입력/수정/삭제용]
-	int delete(Map map);
-	int insert(Map map);
+	int deleteNotice(Map map);
+	int deleteBf(Map map);
+	// Notice 글 등록
+	int noticeInsert(Map map);
+	// file 글 등록
+	int bfInsert(Map map);
+	AdminDTO selectForBf(Map map);
 	int update(Map map);
 	// 공지사항용 끝
 	

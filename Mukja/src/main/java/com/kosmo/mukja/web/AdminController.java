@@ -240,26 +240,25 @@ public class AdminController {
 		return "Notice/List.admins";
 	}
 	
+	// 공지사항 View
 	@RequestMapping(value="/OneNoticeView.bbs", method=RequestMethod.GET)
 	public String oneViewNotice(@RequestParam Map map, Model model) {
 		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
 		AdminDTO record = adminService.selectOne(map);
-		System.out.println(record);
+
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
-		System.out.println(record);
-		
+
 		AdminDTO prev = adminService.selectPrev(map);
-		System.out.println(map);
-		System.out.println(prev);
+
 		AdminDTO next = adminService.selectNext(map);
-		System.out.println(map);
-		System.out.println(next);
+
 		System.out.println(record.getBF_PATH());
-		StringTokenizer imageList = new StringTokenizer(record.getBF_PATH()," / ");
+		StringTokenizer imageList = new StringTokenizer(record.getBF_PATH(),"/");
 		List<String> image = new ArrayList<String>();
 		while(imageList.hasMoreTokens()) {
 			image.add(imageList.nextToken());
 		}
+		model.addAttribute("image",image);
 		model.addAttribute("record",record);
 		model.addAttribute("prev",prev);
 		model.addAttribute("next",next);
@@ -267,7 +266,7 @@ public class AdminController {
 		return "Notice/View.admins";
 	}
 	
-	// 공지사항 등록 페이지 이동
+	// 공지사항 등록 이동
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.GET)
 	public String moveWriteNotice(Authentication auth, Model model) {
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
@@ -276,7 +275,7 @@ public class AdminController {
 		return "Notice/Write.admins";
 	}
 	 
-	// 공지사항 등록 컨트롤러 (본격 등록)
+	// 공지사항 본격 등록
 	@RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
 	public String writeNotice(MultipartHttpServletRequest req,
 							  Authentication auth,
@@ -285,48 +284,58 @@ public class AdminController {
 		// 파일 이름 저장용 변수
 		String fileName = "";
 		String columnName = "BF_PATH";
-		// 파일이 저장될 경로 지정
+		// 파일이 저장될 경로 지정 / 프젝 시작 경로 제외한 경로(정적메소드 안에서 절대경로 얻음)
 		String path = "/resources/Upload/AdminNotice";
 		
-		// 디비에 저장할 파일 이름 저장용 변수 선언 및 
+		// 디비에 저장할 파일 이름 저장용 변수 선언 및 파일 업로드용 FiltUtil.getNewFile 호출 
 		String BF_PATH =FileUtil.getNewFile(req, path,columnName);;
 		System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
 		System.out.println(map==null?"맵널":"널 아님");
+		map.put("BF_PATH",BF_PATH);
+			
+		System.out.println("제목?  "+map.get("NT_TITLE").toString()+"\n\r");
+		System.out.println("글 입력 직전\n\r");
+		adminService.noticeInsert(map);
 		
-		if(BF_PATH.equals("/")) {
-			BF_PATH = "";
-			map.put("BF_PATH",BF_PATH);
-		}
-		else {
-			// 쿼리문 작업용으로 집어넣음
-			map.put("BF_PATH",BF_PATH);
-		}
-		adminService.insert(map);
+		map.put("NT_TITLE", map.get("NT_TITLE"));
+		AdminDTO forBf = adminService.selectForBf(map);
+		System.out.println("NT_NO 얻어오기"+forBf.getNT_NO()+"\n\r");
+		
+		map.put("NT_NO", forBf.getNT_NO());
+		System.out.println("파일 입력 직전\n\r");
+		adminService.bfInsert(map);
 		return "forward:NoticeList.bbs";
 	}
 	
 	// 공지사항 삭제 컨트롤러
 	@RequestMapping(value="/DeleteNotice.bbs", method=RequestMethod.GET)
 	public String deleteNotice(@RequestParam Map map, HttpServletRequest req) {
-		if(map.get("BF_PATH")!=null) {
-			StringTokenizer fileName = new StringTokenizer(map.get("BF_PATH").toString(),"/");
-			System.out.println("Tokenizer 출력 = "+fileName);
+		AdminDTO oneView = adminService.selectOne(map);
+		
+		if(oneView.getBF_PATH()!=null) {
+			String checkFile = "";
+			String uploadPath = "/resources/Upload/AdminNotice";
+			StringTokenizer fileName = new StringTokenizer(oneView.getBF_PATH().toString(),"/");
 			System.out.println("읽어온 파일 갯수 체크 = "+fileName.countTokens());
-			for(int i=0;i<fileName.countTokens();i++) {
-				
+			
+			while(fileName.hasMoreTokens()) {
+				checkFile=fileName.nextToken();
+				System.out.println(checkFile+ "=삭제 전 파일 이름 체크");
+				FileUtil.deleteFile(req, uploadPath, checkFile);
+				System.out.println("남은 토큰 있음?="+fileName.hasMoreTokens());
 			}
-			String saveDirectory = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
-			System.out.println("패스 체크"+saveDirectory);
-			File file = new File(saveDirectory+File.separator+map.get("NT_IMG"));
-			if(file.exists()) {
-				file.delete();
-				System.out.println("첨부파일 삭제 완료");
-			}
+			int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
+			map.put("NT_NO", NT_NO);
+			// BBS_FILE 글 지워주고 , 연달아서 공지사항 글 지워주기
+			int resultBf = adminService.deleteBf(map);
+			System.out.println(resultBf==1?"파일 삭제 성공 " : "파일 삭제 실패");
+			adminService.deleteNotice(map);
 		}
-		int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
-		map.put("NT_NO", NT_NO);
-		System.out.println(NT_NO);
-		adminService.delete(map);
+		else{
+			adminService.deleteBf(map);
+			adminService.deleteNotice(map);
+		}
+		
 		return "forward:NoticeList.bbs";
 	}
 	

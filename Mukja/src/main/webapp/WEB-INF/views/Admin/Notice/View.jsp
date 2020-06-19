@@ -4,16 +4,6 @@
 	
 <div class="app-main__outer">
 	<div class="app-main__inner">
-		<div class="app-page-title">
-			<div class="page-title-wrapper">
-				<div class="page-title-icon">
-					<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
-					
-				</div>
-				<!-- page-title-icon끝 -->
-			</div>
-			<!-- page-title-wrapper끝 -->
-		</div>
 		<!-- 여기까지는 항상 고정!!! 아래에 내용 작성 -->
 
 		<!-- app-main__inner 본내용 시작 -->
@@ -44,6 +34,16 @@
 					<div class="tab-content">
 						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">작성자 : ${record.username}</h6></div>
 						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">${record.NT_REGITDATE}</h6></div>
+							<c:if test="${empty image}" var="isEmpty">
+								<div class="scroll-container ps--active-yps text-center">
+									등록된 이미지가 없습니다.
+								</div>
+							</c:if>
+							<c:if test="${not isEmpty}">
+								<c:forEach items="${image}" var="item" varStatus="loop">
+									<div class="text-center"><img src="<c:url value="/resources/Upload/AdminNotice/${item}"/>"></div>		
+								</c:forEach>
+							</c:if>
 						<div class="scroll-area-md">
 							<div class="scroll-container ps--active-yps">
 								${record.NT_CONTENT}
@@ -52,16 +52,7 @@
 								${record.NT_CONTENT}
 							</div>
 						</div>
-						<c:if test="${empty record.BF_PATH}" var="isEmpty">
-							<div class="scroll-container ps--active-yps">
-								등록된 이미지가 없습니다.
-							</div>
-						</c:if>
-						<c:if test="${not isEmpty}">
-							<c:forEach items="${image}" var="item" varStatus="loop">
-								<div class="text-center"><img src="<c:url value="${item}"/>"></div>		
-							</c:forEach>
-						</c:if>
+						
 													
 						<div>
 						</div>
@@ -70,13 +61,13 @@
 								<button class="btn btn-transition btn-outline-light">수정</button>
 							</a>
 							&nbsp;
-							<a href="<c:url value="/NoticeList.bbs"/>">
-								<button class="btn btn-transition btn-outline-light">돌아가기</button>
-							</a>
-							&nbsp;
 							<a href="<c:url value="/DeleteNotice.bbs?NT_NO=${record.NT_NO}"/>">
 								<button class="mr-2 btn-icon btn-icon-only btn btn-outline-danger">
 								<i class="pe-7s-trash btn-icon-wrapper"></i></button>
+							</a>
+							&nbsp;
+							<a href="<c:url value="/NoticeList.bbs"/>">
+								<button class="btn btn-transition btn-outline-light">돌아가기</button>
 							</a>
 						</div>
 						</div>
