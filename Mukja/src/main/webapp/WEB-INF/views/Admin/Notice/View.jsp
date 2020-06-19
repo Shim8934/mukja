@@ -34,15 +34,33 @@
 					<div class="tab-content">
 						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">작성자 : ${record.username}</h6></div>
 						<div class="text-right"><h6 class="text-uppercase font-size-md font-weight-normal">${record.NT_REGITDATE}</h6></div>
+						 <div class="text-right">
+                             <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="mb-2 mr-2 dropdown-toggle btn btn-light text-right">첨부 파일</button>
+                             <div class="d-block text-right">
+                             <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu">
+                                <c:forEach items="${image}" var="item" varStatus="loop">
+									<a href="<c:url value="/resources/Upload/AdminNotice/${item}"/>">
+										<button type="button" tabindex="0" class="dropdown-item">	
+											${item}
+										</button>
+									</a>
+								</c:forEach>
+                             </div>
+                             <!-- foreach 감싸고있는 -->
+                             </div>
+                             <!-- dropdown -->
+                         </div>
 							<c:if test="${empty image}" var="isEmpty">
 								<div class="scroll-container ps--active-yps text-center">
 									등록된 이미지가 없습니다.
 								</div>
 							</c:if>
 							<c:if test="${not isEmpty}">
-								<c:forEach items="${image}" var="item" varStatus="loop">
-									<div class="text-center"><img src="<c:url value="/resources/Upload/AdminNotice/${item}"/>"></div>		
-								</c:forEach>
+									<div class="text-center">
+										<c:forEach items="${image}" var="item" varStatus="loop">
+											<img src="<c:url value="/resources/Upload/AdminNotice/${item}"/>">
+										</c:forEach>
+									</div>		
 							</c:if>
 						<div class="scroll-area-md">
 							<div class="scroll-container ps--active-yps">

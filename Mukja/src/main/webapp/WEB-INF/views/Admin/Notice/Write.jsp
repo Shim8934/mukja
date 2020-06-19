@@ -34,7 +34,7 @@ $(function(){
 								</div>
 							</div>
 							<div class="position-relative row form-group">
-								<label for="NT_IMG" class="col-sm-2 col-form-label">이미지</label>
+								<label for="BF_PATH" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
 									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" multiple="multiple">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
@@ -45,7 +45,7 @@ $(function(){
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
 									<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
-									<button class="mt-2 btn btn-warning" id="btnCancel">취소</button>
+									<button class="mt-2 btn btn-warning" id="btnCancel" >취소</button>
 								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">

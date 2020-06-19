@@ -335,17 +335,37 @@ public class AdminController {
 			adminService.deleteBf(map);
 			adminService.deleteNotice(map);
 		}
-		
 		return "forward:NoticeList.bbs";
 	}
 	
 	// 공지사항 수정 컨트롤러 수정폼 이동
 	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.GET)
-	public String goEditNotice(@RequestParam Map map, Model model) {
+	public String goEditNotice(@RequestParam Map map, Model model, HttpServletRequest req) {
 		System.out.println("nt_no 넘어옴?  "+map.get("NT_NO").toString());
 		AdminDTO record = adminService.selectOne(map);
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
+		
+		if(record.getBF_PATH()!=null) {
+			
+			String checkFile = "";
+			String uploadPath = "/resources/Upload/AdminNotice";
+			StringTokenizer fileName = new StringTokenizer(record.getBF_PATH().toString(),"/");
+			System.out.println("읽어온 파일 갯수 체크 = "+fileName.countTokens());
+			List<File> fileLists = new Vector<File>();
+			while(fileName.hasMoreTokens()) {
+				checkFile=fileName.nextToken();
+				File file = new File(req.getSession().getServletContext().getRealPath(uploadPath+checkFile));
+				fileLists.add(file);
+			}
+			map.put("fileLists", fileLists);
+			int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
+			map.put("NT_NO", NT_NO);
+		}
+		else{
+			map.put("fileLists", null);
+		}
+		
 		return "Notice/Edit.admins";
 	}
 	
