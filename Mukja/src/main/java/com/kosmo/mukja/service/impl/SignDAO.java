@@ -39,4 +39,5 @@ public class SignDAO implements SignService {
 	public int idCheck(Map map) {
 		return sqlMapper.selectOne("idCheck",map);
 	}
+
 }

@@ -37,11 +37,11 @@ public class StoreMypageController {
 		List<StoreDTO> list = service.getStoreInfo(map);
 		model.addAttribute("list",list);
 		
-		
-		
 		int reviewCount= service.getReviewCount(map);
 		model.addAttribute("reviewCount",reviewCount);
+		model.addAttribute("msg", userDetails.getUsername()); 
 		
+
 		List<FoodMenuDTO> foodMenuList = service.getFoodMenu(map);
 		String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
 		String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};

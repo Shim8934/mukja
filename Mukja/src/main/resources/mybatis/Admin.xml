@@ -12,56 +12,59 @@
 	<select id="noticeList" parameterType="java.util.Map" resultType="adminDTO">
 		SELECT * FROM
 		(SELECT T.*, ROWNUM R FROM 
-		(SELECT n.* FROM NOTICE n JOIN ADMINS a on n.username = a.username 
+		(SELECT N.*,b.bf_path FROM NOTICE N JOIN BBS_FILE B ON N.NT_NO = B.NT_NO
 		<if test="searchWord != null">
 			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
-		ORDER BY NT_NO DESC) T) 
-		WHERE R BETWEEN ${start} AND ${end}	
-	</select>
-	
-	<!-- 공지사항(Notice) 전글-->
-	<select id="noticeSelectPrev" parameterType="java.util.Map" resultType="adminDTO">
-		SELECT * FROM NOTICE WHERE NT_NO = (SELECT MAX(NT_NO) FROM NOTICE WHERE NT_NO <![CDATA[<]]> ${NT_NO})
-	</select>
-	<!-- 공지사항(Notice) 다음 글-->
-	<select id="noticeSelectNext" parameterType="java.util.Map" resultType="adminDTO">
-		SELECT * FROM NOTICE WHERE NT_NO = (SELECT MIN(NT_NO) FROM NOTICE WHERE NT_NO <![CDATA[>]]> ${NT_NO})
+		ORDER BY N.NT_NO DESC) T) 
+		WHERE R BETWEEN ${start} AND ${end}
 	</select>
 	
 	<select id="noticeGetTotalRecord" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM notice 
 		<if test="searchWord != null">
-		WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
 	</select>
 	
-	<select id="noticeSelectOne" parameterType="java.util.Map" resultType="adminDTO">
-		SELECT n.* FROM NOTICE N WHERE NT_NO = #{NT_NO}
+	<!-- 공지사항(Notice) 전글-->
+	<select id="noticeSelectPrev" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT N.*,b.BF_PATH FROM NOTICE N join BBS_FILE b on n.nt_no = b.NT_no WHERE N.NT_NO = (SELECT MAX(N.NT_NO) FROM Notice N WHERE N.NT_NO <![CDATA[<]]> ${NT_NO})
 	</select>
-	
+	<!-- 공지사항(Notice) 다음 글-->
+	<select id="noticeSelectNext" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT N.*,b.BF_PATH FROM NOTICE N join BBS_FILE b on n.nt_no = b.NT_no WHERE N.NT_NO = (SELECT MIN(N.NT_NO) FROM Notice N WHERE N.NT_NO <![CDATA[>]]> ${NT_NO})
+	</select>
+	<!-- 공지사항 View -->
+	<select id="noticeSelectOne" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT n.*,B.BF_PATH FROM NOTICE N JOIN BBS_FILE B ON n.NT_NO = b.NT_NO Where N.NT_NO = ${NT_NO}
+	</select>
+	<!-- 공지사항 삭제 -->
 	<delete id="noticeDelete" parameterType="java.util.Map">
 		Delete FROM notice WHERE NT_NO = #{NT_NO}
 	</delete>
-	
+	<delete id="deleteBf" parameterType="java.util.Map">
+		Delete FROM BBS_FILE WHERE NT_NO = #{NT_NO}
+	</delete>
+	<!-- 공지사항 수정 -->
 	<update id="noticeUpdate" parameterType="java.util.Map">
 		UPDATE notice SET title=#{title},content=#{content} WHERE no=#{no} 
 	</update>
 	
+	<!-- 공지사항 글 등록 -->
 	<insert id="noticeInsert" parameterType="java.util.Map">
-		<if test="NT_IMG == null">
-			INSERT INTO notice(NT_NO,NT_TITLE,NT_CONTENT,username)
-			VALUES(SEQ_notice.NEXTVAL,#{NT_TITLE},#{NT_CONTENT},#{username})
-		</if>
-		<if test="NT_IMG != null">
-			INSERT INTO notice(NT_NO,NT_TITLE,NT_CONTENT,username,NT_IMG)
-			VALUES(SEQ_notice.NEXTVAL,#{NT_TITLE},#{NT_CONTENT},#{username},#{NT_IMG})
-		</if>
+		INSERT INTO notice(NT_NO,NT_TITLE,NT_CONTENT,username)
+		VALUES(SEQ_notice.NEXTVAL,#{NT_TITLE},#{NT_CONTENT},#{username})
 	</insert>
-	<insert id="bbsFileInsert" parameterType="java.util.Map">
-			INSERT INTO BBS_FILE(BF_NO,NT_NO,BF_PATH)
-			VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
-	</insert>
+	<!-- 파일 등록 -->
+	<insert id="bf_pathInsert" parameterType="java.util.Map">
+		INSERT INTO BBS_FILE(BF_NO,NT_NO,BF_PATH)
+		VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
+	</insert>	
+	<!-- 파일 등록 NT_NO값 얻어오기위한 쿼리 -->
+	<select id="selectForBf" parameterType="java.util.Map" resultType="adminDTO">
+		Select * from Notice where NT_TITLE=#{NT_TITLE}
+	</select>
 	<!-- 공지사항(Notice) 끝 -->
 	
 	<!-- 유저 신고 시작 -->

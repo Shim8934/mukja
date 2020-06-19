@@ -29,11 +29,9 @@
     <!-- body부분 -->
     <tiles:insertAttribute name="body"/>  
     
-    <!-- footer부분 -->
-    <tiles:insertAttribute name="footer"/>
     
-    
-    
+		    </div>
+		<!-- 본문 app-main__inner 끝 -->
     	</div>
     	<!-- 본문파일에서 시작하는 app-main__outer끝 -->
     </div>

@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+<beans:beans
+	xmlns="http://www.springframework.org/schema/mvc"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket-4.3.xsd
 		http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing 
+		infrastructure -->
+
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
-	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<default-servlet-handler/>
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving 
+		up static resources in the ${webappRoot}/resources directory -->
+	<default-servlet-handler />
 
-	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="order" value="2"/>
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources 
+		in the /WEB-INF/views directory -->
+	<beans:bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="order" value="2" />
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="com.kosmo.mukja" />
-	
+
+	<context:component-scan
+		base-package="com.kosmo.mukja" />
+
 	<!-- tiles사용을 위한 bean등록 -->
 	<beans:bean
 		class="org.springframework.web.servlet.view.tiles3.TilesConfigurer">
@@ -42,20 +50,41 @@
 		<beans:property name="viewClass"
 			value="org.springframework.web.servlet.view.tiles3.TilesView" />
 	</beans:bean>
-	
+
 	<!-- 리소스파일(.properties) 사용을 위한 설정 -->
-	<context:property-placeholder location="classpath:memo/memo.properties"/>
-	
+	<context:property-placeholder
+		location="classpath:memo/memo.properties" />
+
 	<!-- 웹소켓 서버용 빈 만들기 -->
-	<beans:bean id="chatServer" class="com.kosmo.mukja.web.Erchat"/>
+	<beans:bean id="chatServer"
+		class="com.kosmo.mukja.web.Erchat" />
 	<!-- 웹소켓 서버와 클라이언트에서 접속하는 path와 매핑 -->
 	<websocket:handlers>
-		<websocket:mapping handler="chatServer" path="/chat.do"/>
+		<websocket:mapping handler="chatServer"
+			path="/chat.do" />
 	</websocket:handlers>
-	
-	<!-- 파일 업로드 관련 -->
-	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <beans:property name="defaultEncoding" value="UTF-8"/>  
-    </beans:bean>
 
+	<!-- 파일 업로드 관련 -->
+	<beans:bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="defaultEncoding" value="UTF-8" />
+	</beans:bean>
+
+	<!-- 회원가입 메일 인증 -->
+	<beans:bean id="mailSender"	class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<beans:property name="host" value="smtp.gmail.com" />
+		<beans:property name="port" value="587" /><!-- 465 or 25 -->
+		<beans:property name="username" value="wkdrns3213@gmail.com" />
+		<beans:property name="password" value="tjddnd4216@" />
+		<beans:property name="defaultEncoding" value="utf-8" />
+		<beans:property name="javaMailProperties">
+			<beans:props>
+				<beans:prop key="mail.transport.protocol">smtp</beans:prop>
+				<beans:prop key="mail.smtp.auth">true</beans:prop>
+				<beans:prop key="mail.smtp.starttls.enable">true</beans:prop>
+				<beans:prop key="mail.debug">true</beans:prop>
+			</beans:props>
+		</beans:property>
+	</beans:bean>
+	
 </beans:beans>

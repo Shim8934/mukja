@@ -55,16 +55,16 @@
   
     <!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
    <!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
    <script src="<c:url value='/bootstrap/js/bootstrap.min.js'/>"/></script>
 	<!-- anime.js  https://animejs.com/documentation/#duration -->
-	<script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
+   <script src="<c:url value="/resources/anime_js/anime.min.js"/>"></script>
 	
 	
 	 
-  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  
   <script>
   jQuery( document ).ready(function( $ ) {
 
@@ -724,7 +724,41 @@ $('.hideERC').click(function(){
 });
 
 
-	</script>
+</script>
 	<!-- 메신저 스크립트 끝-->
+	<script type='text/javascript'>
+	function loginWithKakao() {
+		//<![CDATA[
+		// 사용할 앱의 JavaScript 키를 설정해 주세요.
+		Kakao.init('cab0340f505e3743996a8af7ba8a84ed'); //여기서 아까 발급받은 키 중 javascript키를 사용해준다.
+		// 카카오 로그인 버튼을 생성합니다.
+		Kakao.Auth.login({
+			success : function(authObj) {
+				Kakao.API.request({
+					url : '/v2/user/me',
+					success : function(res) {
+						console.log(res.id);//<-- 아이디
+						console.log(res.properties['nickname']);//<-- 서비스에서 쓰이는 사용자 닉네임						 
+						console.log(res.kakao_account.profile);//<--카카오계정의 프로필 소유 여부
+						console.log(res.properties.profile_image);//<--서비스에서 쓰이는 사용자 프로필 이미지 URL
+						console.log(res.properties.thumbnail_image);//<--서비스에서 쓰이는 사용자 썸네일 이미지 URL
+						console.log(res.kakao_account.email);//<-- 카카오계정의 이메일 소유 여부
+						console.log(res.kakao_account.age_range);//<--카카오계정의 연령대 소유 여부, 연령대 값
+						console.log(res.kakao_account.birthday);//<--카카오계정의 생일 소유 여부, 생일 값
+						console.log(res.kakao_account.gender);//<--카카오계정의 성별 소유 여부, 성별 값
+						console.log(authObj.access_token);//<-- 토큰
+					}
+				})
+			},
+			fail : function(error) {
+				alert(JSON.stringify(error));
+			}
+		});
+	} 
+</script>	
+	
+	
+	
+	
   </body>
 </html>

@@ -19,8 +19,7 @@ tr td{
 			<div class="card-body">
 		<h3 class="card-title">공지사항</h3>
 			<div class="text-right">
-				<a href="<c:url value='/WriteNotice.bbs'/>"
-					class="btn btn-success" style="margin-bottom: 1em;">등록 </a>
+				<a href="<c:url value='/WriteNotice.bbs'/>" class="btn btn-success" style="margin-bottom: 1em;">등록 </a>
 			</div>
 					<div class="table-responsive">
 						<table class="table table-hover" style="font-family: baedal;">
@@ -52,34 +51,16 @@ tr td{
 					</div>
 					<!-- table 다이브 끝 -->
 					
-					
 					<!-- 페이징 -->
-					<div class="card-footer" >
-						<div style="display:inline-block; text-align:center;">${pagingString}</div>
+					<div class="d-block text-center card-footer">
+						<div class="text-center" style="display:inline-block; text-align:center;">${pagingString}</div>
 					</div>
-				
 						
 						<!-- 검색 -->
 					</div>
 					<!-- main-card -->
 					<div class="main-card card">
 						<div class="card-body">
-							<!-- <div class="text-center">
-								<form class="form-inline" method="get" action="<c:url value='/OneMemo/BBS/List.bbs'/>">
-									<div class="form-group">
-										<select name="searchColumn" class="form-control">
-											<option value="title">제목</option>
-											<option value="name">작성자</option>
-											<option value="content">내용</option>
-										</select>
-									</div>
-									<div class="form-group">
-										<input type="text" name="searchWord" class="form-control" />
-									</div>
-									<button type="submit" class="btn btn-primary">검색</button>
-
-								</form>
-							</div>-->
 							<form action="<c:url value="/NoticeList.bbs"/>" method="get">
 								<div class="input-group">
 									<div class="input-group-prepend">
