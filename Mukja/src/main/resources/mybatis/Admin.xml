@@ -21,7 +21,7 @@
 	</select>
 	
 	<select id="noticeGetTotalRecord" parameterType="java.util.Map" resultType="int">
-		SELECT COUNT(*) FROM notice 
+		SELECT COUNT(*) FROM notice N JOin BBS_FILE B on N.NT_NO = B.NT_NO
 		<if test="searchWord != null">
 			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
@@ -60,10 +60,17 @@
 	<insert id="bf_pathInsert" parameterType="java.util.Map">
 		INSERT INTO BBS_FILE(BF_NO,NT_NO,BF_PATH)
 		VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
-	</insert>	
-	<!-- 파일 등록 NT_NO값 얻어오기위한 쿼리 -->
+	</insert>
+	
+			
+	<!-- 글 등록 시, BBS_FILE 테이블에서 파일 등록을 위한 NT_NO값 얻어오기위한 쿼리 -->
 	<select id="selectForBf" parameterType="java.util.Map" resultType="adminDTO">
 		Select * from Notice where NT_TITLE=#{NT_TITLE}
+	</select>
+	
+	<!-- 글 수정 시, 파일 값 얻어오기 위한 쿼리 -->
+	<select id="selectForFile">
+		Select * from BBS_FILE where NT_NO=${NT_NO}
 	</select>
 	<!-- 공지사항(Notice) 끝 -->
 	

@@ -25,6 +25,8 @@ public interface AdminService {
 	int bfInsert(Map map);
 	AdminDTO selectForBf(Map map);
 	int update(Map map);
+	AdminDTO selectForFile(Map map);
+	
 	// 공지사항용 끝
 	
 	// 공지사항용
@@ -39,5 +41,7 @@ public interface AdminService {
 	int deleteUsRP(Map map);
 	int insertUsRP(Map map);
 	int updateUsRP(Map map);
+	
+	
 	// 공지사항용 끝
 }

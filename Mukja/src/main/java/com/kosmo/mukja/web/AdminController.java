@@ -114,7 +114,7 @@ public class AdminController {
 		System.out.println("list 존재?"+list);
 		model.addAttribute("list", list);
 		model.addAttribute("pagingString", pagingString);
-		return "Manage/Report/UserList.admins";
+		return "Manage/User/UserRpList.admins";
 	}
 	
 	// 2-1-2) 유저 신고 관리 컨트롤러
@@ -252,13 +252,20 @@ public class AdminController {
 
 		AdminDTO next = adminService.selectNext(map);
 
+		StringTokenizer imageList=null;
 		System.out.println(record.getBF_PATH());
-		StringTokenizer imageList = new StringTokenizer(record.getBF_PATH(),"/");
-		List<String> image = new ArrayList<String>();
-		while(imageList.hasMoreTokens()) {
-			image.add(imageList.nextToken());
+		System.out.println(record.getBF_PATH()+"Viewcontroller 파일 정보");
+		if(record.getBF_PATH()!=null) {
+			imageList = new StringTokenizer(record.getBF_PATH(),"/");
+			List<String> image = new ArrayList<String>();
+			while(imageList.hasMoreTokens()) {
+				image.add(imageList.nextToken());
+			}
+			model.addAttribute("image",image);
 		}
-		model.addAttribute("image",image);
+		else {
+			model.addAttribute("image",null);
+		}
 		model.addAttribute("record",record);
 		model.addAttribute("prev",prev);
 		model.addAttribute("next",next);
@@ -286,7 +293,12 @@ public class AdminController {
 		String columnName = "BF_PATH";
 		// 파일이 저장될 경로 지정 / 프젝 시작 경로 제외한 경로(정적메소드 안에서 절대경로 얻음)
 		String path = "/resources/Upload/AdminNotice";
-		
+		System.out.println(map.get("BF_PATH")==null?"파일 널이랍니다.": "파일 널 아님");
+		System.out.println(req.getAttribute("BF_PATH")==null?"파일 널이랍니다.": "파일 널 아님");
+		System.out.println(req.getParameter("BF_PATH")==null?"파일 널이랍니다.": "파일 널 아님");
+		System.out.println(map.get("file")==null?"파일 널이랍니다.": "파일 널 아님");
+		System.out.println(req.getAttribute("file")==null?"파일 널이랍니다.": "파일 널 아님");
+		System.out.println(req.getParameter("file")==null?"파일 널이랍니다.": "파일 널 아님");
 		// 디비에 저장할 파일 이름 저장용 변수 선언 및 파일 업로드용 FiltUtil.getNewFile 호출 
 		String BF_PATH =FileUtil.getNewFile(req, path,columnName);;
 		System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
@@ -346,12 +358,12 @@ public class AdminController {
 		record.setNT_CONTENT(record.getNT_CONTENT().replace("\r\n", "<br>"));
 		model.addAttribute("record",record);
 		
-		System.out.println("수정 폼 이동 시 파일 존재? ="+record.getBF_PATH().toString());
+		System.out.println("수정 폼 이동 시 파일 존재? ="+record.getBF_PATH().toString()==null?" null이랍니다.":" 존재합네다");
 		
 		if(record.getBF_PATH()!=null) {
 			
 			String checkFile = "";
-			String uploadPath = "/resources/Upload/AdminNotice";
+			String uploadPath = "/resources/Upload/AdminNotice/";
 			StringTokenizer fileName = new StringTokenizer(record.getBF_PATH().toString(),"/");
 			System.out.println("읽어온 파일 갯수 체크 = "+fileName.countTokens());
 			List<File> fileLists = new Vector<File>();
@@ -359,6 +371,7 @@ public class AdminController {
 				checkFile=fileName.nextToken();
 				File file = new File(req.getSession().getServletContext().getRealPath(uploadPath+checkFile));
 				fileLists.add(file);
+				System.out.println(file+" = 리스트 담기 전 파일 체크");
 			}
 			map.put("fileLists", fileLists);
 			int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
@@ -371,21 +384,35 @@ public class AdminController {
 		return "Notice/Edit.admins";
 	}
 	
-	// 공지사항 수정 컨트롤러 수정폼 이동
+	// 공지사항 글 수정 시, 최종 수정 반영
 	@RequestMapping(value="/EditNotice.bbs", method=RequestMethod.POST)
 	public String editNotice(MultipartHttpServletRequest req,Map map) {
+		String columnName = "BF_PATH";
+		String checkFile="";
+		String uploadPath = "/resources/Upload/AdminNotice/";
+		String BF_PATH =FileUtil.getNewFile(req, uploadPath,columnName);
+		map.put("BF_PATH", BF_PATH);
 		
 		
 		return "forward:/OneNoticeView.bbs";
 	}
 	
-	// 공지사항 수정 컨트롤러 수정폼 이동
+	// 공지사항 수정 파일 수정 시 ajax 처리
+	@ResponseBody
 	@RequestMapping(value="/selectFiles.bbs", method=RequestMethod.POST)
 	public String selectFilesforEdit(MultipartHttpServletRequest req,Map map) {
 		System.out.println("req.getATT NT_NO찍어봄 = "+req.getAttribute("NT_NO"));
 		
+		//  파일 데이터 체크
+		AdminDTO forFile = adminService.selectForFile(map);
 		
-		return "";
+		JSONObject fileCheck = new JSONObject();
+		if(map.get("BF_PATH").toString().equals("/")) {
+			fileCheck.put("fileData", "");
+		}
+		fileCheck.put("fileData", forFile);
+		
+		return fileCheck.toJSONString();
 	}
 	
 	

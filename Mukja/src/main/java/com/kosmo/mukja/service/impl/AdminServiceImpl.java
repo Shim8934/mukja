@@ -135,4 +135,10 @@ public class AdminServiceImpl implements AdminService{
 		return dao.deleteBf(map);
 	}
 
+	@Override
+	public AdminDTO selectForFile(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectForFile(map);
+	}
+
 }
