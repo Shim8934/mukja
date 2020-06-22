@@ -135,7 +135,7 @@ public class AdminController {
 		model.addAttribute("prev",prev);
 		model.addAttribute("next",next);
 		System.out.println(prev==null?"널이래":"널아니래");
-		return "Manage/Report/UserView.admins";
+		return "Manage/User/UserRpView.admins";
 	}
 	
 	@ResponseBody
@@ -152,14 +152,14 @@ public class AdminController {
 	@RequestMapping(value = "/StoreReportList.bbs", method = RequestMethod.GET)
 	public String storeReportList(@RequestParam Map map, Model model) {		
 		
-		return "Manage/Report/StoreList.admins";
+		return "Manage/Store/StoreRpList.admins";
 	}
 	
 	// 2-2-2) 스토어 신고 관리 컨트롤러
 	@RequestMapping(value = "/StoreAdminReportManage.bbs", method = RequestMethod.GET)
 	public String storeeportManage(@RequestParam Map map, Model model) {		
 		
-		return "Manage/Report/StoreView.admins";
+		return "Manage/Store/StoreRpView.admins";
 	}
 	
 	// 3-1) 가게 메뉴 리스트 컨트롤러

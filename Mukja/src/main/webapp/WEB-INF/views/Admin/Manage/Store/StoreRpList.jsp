@@ -57,8 +57,8 @@ tbody tr td{
 					
 					
 					<!-- 페이징 -->
-					<div class="d-block text-center card-footer">
-						<div class="text-center" style="display:inline-block; text-align:center;">${pagingString}</div>
+					<div class="card-footer" >
+						<div style="display:inline-block; text-align:center;">${pagingString}</div>
 					</div>
 				
 						
@@ -83,7 +83,7 @@ tbody tr td{
 
 								</form>
 							</div>-->
-							<form action="<c:url value="/UserReportList.bbs"/>" method="get">
+							<form action="<c:url value="/StoreReportList.bbs"/>" method="get">
 								<div class="input-group">
 									<div class="input-group-prepend">
 										<select class="form-control-mb-2" name="searchColumn">

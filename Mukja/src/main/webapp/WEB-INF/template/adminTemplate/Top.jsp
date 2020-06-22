@@ -152,6 +152,7 @@
 							이용자 정보 관리
 						</a>
 					</li>
+					<!-- 
 					<li>
 						<a href="#">
 							<i class="metismenu-icon pe-7s-display2"></i>
@@ -164,6 +165,7 @@
 							채팅 내역 관리
 						</a>
 					</li>
+					 -->
 					<li>
 						<a href="#">
 							<i class="metismenu-icon pe-7s-display2"></i>

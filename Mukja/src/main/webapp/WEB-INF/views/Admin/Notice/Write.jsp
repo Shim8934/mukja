@@ -3,10 +3,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 $(function(){
+	
+	$('#btnCancel').click(function(){
+		window.history.back();	
+	})
+	
+	var fileBuffer = [];
+	var fileArray = [];
 	$('#BF_PATH').change(function(){
         const target = document.getElementsByName('BF_PATH');
-        
+        console.log(target.toString())
         var html = '';
+        Array.prototype.push.apply(fileBuffer, target[0].files);
+
         $.each(target[0].files, function(index, file){
             const fileName = file.name;
             html += '<div class="file">';
@@ -24,7 +33,17 @@ $(function(){
         });
  
     });
-
+	
+	$(document).on('click', '#removeImg', function(){
+	    const fileIndex = $(this).parent().index();
+	    fileBuffer.splice(fileIndex,1);
+	    fileArray.splice(fileIndex,1);
+	    $('.fileList>div:eq('+fileIndex+')').remove();
+	     $('#BF_PATH').value="";
+	    const target = document.getElementsByName('BF_PATH');
+	    console.log(fileBuffer);
+	    console.log(target[0].files);
+	});
 
 })
 
