@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-	
+
 <div >
    <h1>실시간 테이블 확인을 위한 행과 열 값을 입력해주세요</h1>
    <h1>표가 생성되면 클릭하여 테이블을 만들어주세요</h1>
@@ -38,9 +38,6 @@
             var innerDiv=
                '<div id="'+i+'n'+j+'" class="tableInfoInner w">'+
                '</div>';
-            
-            
-            
             $("#tableWrap").append(innerDiv);
          }
          $("#tableWrap").append("<div></div>");

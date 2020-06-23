@@ -496,7 +496,7 @@
 			    </div>
 			  
 			
-			<div class="col-md-12" >
+			<div class="" >
 		
 				<div id='extendMap' class="row"style="height:900px" >
 				

@@ -235,7 +235,286 @@
  	 width: 150px;
  	height: 150px;
  }
-   </style>
+ 
+ .snsIMG{
+ 	width: 300px;
+ 	height: 300px;
+ 	max-height: 300px;
+ 	max-width: 300px;
+ 	border-radius: 10px;
+ 	margin :10px;
+ }
+ .snsContent{
+ 	margin :20px;
+ 	color: 5E5E5E;
+ 	
+ }
+ .snsProfile{
+ 	width: 40px;
+ 	height: 40px;
+ 	max-height: 40px;
+ 	max-width: 40px;
+ 	border-radius: 40px;
+ 	margin-top :15px;
+ 	
+ }
+ .snsID{
+ 	margin :10px;
+ 	font-weight:  bold;
+ 	color: #464646;
+ 	display: inline-block;
+ 	margin-top :15px;
+ 
+ }
+ .innerSNS{
+ 	vertical-align:top;
+	width:400px;
+ 	background-color: #FDFDFD;
+ 	border: 2px #E8E8E8 solid; 
+ 	border-radius:10px;  
+ 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
+ 	display: inline-block;
+ 	margin :30px;
+ 
+ }
+ #ingmask{
+ 	position: absolute;
+ 	z-index: 10000;
+ 	background-color:white; 
+ 	/* display:none; */
+ 	margin: 0;
+ 	padding: 0;
+ 	left:0;
+ 	top: 0;
+ 	display: none;
+ }
+  #mainContent{
+ 	position: absolute;
+ 	z-index: 10001;
+ 	/* display:none; */
+ 	margin: 0;
+ 	padding: 0;
+ }
+ 
+ .foodInfo{
+ 	padding: 10px;
+ 	
+ }
+ /*-------------------------------------------
+    $ Loader start
+-------------------------------------------*/
+ 
+ .wrapper {
+    min-width: 290px;
+    max-width: 800px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-giga { line-height: 1; font-size: 24px; font-weight: 300; }
+.pad-top    { padding-top: 1em; }
+.space-out { margin: 100px; }
+
+.wrapper {
+    min-width: 290px;
+    max-width: 800px;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.text-giga { line-height: 1; font-size: 24px; font-weight: 300; }
+.pad-top    { padding-top: 1em; }
+.space-out { margin: 100px; }
+
+
+
+.loader {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    margin: 3em;
+    display: inline-block;
+    position: relative;
+    vertical-align: middle;
+}
+.loader,
+.loader:before,
+.loader:after {
+    animation: 1s infinite ease-in-out;
+}
+.loader:before,
+.loader:after {
+    width: 100%; 
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.loader-black { background-color: #333; }
+
+/* Loader 2 */
+
+.loader-2:before,
+.loader-2:after {
+    content: '';
+}
+.loader-2:before {
+    border: 3px solid #F54635;
+    top: -1px;
+    left: -1px;
+    opacity: 0;
+    animation-name: loader2-1;
+}
+
+@keyframes loader2-1 {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0; }
+    100% { transform: scale(1.3); opacity: 0; }
+}
+
+.loader-2:after {
+    background-color: #F54635;
+    animation-name: loader2-2;
+}
+
+@keyframes loader2-2 {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.7); }
+    100% { transform: scale(1); }
+}
+
+/*-------------------------------------------
+    $ Loader end
+-------------------------------------------*/
+
+/*-------------------------------------------
+    $ fileUploader start
+-------------------------------------------*/
+
+.file-upload {
+  background-color: #ffffff;
+  width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.file-upload-btn {
+  width: 100%;
+  margin: 0;
+  color: #fff;
+  background: #F76821;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #F76821;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.file-upload-btn:hover {
+  background: #F76821;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.file-upload-btn:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+.file-upload-content {
+  display: none;
+  text-align: center;
+}
+
+.file-upload-input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.image-upload-wrap {
+  margin-top: 20px;
+  border: 4px dashed #F76821;
+  position: relative;
+}
+
+.image-dropping,
+.image-upload-wrap:hover {
+  background-color: #F76821;
+  border: 4px dashed #ffffff;
+}
+
+.image-title-wrap {
+  padding: 0 15px 15px 15px;
+  color: #222;
+}
+
+.drag-text {
+  text-align: center;
+}
+
+.drag-text h3 {
+  font-weight: 100;
+  text-transform: uppercase;
+  color: #158280;
+  padding: 60px 0;
+}
+
+.file-upload-image {
+  max-height: 200px;
+  max-width: 200px;
+  margin: auto;
+  padding: 20px;
+}
+
+.remove-image {
+  width: 200px;
+  margin: 0;
+  color: #fff;
+  background: #F76821;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  border-bottom: 4px solid #F76821;
+  transition: all .2s ease;
+  outline: none;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.remove-image:hover {
+  background: #c13b2a;
+  color: #ffffff;
+  transition: all .2s ease;
+  cursor: pointer;
+}
+
+.remove-image:active {
+  border: 0;
+  transition: all .2s ease;
+}
+
+
+/*-------------------------------------------
+    $ fileUploader end
+-------------------------------------------*/
+
+</style>
 
    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
                                             <!-- 로 그 인 용 입 니 다. -->
