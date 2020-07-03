@@ -9,15 +9,26 @@
 
 	<!-- 게시판 자바빈 별칭 -->
 	<typeAliases>
+		<typeAlias alias="AdminDTO" type="com.kosmo.mukja.service.AdminDTO"/>
 		<typeAlias alias="dongDTO" type="com.kosmo.mukja.service.DongDTO"/>
 		<typeAlias alias="storeDTO" type="com.kosmo.mukja.service.StoreDTO"/>	
 		<typeAlias alias="eRDTO" type="com.kosmo.mukja.service.ERDTO"/>		
-		<typeAlias alias="AdminDTO" type="com.kosmo.mukja.service.AdminDTO"/>
+		<typeAlias alias="ercDTO" type="com.kosmo.mukja.service.ErcDTO"/>
+		<typeAlias alias="foodMenuDTO" type="com.kosmo.mukja.service.FoodMenuDTO"/>
+		<typeAlias alias="storeIMGDTO" type="com.kosmo.mukja.service.StoreIMGDTO"/>
+		<typeAlias alias="foodIMGDTO" type="com.kosmo.mukja.service.FoodIMGDTO"/>
+		<typeAlias alias="tableDTO" type="com.kosmo.mukja.service.TableDTO"/>
+		<typeAlias alias="usersDTO" type="com.kosmo.mukja.service.UsersDTO"/>
+		<typeAlias alias="androidDTO" type="com.kosmo.mukja.service.AndroidDTO"/>
 	</typeAliases>	
 	
 	<mappers>
 		<mapper resource="mybatis/SearchMap.xml" />		
 		<mapper resource="mybatis/Admin.xml" />
+		<mapper resource="mybatis/Sign.xml" />
+		<mapper resource="mybatis/StoreDetail.xml" />
+		<mapper resource="mybatis/Reservation.xml" />
+		<mapper resource="mybatis/Android.xml"/>
 	</mappers>
 	
 </configuration>
