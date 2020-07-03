@@ -17,10 +17,6 @@ public class UsersDTO {
 	private int enabled;
 	private String authority;
 	
-<<<<<<< HEAD
-=======
-	
-	
 	public UsersDTO() {}
 
 	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,
@@ -41,52 +37,16 @@ public class UsersDTO {
 		this.authority = authority;
 	}
 
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
-	public String getUsername() {
-		return username;
-	}
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
 
-	public String getPassword() {
-		return password;
-	}
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getU_nick() {
-		return u_nick;
-	}
-
-	public void setU_nick(String u_nick) {
-		this.u_nick = u_nick;
-	}
-
-	public java.sql.Date getU_regidate() {
-		return u_regidate;
-	}
-
-	public void setU_regidate(java.sql.Date u_regidate) {
-		this.u_regidate = u_regidate;
-	}
-
-<<<<<<< HEAD
-	public String getU_img() {
-=======
 	public String getu_img() {
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
+
 		return u_img;
 	}
 
-<<<<<<< HEAD
-	public void setU_ing(String u_img) {
-=======
+
 	public void setu_img(String u_img) {
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 		this.u_img = u_img;
 	}
 
