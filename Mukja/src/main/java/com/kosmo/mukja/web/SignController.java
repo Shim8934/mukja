@@ -58,7 +58,7 @@ public class SignController {
 	    String list = auth.getAuthorities().toString();
 	       
 	       if(list.contains("STORE")) {
-	          return "forward:/StroeMypage/StroeMypageMain.do";
+	          return "forward:/StoreMypage/StoreMypageMain.do";
 	       }
 	       if(list.contains("ADMIN")) {
 	          return "forward:/AdminMain.bbs";
