@@ -82,7 +82,7 @@ public class AndroidContoroller {
 			menulistJson.add(menu);
 		}		
 		storeInfoJson.put("menuList", menulistJson);
-		
+		String text;
 		
 		return storeInfoJson.toJSONString();
 	}
