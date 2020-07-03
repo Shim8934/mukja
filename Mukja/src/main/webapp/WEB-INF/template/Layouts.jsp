@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/flaticon.css'/>">
     <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icomoon.css'/>">
     <link rel="stylesheet" href="  <c:url value='/resources/bootstrap/css/style.css'/>">   
- <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/css2?family=Poor+Story&display=swap" rel="stylesheet">
    <!-- 아이콘  css -->
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icon-common.css'/>">
    <link rel="stylesheet" href="<c:url value='/resources/bootstrap/css/icon-style.css'/>">
@@ -677,7 +677,7 @@ $(function (){
 	
 		console.log("ws://localhost:8080<c:url value='/chat.do'/>");
 		
-		wsocket = new WebSocket("ws://192.168.0.18:8080<c:url value='/chat.do'/>");
+		wsocket = new WebSocket("ws://192.168.0.3:8080<c:url value='/chat.do'/>");
 		console.log("erc_username:"+erc_username);
 		//서버와 연결된 소켓에 이벤트 등록
 		wsocket.onopen = open;

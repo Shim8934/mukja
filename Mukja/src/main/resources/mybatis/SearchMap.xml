@@ -100,5 +100,8 @@
 		update er_chat set erc_content = #{erc_content} where erc_no = #{erc_no}
 	</update>
 	
+	<select id="getUserInfo" parameterType="java.util.Map" resultType="usersDTO">
+		select * from users where username = '${user_id}'
+	</select>
 	
 </mapper>

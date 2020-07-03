@@ -7,24 +7,28 @@ public class UsersDTO {
 	private String password;
 	private String u_nick;
 	private java.sql.Date u_regidate;
-	private String u_ing;
+	private String u_img;
 	private String u_age;
 	private String u_tend;
 	private String u_addr;
-	private int u_lat;
-	private int u_lng;
+	private String u_lat;
+	private String u_lng;
 	private String u_ph;
 	private int enabled;
 	private String authority;
 	
-	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_ing, String u_age,
-			String u_tend, String u_addr, int u_lat, int u_lng, String u_ph, int enabled, String authority) {
+	
+	
+	public UsersDTO() {}
+
+	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,
+			String u_tend, String u_addr, String u_lat, String u_lng, String u_ph, int enabled, String authority) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.u_nick = u_nick;
 		this.u_regidate = u_regidate;
-		this.u_ing = u_ing;
+		this.u_img = u_img;
 		this.u_age = u_age;
 		this.u_tend = u_tend;
 		this.u_addr = u_addr;
@@ -67,12 +71,12 @@ public class UsersDTO {
 		this.u_regidate = u_regidate;
 	}
 
-	public String getU_ing() {
-		return u_ing;
+	public String getu_img() {
+		return u_img;
 	}
 
-	public void setU_ing(String u_ing) {
-		this.u_ing = u_ing;
+	public void setu_img(String u_img) {
+		this.u_img = u_img;
 	}
 
 	public String getU_age() {
@@ -99,19 +103,19 @@ public class UsersDTO {
 		this.u_addr = u_addr;
 	}
 
-	public int getU_lat() {
+	public String getU_lat() {
 		return u_lat;
 	}
 
-	public void setU_lat(int u_lat) {
+	public void setU_lat(String u_lat) {
 		this.u_lat = u_lat;
 	}
 
-	public int getU_lng() {
+	public String getU_lng() {
 		return u_lng;
 	}
 
-	public void setU_lng(int u_lng) {
+	public void setU_lng(String u_lng) {
 		this.u_lng = u_lng;
 	}
 

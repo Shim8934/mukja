@@ -18,6 +18,7 @@
 		<typeAlias alias="storeIMGDTO" type="com.kosmo.mukja.service.StoreIMGDTO"/>
 		<typeAlias alias="foodIMGDTO" type="com.kosmo.mukja.service.FoodIMGDTO"/>
 		<typeAlias alias="tableDTO" type="com.kosmo.mukja.service.TableDTO"/>
+		<typeAlias alias="usersDTO" type="com.kosmo.mukja.service.UsersDTO"/>
 	</typeAliases>	
 	
 	<mappers>

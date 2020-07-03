@@ -54,21 +54,18 @@ public class SignController {
 	}
 	
 	//로그인 처리별 화면 이동
-	@RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
-	public String role(Authentication auth, Map map) {
-	 String list = auth.getAuthorities().toString();
-	 	
-	 	if(list.contains("STORE")) {
-	 		return "forward:/StroeMypage/StroeMypageMain.do";
-	 	}
-	 	if(list.contains("ADMIN")) {
-	 		return "forward:/AdminMain.bbs";
-	 	}
-		
-		return "index.tiles";
-		
-	
-		
+	   @RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
+	   public String role(Authentication auth, Map map) {
+	    String list = auth.getAuthorities().toString();
+	       
+	       if(list.contains("STORE")) {
+	          return "forward:/StroeMypage/StroeMypageMain.do";
+	       }
+	       if(list.contains("ADMIN")) {
+	          return "forward:/AdminMain.bbs";
+	       }
+	      
+	      return "index.tiles";
 		
 	}
 	

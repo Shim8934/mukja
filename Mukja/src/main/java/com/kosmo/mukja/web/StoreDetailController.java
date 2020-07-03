@@ -115,6 +115,9 @@ public class StoreDetailController {
 			String val = map.get(key).toString();
 			System.out.println(String.format("키 : %s 값 : %s", key,val));
 			}
+		map.put("username", map.get("username").toString().replaceAll("\"",""));
+		map.put("user_id", map.get("user_id").toString().replaceAll("\"",""));
+		map.put("store_id", map.get("username").toString().replaceAll("\"",""));
 		int result = service.updateStoreAvg(map);
 		
 		return "{'result':"+result+"}";
@@ -123,7 +126,18 @@ public class StoreDetailController {
 	@ResponseBody
 	@RequestMapping("/updateStoreRecommand.do")
 	public String updateStoreRecommand(@RequestParam Map map) {
+		System.out.println("추천 메소드 호출");
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		map.put("username", map.get("store_id").toString().replaceAll("\"",""));
+		map.put("store_id", map.get("store_id").toString().replaceAll("\"",""));
 		int result=service.updateStoreRecommand(map);
+		
+		
 		return "{'result':"+result+"}";
 	}
 }

@@ -863,24 +863,84 @@
 
 
 <script>
-
-var mapContainer = document.getElementById('map'), // 지도의 중심좌표
-    mapOption = { 
-        center: new kakao.maps.LatLng(37.498825, 126.722265), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
-        level: 2 // 지도의 확대 레벨
-    }; 
-
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-var bounds = map.getBounds();  
-
+var namsua;
+var bukdong;
+var bnksua;
+var namdong;
+var interLat,interLng;
+var map;
+var bounds;
 var repeat;
+$.ajax({
+	url:"<c:url value='/interLatLng.do'/>",
+	dataType:'json',
+	success:function(data){
+		console.log("관심지역 ajax 성공");
+		interLat = parseFloat( data.u_lat ) ;
+		interLng = parseFloat( data.u_lng );
+		console.log("interLat:"+interLat);
+		console.log("interLng:"+interLng);
+		var mapContainer = document.getElementById('map'), // 지도의 중심좌표
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(interLat, interLng), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
+	        level: 2 // 지도의 확대 레벨
+	    }; 
 
-console.log("맵생성시 바운즈 초기화");
-//인풋타입 히든에 위경도 바운더리 주는 함수
-latLngSendInput(bounds);
+		map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		bounds = map.getBounds(); 
+		map.relayout();
+		
+		console.log("맵생성시 바운즈 초기화");
+		//인풋타입 히든에 위경도 바운더리 주는 함수
+		latLngSendInput(bounds);
+	},
+	error:function(){
+		console.log("관심지역 ajax 실패");
+	}
+});
 
 
-function latLngSendInput(bounds){
+
+
+
+function printlatlng(){
+	
+	console.log("바운드즈 출력");
+	 //남서 위경도
+	  namsua= bounds.getSouthWest();
+	  //북동 위경도
+	  bukdong = bounds.getNorthEast();
+	  //lat 최소
+	 console.log("namsualat"+ $("#namsualat").val());
+	  //lng 최소
+	  console.log("namsualng"+ $("#namsualng").val());
+	  //lat 최대
+	 console.log("bukdonglat"+  $("#bukdonglat").val());
+	  //lng 최대
+	  console.log("bukdonglng"+  $("#bukdonglng").val());
+	 
+	 
+	/*  var marker = new kakao.maps.Marker({
+	        position: namsua
+	    });
+	
+	    // 마커가 지도 위에 표시되도록 설정합니다
+	    marker.setMap(map);
+	    
+		 var marker2 = new kakao.maps.Marker({
+		        position: bukdong
+		    });
+		
+		    // 마커가 지도 위에 표시되도록 설정합니다
+		    marker2.setMap(map);
+	 */ 
+}  
+
+
+function latLngSendInput(){
+	bounds = map.getBounds(); 
+	console.log("bounds:"+bounds);
+	 printlatlng(bounds)
 	 //남서 위경도
 	  namsua= bounds.getSouthWest();
 	  //북동 위경도
@@ -893,15 +953,11 @@ function latLngSendInput(bounds){
 	  $("#bukdonglat").val(bukdong.getLat());
 	  //lng 최대
 	  $("#bukdonglng").val(bukdong.getLng());
-	 var latlng = map.getCenter(); 
 }  
-var namsua;
-var bukdong;
-var bnksua;
-var namdong;
+
 //드래그시 바운즈 설정
 kakao.maps.event.addListener(map, 'dragend', function() {
-	  var bounds = map.getBounds();    
+	  bounds = map.getBounds();    
 	  console.log("드래그 진입:");
 	  
 	  //인풋타입 히든에 위경도 바운더리 주는 함수
@@ -911,9 +967,10 @@ kakao.maps.event.addListener(map, 'dragend', function() {
 
 //바운더리 변경시  바운즈 설정
 kakao.maps.event.addListener(map, 'bounds_changed', function() {
-	 var bounds = map.getBounds();     
+	 bounds = map.getBounds();     
 	//인풋타입 히든에 위경도 바운더리 주는 함수
-	  latLngSendInput(bounds);
+	 latLngSendInput(bounds);
+	 map.relayout();
 });
 
 
@@ -970,6 +1027,7 @@ $('.container-fluid').click(function (){
 });
 
 function request_ERList_Ajax(store_id){
+	
 	//----------------------생성한 동적 다이브에 에이젝스 송출
     $.ajax({
 		url:"<c:url value='/eat_together_list.do'/>",
@@ -1179,6 +1237,8 @@ function request_ERList_Ajax(store_id){
 
 
 function requets_maker_Ajax(){
+	  bounds = map.getBounds();  
+	  latLngSendInput(bounds);
 	  $.ajax({
 			url:"<c:url value='/getMarker.pbs'/>",
 			data:$('#frm2').serialize(),

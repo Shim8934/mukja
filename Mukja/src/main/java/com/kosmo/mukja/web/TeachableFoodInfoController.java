@@ -12,4 +12,11 @@ public class TeachableFoodInfoController {
 		return "TeachableFood/TachableFoodInfo.tiles";
 	}
 	
+	@RequestMapping("/Teachable_android.do")
+	public String TeachableFood_android() {
+		
+		return "TeachableFood/TachableFoodInfo_android";
+	}
+	
+	
 }

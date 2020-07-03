@@ -100,15 +100,14 @@ public class ReservationController {
 		System.out.println("store_id : "+map.get("store_id"));
 		//가게 좌석정보 얻어오기
 		TableDTO tableDTO =  service.getTable(map);
-		if(tableDTO!=null) {
-		JSONObject tableInfo = DBJson.DBtoJson(tableDTO);
-		System.out.println(tableInfo.toJSONString());
 		
-	
-		return tableInfo.toJSONString();
+		if(tableDTO!=null) {
+			JSONObject tableInfo = DBJson.DBtoJson(tableDTO);
+			System.out.println("tableInfo:"+tableInfo.toJSONString());
+			return tableInfo.toJSONString();
+		
 		}else {
-			
-		return "flase";
+			return "flase";
 		}
 	}
 	

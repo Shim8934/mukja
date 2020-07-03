@@ -1,6 +1,7 @@
 package com.kosmo.mukja.web;
 
 import java.io.Console;
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -23,6 +24,7 @@ import com.kosmo.mukja.service.DongDTO;
 import com.kosmo.mukja.service.ERDTO;
 import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.StoreDTO;
+import com.kosmo.mukja.service.UsersDTO;
 import com.kosmo.mukja.service.impl.SearchMapServiceImpl;
 
 @Controller
@@ -31,7 +33,7 @@ public class SearchMapController {
 	SearchMapServiceImpl service;
 	//필터 코드 배열
 	private String[] check_avoid= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB"};
-	private	String[] check_prefer= {"CS","JS","HS","BS","VS","YS"};
+	private	String[] check_prefer= {"CS","JS","HS","BS","YS"};
 	List<String> avoid_codes= new Vector<String>();
 	List<String>  prefer_codes=new Vector<String>();
 	
@@ -42,6 +44,7 @@ public class SearchMapController {
 		System.out.println("searchDong 접근");
 		 System.out.println("dong : "+map.get("dong").toString());
 		 List<DongDTO> list = service.searchDong(map);
+		 if(list.size()==0)return null;
 		 //디버그
 		 System.out.println("dong : "+map.get("dong").toString());
 		 System.out.println(list.get(0).getSido()+list.get(0).getSi_goon_go()+list.get(0).getDong()+list.get(0).getDong_sub());
@@ -243,7 +246,19 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	public String getMarker(@RequestParam Map map) {		
 		//필터 목록과 맵에 넘어온 필터코드들을 분석하여
 		// 선호 및 기피 컬랙션을 만듬
-		for(String item:check_prefer)System.out.println(map.get(item));
+		
+		  Iterator<String> mapIter = map.keySet().iterator();
+		  
+	        while(mapIter.hasNext()){
+	 
+	            String key = mapIter.next();
+	            String value = map.get( key ).toString();
+	 
+	            System.out.println(key+" : "+value);
+	 
+	        }
+		for(String item:check_prefer)
+			System.out.println(map.get(item));
 		
 		add_tend_avoid(map);				
 		
@@ -282,6 +297,9 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			System.out.println("------------------------여기는 선호 체크 파트----------------------");
 			//비즈니스모델 호출
 			List<StoreDTO>list = service.getMarkerWithMenuList(map);
+			
+			System.out.println("list길이"+list.size());
+			
 			for(String code:prefer_codes)
 			System.out.println("선호컬렉션:"+code);
 			//선호필터 1 / 기피필터 0 / 선호 필터후 기피필터 -1
@@ -578,6 +596,39 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	
 	
+	@ResponseBody
+	@RequestMapping(value = "/interLatLng.do",produces = "application/json; charset=utf8")
+	public String interLatLng(@RequestParam Map map,Principal p) {
+		System.out.println("-------------------관심지역 돌입------------------------");
+		//키값확인 디버그코드
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+		}
+		//키값확인 디버그코드 끝
+		String user_id="";
+		if(p!=null) {
+			user_id= p.getName();
+			map.put("user_id", user_id);
+			System.out.println("interLatLng user_id:"+user_id);
+			UsersDTO dto= service.getUserInfo(map);
+			String u_lat = dto.getU_lat();
+			String u_lng = dto.getU_lng();
+			JSONObject jObject = new JSONObject();
+			jObject.put("u_lat", u_lat);
+			jObject.put("u_lng", u_lng);			
+			return jObject.toJSONString();
+			 
+		}else {
+			
+			JSONObject jObject = new JSONObject();
+			jObject.put("u_lat", "37.498825");
+			jObject.put("u_lng", "126.722265");			
+			return jObject.toJSONString();
+		}
 	
+	}//interLatLng
 	
 }

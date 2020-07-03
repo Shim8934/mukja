@@ -39,7 +39,7 @@
     </select>
     
      <select id="selectThumb" parameterType="java.util.Map" resultType="int">
-    	select count(*) from store_thumb where user_id=#{user_id}
+    	select count(*) from store_thumb where store_id=#{store_id} and user_id=#{user_id}
     </select>
     
 	<delete id="deleteThumb" parameterType="java.util.Map">
