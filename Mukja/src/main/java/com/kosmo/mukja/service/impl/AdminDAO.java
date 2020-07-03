@@ -148,6 +148,61 @@ public class AdminDAO implements AdminService{
 		// TODO Auto-generated method stub
 		return sqlMapper.selectOne("selectForFile",map);
 	}
+
+	@Override
+	public int bfUpdate(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("bf_fileUpdate",map);
+	}
+
+	@Override
+	public List<AdminDTO> selectStSignList(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectList("stSignUpList",map);
+	}
+
+	@Override
+	public int getStSignTotalRecord(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("stTotalRecord",map);
+	}
+
+
+	@Override
+	public int updateUsRP2(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("UsRpUpdate2", map);
+	}
+
+	@Override
+	public int updateStSign(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("stSignUpdate",map);
+	}
+
+	@Override
+	public AdminDTO selectStOne(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AdminDTO selectStPrev(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AdminDTO selectStNext(Map map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int deleteStSign(Map map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 }//////class AdminDAO

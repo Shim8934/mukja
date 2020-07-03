@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
+import com.kosmo.mukja.service.MyPageDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 import com.kosmo.mukja.service.TableDTO;
+import com.kosmo.mukja.service.UsersDTO;
 
 @Service("StoreInfoService")
 public class StoreServiceImpl implements StoreService{
@@ -81,5 +83,47 @@ public class StoreServiceImpl implements StoreService{
 	public int updateTableInfo(Map map) {
 		return dao.updateTableInfo(map);
 	}
+
+	@Override
+	public List<StoreDTO> selectFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectFoodImg(map);
+	}
 	
+
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public List<MyPageDTO> getStoreReview(Map map) {
+		return dao.getStoreReview(map);
+	}
+	@Override
+	public List<MyPageDTO> getStoreReviewcnt(Map map) {
+		return dao.getStoreReviewcnt(map);
+	}
+
+	@Override
+	public List<MyPageDTO> getStoreReviewimg(Map map) {
+		return dao.getStoreReviewimg(map);
+	}
+
+	@Override
+	public int getStRvTotal(Map map) {
+		return dao.getStRvTotal(map);
+	}
+
+	@Override
+	public List<UsersDTO> getUsersNicks(Map map) {
+		return dao.getUsersNicks(map);
+	}
+
+	@Override
+	public int insertSTreview(Map map) {
+		return dao.insertSTreview(map);
+	}
 }

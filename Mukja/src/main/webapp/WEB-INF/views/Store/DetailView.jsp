@@ -311,21 +311,17 @@
 							<!-- 메뉴이미지 카라셀 컨테이너 -->
 							<div style="display: inline-block; ">
 								<!-- 카라셀 -->
-								<div id="carousel-example-generic"
-									class="carousel slide menucasize" data-ride="carousel">
+								<div id="carousel-example-generic" class="carousel slide menucasize" data-ride="carousel">
 									<!-- Indicators -->
 									<ol class="carousel-indicators">
 										<c:forEach items="${allFoodImgList}" var="foodimglist">
-											<c:forEach items="${foodimglist}" var="foodimgDTO"
-												varStatus="status">
+											<c:forEach items="${foodimglist}" var="foodimgDTO" varStatus="status">
 												<c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
 													<c:if test="${status.index==0}" var="result">
-														<li data-target="#carousel-example-generic"
-															data-slide-to="${status.index}" class="active"></li>
+														<li data-target="#carousel-example-generic" data-slide-to="${status.index}" class="active"></li>
 													</c:if>
 													<c:if test="${!result}">
-														<li data-target="#carousel-example-generic"
-															data-slide-to="${status.index}"></li>
+														<li data-target="#carousel-example-generic" data-slide-to="${status.index}"></li>
 													</c:if>
 												</c:if>
 											</c:forEach>
@@ -335,21 +331,18 @@
 									<!-- Wrapper for slides -->
 									<div class="carousel-inner" role="listbox">
 										<c:forEach items="${allFoodImgList}" var="foodimglist">
-											<c:forEach items="${foodimglist}" var="foodimgDTO"
-												varStatus="status">
+											<c:forEach items="${foodimglist}" var="foodimgDTO" varStatus="status">
 												<c:if test="${status.index==0}">
 													<c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
 														<div class="item active">
-															<img src="<c:url value='${foodimgDTO.fm_path}'/>"
-																style="width: 300px; height: 250px;">
+															<img src="<c:url value='${foodimgDTO.fm_path}'/>" style="width: 300px; height: 250px;">
 														</div>
 													</c:if>
 												</c:if>
 												<c:if test="${status.index!=0}">
 													<c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
 														<div class="item">
-															<img src="<c:url value='${foodimgDTO.fm_path}'/>"
-																style="width: 300px; height: 250px;">
+															<img src="<c:url value='${foodimgDTO.fm_path}'/>" style="width: 300px; height: 250px;">
 														</div>
 													</c:if>
 												</c:if>
@@ -400,387 +393,314 @@
 			<!--  -->
 		</div>
 		<div style="text-align: center;">
-			<a style="font-size: 1.2em; display: inline-block;"
-				href="<c:url value='/MenuList.bbs'/>">+ 메뉴 더 보기</a>
+			<a style="font-size: 1.2em; display: inline-block;" href="<c:url value='/MenuList.bbs'/>">+ 메뉴 더 보기</a>
+			
 		</div>
-	</div>
 
 </section>
 
 
-<!-- REVIEW -->
+
+
+<!----------------------------------------------------------------------- REVIEW ----------------------------------------------------------------------->
+
+
+
+<!-------------------------------------- 베스트리뷰 -------------------------------------->
 <section class="ftco-section testimony-section ">
 	<div class="container">
 		<!-- REVIEW TITLE -->
 		<div class="row justify-content-center mb-5 pb-2">
-			<div
-				class="col-md-10 text-center heading-section heading-section-white ftco-animate"
-				style="display: inline">
+			<div class="col-md-10 text-center heading-section heading-section-white ftco-animate" style="display: block;">
 				<span class="subheading">Review</span>
 				<h2 class="mb-4">베스트 메뉴 후기</h2>
-			</div>
-			<div>
-				<a class="menuplus" href="<c:url value='/ReviewList.bbs'/>"> +후기
-					더 보기</a>
-			</div>
+			</div>			
 		</div>
 
 		<!-- BEST REVIEW -->
 		<div class="row ftco-animate justify-content-center">
 			<!-- <div class=" col-md-7"> <div class="carousel-testimony owl-carousel ftco-owl">CAROUSEL 적용 -->
-			<div class="item col-md-2">
-				<!-- 1-1 -->
-				<div class="testimony-wrap text-center py-4 pb-5">
-					<div class="user-img mb-4"
-						style="background-image: url(<c:url value="/resources/bootstrap/images/breakfast-1.jpg"/>);">
-						<span
-							class="quote d-flex align-items-center justify-content-center">
-							<i class="icon-quote-left"></i>
-						</span>
-					</div>
-					<div class="text px-3 pt-3 ">
-						<p class="name overflow">MenuName</p>
-						<span class="food-type overflow">Type</span>
-						<p class="mb-4 overflow">Review</p>
-						<ul class="ftco-social d-flex">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-message"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-google-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
+			
+			<c:if test="${empty StRvs}" var="isEmpty">
+				<div class="item col-md-2">	
+					<span>베스트 리뷰가 없습니다.</span>
 				</div>
-			</div>
-			<div class="item col-md-2">
-				<div class="testimony-wrap text-center py-4 pb-5">
-					<div class="user-img mb-4"
-						style="background-image: url(<c:url value="/resources/bootstrap/images/lunch-1.jpg"/>);">
-						<span
-							class="quote d-flex align-items-center justify-content-center">
-							<i class="icon-quote-left"></i>
-						</span>
+			</c:if>
+			<c:if test="${not isEmpty}">
+				<c:forEach items="${StRvs}" var="items" varStatus="loop">
+					<div class="item col-md-3">
+						<div class="testimony-wrap text-center py-4 pb-5">
+							<div class="user-img mb-4"
+								style="background-image: url(<c:url value="${items.rf_path}"/>);">
+								<span class="quote d-flex align-items-center justify-content-center">
+									<i class="icon-quote-left"></i>
+								</span>
+							</div>
+							<div class="text px-3 pt-3">
+								<p class="name overflow">${items.u_nick}</p>
+								<span class="food-type overflow">${items.rv_postdate}</span>
+								<p class="mb-4 overflow">${items.RV_CONTENT}</p>
+								
+							</div>
+						</div>
 					</div>
-					<div class="text px-3 pt-3">
-						<p class="name overflow">연어 스테이크</p>
-						<span class="food-type overflow">TypeTypeTypeType</span>
-						<p class="mb-4 overflow">ReviewReviewReviewReview</p>
-						<ul class="ftco-social d-flex">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-message"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-google-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="item col-md-2">
-				<div class="testimony-wrap text-center py-4 pb-5">
-					<div class="user-img mb-4"
-						style="background-image: url(<c:url value="/resources/bootstrap/images/dinner-1.jpg"/>);">
-						<span
-							class="quote d-flex align-items-center justify-content-center">
-							<i class="icon-quote-left"></i>
-						</span>
-					</div>
-					<div class="text px-3 pt-3">
-						<p class="name overflow">부드럽고 고소한 크림 소스에 톡톡 튀는 명란이 들어간 크림 파스타</p>
-						<span class="food-type overflow">Type</span>
-						<p class="mb-4 overflow">맛있는팟씨유먹고파....</p>
-						<ul class="ftco-social d-flex">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-message"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-google-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="item col-md-2">
-				<div class="testimony-wrap text-enter py-4 pb-5">
-					<div class="user-img mb-4"
-						style="background-image: url(<c:url value="/resources/bootstrap/images/drink-1.jpg"/>);">
-						<span
-							class="quote d-flex align-items-center justify-content-center">
-							<i class="icon-quote-left"></i>
-						</span>
-					</div>
-					<div class="text px-3 pt-3">
-						<p class="name overflow">가나다라마바사아자차카파타하</p>
-						<span class="food-type overflow">Lacto, Pork-free</span>
-						<p class="mb-4 overflow">가나다라마바사아자차카파타하</p>
-						<ul class="ftco-social d-flex">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-message"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-google-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="item col-md-2">
-				<!-- 5 -->
-				<div class="testimony-wrap text-center py-4 pb-5">
-					<div class="user-img mb-4"
-						style="background-image: url(<c:url value="/resources/bootstrap/images/dessert-1.jpg"/>);">
-						<span
-							class="quote d-flex align-items-center justify-content-center">
-							<i class="icon-quote-left"></i>
-						</span>
-					</div>
-					<div class="text px-3 pt-3">
-						<p class="name overflow">MenuName</p>
-						<span class="food-type overflow">Type</span>
-						<p class="mb-4 overflow">ReviewReviewReviewReview</p>
-						<ul class="ftco-social d-flex">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-message"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-google-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<div class="item col-md-2">
-				<!-- 6 -->
-				<div class="testimony-wrap text-center py-4 pb-5">
-					<div class="user-img mb-4"
-						style="background-image: url(<c:url value="/resources/bootstrap/images/wine-1.jpg"/>);">
-						<span
-							class="quote d-flex align-items-center justify-content-center">
-							<i class="icon-quote-left"></i>
-						</span>
-					</div>
-					<div class="text px-3 pt-3">
-						<p class="name overflow">MenuName</p>
-						<span class="food-type overflow">Type</span>
-						<p class="mb-4 overflow">Review</p>
-						<ul class="ftco-social d-flex">
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-message"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-google-plus"></span></a></li>
-							<li class="ftco-animate"><a href="#"><span
-									class="icon-instagram"></span></a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-			<!-- item6 -->
-		</div>
+				</c:forEach>
+			</c:if>				
+		</div>			
 	</div>
-	<!-- </div> </div> -->
+	
+<!-------------------------------------- 리뷰보기 -------------------------------------->
 	<div class="container">
-		<h3 class="mb-5 h4 font-weight-bold p-4" style="text-align: center">모든
-			리뷰 보기</h3>
 		<div>
-			<ul class="comment-list">
-				<li class="comment">
-					<div class="vcard bio">
-						<img
-							src='<c:url value="/resources/bootstrap/images/person_1.jpg"/>'
-							alt="Image placeholder">
-					</div>
-					<div class="comment-body">
-						<div class="row">
-							<h3 class="col-md-1">ID</h3>
-							<div class="col-md-10 meta mb-2">| regidate</div>
-							<h3>평점</h3>
-						</div>
-						<p>리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review
-							리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰
-							review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰
-							review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰
-							review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰
-							review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰 review 리뷰
-							review</p>
-						<div class="menu-img img"
-							style="background-image: url(<c:url value="/resources/bootstrap/images/subway/review/eggmayo.jpg"/>);"></div>
-					</div>
-				</li>
-
-				<li class="comment">
-					<div class="vcard bio">
-						<img
-							src='<c:url value="/resources/bootstrap/images/person_2.jpg"/>'
-							alt="Image placeholder">
-					</div>
-					<div class="comment-body">
-						<div class="row">
-							<h3 class="col-md-1">ID</h3>
-							<div class="col-md-10 meta mb-2">| regidate</div>
-							<h3>평점</h3>
-						</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Pariatur quidem laborum necessitatibus, ipsam impedit vitae
-							autem, eum officia, fugiat saepe enim sapiente iste iure! Quam
-							voluptas earum impedit necessitatibus, nihil?</p>
-						<p>
-							<a href="#" class="reply">Reply</a>
-						</p>
-					</div>
-
-					<ul class="children">
+			<h3 class="mb-5 h4 font-weight-bold p-4 col-md-8 col-md-offset-2" style="text-align: center; font-family: 'Gugi', sans-serif; display: inline-block;">모든 리뷰 보기</h3>
+			<div class="btn py-3 px-4 btn-black gugi" id="myBtn" style="float:right; display: inline-block;margin-top:20px;" data-target="#layerpop" data-toggle="modal"> 
+				후기 남기기 
+			</div>	
+		</div>	
+		
+		<div class="comment-form-wrap pt-5">
+			<ul style="list-style: none;">
+				<c:if test="${empty strvcnts}">
+					<li class="comment">
+						<span>작성된 리뷰가 없습니다.</span>
+					</li>
+				</c:if>
+				<c:if test="${not empty strvcnts}">
+					<c:forEach items="${strvcnts}" var="strvcnt" varStatus="loop">
 						<li class="comment">
-							<div class="vcard bio">
-								<img
-									src='<c:url value="/resources/bootstrap/images/chef-1.jpg"/>'
-									alt="Image placeholder">
-							</div>
-							<div class="comment-body">
-								<div class="row">
-									<h3 class="col-md-1">ID</h3>
-									<div class="col-md-10 meta mb-2">| regidate</div>
-									<h3>평점</h3>
+							<div class="comment-body col-md-12 justify-content-center" style="margin-top:10px; padding:20px 0 30px 0;border-bottom: 1px solid #d7d7d7; ">
+
+								<div class="col-md-2" style="display: top; text-align: center; align-content: center;" >
+									<c:forEach items="${usersnks}" var="usersnks" varStatus="loop">
+										<c:if test="${strvcnt.user_email == usersnks.username}">	
+											<h3 style="margin-top:10px;" class="overflow">${usersnks.u_nick}</h3>		
+											<c:if test="${empty usersnks.u_img}">
+												<img src='<c:url value="/resources/user_IMG/default.gif"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Default Image">
+											</c:if>		
+											<c:if test="${not empty usersnks.u_img}">						
+												<img src='<c:url value="${usersnks.u_img}"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Image">										
+											</c:if>
+										</c:if>
+									</c:forEach>
 								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-									Pariatur quidem laborum necessitatibus, ipsam impedit vitae
-									autem, eum officia, fugiat saepe enim sapiente iste iure! Quam
-									voluptas earum impedit necessitatibus, nihil?</p>
-								<p>
-									<a href="#" class="reply">Reply</a>
-								</p>
-							</div>
-
-
-							<ul class="children">
-								<li class="comment">
-									<div class="vcard bio">
-										<img
-											src='<c:url value="/resources/bootstrap/images/chef-2.jpg"/>'
-											alt="Image placeholder">
-									</div>
-									<div class="comment-body">
-										<h3>John Doe</h3>
-										<div class="meta mb-2">January 03, 2019 at 2:21pm</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-											elit. Pariatur quidem laborum necessitatibus, ipsam impedit
-											vitae autem, eum officia, fugiat saepe enim sapiente iste
-											iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-										<p>
-											<a href="#" class="reply">Reply</a>
-										</p>
-									</div>
-
-									<ul class="children">
-										<li class="comment">
-											<div class="vcard bio">
-												<img
-													src='<c:url value="/resources/bootstrap/images/chef-3.jpg"/>'
-													alt="Image placeholder">
-											</div>
-											<div class="comment-body">
-												<h3>dk wdksjgksal;dnga;sldgn;sa</h3>
-												<div class="meta mb-2">January 03, 2019 at 2:21pm</div>
-												<p>Lorem ipsum dolor sit amet, consectetur adipisicing
-													elit. Pariatur quidem laborum necessitatibus, ipsam impedit
-													vitae autem, eum officia, fugiat saepe enim sapiente iste
-													iure! Quam voluptas earum impedit necessitatibus, nihil?</p>
-												<p>
-													<a href="#" class="reply">Reply</a>
-												</p>
-											</div>
-										</li>
+								<div class="col-md-9">
+									<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${strvcnt.rv_postdate}</div>
+									<p style="color: black;">${strvcnt.rv_content}</p>								
+									<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
+										<c:if test="${strvcnt.rv_no == strvimg.rv_no}" var="norvimg">											
+											<c:if test="${empty norvimg}">
+												<span>리뷰 이미지가 없어요</span>
+											</c:if>
+											<c:if test="${not empty norvimg}">
+												<div class="vcard bio">												
+                           							<c:forTokens  var="rf_path" items="${strvimg.rf_path}" delims=",">
+														<img src='<c:url value="${rf_path}"/>' style="height:180px; width:180px;" alt="Image placeholder">
+													</c:forTokens>
+												</div>								
+											</c:if>
+		                           		</c:if>
+									</c:forEach>
+								</div>
+								<div class="col-md-1">
+									<!--<c:if test="${user_id == strvcnt.user_email}">-->
+									<ul style="list-style: none;">
+										<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
+										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
 									</ul>
-								</li>
-							</ul>
+									<!--</c:if>			-->				
+								</div>
+																				
+							</div>
 						</li>
-					</ul>
-				</li>
-				<li class="comment">
-					<div class="vcard bio">
-						<img src='<c:url value="/resources/bootstrap/images/chef-4.jpg"/>'
-							alt="Image placeholder">
-					</div>
-					<div class="comment-body">
-						<h3>John Doe</h3>
-						<div class="meta mb-2">January 03, 2019 at 2:21pm</div>
-						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							Pariatur quidem laborum necessitatibus, ipsam impedit vitae
-							autem, eum officia, fugiat saepe enim sapiente iste iure! Quam
-							voluptas earum impedit necessitatibus, nihil?</p>
-						<p>
-							<a href="#" class="reply">Reply</a>
-						</p>
-					</div>
-				</li>
+					</c:forEach>
+				</c:if>				
 			</ul>
+		
 		</div>
-		<div class="row no-gutters my-5">
-			<div class="col text-center">
-				<div class="block-27">
-					<ul>
-						<li><a href="#">&lt;</a></li>
-						<li class="active"><span>1</span></li>
-						<li><a href="#">2</a></li>
-						<li><a href="#">3</a></li>
-						<li><a href="#">4</a></li>
-						<li><a href="#">5</a></li>
-						<li><a href="#">&gt;</a></li>
-					</ul>
+		
+<!-------------------------------------- 리뷰 페이징 -------------------------------------->
+		<div class="col-md-12 pd-4 pt-4 mb-5 mt-5 text-center" style="margin-left: 0px; margin-left: 0px; ">
+           <div class=" " >${strvPagingString}</div>
+        </div>
+        
+ 
+<!-------------------------------------- 리뷰쓰기 -------------------------------------->       
+        <sec:authorize access="hasRole('ROLE_USER')">
+			<!-- <input type="hidden" name="username" value="${username}">-->
+			<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
+			<input name="username" id="username" value="${username}" type="hidden" class="form-control">
+				<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
+				<form action="<c:url value='/insertReview.do'/>" class="p-4 p-md-5" method="post">
+					<div class="form-group poor">
+						<div>
+							<label class="col-md-2" for="message" style="text-align: right; padding-top:15px;">title</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom:10px;">
+							</div>
+						</div>
+						<div>
+							<label class="col-md-2" for="message" style="text-align: right; padding-top:15px;">Contents</label>		
+							<div class="col-md-9 poor">					
+								<textarea name="rv_content" cols="30" rows="7" class="form-control"  placeholder="내용을 입력하세요" style="margin-bottom:10px;"></textarea>
+							</div>
+						</div>
+						<div>
+							<label class="col-md-2" for="message" style="text-align: right; padding-top:15px;">Images</label>		
+							<div class="col-md-9 poor">					
+								<input name="rf_path" class="form-control"  placeholder="파일업로드용"  style="margin-bottom:30px;"></input>
+							</div>
+						</div>
+						
+					</div>
+						<div class="form-group col-md-offset-5"  style="align-content: center; align-items: center;">
+							<input type="submit" value="리뷰 작성" class="btn py-3 px-4 btn-primary gugi" >						
+						</div>
+					
+				</form>
+			</div>			
+		</sec:authorize>
+		
+		
+	<!-- 경고창 모달 시작 -->
+	<div class="modal fade" id="small-modal" data-backdrop="static">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-body">
+					<button class="close" data-dismiss="modal">
+						<span>&times;
+						</span>
+					</button>  
+					<h4 class="modal-title">
+						<span class="glyphicon glyphicon-bullhorn">경고 메시지</span>
+					</h4>
+					<h5 id="warningMessage"></h5>
+				</div>
+	
+			</div>
+		</div>
+	</div>	
+	<script>	    
+    	$(function(){    		
+    		var focusObject;  		
+    		//모달창이 닫혔을때 발생하는 이벤트 처리 - 해당 객체에 포커스 주기
+    		$('#small-modal').on('hidden.bs.modal', function (e) {
+    			focusObject.focus();    			
+    		});    		
+    		$('form').on('submit',function(){ 
+    			if($(this).get(0).rv_title.value==""){
+    				$('#warningMessage').html('제목을 입력하세요');
+    				$('#small-modal').modal('show');
+    				focusObject=$(this).get(0).title; 				
+    				return false;
+    			}
+    			if($(this).get(0).rv_content.value==""){
+    				$('#warningMessage').html('내용을 입력하세요');
+    				$('#small-modal').modal('show');
+    				focusObject=$(this).get(0).content; 				
+    				return false;
+    			}
+    		});   
+    	});    
+    </script>
+		
+		
+		
+		<!-- END comment-list -->
+		<!-- 
+		<div class="modal fade" id="layerpop" data-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content"> -->
+					<!-- header 
+					<div class="modal-header">-->
+						<!-- 닫기(x) 버튼 
+						<button type="button" class="close" data-dismiss="modal">×</button>-->
+						<!-- header title 
+						<h4 class="modal-title gugi">골라먹자 리뷰를 남겨보세요</h4>
+					</div>-->
+					<!-- body 
+					<div class="modal-body">
+						<div class="form-group gugi">
+							<label for="message ">Contents</label>
+							<textarea name="" id="message" cols="30" rows="5" class="form-control"></textarea>
+						</div>
+					</div>-->
+					<!-- Footer
+					<div class="modal-footer">
+						<input type="submit" value="작성" class="btn py-3 px-4 btn-warning" href="<c:url value='/ReviewList.bbs'/>">
+						<button type="button" class="btn py-3 px-4 btn-primary" data-dismiss="modal">닫기</button>
+					</div>
+				</div>
+			</div>
+		</div> -->
+		
+		
+		 <!-- The Modal -->
+		<div id="myModal" class="modal">
+			<div class="container">
+				<!-- Modal content -->
+				<div class="modal-content" style=" background: orange;">
+					<!-- modal-header -->
+					<div>
+						<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
+						<span class="close">&times;</span>							
+					</div>
+					<!-- modal-body -->
+					<form>
+						<div style="padding-top: 20px;">
+							<div>
+								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">title</label>
+								<div class="col-md-9 poor">
+									<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+								</div>
+							</div>
+							<div>
+								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">Contents</label>
+								<div class="col-md-9 poor">
+									<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
+								</div>
+							</div>
+							<div>
+								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">Images</label>
+								<div class="col-md-9 poor">
+									<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
+								</div>
+							</div>
+						</div>
+						<!-- modal-footer -->
+						<div class="form-group col-md-12 text-center">
+							<input type="submit" id="create" value="작성" class="btn py-3 px-4 btn-default" src="<c:url value='/insertReview.do'/>"> 
+							<input type="button" id="close" value="취소" class="btn py-3 px-4 btn-primary" data-dismiss="modal">
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
-		<!-- END comment-list -->
-		<div class="comment-form-wrap pt-5">
-			<h3 class="mb-5 h4 font-weight-bold p-4 bg-light">리뷰 남기기(비로그인시)</h3>
-			<form action="#" class="p-4 p-md-5">
-				<div class="form-group">
-					<label for="email">ID / Email</label> <input type="email"
-						class="form-control" id="email">
-				</div>
-				<div class="form-group">
-					<label for="email">Password</label> <input type="email"
-						class="form-control" id="email">
-				</div>
-				<div class="form-group">
-					<label for="message">Contents</label>
-					<textarea name="" id="message" cols="30" rows="5"
-						class="form-control"></textarea>
-				</div>
-				<div class="form-group">
-					<input type="submit" value="Post Comment"
-						class="btn py-3 px-4 btn-primary">
-				</div>
+		<script>
+			$(function(){
+			   	// Get the modal
+			    var modal = document.getElementById('myModal');		
+			    // Get the button that opens the modal
+			    var btn = document.getElementById("myBtn");		
+			    // Get the <span> element that closes the modal
+			    var span = document.getElementsByClassName("close")[0]; 
+			    // When the user clicks on the button, open the modal 
+			    btn.onclick = function() {
+			        modal.style.display = "block";
+			    }		
+			    // When the user clicks on <span> (x), close the modal
+			    span.onclick = function() {
+			        modal.style.display = "none";
+			    }
+			    // When the user clicks anywhere outside of the modal, close it
+			    window.onclick = function(event) {
+			        if (event.target == modal) {
+			            modal.style.display = "none";
+			        }
+			    }
+			})				
+		</script>	
 
-			</form>
-		</div>
-		<div class="comment-form-wrap pt-5">
-			<h3 class="mb-5 h4 font-weight-bold p-4">리뷰 남기기(로그인시)</h3>
-			<form action="#" class="p-4 p-md-5">
-				<div class="form-group">
-					<label for="message">Contents</label>
-					<textarea name="" id="message" cols="30" rows="5"
-						class="form-control"></textarea>
-				</div>
-				<div class="form-group">
-					<input type="submit" value="Post Comment"
-						class="btn py-3 px-4 btn-primary">
-				</div>
-			</form>
-		</div>
+
+
 	</div>
-
 </section>
-

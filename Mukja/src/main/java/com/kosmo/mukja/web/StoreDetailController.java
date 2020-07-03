@@ -7,29 +7,46 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
+import com.kosmo.mukja.service.MyPageDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
+import com.kosmo.mukja.service.UsersDTO;
+import com.kosmo.mukja.web.util.PagingUtil;
 
 
 @Controller
 public class StoreDetailController {
 	@Resource(name = "StoreInfoService")
 	private StoreService service;
+
+	@Value("${PAGE_SIZE}")
+	private int pageSize;
+	@Value("${BLOCK_PAGE}")
+	private int blockPage;
+	
 	
 	@RequestMapping("/Store/DetailView.do")
-	public String StoreDetail(@RequestParam Map map, Model model, Authentication authentication) {
+	public String StoreDetail(
+			@RequestParam Map map, Model model, 
+			Authentication authentication,
+			@RequestParam(required = false,defaultValue = "1") int nowPage, 
+			HttpServletRequest req ) {
+		
 		System.out.println("username : "+map.get("username"));
 		
 		if(authentication!=null) {
@@ -99,9 +116,41 @@ public class StoreDetailController {
 		int store_Thumb = service.getStoreThumb(map);
 		model.addAttribute("store_Thumb",store_Thumb);
 		
+
 		
+		/*가게리뷰보기*/
+		//페이징을 위한 로직 시작]
+		//전체 레코드수	
+		int strvCount = service.getStRvTotal(map);
+		//전체 페이지수]
+		int strvPage = (int)Math.ceil((double)strvCount/pageSize);			
+		//시작 및 끝 ROWNUM구하기]
+		int strvstart = (nowPage-1)*pageSize+1;
+		int strvend   = nowPage*pageSize;	
+		
+		//페이징을 위한 로직 끝]	
+		map.put("strvstart", strvstart);
+		map.put("strvend", strvend);
+		
+		List<MyPageDTO> strvcnts= service.getStoreReviewcnt(map);
+//		List<MyPageDTO> strvcnts= service.getStoreReview(map);	
+		//데이타 저장]
+		String strvPagingString = PagingUtil.pagingBootStrapStyle(strvCount, pageSize,blockPage, nowPage, req.getContextPath()+"/Store/DetailView.do?");
+		System.out.println("strvcnts"+strvcnts);
+		model.addAttribute("strvcnts", strvcnts);
+		model.addAttribute("strvPagingString", strvPagingString);	
+				
+		List<MyPageDTO> strvimgs = service.getStoreReviewimg(map);	
+		model.addAttribute("strvimgs",strvimgs);
+		List<UsersDTO> usersnks = service.getUsersNicks(map);
+		model.addAttribute("usersnks",usersnks);
 	
 		return "/Store/DetailView.tiles";
+		
+		
+		
+		//베스트리뷰 뽑기
+		
 		
 	}
 	
@@ -141,4 +190,33 @@ public class StoreDetailController {
 		
 		return "{'result':"+result+"}";
 	}
+	
+	
+
+	
+	@ResponseBody
+	@RequestMapping(value="/insertReview.do",method=RequestMethod.POST)
+	public String insertReview(@RequestParam Map map, Authentication auth, HttpServletRequest req) {	
+		System.out.println("username2 : "+map.get("username"));	
+		System.out.println("username2 : "+req.getParameter("username"));
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		
+		
+		int insert = service.insertSTreview(map);	
+		return "forward:insertReview.do";
+	}
+	@ResponseBody
+	@RequestMapping(value="/UpdateReview.do",method=RequestMethod.GET)
+	public String UpdateReview(@RequestParam Map map, Authentication auth, HttpServletRequest req) {	
+		System.out.println("username3 : "+map.get("username"));	
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String user_id = userDetails.getUsername();
+		map.put("user_id",user_id);		
+		
+		int update = service.insertSTreview(map);	
+		return "/Store/DetailView.tiles";
+	}
+	
 }

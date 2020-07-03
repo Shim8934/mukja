@@ -141,4 +141,58 @@ public class AdminServiceImpl implements AdminService{
 		return dao.selectForFile(map);
 	}
 
+	@Override
+	public int bfUpdate(Map map) {
+		// TODO Auto-generated method stub
+		return dao.bfUpdate(map);
+	}
+
+	@Override
+	public List<AdminDTO> selectStSignList(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectStSignList(map);
+	}
+
+	@Override
+	public int getStSignTotalRecord(Map map) {
+		// TODO Auto-generated method stub
+		return dao.getStSignTotalRecord(map);
+	}
+
+	@Override 
+	public AdminDTO selectStOne(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectStOne(map);
+	}
+
+	@Override
+	public AdminDTO selectStPrev(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectStPrev(map);
+	}
+
+	@Override
+	public AdminDTO selectStNext(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectStNext(map);
+	}
+
+	@Override
+	public int deleteStSign(Map map) {
+		// TODO Auto-generated method stub
+		return dao.deleteStSign(map);
+	}
+
+	@Override
+	public int updateUsRP2(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateUsRP2(map);
+	}
+
+	@Override
+	public int updateStSign(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateStSign(map);
+	}
+
 }

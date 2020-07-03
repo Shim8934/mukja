@@ -2,48 +2,52 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
-		
-	$(function(){
-		var NT_NO = document.getElementById('NT_NO').value;
-		console.log('NT_NO 출력 제이쿼리 안')
-		console.log(NT_NO)
-		// window.onload = FileLoad();		
-		var formData = new FormData($('#editForm')[2]);
-		console.log(formData+'폼데이터 출력')
-		// 
-		function FileLoad(){			
-			$.ajax({
-				type: "POST",
-				enctype: 'multipart/form-data',
-				url: "<c:url value='/selectFiles.bbs'/>",
-				data: formData,
-				processData: false, 
-				contentType: false, 
-				cache: false,
-				success: function (result) {
-					console.log('파일 조회 성공? = ',result)
-				},
-				error: function (e) {
-					
-				}
-
-			});
-		}
-		
-		console.log($('#BF_PATH')+'BF_PATH 체크')
-		
-		// 취소버튼
-		$('#btnCancel').click(function(){
-			window.history.back();
-		});
+$(function(){
+	$('#btnCancel').click(function(){
+		window.history.back();
 	})
-	/* 페이지 로드 시점에, 파일 조회해서 input 파일태그 안에 장착 */
+
 	
-	
-	
-	$(function(){
-		
+	//등록 이미지 등록 미리보기
+	function readInputFile(input) {
+	    if(input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	            $('#preview').html("<a href=\"javascript:void(0);\" onclick=\"deleteImageAction()\" id=\"img_id\"><img src="+ e.target.result +" title='Click to remove'></a>");
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	 
+	$(".inp-img").on('change', function(){
+	    readInputFile(this);
 	});
+
+});
+
+	// 등록 이미지 삭제 ( input file reset )
+	var resetInputFile = function($input, $preview) {
+	    var agent = navigator.userAgent.toLowerCase();
+	    if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+	        // ie 일때
+	        $input.replaceWith($input.clone(true));
+	        $preview.empty();
+	    } else {
+	        //other
+	        $input.val("");
+	        $preview.empty();
+	    }       
+	}
+	
+	var deleteImageAction = function(){
+		var img_id = "#img_id";
+		$(img_id).remove();
+		var $input = $(".inp-img");
+	    var $preview = $('#preview');
+	    resetInputFile($input, $preview);
+	}
+
+
 </script>
 
 <div class="app-main__outer">
@@ -82,19 +86,21 @@
 							<div class="position-relative row form-group">
 								<label for="BF_PATH" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-							<c:if test="${empty fileLists}" var="isEmpty">
-								<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" value="${fileLists}">
-								파일 비었음
-							</c:if>
-							<c:if test="${not isEmpty}">
-								<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" value="${fileLists}">
-								파일 있음
-							</c:if>
+									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp"
+									 class="form-control-file inp-img" multiple="multiple">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
 								</div>
-								<div id="filelist">
-									
+								<div class="col-sm-10 text-center">
+									<c:if test="${empty record.BF_PATH }" var="emptyImg">
+										<div class="text-center">
+											<p>기존 등록 이미지가 존재하지 않습니다.</p>									
+										</div>
+									</c:if>
+									<c:if test="${not emptyImg}">
+										<img alt="기존 등록 이미지가 존재하지 않습니다." src="<c:url value="/resources/Upload/AdminNotice/${record.BF_PATH}"/>">
+									</c:if>
 								</div>
+								<div id="preview" class="col-sm-10 offset-sm-2"></div>
 							</div>
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
@@ -102,8 +108,16 @@
 									<button class="mt-2 btn btn-warning" id="btnCancel" type="button">취소</button>
 								</div>		
 							</div>
+							
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">
 							<input name="NT_NO" id="NT_NO" value="${record.NT_NO}" type="hidden" class="form-control">
+							<c:if test="${empty record.BF_PATH}" var="isNullImg">
+								<input name="ori_PATH" id="ori_PATH" value="null" type="hidden" class="form-control">
+							</c:if>
+							<c:if test="${not isNullImg }">
+								<input name="ori_PATH" id="ori_PATH" value="${record.BF_PATH}" type="hidden" class="form-control">
+							</c:if>
+							
 						</form>
 						
 						<!-- 

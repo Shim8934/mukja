@@ -8,11 +8,13 @@ import java.util.Vector;
 
 import javax.annotation.Resource;
 
+import org.json.simple.JSONObject;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -97,18 +99,23 @@ public class StoreMypageController {
 		
 	}
 
-	
 	@RequestMapping("/StoreMypage/ImgPop.do")
 	public String ImgPop(@RequestParam Map map, Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
-	
 		
+		// 스토어 이미지
+		List<StoreIMGDTO> strImgDto = service.getStoreIMG(map);
+		map.put("username",userDetails.getUsername());
+		List<StoreDTO> stDto = service.selectFoodImg(map);
+		
+		model.addAttribute("storeImg",strImgDto);
+		model.addAttribute("fmImg",stDto);
 		
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
-	
+
 
 	
 	

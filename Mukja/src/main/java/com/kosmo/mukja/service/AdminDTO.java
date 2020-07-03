@@ -24,29 +24,22 @@ public class AdminDTO {
 	private String UR_TYPE;
 	
 	// 관리자 로그인 정보용 변수
-	private String enabled;
+	private String enabled; // 신고에서 유저 enabled 동시 활용
 	private String admin_role;
 	private String authority;
 	
-	// 리뷰 관리용 변수(음식점 정보)
-	private String store_name;
-	private String store_regnum;
-	private String store_phnum;
-	private String store_email;
-	private String store_intro;
-	private double store_lat;
-	private double store_lng;
-	
-	// 리뷰 관리 + 같이먹자 관리용 변수(메뉴 정보)
-	private String menu_no;
-	private String menu_name;
-	private String menu_tend;
-	private String menu_info;
-	private String menu_regidate;
-	private java.sql.Date postDate;
+	// 제휴 승인용(스토어 변수)	
+	private String store_NAME;
+	private String store_REGINUM;
+	private String store_PHNUM;
+	private String store_EMAIL;
+	private String store_INTRO;
+	private String store_ADDR;
+	private double store_LAT;
+	private double store_LNG;
 	
 	// 신고 관리용 유저 및 스토어
-	private String username;
+	private String username; // 스토어도 같이 씀
 	private String username_1;
 	private String username_2;
 	private String store_name1;
@@ -59,10 +52,9 @@ public class AdminDTO {
 
 	public AdminDTO(String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME, Date nT_REGITDATE, String bF_NO,
 			String bF_PATH, String uR_NO, String uR_TITLE, String uR_CONTENT, String uR_TARGET, String uR_REPORTER,
-			Date uR_REGIDATE, String uR_TYPE, String enabled, String admin_role, String authority, String store_name,
-			String store_regnum, String store_phnum, String store_email, String store_intro, double store_lat,
-			double store_lng, String menu_no, String menu_name, String menu_tend, String menu_info,
-			String menu_regidate, Date postDate, String username2, String username_1, String username_2,
+			Date uR_REGIDATE, String uR_TYPE, String enabled, String admin_role, String authority, String store_NAME,
+			String store_REGINUM, String store_PHNUM, String store_EMAIL, String store_INTRO, String store_ADDR,
+			double store_LAT, double store_LNG, String username2, String username_1, String username_2,
 			String store_name1, String store_name2) {
 		super();
 		NT_NO = nT_NO;
@@ -82,19 +74,14 @@ public class AdminDTO {
 		this.enabled = enabled;
 		this.admin_role = admin_role;
 		this.authority = authority;
-		this.store_name = store_name;
-		this.store_regnum = store_regnum;
-		this.store_phnum = store_phnum;
-		this.store_email = store_email;
-		this.store_intro = store_intro;
-		this.store_lat = store_lat;
-		this.store_lng = store_lng;
-		this.menu_no = menu_no;
-		this.menu_name = menu_name;
-		this.menu_tend = menu_tend;
-		this.menu_info = menu_info;
-		this.menu_regidate = menu_regidate;
-		this.postDate = postDate;
+		this.store_NAME = store_NAME;
+		this.store_REGINUM = store_REGINUM;
+		this.store_PHNUM = store_PHNUM;
+		this.store_EMAIL = store_EMAIL;
+		this.store_INTRO = store_INTRO;
+		this.store_ADDR = store_ADDR;
+		this.store_LAT = store_LAT;
+		this.store_LNG = store_LNG;
 		username = username2;
 		this.username_1 = username_1;
 		this.username_2 = username_2;
@@ -238,108 +225,68 @@ public class AdminDTO {
 		this.authority = authority;
 	}
 
-	public String getStore_name() {
-		return store_name;
+	public String getStore_NAME() {
+		return store_NAME;
 	}
 
-	public void setStore_name(String store_name) {
-		this.store_name = store_name;
+	public void setStore_NAME(String store_NAME) {
+		this.store_NAME = store_NAME;
 	}
 
-	public String getStore_regnum() {
-		return store_regnum;
+	public String getStore_REGINUM() {
+		return store_REGINUM;
 	}
 
-	public void setStore_regnum(String store_regnum) {
-		this.store_regnum = store_regnum;
+	public void setStore_REGINUM(String store_REGINUM) {
+		this.store_REGINUM = store_REGINUM;
 	}
 
-	public String getStore_phnum() {
-		return store_phnum;
+	public String getStore_PHNUM() {
+		return store_PHNUM;
 	}
 
-	public void setStore_phnum(String store_phnum) {
-		this.store_phnum = store_phnum;
+	public void setStore_PHNUM(String store_PHNUM) {
+		this.store_PHNUM = store_PHNUM;
 	}
 
-	public String getStore_email() {
-		return store_email;
+	public String getStore_EMAIL() {
+		return store_EMAIL;
 	}
 
-	public void setStore_email(String store_email) {
-		this.store_email = store_email;
+	public void setStore_EMAIL(String store_EMAIL) {
+		this.store_EMAIL = store_EMAIL;
 	}
 
-	public String getStore_intro() {
-		return store_intro;
+	public String getStore_INTRO() {
+		return store_INTRO;
 	}
 
-	public void setStore_intro(String store_intro) {
-		this.store_intro = store_intro;
+	public void setStore_INTRO(String store_INTRO) {
+		this.store_INTRO = store_INTRO;
 	}
 
-	public double getStore_lat() {
-		return store_lat;
+	public String getStore_ADDR() {
+		return store_ADDR;
 	}
 
-	public void setStore_lat(double store_lat) {
-		this.store_lat = store_lat;
+	public void setStore_ADDR(String store_ADDR) {
+		this.store_ADDR = store_ADDR;
 	}
 
-	public double getStore_lng() {
-		return store_lng;
+	public double getStore_LAT() {
+		return store_LAT;
 	}
 
-	public void setStore_lng(double store_lng) {
-		this.store_lng = store_lng;
+	public void setStore_LAT(double store_LAT) {
+		this.store_LAT = store_LAT;
 	}
 
-	public String getMenu_no() {
-		return menu_no;
+	public double getStore_LNG() {
+		return store_LNG;
 	}
 
-	public void setMenu_no(String menu_no) {
-		this.menu_no = menu_no;
-	}
-
-	public String getMenu_name() {
-		return menu_name;
-	}
-
-	public void setMenu_name(String menu_name) {
-		this.menu_name = menu_name;
-	}
-
-	public String getMenu_tend() {
-		return menu_tend;
-	}
-
-	public void setMenu_tend(String menu_tend) {
-		this.menu_tend = menu_tend;
-	}
-
-	public String getMenu_info() {
-		return menu_info;
-	}
-
-	public void setMenu_info(String menu_info) {
-		this.menu_info = menu_info;
-	}
-
-	public String getMenu_regidate() {
-		return menu_regidate;
-	}
-
-	public void setMenu_regidate(String menu_regidate) {
-		this.menu_regidate = menu_regidate;
-	}
-
-	public java.sql.Date getPostDate() {
-		return postDate;
-	}
-
-	public void setPostDate(java.sql.Date postDate) {
-		this.postDate = postDate;
+	public void setStore_LNG(double store_LNG) {
+		this.store_LNG = store_LNG;
 	}
 
 	public String getUsername() {

@@ -2,19 +2,14 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 	<script>
-	$(function(){
+	function click() {
 		var UR_NO = $('#UR_NO').val();
 		var username = $('#username').val();
 		console.log(UR_NO)
 		console.log(username)
-		$('#benCheck').click(function () {
 			$.ajax({
 				url:"<c:url value='/UsReportUpdate.bbs'/>",
-				type:'get',
-			    data:  {
-			    	"username":username,
-			    	"UR_NO":UR_NO,
-			    },
+			    data: {"username":username,"UR_NO":UR_NO},			    
 		        dataType: 'json',
 		        success : function(data){
 					console.log('성공..?:',data);
@@ -25,23 +20,11 @@
 					console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
 							request.status,request.responseText,error,status);
 				}
-			})
-			
-		})
-	});
+			});
+	};
 	</script>
 <div class="app-main__outer">
 	<div class="app-main__inner">
-		<div class="app-page-title">
-			<div class="page-title-wrapper">
-				<div class="page-title-icon">
-					<i class="pe-7s-drawer icon-gradient bg-happy-itmeo"></i>
-					
-				</div>
-				<!-- page-title-icon끝 -->
-			</div>
-			<!-- page-title-wrapper끝 -->
-		</div>
 		<!-- 여기까지는 항상 고정!!! 아래에 내용 작성 -->
 
 		<!-- app-main__inner 본내용 시작 -->
@@ -129,9 +112,7 @@
                 <p>정말 진행하시겠습니까?</p>
             </div>
             <div class="modal-footer">
-               <a href="<c:url value="/UsReportUpdate.bbs?username=${record.UR_TARGET}"/>">
-               		<button type="button" class="btn btn-primary" id="benCheck">확인</button>
-       		   </a>
+               <a class="btn btn-primary" style="cursor:pointer;" id="benCheck" href="javascript:click()">확인</a>
        		   <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
             </div>
         </div>

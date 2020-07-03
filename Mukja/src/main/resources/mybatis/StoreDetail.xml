@@ -56,4 +56,41 @@
         <select id="isThumb" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_thumb where store_id=#{username} and user_id=#{user_id}
     </select>
+    
+    <select id="selectFoodImg" parameterType="java.util.Map" resultType="storeDTO">
+    	select fm.*,ff.fm_path from foodmenu fm join fm_file ff on fm.menu_no = ff.menu_no where fm.username = #{username}
+    </select>
+    
+    
+    <!-- 리뷰 쓰기 -->
+    <insert id="insertSTreview" parameterType="java.util.Map">
+     	insert into storereview values(SEQ_STOREREVIEW.nextval,'default_title',#{rv_content},sysdate,#{user_id},#{username},1)
+    </insert>
+    <update id="UpdateReview" parameterType="java.util.Map">
+     	update storereview set (rv_title=#{rv_title}, rv_content={rv_content}) where rv_no=#{rv_no}
+    </update>
+    
+    <!-- 리뷰 가져오기-->
+    
+    <select id="getStoreReview" parameterType="java.util.Map" resultType="MyPageDTO">
+		SELECT * FROM storereview WHERE store_name=#{username} order by rv_postdate desc
+	</select>
+	<select id="getStRvTotal" parameterType="java.util.Map" resultType="int">
+		SELECT count(*) FROM storereview WHERE store_name = #{username}
+	</select>	
+	
+	<select id="getStoreReviewcnt" parameterType="java.util.Map" resultType="MyPageDTO">
+		SELECT * FROM (SELECT T.*,ROWNUM R FROM (SELECT * FROM storereview WHERE store_name=#{username} order by rv_postdate desc)T)where R between #{strvstart} AND #{strvend}	
+	</select>
+	<select id="getStoreReviewimg" parameterType="java.util.Map" resultType="MyPageDTO">
+		SELECT * FROM review_file 		
+	</select>	
+	<select id="getUsersNicks" parameterType="java.util.Map" resultType="UsersDTO">
+		SELECT u_nick,username,u_img FROM users
+	</select>
+	
+	<select id="getBrv" parameterType="java.util.Map" resultType="UsersDTO">
+		select * from review_thumb
+	</select>
+    
 </mapper>

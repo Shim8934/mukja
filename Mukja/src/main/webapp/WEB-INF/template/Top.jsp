@@ -63,6 +63,8 @@
 				<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
 				<li class="nav-item"><a href="<c:url value="/reservationInfo.do"/>"class="nav-link">매장좌석 현황관리</a></li>
 				</sec:authorize>
+				<!-- 맵 임의로 상단 탑 메뉴로 빼둠 -->
+			<li class="nav-item"><a href="<c:url value="/Map.bbs"/>"  class="nav-link">지도 검색(지도)</a></li>
 			<li class="nav-item"><a href="<c:url value="/CollectMain.do"/>"  class="nav-link">SNS맛집검색</a></li>
 			<li class="nav-item"><a href="<c:url value="/Teachable.do"/>"  class="nav-link">AI칼로리분석</a></li>
 			</ul>

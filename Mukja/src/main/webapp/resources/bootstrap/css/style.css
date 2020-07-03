@@ -1521,7 +1521,8 @@ pre {
 .table .thead-light th {
   color: #495057;
   background-color: #e9ecef;
-  border-color: #dee2e6; }
+  border-color: #dee2e6; 
+  font-size: 12px;font-family: 'Poor Story', cursive;}
 
 .table-dark {
   color: #fff;
@@ -9352,18 +9353,17 @@ textarea.form-control {
     float: left;
     width: 100%; }
   .comment-list li {
-    padding: 0;
-    margin: 0 0 30px 0;
+    padding: 20px 0;    
+    margin: 0 0 10px 0;
+    border-bottom: 1px solid #d7d7d7;
     float: left;
     width: 100%;
     clear: both;
     list-style: none; }
     .comment-list li .vcard {
-      width: 80px;
-      float: left; }
+      width: 80px;}
       .comment-list li .vcard img {
-        width: 50px;
-        border-radius: 50%; }
+        width: 100px;}
     .comment-list li .comment-body {
       float: right;
       width: calc(100% - 80px); }
@@ -9627,9 +9627,7 @@ textarea.form-control {
 	border: 1px solid gray;
     transition: all 0.3s ease; 
 	background-color: white;
-	padding-left: 50px;
-	padding-right: 50px;
-	padding-top:30px;
+	padding:30px 50px;
 }
 /*실험중 리뷰 마우스 오버 했을 때 색깔변하는 거*/
 .testimony-section .container:last-child p{
@@ -9813,7 +9811,8 @@ textarea.form-control {
 	
 }
 	.mpjjim .img{	  
-	height: 100px;
+	height: 120px;
+	background-position: center;
 }
 	.foodjjim, .storejjim{
 	padding-left: 10px;
@@ -10027,4 +10026,7 @@ border: 1px solid blue;
 	text-align:center; 
 	margin:auto 0;
 	display:inline-block; 
+}
+.gugi{
+	font-family: 'Gugi', sans-serif;
 }

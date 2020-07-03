@@ -47,8 +47,11 @@
 		Delete FROM BBS_FILE WHERE NT_NO = #{NT_NO}
 	</delete>
 	<!-- 공지사항 수정 -->
+	<update id="bf_fileUpdate" parameterType="java.util.Map">
+		UPDATE BBS_FILE SET BF_PATH=#{BF_PATH} WHERE NT_NO=#{NT_NO}
+	</update>
 	<update id="noticeUpdate" parameterType="java.util.Map">
-		UPDATE notice SET title=#{title},content=#{content} WHERE no=#{no} 
+		UPDATE notice SET NT_TITLE = #{NT_TITLE}, NT_CONTENT = #{NT_CONTENT} WHERE NT_NO=#{NT_NO} 
 	</update>
 	
 	<!-- 공지사항 글 등록 -->
@@ -58,11 +61,15 @@
 	</insert>
 	<!-- 파일 등록 -->
 	<insert id="bf_pathInsert" parameterType="java.util.Map">
-		INSERT INTO BBS_FILE(BF_NO,NT_NO,BF_PATH)
-		VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
+		<if test="BF_PATH == null">
+			INSERT INTO BBS_FILE(BF_NO,NT_NO) VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO})
+		</if>
+		<if test="BF_PATH != null">
+			INSERT INTO BBS_FILE(BF_NO,NT_NO,BF_PATH)
+			VALUES(SEQ_BBSFILE.NEXTVAL,#{NT_NO},#{BF_PATH})
+		</if>
 	</insert>
-	
-			
+
 	<!-- 글 등록 시, BBS_FILE 테이블에서 파일 등록을 위한 NT_NO값 얻어오기위한 쿼리 -->
 	<select id="selectForBf" parameterType="java.util.Map" resultType="adminDTO">
 		Select * from Notice where NT_TITLE=#{NT_TITLE}
@@ -74,11 +81,13 @@
 	</select>
 	<!-- 공지사항(Notice) 끝 -->
 	
+	
+	
 	<!-- 유저 신고 시작 -->
 	<select id="UsRpList" parameterType="java.util.Map" resultType="adminDTO">
 		SELECT * FROM
 		(SELECT T.*, ROWNUM R FROM 
-		(SELECT UR.* FROM user_report UR JOIN users US on ur.ur_target = us.username 
+		(SELECT UR.*,ENABLED FROM user_report UR JOIN users US on ur.ur_target = us.username 
 		<if test="searchWord != null">
 			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
@@ -88,7 +97,7 @@
 	<select id="UsRpGetTotalRecord" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM user_report 
 		<if test="searchWord != null">
-		WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
 	</select>
 	<select id="UsRpOne" parameterType="java.util.Map" resultType="adminDTO">
@@ -106,5 +115,35 @@
 	<update id="UsRpUpdate" parameterType="java.util.Map">
 		UPDATE users SET ENABLED=0 WHERE username = #{username}
 	</update>
+	<!-- 유저벤 처리 후, 신고글 처리용 수정 -->
+	<update id="UsRpUpdate2" parameterType="java.util.Map">
+		UPDATE USER_REPORT SET UR_TYPE=1 WHERE UR_NO = #{UR_NO}
+	</update>
+	<!-- 벤처리 결과 조회용 쿼리 -->
+	<select id="UsTemp">
+		SELECT ENABLED FROM USERS WHERE username=#{username}
+	</select>
 	<!-- 유저 신고 끝 -->
+	
+	
+	<!-- 가게 제휴 시작 -->
+	<!-- 가입리스트 -->
+	<select id="stSignUpList" parameterType="java.util.Map" resultType="adminDTO">
+		SELECT * FROM
+		(SELECT T.*, ROWNUM R FROM 
+		(SELECT * FROM stores
+			<if test="searchWord != null">
+				WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+			</if>
+		WHERE ENABLED='0') T) 
+		WHERE R BETWEEN ${start} AND ${end}
+	</select>
+	<!-- 가입 리스트 카운트 -->
+	<select id="stTotalRecord" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM STORES WHERE ENABLED = '0'
+	</select>
+	<!-- 가입 승인시 쿼리 -->
+	<update id="stSignUpdate" parameterType="java.util.Map">
+		UPDATE STORES SET ENABLED = '1' WHERE username=#{username}
+	</update>
 </mapper>

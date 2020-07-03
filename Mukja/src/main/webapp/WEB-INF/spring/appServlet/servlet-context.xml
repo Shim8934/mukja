@@ -52,8 +52,7 @@
 	</beans:bean>
 
 	<!-- 리소스파일(.properties) 사용을 위한 설정 -->
-	<context:property-placeholder
-		location="classpath:memo/memo.properties" />
+	<context:property-placeholder location="classpath:memo/memo.properties" />
 
 	<!-- 웹소켓 서버용 빈 만들기 -->
 	<beans:bean id="chatServer"
@@ -63,12 +62,6 @@
 		<websocket:mapping handler="chatServer"
 			path="/chat.do" />
 	</websocket:handlers>
-
-	<!-- 파일 업로드 관련 -->
-	<beans:bean id="multipartResolver"
-		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<beans:property name="defaultEncoding" value="UTF-8" />
-	</beans:bean>
 
 	<!-- 회원가입 메일 인증 -->
 	<beans:bean id="mailSender"	class="org.springframework.mail.javamail.JavaMailSenderImpl">

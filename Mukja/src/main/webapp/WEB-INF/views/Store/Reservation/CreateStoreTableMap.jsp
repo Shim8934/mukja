@@ -14,9 +14,7 @@
        <h3 >열</h3>
        <input type="text" class="form-control" id="col" >
      </div>
-     
        <a id="create" class="form-control btn btn-default" style="margin-top:53px; height: 52px; text-align: center; line-height: 32px;">좌석생성</a>
-       <a id="create" class="form-control btn btn-default" style="margin-top:53px; height: 52px; text-align: center; line-height: 32px;">등록</a>
    </form>
          
    <div id="tableWrap">

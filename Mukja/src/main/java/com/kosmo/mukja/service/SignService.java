@@ -8,5 +8,8 @@ public interface SignService {
 	int storesignup(Map map);
 	int foodmenu(Map map);
 	int idCheck(Map map);
+	
+	int updateMyInfo(Map map) ;
+	UsersDTO getOneInfo(Map map);
 
 }

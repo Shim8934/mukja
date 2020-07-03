@@ -6,12 +6,208 @@
   <!-- 섬머노트 -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<style>
+   #editShopImg, #myBtn{
+   	margin-top : 5px;
+   }
+   
+    .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal Content/Box */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%; /* Could be more or less, depending on screen size */                          
+        }
+        /* The Close Button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+   
+</style>
 
-<!-- 
-<section class="ftco-section">
+<script>
+$(function(){
+	var innerHTMLTest = function(){
+		var randValNode = document.getElementById("tableExplain");
+		randValNode.innerHTML = "<b>좌석 수만큼 칸을 클릭하면 바로 적용됩니다.</b>";
+	}
+	
+	$("#create").click(function(){
+	      var row=$("#row").val();
+	      var col=$("#col").val();
+	      $("#tableWrap").html("");
+	      innerHTMLTest();
+	      
+	      var table_info ={'y_boundary':row,'x_boundary':col};
+	      
+	      for(var i=0;i<row;i++){
+	         
+	         for(var j=0;j<col;j++){
+	            var innerDiv=
+	               '<div id="'+i+'n'+j+'" class="tableInfoInner w">'+
+	               '</div>';
+	            $("#tableWrap").append(innerDiv);
+	         }
+	         $("#tableWrap").append("<div></div>");
+	      }
+	      $("#tableWrap").append();
+
+	      var all = document.querySelectorAll(".tableInfoInner");
+	      console.log("all");
+	      console.log(all);
+	   
+	      all.forEach(function(inner,index){
+	         inner.addEventListener('click', function(){
+	            if(inner.className =='tableInfoInner w'){
+	               inner.className ='tableInfoInner g';
+	               for(var i =0; i<row;i++){
+	                  var jsonArray = new Array();
+	                  for(var j=0; j<col;j++){
+	                     var getClassName=$('#'+i+'n'+j).attr('class');
+	                     jsonArray.push(getClassName.slice(-1));
+	                     
+	                  }
+	                  table_info[i]=jsonArray;
+	               }
+	               console.log("<<<<<<발송되는 배열정보>>>>>>");
+	               console.log(JSON.stringify(table_info));
+	               
+	               table_info.wating_count=0;
+	               table_info.avg_wating_time=0;
+	               
+	               var sendJson={'data':JSON.stringify(table_info)}
+	               
+	               console.log(sendJson);
+	                   $.ajax({
+	                  url:"<c:url value='/updateReservation.do'/>",
+	                  data : sendJson,
+	                  dataType:'json',
+	                  success:function(data){
+	                     console.log("성공");
+	                  },
+	                  error:function(){
+	                     console.log("실패");
+	                  }
+	               }) 
+	                
+	            }else{
+	            	inner.className ='tableInfoInner w';
+	                for(var i =0; i<row;i++){
+	                   var jsonArray = new Array();
+	                   for(var j=0; j<col;j++){
+	                      var getClassName=$('#'+i+'n'+j).attr('class');
+	                      jsonArray.push(getClassName.slice(-1));
+	                      
+	                   }
+	                   table_info[i]=jsonArray;
+	                }
+	                console.log(JSON.stringify(table_info));
+	                
+	                table_info.wating_count=0;
+	                table_info.avg_wating_time=0;
+	                
+	                var sendJson={'data':JSON.stringify(table_info)}
+	                
+	                console.log(sendJson);
+	                    $.ajax({
+	                   url:"<c:url value='/updateReservation.do'/>",
+	                   data : sendJson,
+	                   dataType:'json',
+	                   success:function(data){
+	                      console.log("성공");
+	                   },
+	                   error:function(){
+	                      console.log("실패");
+	                   }
+	                }) 
+	            }
+	         });
+	      });
+	   });
+})
+
+$(function(){
+	// Get the modal
+    var modal = document.getElementById('myModal');
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];                                          
+
+    // When the user clicks on the button, open the modal 
+    btn.onclick = function() {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+})
+
+    
+</script>
+
+ <!-- The Modal -->
+<div id="myModal" class="modal">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-9 ftco-animate"> -->
+      <!-- Modal content -->
+      	<div class="row">
+			<div class="modal-content">
+				<h3>가게 좌석 정보<span class="close">&times;</span></h3>                                                               
+			<form class="">
+				<div class="form-group col-md-12">
+					<h4>행</h4>
+						<input type="text" class="form-control" id="row" >
+					<h4>열</h4>
+						<input type="text" class="form-control" id="col" >
+			    </div>
+			    <div class="form-group col-md-12 text-center">
+			    	<input type="button" id="create" value="좌석생성" class="btn btn-info btn-lg">
+				</div>
+			       	<div id="tableWrap" class="text-center">
+	   
+			   		</div>
+			   		<div id="tableExplain" class="text-center">
+			   			<p >가게 좌석 수만큼 행렬을 입력 후, 좌석 생성을 누르면 좌석 정보가 바로 적용됩니다.</p>
+			   		</div>
+			</form>
+		  </div>
+      </div>
+ </div>
+    </div>
 
 <!-- INFROMATION -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
@@ -20,7 +216,7 @@
 
 			<!-- left-side picture -->
 			<!-- 카라셀 -->
-			<div id="carousel-example-generic" class="carousel slide casize"
+			<div id="carousel-example-generic" class="carousel slide casize text-center"
 				data-ride="carousel" style="margin-top: 100px;">
 				<!-- Indicators -->
 				<ol class="carousel-indicators">
@@ -32,8 +228,6 @@
 
 				<!-- Wrapper for slides -->
 				<div class="carousel-inner casize" role="listbox">
-
-
 					<c:forEach items="${imglist}" var="imgDTO" varStatus="status">
 						<c:if test="${status.index==0}" var="result">
 							<div class="item">
@@ -51,8 +245,9 @@
 					</c:forEach>
 
 				</div>
-				<a href="<c:url value='/StroeMypage/ImgPop.do'/>" class="btn btn-info">가게사진 수정하기</a>
-				<a href="<c:url value='/Resevation/CreateStoreTableMap.do'/>" class="btn btn-info">매장 좌석 수정/생성</a>
+				<a href="<c:url value='/StoreMypage/ImgPop.do'/>" target="_blank" id="editShopImg" class="btn btn-info">가게사진 수정하기</a>
+				<!-- <a href="<c:url value='/Resevation/CreateStoreTableMap.do'/>" class="btn btn-info">매장 좌석 수정/생성</a> -->
+				<a href="#"  id="myBtn" class="btn btn-info">매장 좌석 수정/생성</a>
 				<!-- Controls -->
 				<a class="left carousel-control" href="#carousel-example-generic"
 					role="button" data-slide="prev"> <span
@@ -65,9 +260,6 @@
 				</a>
 			</div>
 			<!-- 카라셀 엔드-->
-		
-
-
 
 
 			<div class="col-sm-7 wrap-about py-5 ftco-animate">

@@ -2,12 +2,55 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript">
-$(function(){
-  $('#img').click(function() {
-		console.log('여기')
-	  $('.trs').slideDown(300)
-})
-});
+
+	$(function(){
+	  $('#img').click(function() {
+			console.log('여기')
+		  $('.trs').slideDown(300)
+	})
+	
+	//등록 이미지 등록 미리보기
+	function readInputFile(input) {
+	    if(input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	        	console.log(e.target.result +'     파일 읽어오기');
+	            $('#preview').html("<img src="+ e.target.result +">");
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	 
+	$(".inp-img").on('change', function(){
+	    readInputFile(this);
+	});
+	 
+	 
+	// 등록 이미지 삭제 ( input file reset )
+	function resetInputFile($input, $preview) {
+	    var agent = navigator.userAgent.toLowerCase();
+	    if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+	        // ie 일때
+	        $input.replaceWith($input.clone(true));
+	        $preview.empty();
+	    } else {
+	        //other
+	        $input.val("");
+	        $preview.empty();
+	    }       
+	}
+	 
+	$(".btn-danger").click(function(event) {
+	    var $input = $(".inp-img");
+	    var $preview = $('#preview');
+	    resetInputFile($input, $preview);
+	});
+	
+	});
+
+
+
+
 </script>
 
 <style type="text/css">
@@ -111,7 +154,7 @@ section {
 						<div class="row">
 							<div class="col-md-offset-3 col-md-5">
 								<div class="form-group" id="input">
-									<label for="">아이디</label> 
+									<label for="username">아이디</label> 
 									<input type="text" class="form-control" id="username" name="username" placeholder="이메일">
 								</div>
 							</div>
@@ -130,26 +173,30 @@ section {
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">비밀번호</label> <input type="password"
-										class="form-control" id="password" name="password"
-										placeholder="비밀번호">
+									<label for="password">비밀번호</label>
+									<input type="password" class="form-control" id="password" name="password" placeholder="비밀번호">
 									<div class="check_font" id="password_check"></div>
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">비밀번호확인</label> <input type="password"
-										class="form-control" id="passwordOk" name="passwordOk"
-										placeholder="비밀번호">
+									<label for="passwordOk">비밀번호확인</label>
+									<input type="password" class="form-control" id="passwordOk" name="passwordOk" placeholder="비밀번호">
 									<div class="check_font" id="passwordOk_check"></div>
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">닉네임</label> <input type="text"
-										class="form-control" id="u_nick" name="u_nick"
-										placeholder="닉네임">
+									<label for="u_nick">닉네임</label>
+									<input type="text" class="form-control" id="u_nick" name="u_nick" placeholder="닉네임">
 									<div class="check_font" id="nick_check"></div>
+								</div>
+							</div>
+							<div class="col-md-offset-3 col-md-6">
+								<div class="form-group">
+									<label for="u_img">프로필사진</label>
+									<div id="preview"></div><span class="btn-danger">삭제</span>
+									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">

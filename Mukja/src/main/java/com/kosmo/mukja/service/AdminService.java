@@ -21,15 +21,19 @@ public interface AdminService {
 	int deleteBf(Map map);
 	// Notice 글 등록
 	int noticeInsert(Map map);
+	
 	// file 글 등록
 	int bfInsert(Map map);
 	AdminDTO selectForBf(Map map);
+
+	// notice 수정용
 	int update(Map map);
+	int bfUpdate(Map map);
 	AdminDTO selectForFile(Map map);
 	
-	// 공지사항용 끝
+	// 공지사항용 끝------------------------------------------------------
 	
-	// 공지사항용
+	// 유저리포트용
 	List<AdminDTO> selectUserRpList(Map map);
 	//전체 레코드 수]
 	int getUsRPTotalRecord(Map map);
@@ -41,7 +45,17 @@ public interface AdminService {
 	int deleteUsRP(Map map);
 	int insertUsRP(Map map);
 	int updateUsRP(Map map);
+	int updateUsRP2(Map map);
+	// 유저 리포트용 끝------------------------------------------------------
 	
-	
-	// 공지사항용 끝
+	// 가게 제휴 관리용 시작
+	List<AdminDTO> selectStSignList(Map map);
+	//전체 레코드 수]
+	int getStSignTotalRecord(Map map);
+	//상세보기용]
+	AdminDTO selectStOne(Map map);
+	AdminDTO selectStPrev(Map map);
+	AdminDTO selectStNext(Map map);
+	int updateStSign(Map map);
+	int deleteStSign(Map map);
 }

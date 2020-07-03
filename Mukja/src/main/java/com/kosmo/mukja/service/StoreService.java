@@ -16,4 +16,17 @@ public interface StoreService {
 	public int isThumb(Map map);
 	public TableDTO getTable (Map map);
 	public int updateTableInfo(Map map);
+	public List<StoreDTO> selectFoodImg(Map map);
+	
+
+
+	public List<MyPageDTO> getStoreReview(Map map);
+	public List<MyPageDTO> getStoreReviewcnt(Map map);
+	public List<MyPageDTO> getStoreReviewimg(Map map);
+	public List<UsersDTO> getUsersNicks(Map map);
+
+	public int insertSTreview(Map map) ;
+	public int getStRvTotal(Map map);
+	
+	
 }

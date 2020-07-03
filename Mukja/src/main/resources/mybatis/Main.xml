@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace속성:매퍼파일의 완전한경로.xml는 생략 -->
+<!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
+<mapper namespace="mybatis.Main">
+<!-- 
+	<select id="selectOrderByRank" parameterType="java.util.Map" resultType="mainDTO">
+		select st.store_name store_name, st.store_addr, sf.sf_path sf_path, st.store_time store_time, to_char(sa_avg) sa_avg, to_char(st.store_intro) store_intro from stores st join (select store_id, avg(sa_avg) sa_avg from store_avg group by store_id) sa on st.username = sa.store_id join store_file sf on st.username = sf.username order by sa_avg desc 
+	</select>
+	 -->
+	<!-- 가게 좋아요, 평점 랭킹 -->
+	<select id="selectOrderByRank" parameterType="java.util.Map" resultType="mainDTO">
+		select s.username, s.store_name, avg(sa_avg) sa_avg, (select count(*) from store_thumb where store_id=s.username) good 
+		from store_avg sa join stores s on s.username =  sa.store_id 
+		group by username, store_name 
+		order by sa_avg*good desc
+	</select>
+	
+	<select id="selectList" parameterType="java.util.Map" resultType="mainDTO">
+		select s.username, s.store_name, avg(sa_avg) sa_avg, (select count(*) from store_thumb where store_id=s.username) good
+		from store_avg sa join stores s on s.username =  sa.store_id where s.username=#{username}
+		group by username, store_name
+		order by sa_avg*good desc
+	</select>
+	
+	<select id="selectImg" parameterType="java.util.Map" resultType="mainDTO">
+		select sf_path from store_file where username=#{username}
+	</select>
+	<!-- 가게 좋아요 평점 랭킹 끝 -->
+	
+	<!--  리뷰 좋아요 랭킹  -->
+	<select id="selectBestRv" parameterType="java.util.Map" resultType="mainDTO">
+		select rownum, t.* from (select sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no,rf.rf_path, 
+		(select count(*) from review_thumb rt where sr.rv_no = rt.rv_no) good from storereview sr 
+		join review_thumb rt on sr.rv_no = rt.rv_no 
+		join review_file rf on sr.rv_no = rf.rv_no 
+		group by sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no, rf.rf_path 
+		order by good desc) t where rownum<![CDATA[<=]]>4
+	</select>
+	
+	<select id="selectContent" parameterType="java.util.Map" resultType="mainDTO">
+		select rv_content from storereview where rv_no = #{rv_no}
+	</select>
+	
+	<select id="selectStore_name" parameterType="java.util.Map" resultType="mainDTO">
+		select store_name from stores where username = #{username}
+	</select>
+	
+	
+	<!-- 공지사항(Notice) -->
+	
+	<select id="selectNoticeList" parameterType="java.util.Map" resultType="mainDTO">
+		SELECT * FROM
+		(SELECT T.*, ROWNUM R FROM 
+		(SELECT N.*,b.bf_path FROM NOTICE N JOIN BBS_FILE B ON N.NT_NO = B.NT_NO
+		<if test="searchWord != null">
+			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+		ORDER BY N.NT_NO DESC) T) 
+		WHERE R BETWEEN ${start} AND ${end}
+	</select>
+	
+	<select id="getTotalRecord" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM notice N JOin BBS_FILE B on N.NT_NO = B.NT_NO
+		<if test="searchWord != null">
+			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	
+	<!-- 공지사항(Notice) 전글-->
+	<select id="noticeSelectPrev1" parameterType="java.util.Map" resultType="mainDTO">
+		SELECT N.*,b.BF_PATH FROM NOTICE N join BBS_FILE b on n.nt_no = b.NT_no WHERE N.NT_NO = (SELECT MAX(N.NT_NO) FROM Notice N WHERE N.NT_NO <![CDATA[<]]> ${NT_NO})
+	</select>
+	<!-- 공지사항(Notice) 다음 글-->
+	<select id="noticeSelectNext1" parameterType="java.util.Map" resultType="mainDTO">
+		SELECT N.*,b.BF_PATH FROM NOTICE N join BBS_FILE b on n.nt_no = b.NT_no WHERE N.NT_NO = (SELECT MIN(N.NT_NO) FROM Notice N WHERE N.NT_NO <![CDATA[>]]> ${NT_NO})
+	</select>
+	<!-- 공지사항 View -->
+	<select id="noticeSelectOne1" parameterType="java.util.Map" resultType="mainDTO">
+		SELECT n.*,B.BF_PATH FROM NOTICE N JOIN BBS_FILE B ON n.NT_NO = b.NT_NO Where N.NT_NO = ${NT_NO}
+	</select>
+	
+	<!-- 공지사항 끝 -->
+</mapper>

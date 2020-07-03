@@ -10,10 +10,12 @@ import org.springframework.stereotype.Repository;
 
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
+import com.kosmo.mukja.service.MyPageDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 import com.kosmo.mukja.service.TableDTO;
+import com.kosmo.mukja.service.UsersDTO;
 
 @Repository("storeDAO")
 public class StoreDAO  implements StoreService{
@@ -117,5 +119,42 @@ public class StoreDAO  implements StoreService{
 		
 		return result;
 	}
+
+	@Override
+	public List<StoreDTO> selectFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectList("selectFoodImg",map);
+	}
 	
+	
+	
+	
+
+	@Override
+	public List<MyPageDTO> getStoreReviewcnt(Map map) {
+		return sqlMapper.selectList("getStoreReviewcnt", map);
+	}
+	@Override
+	public List<MyPageDTO> getStoreReview(Map map) {
+		return sqlMapper.selectList("getStoreReview", map);
+	}
+	@Override
+	public List<MyPageDTO> getStoreReviewimg(Map map) {
+		return sqlMapper.selectList("getStoreReviewimg", map);
+	}
+	
+	@Override
+	public List<UsersDTO> getUsersNicks(Map map) {
+		return sqlMapper.selectList("getUsersNicks", map);
+	}
+
+	@Override
+	public int insertSTreview(Map map) {
+		return sqlMapper.selectOne("insertSTreview", map);
+	}
+	/*주요*/
+	@Override
+	public int getStRvTotal(Map map) {
+		 return sqlMapper.selectOne("getStRvTotal",map);
+	}
 }
