@@ -119,7 +119,7 @@ public class StoreDetailController {
 		map.put("user_id", map.get("user_id").toString().replaceAll("\"",""));
 		map.put("store_id", map.get("username").toString().replaceAll("\"",""));
 		int result = service.updateStoreAvg(map);
-		String test;
+		
 		return "{'result':"+result+"}";
 	}
 	// 
