@@ -221,9 +221,11 @@ public class HomeController {
 	   List<MainDTO> dto = mainService.selectList(map);
       System.out.println(dto.get(0).getUsername());
       map.put("username", dto.get(0).getUsername());
+      JSONArray jsonArray = new JSONArray();
       
       List<MainDTO> rank1 = mainService.selectRank1List(map);
       List<MainDTO> rank1Img = mainService.selectRank1Img(map);
+      
       System.out.println(rank1Img.get(0).getSf_path());
       map.put("username", dto.get(1).getUsername());
       List<MainDTO> rank2 = mainService.selectRank2List(map);
@@ -232,6 +234,8 @@ public class HomeController {
       List<MainDTO> rank3 = mainService.selectRank3List(map);
       List<MainDTO> rank3Img = mainService.selectRank3Img(map);
       // 1) 랭킹 추천수에 따른 가게 뿌리기 끝
+         
+      
       
       // 2) 리뷰 추천수에 따른 뿌리기
       List<MainDTO> review = mainService.selectReviewList(map);
@@ -303,14 +307,12 @@ public class HomeController {
       // 2) 리뷰 랭킹
       json.put("reviewList",review);
       
-      // 3) 공지사항
-      json.put("totalRecordCount",totalRecordCount);
-      json.put("pageSize",pageSize);
-      json.put("nowPage",nowPage);
       json.put("list", list);
 	   
-	   System.out.println("안드에서 접속함");
-	   return json.toJSONString();
+	  System.out.println("안드에서 접속함");
+	  System.out.println(json.toJSONString());
+	   
+	  return json.toJSONString();
    }
    
    
