@@ -78,7 +78,6 @@ section {
 	display: grid;
 	grid-template-columns: 16% 16% 16% 16% 16% 16%;
 }
-
 </style>
 
 
@@ -131,7 +130,7 @@ section {
 											<div class="form-group" id="input">
 												<label for="">아이디</label> <input type="text"
 													class="form-control" id="username" name="username"
-													placeholder="아이디">
+													placeholder="아이디" maxlength="12">
 												<div class="check_font" id="id_check"></div>
 											</div>
 										</div>
@@ -139,7 +138,7 @@ section {
 											<div class="form-group">
 												<label for="">비밀번호</label> <input type="password"
 													class="form-control" id="password" name="password"
-													placeholder="비밀번호">
+													placeholder="비밀번호" maxlength="12">
 												<div class="check_font" id="password_check"></div>
 											</div>
 										</div>
@@ -147,7 +146,7 @@ section {
 											<div class="form-group">
 												<label for="">비밀번호확인</label> <input type="password"
 													class="form-control" id="passwordok" name="passwordok"
-													placeholder="비밀번호">
+													placeholder="비밀번호" maxlength="12">
 												<div class="check_font" id="passwordok_check"></div>
 											</div>
 										</div>
@@ -163,7 +162,7 @@ section {
 											<div class="form-group">
 												<label for="">사업자 등록번호</label> <input type="text"
 													class="form-control" id="store_reginum"
-													name="store_reginum" placeholder="사업자 등록번호">
+													name="store_reginum" placeholder="사업자 등록번호" maxlength="10">
 												<div class="check_font" id="reginum_check"></div>
 											</div>
 										</div>
@@ -180,7 +179,7 @@ section {
 											<div class="form-group">
 												<label for="">매장 전화번호</label> <input type="text"
 													class="form-control" id="store_phnum" name="store_phnum"
-													placeholder="매장 전화번호">
+													placeholder="매장 전화번호" maxlength="12">
 												<div class="check_font" id="phnum_check"></div>
 											</div>
 										</div>
@@ -188,16 +187,18 @@ section {
 											<div class="form-group">
 												<label for="">매장 주소</label> <a onclick="addr();"><input
 													type="text" class="form-control" id="store_addr"
-													name="store_addr" placeholder="매장주소를 등록해주세요"></a> 
-													<input type="text" id="store_lat" name="store_lat" value=""/> 
-													<input type="text" id="store_lng" name="store_lng" value=""/>
+													name="store_addr" placeholder="매장주소를 등록해주세요" readonly="readonly"></a> <input
+													type="hidden" id="store_lat" name="store_lat" value="" />
+												<input type="hidden" id="store_lng" name="store_lng"
+													value="" />
 												<div class="check_font" id="addr_check"></div>
 											</div>
 										</div>
 										<div class="col-md-offset-3 col-md-6">
-											<a class="btn btn-primary py-3 px-5"
-												data-slide="next" id="btnright" onclick="nullval()"
-												style="color: white; float: right; cursor: pointer;">다음 &gt;&gt;</a>
+											<a class="btn btn-primary py-3 px-5" data-slide="next"
+												id="btnright" onclick="nullval()"
+												style="color: white; float: right; cursor: pointer;">다음
+												&gt;&gt;</a>
 										</div>
 									</div>
 								</div>
@@ -439,12 +440,12 @@ ertend_codes.forEach(function(ele,index){
 		})
 	</script>
 
-<script><!--유효성 검사 하기-->
+	<script><!--유효성 검사 하기-->
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 		//모든 공백 체크 정규식
 		var empJ = /\s/g;
 		//아이디 정규식
-		var idJ = /^[a-z0-9]{4,12}$/;
+		var idJ =  /^[a-z]+[a-z0-9]{5,12}$/;
 		// 비밀번호 정규식
 		var pwJ = /^[A-Za-z0-9]{6,12}$/; 
 		// 이메일 검사 정규식
@@ -456,11 +457,6 @@ ertend_codes.forEach(function(ele,index){
 		// 전화번호 정규식
 		var numJ = /^[0-9]{1,12}$/;
 		
-	
-	
-		
-		
-		
 // 		id 유효성 검사 하기
 var username = $('#username').val();
 		$('#username').keyup(function() {
@@ -469,7 +465,8 @@ var username = $('#username').val();
 			url : "<c:url value='/idCheck.bbs'/>",
 			data:  {"username":username},
 			dataType: 'json',
-			success : function(data) {			
+			success : function(data) {
+				console.log(data)
 				if (data==1) {
 						// 1 : 아이디가 중복되는 문구
 						$("#id_check").text("사용중인 아이디입니다");
@@ -481,7 +478,7 @@ var username = $('#username').val();
 							$("#id_check").text("");
 						} 
 						else {
-							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다");
+							$('#id_check').text("소문자와 숫자 조합 5~12자리까지 가능합니다");
 							$('#id_check').css('color', 'red');	
 						}
 					}
@@ -517,11 +514,17 @@ $("#passwordok").keyup(function() {
 	passwordok = $(this).val();
 		if(password == passwordok){ 
 			$('#passwordok_check').text("") 
-			} 
+			}
 		else{
 			$('#passwordok_check').text('비밀번호가 일치 하지 않습니다.')
 			$('#passwordok_check').css('color', 'red');
 		}	
+});
+$("#passwordok").blur(function() {
+	if (passwordok==""){
+		$('#passwordok_check').text('비밀번호를 확인해주세요')
+		$('#passwordok_check').css('color', 'red');
+	}
 });
 
 // 이메일 검사 하기
@@ -530,6 +533,10 @@ $("#store_email").keyup(function() {
 		email = $("#store_email").val();
 		if(mailJ.test(email)){
 			$('#email_check').text("") 
+		}
+		else if (email.indexOf('@')==-1){
+			$('#email_check').text('이메일 형식이 아닙니다.');
+			$('#email_check').css('color', 'red');
 		}
 		else{
 			$('#email_check').text('이메일 형식이 아닙니다.');
@@ -554,7 +561,7 @@ $("#store_reginum").keyup(function() {
 			$('#reginum_check').text("")
 		}
 		else{
-			$('#reginum_check').text('숫자를 입력해주세요');
+			$('#reginum_check').text('사업자 등록번호 형식이 아닙니다.');
 			$('#reginum_check').css('color', 'red');
 		}
 		
@@ -632,10 +639,29 @@ $("#store_phnum").blur(function() {
 	}
 });
 
+var addrs=$("#store_addr").val();
+
 function nullval() {
-	if(username=='' || password=='' || email=='' || reginum=='' || store_name=='' || store_phnum=='' || store_addr=='' || passwordok==''){
-		console.log('여기')
+	if(username=='' || password==''|| passwordok=='' || email=='' || reginum=='' || store_name=='' || store_phnum=='' || addrs==''){
+		if(username==""){$('#username').focus()}
+		
+		else if(password==""){$('#password').focus()}
+		
+		else if(passwordok==""){$('#passwordok').focus()}
+		
+		else if(email==""){$('#store_email').focus()}
+		
+		else if(reginum==""){$('#store_reginum').focus()}
+		
+		else if(store_name==""){$('#store_name').focus()}
+		
+		else if(store_phnum==""){$('#store_phnum').focus()}
+		
+		else {$('#addr_check').text("주소를 등록하세요")
+			$('#addr_check').css('color', 'red');
+		}		
 	}
+	
 	else{
 		$('#btnright').attr('href','#carousel-g');
 	}
@@ -646,7 +672,7 @@ function nullval() {
 
 
 
-<script>
+	<script>
 	document.addEventListener('keydown', function(event) {
 	    if (event.keyCode === 13) {
 	        event.preventDefault();

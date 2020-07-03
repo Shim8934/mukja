@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 import com.kosmo.mukja.service.SignService;
+import com.kosmo.mukja.service.UsersDTO;
 
 
 @Repository
@@ -39,5 +40,9 @@ public class SignDAO implements SignService {
 	public int idCheck(Map map) {
 		return sqlMapper.selectOne("idCheck",map);
 	}
+
+
+	
+
 
 }

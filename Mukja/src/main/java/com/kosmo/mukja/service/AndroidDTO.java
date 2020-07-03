@@ -2,7 +2,7 @@ package com.kosmo.mukja.service;
 
 import java.sql.Date;
 
-public class UsersDTO {
+public class AndroidDTO {
 	private String username;
 	private String password;
 	private String u_nick;

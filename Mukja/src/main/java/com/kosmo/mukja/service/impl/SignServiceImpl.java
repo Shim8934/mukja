@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.kosmo.mukja.service.SignService;
+import com.kosmo.mukja.service.UsersDTO;
 @Service("signService")
 public class SignServiceImpl implements SignService {
 
@@ -36,4 +37,10 @@ public class SignServiceImpl implements SignService {
 		public int idCheck(Map map) {
 			return dao.idCheck(map);
 		}
+
+	
+
+
+
+		
 }

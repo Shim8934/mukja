@@ -1,31 +1,29 @@
 package com.kosmo.mukja.web;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Map;
 import java.util.Random;
-
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+
 
 import org.json.simple.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.SignService;
+import com.kosmo.mukja.service.UsersDTO;
 
 /*
  * ※스프링 씨큐리티 사용시에는 
@@ -50,7 +48,7 @@ public class SignController {
 	//로그인 폼으로 이동]
 	@RequestMapping(value = "/SignIn.bbs", method = RequestMethod.GET)
 	public String SignIn(String str) {
-		return "/Member/SignIn.tiles";
+		return "Member/SignIn.tiles";
 	}
 	
 	//로그인 처리별 화면 이동
@@ -66,9 +64,6 @@ public class SignController {
 	 	}
 		
 		return "index.tiles";
-		
-	
-		
 		
 	}
 	
@@ -174,6 +169,6 @@ public class SignController {
 	
 	        }
 
-	
+
 
 }
