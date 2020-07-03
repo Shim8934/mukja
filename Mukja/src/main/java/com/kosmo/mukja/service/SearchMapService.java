@@ -22,4 +22,5 @@ public interface SearchMapService {
 	public String getERC_content(Map map);
 	public String getUserNick(Map map);
 	public int updateErcContent(Map map);
+	public UsersDTO getUserInfo(Map map);
 }

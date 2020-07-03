@@ -13,6 +13,7 @@ import com.kosmo.mukja.service.ERDTO;
 import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.SearchMapService;
 import com.kosmo.mukja.service.StoreDTO;
+import com.kosmo.mukja.service.UsersDTO;
 
 @Repository
 public class SearchMapDAO implements SearchMapService{
@@ -108,6 +109,11 @@ public class SearchMapDAO implements SearchMapService{
 		@Override
 		public int updateErcContent(Map map) {
 			return sqlMapper.update("updateErcContent",map);
+		}
+
+		@Override
+		public UsersDTO getUserInfo(Map map) {
+			return sqlMapper.selectOne("getUserInfo", map);
 		}
 
 		

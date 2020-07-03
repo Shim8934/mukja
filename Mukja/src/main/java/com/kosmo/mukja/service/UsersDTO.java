@@ -11,12 +11,37 @@ public class UsersDTO {
 	private String u_age;
 	private String u_tend;
 	private String u_addr;
-	private int u_lat;
-	private int u_lng;
+	private String u_lat;
+	private String u_lng;
 	private String u_ph;
 	private int enabled;
 	private String authority;
 	
+<<<<<<< HEAD
+=======
+	
+	
+	public UsersDTO() {}
+
+	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,
+			String u_tend, String u_addr, String u_lat, String u_lng, String u_ph, int enabled, String authority) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.u_nick = u_nick;
+		this.u_regidate = u_regidate;
+		this.u_img = u_img;
+		this.u_age = u_age;
+		this.u_tend = u_tend;
+		this.u_addr = u_addr;
+		this.u_lat = u_lat;
+		this.u_lng = u_lng;
+		this.u_ph = u_ph;
+		this.enabled = enabled;
+		this.authority = authority;
+	}
+
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 	public String getUsername() {
 		return username;
 	}
@@ -49,11 +74,19 @@ public class UsersDTO {
 		this.u_regidate = u_regidate;
 	}
 
+<<<<<<< HEAD
 	public String getU_img() {
+=======
+	public String getu_img() {
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 		return u_img;
 	}
 
+<<<<<<< HEAD
 	public void setU_ing(String u_img) {
+=======
+	public void setu_img(String u_img) {
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 		this.u_img = u_img;
 	}
 
@@ -81,19 +114,19 @@ public class UsersDTO {
 		this.u_addr = u_addr;
 	}
 
-	public int getU_lat() {
+	public String getU_lat() {
 		return u_lat;
 	}
 
-	public void setU_lat(int u_lat) {
+	public void setU_lat(String u_lat) {
 		this.u_lat = u_lat;
 	}
 
-	public int getU_lng() {
+	public String getU_lng() {
 		return u_lng;
 	}
 
-	public void setU_lng(int u_lng) {
+	public void setU_lng(String u_lng) {
 		this.u_lng = u_lng;
 	}
 

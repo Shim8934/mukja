@@ -3,24 +3,61 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script>
 $(function(){
+	
 	$('#btnCancel').click(function(){
-		window.history.back();
+		window.history.back();	
+	})
+	
+	var fileBuffer = [];
+	var fileArray = [];
+	$('#BF_PATH').change(function(){
+        const target = document.getElementsByName('BF_PATH');
+        console.log(target.toString())
+        var html = '';
+        Array.prototype.push.apply(fileBuffer, target[0].files);
+
+        $.each(target[0].files, function(index, file){
+            const fileName = file.name;
+            html += '<div class="file">';
+            html += '<img src="'+URL.createObjectURL(file)+'">'
+            html += '<span>&nbsp;&nbsp;'+fileName+'</span>';
+            html += '<a href="#" id="removeImg">╳</a>';
+            html += '</div>';
+            const fileEx = fileName.slice(fileName.indexOf(".") + 1).toLowerCase();
+            if(fileEx != "jpg" && fileEx != "png" &&  fileEx != "gif" &&  fileEx != "bmp" && fileEx != "jpeg"){
+                alert("파일은 (jpg, jpeg, png, gif, bmp) 형식만 등록 가능합니다.");
+                resetFile();
+                return false;
+            }
+            $('.fileList').html(html);
+        });
+ 
+    });
+	
+	$(document).on('click', '#removeImg', function(){
+	    const fileIndex = $(this).parent().index();
+	    fileBuffer.splice(fileIndex,1);
+	    fileArray.splice(fileIndex,1);
+	    $('.fileList>div:eq('+fileIndex+')').remove();
+	     $('#BF_PATH').value="";
+	    const target = document.getElementsByName('BF_PATH');
+	    console.log(fileBuffer);
+	    console.log(target[0].files);
 	});
-});
+
+})
 
 </script>
 <div class="app-main__outer">
 	<div class="app-main__inner">
 		<!-- 여기까지는 항상 고정!!! 아래에 내용 작성 -->
-
 		<!-- app-main__inner 본내용 시작 -->
 		<div class="row">
 			<div class="col-md-12">
 				<div class="main-card card">
 					<div class="card-body">
 						<h5 class="card-title">글 등록</h5>
-
-				 <form class="" action="<c:url value='/WriteNotice.bbs'/>" enctype="multipart/form-data" method="post">
+				 <form class="" id="noticeForm" action="<c:url value='/WriteNotice.bbs'/>" enctype="multipart/form-data" method="post">
 							<div class="position-relative row form-group">
 								<label for="NT_TITLE" class="col-sm-2 col-form-label">제목</label>
 								<div class="col-sm-10">
@@ -36,10 +73,11 @@ $(function(){
 							<div class="position-relative row form-group">
 								<label for="BF_PATH" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" multiple="multiple">
+									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp"
+									 class="form-control-file" multiple="multiple">
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
 								</div>
-								<div id="filelist">
+								<div class="fileList">
 								</div>
 							</div>
 							<div class="position-relative row form-group">

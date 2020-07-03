@@ -19,7 +19,10 @@
 		<typeAlias alias="foodIMGDTO" type="com.kosmo.mukja.service.FoodIMGDTO"/>
 		<typeAlias alias="tableDTO" type="com.kosmo.mukja.service.TableDTO"/>
 		<typeAlias alias="usersDTO" type="com.kosmo.mukja.service.UsersDTO"/>
+<<<<<<< HEAD
 		<typeAlias alias="androidDTO" type="com.kosmo.mukja.service.AndroidDTO"/>
+=======
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 	</typeAliases>	
 	
 	<mappers>

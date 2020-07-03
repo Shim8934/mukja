@@ -59,10 +59,12 @@
 				<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_STORE')">
-				<li class="nav-item"><a href="<c:url value="/StroeMypage/StroeMypageMain.do"/>"class="nav-link">MyPage</a></li>
+				<li class="nav-item"><a href="<c:url value="/StoreMypage/StoreMypageMain.do"/>"class="nav-link">MyPage</a></li>
 				<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
-				<li class="nav-item"><a href="<c:url value="reservationInfo.do"/>"class="nav-link">매장좌석 현황관리</a></li>
+				<li class="nav-item"><a href="<c:url value="/reservationInfo.do"/>"class="nav-link">매장좌석 현황관리</a></li>
 				</sec:authorize>
+			<li class="nav-item"><a href="<c:url value="/CollectMain.do"/>"  class="nav-link">SNS맛집검색</a></li>
+			<li class="nav-item"><a href="<c:url value="/Teachable.do"/>"  class="nav-link">AI칼로리분석</a></li>
 			</ul>
 		</div>
 	</div>

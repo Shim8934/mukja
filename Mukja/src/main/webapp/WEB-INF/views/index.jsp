@@ -268,12 +268,12 @@
 	 
 	.realTimeTableInfo{
 	  position:absolute;  
-      width:900px;
+      width:1200px;
       height:800px;
       left:50%;
       top:50%;
-      margin-left:-450px;
-      margin-top:-400px;
+      margin-left:-600px;
+      margin-top:-100px;
       z-index:10000;
       background-color: white;
       overflow-y:auto;
@@ -286,11 +286,53 @@
 
 
 <!-- 실시간 다이브-->
-<div id="tableDivWrap" class="realTimeTableInfo">
-	<div id="tableDiv" >
+<div id="tableDivWrap" class="realTimeTableInfo lb_size " style=" overflow-x: hidden; overflow-y:auto;">
+	<div class="container-fluid myCon" style=" widows: inherit;">
+		<div class="container-fluid item" >
+			<div >
+				
+				
+			</div>
+			<div class="row">
+				<div class="col-xs-6">
+					   <div class="heading-section mt-5 mb-4">
+                           <div class="pl-lg-5 ml-md-5">
+                              <span class="subheading" >Table Info</span>
+                              <h2 class="mb-4" >실시간 좌석 현황</h2><br>
+                           </div>
+                        </div>
+					<div >
+						<div id="tableDiv" ></div>
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div >
+						<div class="heading-section mt-5 mb-4">
+                           <div class="pl-lg-5 ml-md-5">
+                              <span class="subheading" >Table Info</span>
+                              <h2 class="mb-4" >실시간 웨이팅 현황</h2><br>
+                           </div>
+                        </div>
+                        <div id="WatingTime"></div>
+						<div id="watingCount" ></div>
+						 <div style='white-space: nowrap; width: 250px; height: 200px; background-size: 250px; background-image:url("<c:url value="/resources/menu_IMG/realtime_store.jpg"/>")' > 
+							<div style=" white-space:pre-wrap; width:400px; margin-top:130px; margin-left: 80px; display: inline-block;" id="watingLoof">
+						
+							</div>	 
+						 </div>
+						
+						
+					</div>
+					
+				</div>
+			</div>
+			<div >
+				<a id="btn_tableDiv_close" class="btn btn-default" style="margin: 20px;">닫기</a>
+				
+			</div>
 		
+		</div>
 	</div>
-	<a id="btn_tableDiv_close" class="btn btn-default">닫기</a>
 </div>
 
 
@@ -454,7 +496,7 @@
 			    </div>
 			  
 			
-			<div class="col-md-12" >
+			<div class="" >
 		
 				<div id='extendMap' class="row"style="height:900px" >
 				
@@ -821,24 +863,84 @@
 
 
 <script>
+var namsua;
+var bukdong;
+var bnksua;
+var namdong;
+var interLat,interLng;
+var map;
+var bounds;
+var repeat;
+$.ajax({
+	url:"<c:url value='/interLatLng.do'/>",
+	dataType:'json',
+	success:function(data){
+		console.log("관심지역 ajax 성공");
+		interLat = parseFloat( data.u_lat ) ;
+		interLng = parseFloat( data.u_lng );
+		console.log("interLat:"+interLat);
+		console.log("interLng:"+interLng);
+		var mapContainer = document.getElementById('map'), // 지도의 중심좌표
+	    mapOption = { 
+	        center: new kakao.maps.LatLng(interLat, interLng), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
+	        level: 2 // 지도의 확대 레벨
+	    }; 
 
-var mapContainer = document.getElementById('map'), // 지도의 중심좌표
-    mapOption = { 
-        center: new kakao.maps.LatLng(37.498825, 126.722265), // 지도의 중심좌표 37.498825, 126.722265 부평시장역
-        level: 2 // 지도의 확대 레벨
-    }; 
-
-var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-var bounds = map.getBounds();  
-
-
-
-console.log("맵생성시 바운즈 초기화");
-//인풋타입 히든에 위경도 바운더리 주는 함수
-latLngSendInput(bounds);
+		map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+		bounds = map.getBounds(); 
+		map.relayout();
+		
+		console.log("맵생성시 바운즈 초기화");
+		//인풋타입 히든에 위경도 바운더리 주는 함수
+		latLngSendInput(bounds);
+	},
+	error:function(){
+		console.log("관심지역 ajax 실패");
+	}
+});
 
 
-function latLngSendInput(bounds){
+
+
+
+function printlatlng(){
+	
+	console.log("바운드즈 출력");
+	 //남서 위경도
+	  namsua= bounds.getSouthWest();
+	  //북동 위경도
+	  bukdong = bounds.getNorthEast();
+	  //lat 최소
+	 console.log("namsualat"+ $("#namsualat").val());
+	  //lng 최소
+	  console.log("namsualng"+ $("#namsualng").val());
+	  //lat 최대
+	 console.log("bukdonglat"+  $("#bukdonglat").val());
+	  //lng 최대
+	  console.log("bukdonglng"+  $("#bukdonglng").val());
+	 
+	 
+	/*  var marker = new kakao.maps.Marker({
+	        position: namsua
+	    });
+	
+	    // 마커가 지도 위에 표시되도록 설정합니다
+	    marker.setMap(map);
+	    
+		 var marker2 = new kakao.maps.Marker({
+		        position: bukdong
+		    });
+		
+		    // 마커가 지도 위에 표시되도록 설정합니다
+		    marker2.setMap(map);
+	 */ 
+}  
+
+
+function latLngSendInput(){
+	bounds = map.getBounds(); 
+	console.log("bounds:"+bounds);
+	 printlatlng(bounds)
 	 //남서 위경도
 	  namsua= bounds.getSouthWest();
 	  //북동 위경도
@@ -851,15 +953,11 @@ function latLngSendInput(bounds){
 	  $("#bukdonglat").val(bukdong.getLat());
 	  //lng 최대
 	  $("#bukdonglng").val(bukdong.getLng());
-	 var latlng = map.getCenter(); 
 }  
-var namsua;
-var bukdong;
-var bnksua;
-var namdong;
+
 //드래그시 바운즈 설정
 kakao.maps.event.addListener(map, 'dragend', function() {
-	  var bounds = map.getBounds();    
+	  bounds = map.getBounds();    
 	  console.log("드래그 진입:");
 	  
 	  //인풋타입 히든에 위경도 바운더리 주는 함수
@@ -869,9 +967,10 @@ kakao.maps.event.addListener(map, 'dragend', function() {
 
 //바운더리 변경시  바운즈 설정
 kakao.maps.event.addListener(map, 'bounds_changed', function() {
-	 var bounds = map.getBounds();     
+	 bounds = map.getBounds();     
 	//인풋타입 히든에 위경도 바운더리 주는 함수
-	  latLngSendInput(bounds);
+	 latLngSendInput(bounds);
+	 map.relayout();
 });
 
 
@@ -928,6 +1027,7 @@ $('.container-fluid').click(function (){
 });
 
 function request_ERList_Ajax(store_id){
+	
 	//----------------------생성한 동적 다이브에 에이젝스 송출
     $.ajax({
 		url:"<c:url value='/eat_together_list.do'/>",
@@ -1137,6 +1237,8 @@ function request_ERList_Ajax(store_id){
 
 
 function requets_maker_Ajax(){
+	  bounds = map.getBounds();  
+	  latLngSendInput(bounds);
 	  $.ajax({
 			url:"<c:url value='/getMarker.pbs'/>",
 			data:$('#frm2').serialize(),
@@ -1303,9 +1405,16 @@ function requets_maker_Ajax(){
 						
 						 	$(document).on("click","#btn_TBinfo"+data.store_id,function(){
 						 		$("#tableDivWrap").fadeIn();
+						 		$("#tableDiv").empty();
+						 		$("#WatingTime").empty();
+						 		$("#watingLoof").empty();
+						 		$("#watingCount").empty();
 						 		console.log('클릭');
 						 		 var sendJson={'store_id':data.store_id};
-						 		 setInterval(() => {
+						 		 clearInterval(repeat);
+						 		 repeat	= setInterval(() => {
+						 			
+							 	
 						 			$.ajax({
 										url:"<c:url value='/getRealTimeReservation.do'/>",
 										data : sendJson,
@@ -1320,6 +1429,7 @@ function requets_maker_Ajax(){
 											var row = table_info["y_boundary"];
 											var col = table_info["x_boundary"];
 											console.log("행 : "+row+" / 열 : "+col);
+											//좌석 다이브 반복
 											for(var i =0; i<row;i++){
 												for(var j=0; j<col;j++){
 													console.log(i+"행 "+j+"열 : "+table_info[""+i][j]);
@@ -1330,11 +1440,25 @@ function requets_maker_Ajax(){
 												}
 												$("#tableDiv").append("<div></div>");
 											}
+											$("#watingCount").empty();
+											$("#watingCount").append("<div style='font-size:1.4em; font-weight:bold; color:#6A6A6A'>"+data.wating_count+"팀 대기중</div>");
 											
+											//웨이팅인원 이미지 반복
+											var watingIMG='';
+											$("#watingLoof").empty();
+											//storeIMG='<div style=\"width:200px;display:inline-block;height:200px;background-image:url(<c:url value="/resources/menu_IMG/realtime_store.jpg"/>)\" ></div>';
+											for(var i=0; i<data.wating_count;i++){
+												//background-image: url( "/mukja/resources/menu_IMG/realtime.jpg" )
+												watingIMG='<div style="font-size:30px; display:inline-block; ">\&#128107;</div>';
+												$("#watingLoof").append(watingIMG);
+											}
+											$("#WatingTime").empty();
+											$("#WatingTime").append("<div style='font-size:2.0em; font-weight:bold;'>평균 대기시간 : "+data.wating_count*data.avg_wating_time+"분</div>");
 											
 										},
 										error:function(){
 											console.log("실패");
+											clearInterval(repeat);
 										}
 									})
 								}, 300);
@@ -2043,10 +2167,9 @@ $("#ERtime").click(function(){
 });
 
 $("#btn_tableDiv_close").click(function(){
-	console.log("시계버튼클릭")
+	$("#tableDiv").empty();
 	$("#tableDivWrap").fadeOut();
-
-	
+	clearInterval(repeat);
 });
 
 </script>

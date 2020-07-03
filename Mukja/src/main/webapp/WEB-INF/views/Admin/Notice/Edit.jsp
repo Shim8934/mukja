@@ -7,11 +7,11 @@
 		var NT_NO = document.getElementById('NT_NO').value;
 		console.log('NT_NO 출력 제이쿼리 안')
 		console.log(NT_NO)
-		window.onload = FileLoad();		
-		var formData = new FormData($('#editForm'));
+		// window.onload = FileLoad();		
+		var formData = new FormData($('#editForm')[2]);
+		console.log(formData+'폼데이터 출력')
 		// 
-		function FileLoad(){
-			
+		function FileLoad(){			
 			$.ajax({
 				type: "POST",
 				enctype: 'multipart/form-data',
@@ -21,7 +21,7 @@
 				contentType: false, 
 				cache: false,
 				success: function (result) {
-					console.log('파일 조회 성공?')
+					console.log('파일 조회 성공? = ',result)
 				},
 				error: function (e) {
 					
@@ -29,6 +29,13 @@
 
 			});
 		}
+		
+		console.log($('#BF_PATH')+'BF_PATH 체크')
+		
+		// 취소버튼
+		$('#btnCancel').click(function(){
+			window.history.back();
+		});
 	})
 	/* 페이지 로드 시점에, 파일 조회해서 input 파일태그 안에 장착 */
 	
@@ -75,8 +82,14 @@
 							<div class="position-relative row form-group">
 								<label for="BF_PATH" class="col-sm-2 col-form-label">이미지</label>
 								<div class="col-sm-10">
-									<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file"
-									 multiple="multiple" value="">
+							<c:if test="${empty fileLists}" var="isEmpty">
+								<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" value="${fileLists}">
+								파일 비었음
+							</c:if>
+							<c:if test="${not isEmpty}">
+								<input multiple="multiple" name="BF_PATH" id="BF_PATH" type="file" class="form-control-file" value="${fileLists}">
+								파일 있음
+							</c:if>
 									<small class="form-text text-muted">업로드 이미지를 등록해 주세요.</small>
 								</div>
 								<div id="filelist">
@@ -85,12 +98,12 @@
 							</div>
 							<div class="position-relative row form-group">
 								<div class="col-sm-10 offset-sm-2">
-									<button class="mt-2 btn btn-primary" id="btnEnroll">등록</button>
-									<button class="mt-2 btn btn-warning">취소</button>
+									<button class="mt-2 btn btn-primary" id="btnEnroll" type="submit">등록</button>
+									<button class="mt-2 btn btn-warning" id="btnCancel" type="button">취소</button>
 								</div>		
 							</div>
 							<input name="username" id="username" value="${username}" type="hidden" class="form-control">
-							<input name="NT_NO" id="NT_NO" value="${record.NT_NO}" type="text" class="form-control">
+							<input name="NT_NO" id="NT_NO" value="${record.NT_NO}" type="hidden" class="form-control">
 						</form>
 						
 						<!-- 

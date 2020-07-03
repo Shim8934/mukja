@@ -52,6 +52,7 @@ public class SignController {
 	}
 	
 	//로그인 처리별 화면 이동
+<<<<<<< HEAD
 	@RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
 	public String role(Authentication auth, Map map) {
 	 String list = auth.getAuthorities().toString();
@@ -64,6 +65,20 @@ public class SignController {
 	 	}
 		
 		return "index.tiles";
+=======
+	   @RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
+	   public String role(Authentication auth, Map map) {
+	    String list = auth.getAuthorities().toString();
+	       
+	       if(list.contains("STORE")) {
+	          return "forward:/StroeMypage/StroeMypageMain.do";
+	       }
+	       if(list.contains("ADMIN")) {
+	          return "forward:/AdminMain.bbs";
+	       }
+	      
+	      return "index.tiles";
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 		
 	}
 	

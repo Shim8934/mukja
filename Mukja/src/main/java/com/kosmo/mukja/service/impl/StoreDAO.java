@@ -71,11 +71,14 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateStoreRecommand(Map map) {
+		System.out.println("떰브 dao");
 		int result=0;
 		int selectResult = sqlMapper.selectOne("selectThumb",map);
 		if(selectResult!=0) {
+			System.out.println("떰브 삭제");
 			result = sqlMapper.update("deleteThumb",map);
 		}else {
+			System.out.println("떰브 인설트");
 			result = sqlMapper.update("insertThumb",map);
 		}
 		
@@ -99,7 +102,20 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateTableInfo(Map map) {
-		return sqlMapper.update("updateTableInfo",map);
+		
+		int result=0;
+		int affected=sqlMapper.selectOne("isFindTableInfo",map);
+		if(affected==1) {
+			
+			sqlMapper.update("updateTableInfo",map);
+		}else {
+			
+			sqlMapper.update("insertTableInfo",map);	
+		}
+		
+		
+		
+		return result;
 	}
 	
 }

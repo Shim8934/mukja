@@ -142,6 +142,12 @@ public class AdminDAO implements AdminService{
 		// TODO Auto-generated method stub
 		return sqlMapper.delete("deleteBf",map);
 	}
+
+	@Override
+	public AdminDTO selectForFile(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("selectForFile",map);
+	}
 	
 
 }//////class AdminDAO

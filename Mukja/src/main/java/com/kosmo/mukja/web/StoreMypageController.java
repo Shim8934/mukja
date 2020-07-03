@@ -28,7 +28,7 @@ public class StoreMypageController {
 	@Resource(name = "StoreInfoService")
 	private StoreService service;
 	
-	@RequestMapping("/StroeMypage/StroeMypageMain.do")
+	@RequestMapping("/StoreMypage/StoreMypageMain.do")
 	public String StoreDetail(@RequestParam Map map, Model model, Authentication authentication) {
 		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -98,7 +98,7 @@ public class StoreMypageController {
 	}
 
 	
-	@RequestMapping("/StroeMypage/ImgPop.do")
+	@RequestMapping("/StoreMypage/ImgPop.do")
 	public String ImgPop(@RequestParam Map map, Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
