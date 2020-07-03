@@ -20,6 +20,8 @@
 		<typeAlias alias="tableDTO" type="com.kosmo.mukja.service.TableDTO"/>
 		<typeAlias alias="usersDTO" type="com.kosmo.mukja.service.UsersDTO"/>
 		<typeAlias alias="androidDTO" type="com.kosmo.mukja.service.AndroidDTO"/>
+		<typeAlias alias="mainDTO" type="com.kosmo.mukja.service.MainDTO"/>
+		<typeAlias alias="myPageDTO" type="com.kosmo.mukja.service.MyPageDTO"/>
 	</typeAliases>	
 	<mappers>
 		<mapper resource="mybatis/SearchMap.xml" />		
@@ -28,6 +30,9 @@
 		<mapper resource="mybatis/StoreDetail.xml" />
 		<mapper resource="mybatis/Reservation.xml" />
 		<mapper resource="mybatis/Android.xml"/>
+		<mapper resource="mybatis/Main.xml"/>
+		<mapper resource="mybatis/MyPage.xml"/>
+		
 	</mappers>
 	
 </configuration>
