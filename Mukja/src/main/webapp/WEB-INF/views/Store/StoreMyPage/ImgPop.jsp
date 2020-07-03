@@ -252,7 +252,15 @@
    </div>
    <!-- container 끝 -->
 </section>
-
+<script>
+   $(function(){
+      // 캐러셀 딜레이
+      $('.carousel').carousel({ 
+         interval: 2000 //기본 5초
+      });
+   });
+      
+</script>
 
 <!-- 음식 메뉴쪽 수정 -->
 <section class="ftco-section ftco-counter img" id="section-counter"
@@ -266,8 +274,7 @@
                   class="col-md d-flex justify-content-center counter-wrap ftco-animate">
                   <div class="block-18">
                      <div class="text">
-                        <h1 style="font-size: 3.0em; color: white; font-weight: bold;">음식
-                           사진 수정</h1>
+                        <h1 style="font-size: 3.0em; color: white; font-weight: bold;">음식 사진 수정</h1>
                      </div>
                   </div>
                </div>
@@ -291,26 +298,18 @@
                <div class="col-md-12 ftco-animate fadeInUp ftco-animated">
                   <div class="col-md-6">
                      <!-- 이미지 다이브 -->
-                     <label for="#beforeEdit" class="col-md-2 col-form-label">수정
-                        전</label> <img src="<c:url value='${item.fm_path}'/>" id="beforeEdit"
+                     <label for="#beforeEdit" class="col-md-2 col-form-label">수정 전</label> <img src="<c:url value='${item.fm_path}'/>" id="beforeEdit"
                         style="width: 100%; vertical-align: center">
                   </div>
                   <div id="foodPreview${loop.index}" class="col-md-6">
-                     <label for="#afterEdit" class="col-md-2 col-form-label">수정
-                        후</label>
+                     <label for="#afterEdit" class="col-md-2 col-form-label">수정 후</label>
                   </div>
-                  <div
-                     style="text-align: center; height: auto; margin-top: 30px; border: 1px solid gray;"
-                     class="col-md-12">
-                     <label for="#fm_path_${loop.index}"
-                        class="col-md-2 col-form-label">사진 등록</label>
-                     <div id="fileList${loop.index}" class="col-md-6"
-                        style="background-color: fffff0;">
-                        <small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small> <input
-                           name="fm_path_${loop.index}" id="fm_path_${loop.index}"
-                           type="file" accept=".jpg,.jpeg,.png,.gif,.bmp"
-                           class="form-control-file inp-img">
-                     </div>
+                  <div style="text-align: center; height: auto; margin-top: 30px; border: 1px solid gray;" class="col-md-12">
+                     <label for="#fm_path_${loop.index}"  class="col-md-2 col-form-label">사진 등록</label>
+                     <div id="fileList${loop.index}" class="col-md-6" style="background-color: fffff0;">
+                        <small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small>
+                        <input name="fm_path_${loop.index}" id="fm_path_${loop.index}" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control-file inp-img">
+               </div>
                   </div>
                </div>
                <!-- 이미지 다이브 끝 -->
@@ -360,7 +359,7 @@
                         reader.onload = function(e) {
                            $("#foodPreview" + foodIndex)
                                  .html(
-                                       "<a href=\"javascript:void(0);\" onclick=\"deleteImage()\" id=\"'foodimg_id"
+                                       "<a href=\"javascript:void(0);\" onclick=\"deleteImage3()\" id=\"'foodimg_id"
                                              + foodIndex
                                              + "\"'><img src="
                                              + e.target.result
@@ -390,11 +389,11 @@
       }
    }
 
-   var deleteImage = function() {
+   var deleteImage3 = function() {
       console.log(foodIndex + "콘솔로 인덱스 찍기")
       var img_id = "#foodimg_id" + foodIndex;
       $(img_id).remove();
-      var $input = $("#fm_path" + foodIndex);
+      var $input = $("#fm_path_" + foodIndex);
       var $preview = $("#foodPreview" + foodIndex);
       console.log("지운 사진 id?  " + img_id)
       console.log("지운 사진 input?  " + $input)
