@@ -105,4 +105,10 @@ public class MainServiceImpl implements MainService{
 		return dao.selectStore_Name(map);
 	}
 
+	@Override
+	public MainDTO selectRankContent(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectRankContent(map);
+	}
+
 }

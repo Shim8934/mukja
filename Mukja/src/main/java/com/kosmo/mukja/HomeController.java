@@ -60,16 +60,24 @@ public class HomeController {
       List<MainDTO> dto = mainService.selectList(map);
       System.out.println(dto.get(0).getUsername());
       map.put("username", dto.get(0).getUsername());
+      MainDTO temp = new MainDTO();
       
+      temp = mainService.selectRankContent(map);
       List<MainDTO> rank1 = mainService.selectRank1List(map);
       List<MainDTO> rank1Img = mainService.selectRank1Img(map);
-      System.out.println(rank1Img.get(0).getSf_path());
+      rank1.get(0).setStore_intro(temp.getStore_intro());      
+      
       map.put("username", dto.get(1).getUsername());
+      temp = mainService.selectRankContent(map);
       List<MainDTO> rank2 = mainService.selectRank2List(map);
       List<MainDTO> rank2Img = mainService.selectRank2Img(map);
+      rank2.get(0).setStore_intro(temp.getStore_intro());
+      
       map.put("username", dto.get(2).getUsername());
+      temp = mainService.selectRankContent(map);
       List<MainDTO> rank3 = mainService.selectRank3List(map);
       List<MainDTO> rank3Img = mainService.selectRank3Img(map);
+      rank3.get(0).setStore_intro(temp.getStore_intro());
       // 1) 랭킹 추천수에 따른 가게 뿌리기 끝
       
       // 2) 리뷰 추천수에 따른 뿌리기
@@ -220,52 +228,83 @@ public class HomeController {
 		   					@RequestParam(required = false,defaultValue = "1") int nowPage) {
 	   JSONObject json = new JSONObject();
 	   List<MainDTO> dto = mainService.selectList(map);
-      System.out.println(dto.get(0).getUsername());
-      map.put("username", dto.get(0).getUsername());
-      List<MainDTO> rank12Img = mainService.selectRank1Img(map);
-      List<MainDTO> rank22Img = mainService.selectRank2Img(map);
-      List<MainDTO> rank32Img = mainService.selectRank3Img(map);
-      String img = "";
-      for(int k=0; k<rank12Img.size();k++) {
-    	  if(k==rank12Img.size()) {
-    		  img += rank12Img.get(k).toString() + "|";
+	   System.out.println(dto.get(0).getUsername());
+	   MainDTO temp = new MainDTO();
+	   map.put("username", dto.get(0).getUsername());
+	   temp = mainService.selectRankContent(map);
+	   dto.get(0).setStore_intro(temp.getStore_intro().toString());
+	   List<MainDTO> rank12Img = mainService.selectRank1Img(map);
+	   
+	   map.put("username", dto.get(1).getUsername());
+	   temp = mainService.selectRankContent(map);    
+	   dto.get(1).setStore_intro(temp.getStore_intro().toString());
+	   List<MainDTO> rank22Img = mainService.selectRank2Img(map);
+	   
+	   map.put("username", dto.get(2).getUsername());
+	   temp = mainService.selectRankContent(map);
+	   dto.get(2).setStore_intro(temp.getStore_intro().toString());
+	   List<MainDTO> rank32Img = mainService.selectRank3Img(map);
+	   String img = "";
+      
+	   	for(int k=0; k<rank12Img.size();k++) {
+	   	 System.out.println("1위 가게 이미지들"+rank12Img.get(k).getSf_path());
+    	  if((k+1)==rank12Img.size()) {
+    		  img += rank12Img.get(k).getSf_path().toString() + "|1|";
+    		  System.out.println("1위 if문 안 ="+img);
     	  }
     	  else {
-    		  img += rank12Img.get(k).toString() + "///"; 
+    		  img += rank12Img.get(k).getSf_path().toString() + "|"; 
+    		  System.out.println("1위 else문 안 ="+img);
     	  }
-      }
-      for(int k=0; k<rank22Img.size();k++) {
-    	  if(k==rank22Img.size()) {
-    		  img += rank12Img.get(k).toString() + "|";
+	   	}
+	   	for(int k=0; k<rank22Img.size();k++) {
+	   	 System.out.println("2위 가게 이미지들"+rank22Img.get(k).getSf_path());
+    	  if((k+1)==rank22Img.size()) {
+    		  img += rank12Img.get(k).getSf_path().toString() + "|2|";
+    		  System.out.println("2위 if문 안 ="+img);
     	  }
     	  else {
-    		  img += rank22Img.get(k).toString() + "///"; 
+    		  img += rank22Img.get(k).getSf_path().toString() + "|"; 
+    		  System.out.println("2위 else문 안 ="+img);
     	  }
-      }
+	   	}
       for(int k=0; k<rank32Img.size();k++) {
-    	  if(k==rank32Img.size()) {
-    		  img += rank32Img.get(k).toString() + "|";
+    	  System.out.println("3위 가게 이미지들"+rank32Img.get(k).getSf_path());
+    	  if((k+1)==rank32Img.size()) {
+    		  img += rank32Img.get(k).getSf_path().toString() + "|3|";
+    		  System.out.println("3위 if문 안 ="+img);
     	  }
     	  else {
-    		  img += rank32Img.get(k).toString() + "///"; 
+    		  img += rank32Img.get(k).getSf_path().toString() + "|";
+    		  System.out.println("3위 else문 안 ="+img);
     	  }
       }
       
-      StringTokenizer stz = new StringTokenizer(img,"///");
+      String img1 = img.substring(0,img.lastIndexOf("|1|"));
+      System.out.println(img1 + " img1 찍기");
+      String img2 = img.substring(img.indexOf("|1|")+3,img.lastIndexOf("|2|"));
+      System.out.println(img2 + " img2 찍기");
+      String img3 = img.substring(img.indexOf("|2|")+3,img.lastIndexOf("|3|"));
+      System.out.println(img3 + " img3 찍기");
+      dto.get(0).setSf_path(img1);
+      dto.get(1).setSf_path(img2);
+      dto.get(2).setSf_path(img3);
       
-      for(int i=0; i<dto.size();i++) {
-    	  dto.get(i).setSf_path(stz.nextToken());
-      }
       JSONArray mainJsonArray = new JSONArray();
       int l=1;
       for(MainDTO mdto : dto) {
-    	  
+    	  if(l==4) {
+    		  continue;
+    	  }
     	  JSONObject rank = new JSONObject();
     	  rank.put("username",mdto.getUsername().toString());
     	  rank.put("store_name",mdto.getStore_name().toString());
+    	  rank.put("store_intro",mdto.getStore_intro().toString());
     	  rank.put("sa_avg",mdto.getSa_avg().toString());
+    	  
     	  rank.put("sf_path",mdto.getSf_path().toString());
     	  mainJsonArray.add(rank);
+    	  
     	  System.out.println(String.format("랭크 찍어봄 = %s번째", l));
     	  l++;
       }
@@ -286,9 +325,11 @@ public class HomeController {
     	  JSONObject rv = new JSONObject();
     	  rv.put("rv_no", rdto.getRv_no().toString());
     	  rv.put("rv_title", rdto.getRv_title().toString());
+    	  rv.put("rv_content",rdto.getRv_content().toString());
     	  rv.put("store_name", rdto.getStore_name().toString());
     	  rv.put("menu_no", rdto.getMenu_no().toString());
     	  rv.put("rf_path", rdto.getRf_path().toString());
+    	  rv.put("menu_name",rdto.getMenu_name().toString());
     	  rv.put("good", rdto.getGood().toString());
     	  mainJsonArray.add(rv);
     	  System.out.println(String.format("리뷰 찍어봄 = %s번째", l));
