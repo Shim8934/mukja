@@ -51,7 +51,7 @@
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
-					<li class="nav-item"><a href="<c:url value="/Mypage.bbs"/>"class="nav-link">MyPage</a></li>
+					<li class="nav-item"><a href="<c:url value="/MyPage.bbs"/>"class="nav-link">MyPage</a></li>
 				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
