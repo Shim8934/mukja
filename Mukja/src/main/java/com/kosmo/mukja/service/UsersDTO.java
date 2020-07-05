@@ -16,6 +16,12 @@ public class UsersDTO {
 	private String u_ph;
 	private int enabled;
 	private String authority;
+	
+	public UsersDTO() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,
 			String u_tend, String u_addr, String u_lat, String u_lng, String u_ph, int enabled, String authority) {
 		super();
