@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 
-
 import org.json.simple.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -39,28 +38,37 @@ import com.kosmo.mukja.service.UsersDTO;
 
 @RestController
 public class AndroidController {
-	
+
 	// 서비스 주입]
 	@Resource(name = "androidService")
-	private AndroidService androidService ;
-	
-			//안드로이드 앱에 데이타 제공용
-			//JSON으로 제공시
-			@CrossOrigin
-			@GetMapping(value="/android/json")
-			public AndroidDTO anIsLogins(AndroidDTO dto) {	
-				System.out.println("여기");
-				System.out.println(androidService.anIsLogin(dto));
-				return	androidService.anIsLogin(dto);	
-			}
-			
-			@CrossOrigin
-			@GetMapping(value="/Eroom/json")
-			public AndroidDTO anEroom(AndroidDTO dto) {	
-				System.out.println("여기1");
-				
-				return	null;	
-			}
+	private AndroidService androidService;
 
+	// 안드로이드 앱에 데이타 제공용
+	// JSON으로 제공시
+	@CrossOrigin
+	@GetMapping(value = "/android/json")
+	public AndroidDTO anIsLogins(AndroidDTO dto) {
+		System.out.println("여기");
+		System.out.println(androidService.anIsLogin(dto));
+		return androidService.anIsLogin(dto);
+	}
+
+	@CrossOrigin
+	@GetMapping(value = "/CreatEroom/json")
+	public String anEroom(@RequestParam Map map) {
+		try {
+			
+			System.out.println("username:" + map.get("username").toString());
+			System.out.println("title:" + map.get("title").toString());
+			System.out.println("content:" + map.get("content").toString());
+			System.out.println("horizontalCounter:" + map.get("horizontalCounter").toString());
+			System.out.println("datePicker:" + map.get("datePicker").toString());
+			System.out.println("timePicker:" + map.get("timePicker").toString());
+			System.out.println("tent:" + map.get("tent").toString());
+		} catch (NullPointerException e) {
+			String tent = "";
+		}
+		return null;
+	}
 
 }
