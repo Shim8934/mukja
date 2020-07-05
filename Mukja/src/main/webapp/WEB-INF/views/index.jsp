@@ -1037,7 +1037,14 @@ function request_ERList_Ajax(store_id){
 			$('#modal_content').empty();
 			console.log('같이먹자 방목록 진입');
 			console.log(data);
-			
+			var empty_div;
+			if(data.length==0){
+				empty_div = 
+				     '<div class="myborder col-md-8 " style="text-align:center;">'+
+				     ' <h3>생성된 방이 없어요!..</h3>'+
+				     '</div>';
+			}
+			$('#modal_content').append(empty_div);
 			for(var i=0;i<data.length;i++){
 				var tend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
 			    var user_tend = data[i].er_tend.split(',');	
@@ -1046,33 +1053,54 @@ function request_ERList_Ajax(store_id){
 			    
 			    
 				$('#showuser'+i).remove();
-				 var together_list = 
-					 '<div class="row" style="margin-bottom:50px" >'+
-				     '	<div class="col-md-4">'+
-				     '	<div class="myborder">'+
-				     '     <a id="prof'+i+'">'+
-				     '		<h4>모임 기피재료</h4>'+
-				     '     </a>'+
-				     '	</div>'+
-				     '   </div>'+
-				     '   <div class="myborder col-md-8 ">'+
-				     '     <h2>'+data[i].er_title+'</h2>'+
-				     '     <hr>'+
-				     '     <p>내용 : '+data[i].er_content+'</p>'+
-				     '     <h4>인원 : '+data[i].er_max+'명/'+data[i].er_curr+'명</h4>'+
-				     '     <h4>모임날 : '+data[i].er_time+'</h4>'+
-				     '     <hr>'+
-				     '     <a id="btn_show'+i+'" class="btn btn-default" >모임장 정보보기</a>'+
-				     '	   <sec:authorize access="isAuthenticated()">'+
-				     '   	  <a id="btn_erjoin'+data[i].er_no+'" class="all_erjoin btn btn-default">'+
-				     '				참가신청하기'+
-				     '			</a>'+
-				     '	   </sec:authorize>'+
-				     ' </div>';
-				     var er_no={"er_no":data[i].er_no};
-				     console.log("[er_no]" );
-				     console.log(er_no);
-				 	
+				 var together_list;
+				if(data[i].er_max!=data[i].er_curr){
+					 together_list = 
+						 '<div class="row" style="margin-bottom:50px" >'+
+					     '	<div class="col-md-4">'+
+					     '	<div class="myborder">'+
+					     '     <a id="prof'+i+'">'+
+					     '		<h4>모임 기피재료</h4>'+
+					     '     </a>'+
+					     '	</div>'+
+					     '   </div>'+
+					     '   <div class="myborder col-md-8 ">'+
+					     '     <h2>'+data[i].er_title+'</h2>'+
+					     '     <hr>'+
+					     '     <p>내용 : '+data[i].er_content+'</p>'+
+					     '     <h4>인원 : '+data[i].er_max+'명/'+data[i].er_curr+'명</h4>'+
+					     '     <h4>모임날 : '+data[i].er_time+'</h4>'+
+					     '     <hr>'+
+					     '     <a id="btn_show'+i+'" class="btn btn-default" >모임장 정보보기</a>'+
+					     '	   <sec:authorize access="isAuthenticated()">'+
+					     '   	  <a id="btn_erjoin'+data[i].er_no+'" class="all_erjoin btn btn-default">'+
+					     '				참가신청하기'+
+					     '			</a>'+
+					     '	   </sec:authorize>'+
+					     ' </div>';
+			    }else{
+			    	 together_list = 
+						 '<div class="row" style="margin-bottom:50px" >'+
+					     '	<div class="col-md-4">'+
+					     '	<div class="myborder">'+
+					     '     <a id="prof'+i+'">'+
+					     '		<h4>모임 기피재료</h4>'+
+					     '     </a>'+
+					     '	</div>'+
+					     '   </div>'+
+					     '   <div class="myborder col-md-8 ">'+
+					     '     <h2>'+data[i].er_title+'</h2>'+
+					     '     <hr>'+
+					     '     <p>내용 : '+data[i].er_content+'</p>'+
+					     '     <h4>인원 : '+data[i].er_max+'명/'+data[i].er_curr+'명</h4>'+
+					     '     <h4>모임날 : '+data[i].er_time+'</h4>'+
+					     '     <hr>'+
+					     '     <a id="btn_show'+i+'" class="btn btn-default" >모임장 정보보기</a>'+
+					     ' </div>';
+			    }
+				
+				 
+				
 				    
 						
 				     
@@ -1088,12 +1116,13 @@ function request_ERList_Ajax(store_id){
 				     ' <img style="margin-bottom:20px; display:inline;" src="/mukja'+data[i].u_img+'" alt="H" class="img_user">'+
 				     ' <div class="infoText">닉네임 : '+data[i].u_nick+'</div>'+
 				     ' <div class="infoText">나이:'+data[i].u_age+'대</div>'+
-				     ' <div class="infoText">성향 </div>'+
+				     ' <div class="infoText">안먹는 음식 </div>'+
 				     ' <div id="tend'+i+'"></div>'+
 				     ' <div id="masterClose'+i+'" class="btn btn-default">닫기</a>'+
 				     '</div>';
 			
 				$('#modal_content').append(together_list);
+				
 				
 				 var tendIMG="";
 				    for(var ti=0; ti<tend_codes.length;ti++){
@@ -1193,25 +1222,35 @@ function request_ERList_Ajax(store_id){
 				 });
 			     */
 			     
-			     
 			   all_erjoin.forEach(function(ele,i){
+				   var er_no={"er_no":ele.getAttribute('id').slice(-2)}
 				   Object.assign(er_no, store_id);
-
 				   console.log("[ele]");
 				   console.log(er_no);
 					console.log(ele.getAttribute('id'));
 					var id="#"+ele.getAttribute('id');
+					
 					$(document).on("click",id,function(){ 
 					   console.log("<<<참가 시도 >>>")
+					   console.log("id:"+id);
 					   $.ajax({
 					 		url:"<c:url value='/requestERjoin.do'/>",
 					 		data:er_no,
 					 		dataType:'json',
 					 		success:function(data){
+					 			console.log(data);
 					 			var joinERC_result = data.joinERC;
 					 			var joinER_result = data.joinER;
 					 			console.log("joinERC_result:",joinERC_result);
 					 			console.log("joinER_result:",joinER_result);
+					 			if(joinER_result==1){
+					 				alert("참가신청이 완료되었어요! 수락을 기다려주세요~");
+					 				return;
+					 			}else{
+					 				alert("방장이거나 이미 신청하였어요!");
+					 				return;
+					 			}
+					 			
 					 		},
 					 		error:function(){
 					 			console.log("<<<<<방참가 실패>>>>>")
@@ -1576,6 +1615,15 @@ function requets_maker_Ajax(){
 											 $(':text').val("");
 											 $('#createERFORM').fadeOut();
 											 request_ERList_Ajax(store_id);
+											 console.log("같이먹자 방생성결과"+data.result);
+											 
+											 if(data.result==1){
+												 alert("같이먹자 방이 생성되었어요!");
+												 return;
+											 }else{
+												 alert("이미 생성한 방이 있어요ㅠㅠ");
+												 return;
+											 }
 									 
 										},
 										error:function(){

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MyPageDTO;
@@ -38,14 +39,15 @@ public class MyPageController{
 	@Value("${BLOCK_PAGE_MP}")
 	private int blockPage;
 	
-	@RequestMapping(value = "/Mypage.bbs")
+	
+	@RequestMapping(value = "/MyPage.bbs")
 	public String MyPage(
 							@RequestParam Map map,
 							@RequestParam(required = false,defaultValue = "1") int nowPage, 
 							Model model, 
 							HttpServletRequest req,
 							Authentication auth) {
-		
+		System.out.println("여기");
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
