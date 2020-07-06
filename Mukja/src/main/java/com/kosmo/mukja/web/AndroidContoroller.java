@@ -29,7 +29,7 @@ public class AndroidContoroller {
 	
 	@ResponseBody
 	@RequestMapping(value = "/Andorid/Store/DetailView.do" , produces = "application/json; charset=utf8")
-	public String StoreDetail(@RequestParam Map map, Model model) {
+	public String StoreDetail(@RequestParam Map map) {
 		
 		System.out.println("username:"+map.get("store_id"));
 		System.out.println("username:"+map.get("user_id"));
@@ -87,6 +87,13 @@ public class AndroidContoroller {
 		return storeInfoJson.toJSONString();
 	}
 	
-
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/Store/Review.do" , produces = "application/json; charset=utf8")
+	public String StoreReview(@RequestParam Map map) {
+		
+		
+		
+		return "";
+	}
 	
 }
