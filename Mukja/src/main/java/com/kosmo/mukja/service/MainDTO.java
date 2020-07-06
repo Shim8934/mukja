@@ -16,6 +16,8 @@ public class MainDTO {
 	private String menu_no;
 	private String rf_path;
 	private String rownum;
+	private String menu_name;
+	private String u_nick;
 	
 	private String store_name;
 	private String store_intro;
@@ -40,8 +42,9 @@ public class MainDTO {
 
 	public MainDTO(String sa_no, String store_id, String sa_avg, String user_id, String username, String good,
 			String rv_no, String rv_title, String rv_content, String menu_no, String rf_path, String rownum,
-			String store_name, String store_intro, String store_time, String store_addr, String sf_path, String nT_NO,
-			String nT_TITLE, String nT_CONTENT, String uSERNAME2, Date nT_REGITDATE, String bF_NO, String bF_PATH) {
+			String menu_name, String u_nick, String store_name, String store_intro, String store_time,
+			String store_addr, String sf_path, String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME2,
+			Date nT_REGITDATE, String bF_NO, String bF_PATH) {
 		super();
 		this.sa_no = sa_no;
 		this.store_id = store_id;
@@ -55,6 +58,8 @@ public class MainDTO {
 		this.menu_no = menu_no;
 		this.rf_path = rf_path;
 		this.rownum = rownum;
+		this.menu_name = menu_name;
+		this.u_nick = u_nick;
 		this.store_name = store_name;
 		this.store_intro = store_intro;
 		this.store_time = store_time;
@@ -163,6 +168,22 @@ public class MainDTO {
 
 	public void setRownum(String rownum) {
 		this.rownum = rownum;
+	}
+
+	public String getMenu_name() {
+		return menu_name;
+	}
+
+	public void setMenu_name(String menu_name) {
+		this.menu_name = menu_name;
+	}
+
+	public String getU_nick() {
+		return u_nick;
+	}
+
+	public void setU_nick(String u_nick) {
+		this.u_nick = u_nick;
 	}
 
 	public String getStore_name() {

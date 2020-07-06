@@ -34,7 +34,6 @@
          login-processing-url="/LoginProcess.bbs"
          username-parameter="username"
          password-parameter="password"
-         
       />
       <!-- 
       logout-url :로그아웃 URL지정. 기본값은 "/logout" .      

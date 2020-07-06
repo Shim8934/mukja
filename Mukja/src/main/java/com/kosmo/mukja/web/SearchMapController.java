@@ -468,7 +468,9 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			service.setupERjoin_role(map);
 			System.out.println( "{'resunt':"+result+"}");
 		}
-		return "{'resunt':"+result+"}";
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", result);
+		return jsonObject.toJSONString();
 	}
 	
 	
@@ -476,14 +478,6 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	@RequestMapping( value = "/requestERjoin.do", produces = "application/json; charset=utf8")
 	public String requestERjoin(@RequestParam Map map,Authentication auth) {
 		System.out.println("-------------------참가하기 컨트롤러 진입------------------------");
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		String username =userDetails.getUsername();
-		map.put("username",username);
-		System.out.println("로그인된 유저의 아이디 : "+username);
-		map.put("er_master",map.get("username"));
-		int erc_no = service.getERCno(map);
-		map.put("erc_no",erc_no);
-		
 		
 		Iterator<String> iter = map.keySet().iterator();
 		while(iter.hasNext()){
@@ -491,9 +485,26 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			String val = map.get(key).toString();
 			System.out.println(String.format("키 : %s 값 : %s", key,val));
 			}
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String username =userDetails.getUsername();
+
+		map.put("username",username);
+		System.out.println("로그인된 유저의 아이디 : "+username);
+		
+		String erMaster = service.getERmaster(map);
+		System.out.println("erMaster:"+erMaster);
+		map.put("er_master",erMaster);
+		
+		int erc_no = service.getERCno(map);
+		map.put("erc_no",erc_no);
+		
+		
+		
 		
 		int joinER = service.joinER(map);
-		return "{'joinER':"+joinER+"}";
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("joinER", joinER);
+		return jsonObject.toJSONString();
 	}
 	
 	@ResponseBody

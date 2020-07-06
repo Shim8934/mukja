@@ -47,7 +47,7 @@
 			<img class="snsProfile" src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-19/s150x150/83568813_127979445235215_7724309634575499264_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_ohc=ct99S8d5-zMAX-9QEFf&oh=99d44481330ca6e9588c50210feb749d&oe=5F18FC14"/>
 			<div class="snsID">GollaMukja</div>
 			<hr style="margin-top:10px;" >
-			<img class="snsIMG" src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/101728066_2704697429645452_7695500034189739193_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=104&_nc_ohc=fFl9ehI9O6AAX-VCps1&oh=f35106a0e8d8f9710a157f660b50b704&oe=5EF2A5D7"/>
+			<img class="snsIMG" src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/106121758_1201522353525475_574241279335577328_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=107&_nc_ohc=PYjkmHMy7jMAX9QZnlj&oh=b31b5a4426e201fd8bec962189580464&oe=5F2A2545"/>
 			<div  id="snsContentWrap" >
 				<div class="snsContent">#골라먹자만의 특별한 서비스<br>#여러 태그를 살펴보세요</div>
 			</div>
@@ -68,7 +68,7 @@
 			<div class="snsID">GollaMukja</div>
 			<hr style="margin-top:10px;" >
 			
-			<img class="snsIMG" src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/e35/104440702_286492852706426_5364434752502431032_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=tqgK7gpDgVwAX_nR_bf&oh=58a7cfe62908e7e4524295d1431bff07&oe=5EF27B89"/>
+			<img class="snsIMG" src="https://scontent-ssn1-1.cdninstagram.com/v/t51.2885-15/sh0.08/e35/s640x640/104431806_1136765510026754_2886875881302147617_n.jpg?_nc_ht=scontent-ssn1-1.cdninstagram.com&_nc_cat=102&_nc_ohc=vd194EEHChoAX-uL31g&oh=4fc16508ec73256b2d144339c3342949&oe=5F2BC1B7"/>
 			<div  id="snsContentWrap" >
 				<div class="snsContent">#오늘은 뭐먹지?<br>#골라먹지</div>
 			</div>
