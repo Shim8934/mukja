@@ -249,7 +249,7 @@ $(function(){
                </c:forEach>
             </div>
             
-            <a href="<c:url value='/StoreMypage/ImgPop.do'/>" target="_blank" id="editShopImg" class="btn btn-info">가게사진 수정하기</a>
+            <a href="<c:url value='/StoreMypage/ImgPop.do'/>" target="_blank" id="editShopImg" class="btn btn-info">가게사진 수정</a>
             <!-- <a href="<c:url value='/Resevation/CreateStoreTableMap.do'/>" class="btn btn-info">매장 좌석 수정/생성</a> -->
             <a href="#"  id="myBtn" class="btn btn-info">매장 좌석 수정/생성</a>
             <!-- Controls -->
@@ -289,7 +289,7 @@ $(function(){
                          	
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">비밀번호:</label>
                             <div class="col-sm-9">
-                              <input type="password" placeholder="8~12자리의 영문 대/소문자, 숫자 및 특수문자 조합" class="form-control" name="password" id="password">
+                              <input type="password" placeholder="8~12자리의 영문 대/소문자, 숫자 및 특수문자 조합" class="form-control" name="password" id="password" value="${list[0].password}">
                               <span id="stPass" style="font-size:0.8em; color: red;font-weight: bold;"></span>
                             </div>
                           </div>
@@ -433,11 +433,10 @@ var passwordCheck;
 				url:"<c:url value='/StoreMypage/editStoreInfo.do'/>",
 			    data: params,			    
 		        dataType: 'json',
-		        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-		        success : function(data){
-					console.log('성공..?:',data);
-					alert('벤 처리 완료!');
-					window.location = "<c:url value='/UserReportList.bbs'/>";
+		        contentType: 'charset=UTF-8',
+		        success : function(data){		        	
+		        	alert("가게 정보 수정 완료!");
+		        	window.location = "<c:url value='/StoreMypage/StoreMypageMain.do'/>";
 				},
 				error:function(request,status,error){
 					console.log('error:%s,status:%s',
@@ -529,11 +528,10 @@ var passwordCheck;
       <div class="row" style="text-align: center;">
          <div class="col-md-12  menu-wrap" style="display: inline-block;">
             <div class="heading-menu text-center ftco-animate">
-               <h2 style="font-weight: bold; color: #404040; margin-bottom: 30px;">매뉴관리</h2>
+               <h2 style="font-weight: bold; color: #404040; margin-bottom: 30px;">매뉴관리<br/> <a href="<c:url value='/StoreMypage/ImgPop.do'/>" target="_blank" id="editMenuImg" class="btn btn-info">메뉴 수정</a></h2>
             </div>
             <div class="row">
                <c:forEach items="${foodMenuList}" var="foodMenuDto">
-
                   <!-- 메뉴반복-->
 
                   <div class="col-xs-6 menus d-flex ftco-animate">
@@ -550,12 +548,10 @@ var passwordCheck;
                                     varStatus="status">
                                     <c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
                                        <c:if test="${status.index==0}" var="result">
-                                          <li data-target="#carousel-example-generic"
-                                             data-slide-to="${status.index}" class="active"></li>
+                                          <li data-target="#carousel-example-generic" data-slide-to="${status.index}" class="active"></li>
                                        </c:if>
                                        <c:if test="${!result}">
-                                          <li data-target="#carousel-example-generic"
-                                             data-slide-to="${status.index}"></li>
+                                          <li data-target="#carousel-example-generic" data-slide-to="${status.index}"></li>
                                        </c:if>
                                     </c:if>
                                  </c:forEach>

@@ -163,4 +163,16 @@ public class StoreDAO  implements StoreService{
 		// TODO Auto-generated method stub
 		return sqlMapper.update("updateStoreInfo",map);
 	}
+
+	@Override
+	public int updateStoreImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateStoreImg", map);
+	}
+
+	@Override
+	public int insertStoreImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("insertStoreImg",map);
+	}
 }

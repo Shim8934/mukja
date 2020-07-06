@@ -19,6 +19,8 @@ public interface StoreService {
 	public List<StoreDTO> selectFoodImg(Map map);
 	
 	public int updateStoreInfo(Map map);
+	public int updateStoreImg(Map map);
+	public int insertStoreImg(Map map);
 
 	public List<MyPageDTO> getStoreReview(Map map);
 	public List<MyPageDTO> getStoreReviewcnt(Map map);

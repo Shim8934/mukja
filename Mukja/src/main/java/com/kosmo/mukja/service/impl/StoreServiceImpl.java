@@ -126,4 +126,16 @@ public class StoreServiceImpl implements StoreService{
 		// TODO Auto-generated method stub
 		return dao.updateStoreInfo(map);
 	}
+
+	@Override
+	public int updateStoreImg(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateStoreImg(map);
+	}
+
+	@Override
+	public int insertStoreImg(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertStoreImg(map);
+	}
 }

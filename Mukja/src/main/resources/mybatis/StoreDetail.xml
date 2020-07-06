@@ -94,9 +94,13 @@
 	</select>
     
     <!-- 가게 정보 수정 -->
-    <update id="updateStoreInfo">
-    	update stores set password = #{password}, store_addr = #{store_addr}, store_phnum = #{store_phnum}, 
-    	store_email = #{store_email}, store_time = #{store_time}, store_lat = #{store_lat}, store_lng = #{store_lng} store_intro = #{store_intro} where username = #{username}
+    <update id="updateStoreInfo" parameterType="java.util.Map">
+    	update stores set password = #{password}, store_addr = #{store_addr}, store_phnum = #{store_phnum}, store_email = #{store_email}, store_time = #{store_time}, store_lat = #{store_lat}, store_lng = #{store_lng}, store_intro = #{store_intro} where username = #{username}
     </update>
-    
+    <update id="updateStoreImg" parameterType="java.util.Map">
+    	update store_file set sf_path = #{sf_path} where sf_no = #{sf_no}
+    </update>
+    <insert id="insertStoreImg" parameterType="java.util.Map">
+    	insert into store_file values(SEQ_SF.nextval,#{username},#{sf_path})
+    </insert>
 </mapper>
