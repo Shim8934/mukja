@@ -287,6 +287,12 @@ public class AdminController {
                        @RequestParam Map map) throws UnsupportedEncodingException{
       // 파일이 저장될 경로 지정 / 프젝 시작 경로 제외한 경로(정적메소드 안에서 절대경로 얻음)
       String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+      System.out.println("경로 찍어보기 = "+path);
+      File dir = new File(path);
+      if(!dir.exists()) {
+    	  dir.mkdirs();
+    	  System.out.println("경로 만듦 / ");
+      }
       MultipartRequest mr = FileUtility.upLoad(req, path);
          
       String BF_PATH = mr.getFilesystemName("BF_PATH");

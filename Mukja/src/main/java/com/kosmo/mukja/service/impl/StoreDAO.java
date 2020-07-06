@@ -157,4 +157,10 @@ public class StoreDAO  implements StoreService{
 	public int getStRvTotal(Map map) {
 		 return sqlMapper.selectOne("getStRvTotal",map);
 	}
+
+	@Override
+	public int updateStoreInfo(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateStoreInfo",map);
+	}
 }

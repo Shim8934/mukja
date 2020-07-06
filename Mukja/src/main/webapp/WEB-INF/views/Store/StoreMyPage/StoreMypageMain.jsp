@@ -6,6 +6,8 @@
   <!-- 섬머노트 -->
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
 <style>
    #editShopImg, #myBtn{
       margin-top : 5px;
@@ -267,15 +269,15 @@ $(function(){
             <div class="heading-section mt-5 mb-4">
                <div class="pl-lg-5 ml-md-5">
                   <span class="subheading">About</span>
-                  <h2 class="mb-4" style="font-size: 3.0em; display: inline">${list[0].store_name}
-                     
+                  <h2 class="mb-4" style="font-size: 3.0em; display: inline">
+					${list[0].store_name}
                   </h2>
                </div>
             </div>
             <div class="pl-lg-5 ml-md-5" style="margin-top: 15px;">
                <!-- 가게 정보 -->
                <div>
-               <form class="form-horizontal">
+               <form class="form-horizontal" id="storeEditInfo">
                      <!-- 가게 정보 -->
                      <div class=" col-md-12" style="font-size: 1.2em;">
                         <div style="margin-bottom: 30px">
@@ -284,18 +286,22 @@ $(function(){
                         
                         <div style="margin-bottom: 5px;">
                          <div class="form-group">
+                         	
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">비밀번호:</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" name="store_addr"  >
+                              <input type="password" placeholder="8~12자리의 영문 대/소문자, 숫자 및 특수문자 조합" class="form-control" name="password" id="password">
+                              <span id="stPass" style="font-size:0.8em; color: red;font-weight: bold;"></span>
                             </div>
                           </div>
                         </div>
                         
                         <div style="margin-bottom: 5px;">
                          <div class="form-group">
+                         	
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">비밀번호 확인:</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" name="store_addr"  >
+                              <input type="password" placeholder="비밀번호 재입력해 주세요." class="form-control" name="passwordCheck" id="passwordCheck" >
+                              <span id="stPassCheck" style="font-size:0.8em; color: red;font-weight: bold;"></span>
                             </div>
                           </div>
                         </div>
@@ -305,7 +311,11 @@ $(function(){
                          <div class="form-group">
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">주소:</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" name="store_addr"  value="${list[0].store_addr}">
+								<a onclick="addr();">
+									<input type="text" class="form-control" id="store_addr" value="${list[0].store_addr}" name="store_addr" placeholder="관심지역을 선택하세요">
+								</a>
+								<input type="hidden" id="store_lat" name="store_lat" value="${list[0].store_lat}"/>
+								<input type="hidden" id="store_lng" name="store_lng" value="${list[0].store_lng}"/>
                             </div>
                           </div>
                         </div>
@@ -314,7 +324,7 @@ $(function(){
                          <div class="form-group">
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">영업번호:</label>
                             <div class="col-sm-9">
-                              <input type="text" class="form-control" name="store_phnum"  value= "${list[0].store_phnum}">
+                              <input type="text" class="form-control" name="store_phnum" id="store_phnum" value="${list[0].store_phnum}">
                             </div>
                           </div>
                         </div>
@@ -323,7 +333,7 @@ $(function(){
                             <div class="form-group">
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">이메일:</label>
                             <div class="col-sm-9">
-                              <input type="email" class="form-control" name="store_email"  value= "${list[0].store_email}">
+                              <input type="email" class="form-control" name="store_email" id="store_email" value="${list[0].store_email}">
                             </div>
                           </div>
                         </div>
@@ -331,9 +341,9 @@ $(function(){
    
                         <div style="margin-bottom: 30px">
                            <div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">
-                              가게영업시간
+								가게영업시간
                            </div>
-                           <textarea class="form-control" rows="3" name="store_time">${list[0].store_time}
+                           <textarea class="form-control" rows="3" name="store_time" id="store_time">${list[0].store_time}
                            </textarea>
                      
                         
@@ -343,9 +353,9 @@ $(function(){
                         <hr>
                         <div style="margin-bottom: 30px">
                            <div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">
-                              음식점소개
+								음식점소개
                            </div>
-                            <textarea id="editor2" name="store_intro">
+                            <textarea id="editor2" name="store_intro" id="store_intro">
                               ${list[0].store_intro}
                            </textarea>
                            <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
@@ -361,10 +371,111 @@ $(function(){
                </div>
             </div>
          </div>
+         <div class="col-md-12 text-center">         	
+         		<button type="button" class="btn btn-lg btn-info" id="formSubmit">수정</button>
+         </div>
       </div>
    </div>
 </section>
+<script>
+<!-- 비밀번호 유효성 체크 및 지역 검색 스크립트-->
+var password;
+var passwordCheck;
 
+	$(function(){
+		
+		$("#password").focus(function(){
+			$("#stPass").html("띄어쓰기 없는 8~12자리의 영문 대/소문자, 숫자 및 특수문자 조합으로 입력하셔야 합니다.");
+		})
+		$("#password").blur(function(){
+			$("#stPass").html("");
+			password = $("#password").val();
+			// 1) 비밀번호 길이 체크
+			if(password.length<=8){
+				$("#password").focus();
+				$("#stPass").html("비밀번호 길이를 확인해 주세요.");
+			}
+		
+			passwordCheck = $("#passwordCheck").val();
+		
+		})
+		
+		$("#passwordCheck").focus(function(){
+			password = $("#password").val();
+			passwordCheck = $("#passwordCheck").val();
+		});
+		
+		$("#passwordCheck").blur(function(){
+			password = $("#password").val();
+			passwordCheck = $("#passwordCheck").val();
+			if(password==passwordCheck){
+				$("#stPassCheck").html("훌륭한 비밀번호에요.")
+				document.getElementById("stPassCheck").style.color = "green";
+			}
+			else if(passwordCheck!=password){
+				$("#stPassCheck").html("");
+				$("#stPassCheck").html("비밀번호가 맞지 않습니다. 비밀번호를 다시 확인해 주세요.")
+				document.getElementById("stPassCheck").style.color = "red";
+				$("#passwordCheck").focus();
+			}
+		})
+			
+		
+		$("#formSubmit").click(function(){
+			// password = $("#password").val();
+			// store_addr = $("#store_addr").val();
+			// store_phnum = $("#store_phnum").val();
+			// store_email = $("#store_email").val();
+			// store_time = $("#store_time").val();
+			// store_intro = $("#store_intro").val();
+			var params = $("#storeEditInfo").serialize();
+			$.ajax({
+				url:"<c:url value='/StoreMypage/editStoreInfo.do'/>",
+			    data: params,			    
+		        dataType: 'json',
+		        contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+		        success : function(data){
+					console.log('성공..?:',data);
+					alert('벤 처리 완료!');
+					window.location = "<c:url value='/UserReportList.bbs'/>";
+				},
+				error:function(request,status,error){
+					console.log('error:%s,status:%s',
+							error,status);
+				}
+			});
+		});
+	})
+	
+	function addr() {
+    	var geocoder = new daum.maps.services.Geocoder();
+    	var width = 400; 
+    	var height = 500;
+        new daum.Postcode({
+        	 width: width,
+ 		     height: height,
+             oncomplete: function(data) {
+                var addr = data.address; // 최종 주소 변수
+                // 주소 정보를 해당 필드에 넣는다.
+                document.getElementById("store_addr").value = addr;
+                // 주소로 상세 정보를 검색
+                geocoder.addressSearch(data.address, function(results, status) {
+                    // 정상적으로 검색이 완료됐으면
+                    if (status === daum.maps.services.Status.OK) {
+                        var result = results[0]; //첫번째 결과의 값을 활용
+                        // 해당 주소에 대한 좌표를 받아서
+                        var coords = new daum.maps.LatLng(result.y, result.x);
+                        document.getElementById("store_lat").value = result.y;
+                        document.getElementById("store_lng").value = result.x;
+                    }
+                });
+            }
+        }).open({
+	        left: (window.screen.width/2)-(width / 2),
+	        top: (window.screen.height/2)-(height / 2)
+	    });
+    }
+</script>
 
 <!-- COUNTING -->
 <section class="ftco-section ftco-counter img" id="section-counter"

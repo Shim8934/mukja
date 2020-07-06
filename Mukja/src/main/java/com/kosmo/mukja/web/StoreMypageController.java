@@ -99,7 +99,7 @@ public class StoreMypageController {
 		
 	}
 
-	@RequestMapping("/StoreMypage/ImgPop.do")
+	@RequestMapping(value = "/StoreMypage/ImgPop.do")
 	public String ImgPop(@RequestParam Map map, Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
@@ -115,7 +115,23 @@ public class StoreMypageController {
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
-
+	@ResponseBody
+	@RequestMapping("/StoreMypage/editStoreInfo.do")
+	public String editStoreInfo(@RequestParam Map map, Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		map.put("username", userDetails.getUsername());
+		
+		System.out.println("비번 찍어봄  " + map.get("password").toString());
+		System.out.println("가게 주소 찍어봄  " + map.get("store_addr").toString());
+		service.updateStoreInfo(map);
+		
+		
+		
+		JSONObject jsonObject = new JSONObject();
+		
+		
+		return "Store/StoreMyPage/ImgPop.tiles";
+	}
 
 	
 	

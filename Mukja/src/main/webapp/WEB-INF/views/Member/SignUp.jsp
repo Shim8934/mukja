@@ -239,11 +239,12 @@ section {
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">관심지역</label> <a onclick="addr();"><input
-										type="text" class="form-control" id="u_addr" name="u_addr"
-										placeholder="관심지역을 선택하세요"></a> <input type="hidden"
-										id="u_lat" name="u_lat" /> <input type="hidden" id="u_lng"
-										name="u_lng" />
+									<label for="">관심지역</label>
+									<a onclick="addr();">
+										<input type="text" class="form-control" id="u_addr" name="u_addr" placeholder="관심지역을 선택하세요">
+									</a>
+									<input type="hidden" id="u_lat" name="u_lat" />
+									<input type="hidden" id="u_lng" name="u_lng" />
 									<div class="check_font" id="addr_check"></div>
 								</div>
 							</div>
@@ -390,10 +391,8 @@ section {
 	</section>
 
 
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
 	<script>
     function addr() {
     	var geocoder = new daum.maps.services.Geocoder();

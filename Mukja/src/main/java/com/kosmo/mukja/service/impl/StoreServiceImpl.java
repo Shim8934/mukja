@@ -90,12 +90,6 @@ public class StoreServiceImpl implements StoreService{
 		return dao.selectFoodImg(map);
 	}
 	
-
-	
-	
-	
-	
-	
 	
 	
 	@Override
@@ -125,5 +119,11 @@ public class StoreServiceImpl implements StoreService{
 	@Override
 	public int insertSTreview(Map map) {
 		return dao.insertSTreview(map);
+	}
+
+	@Override
+	public int updateStoreInfo(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateStoreInfo(map);
 	}
 }

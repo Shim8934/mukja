@@ -93,4 +93,10 @@
 		select * from review_thumb
 	</select>
     
+    <!-- 가게 정보 수정 -->
+    <update id="updateStoreInfo">
+    	update stores set password = #{password}, store_addr = #{store_addr}, store_phnum = #{store_phnum}, 
+    	store_email = #{store_email}, store_time = #{store_time}, store_lat = #{store_lat}, store_lng = #{store_lng} store_intro = #{store_intro} where username = #{username}
+    </update>
+    
 </mapper>
