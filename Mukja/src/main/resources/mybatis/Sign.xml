@@ -22,11 +22,4 @@
 		INSERT INTO foodmenu(MENU_NO,MENU_NAME,MENU_TEND,MENU_INFO,MENU_REGIDATE,username,MENU_PRICE) VALUES(SEQ_FOODMENU.nextval,#{MENU_NAME},#{MENU_TEND},#{MENU_INFO},sysdate,#{username},#{MENU_PRICE})
 	</insert>
 	
-	<select id="getOneInfo" parameterType="java.util.Map" resultType="UsersDTO">
-		SELECT * FROM users WHERE username=#{username}
-	</select>
-	
-	<update id="updateMyInfo" parameterType="java.util.Map">
-		UPDATE users SET password=#{password},u_nick=#{u_nick},u_img=#{u_img},u_age=#{u_age},u_ph=#{u_ph},u_addr=#{u_addr} where username=#{username}
-	</update>
 </mapper>

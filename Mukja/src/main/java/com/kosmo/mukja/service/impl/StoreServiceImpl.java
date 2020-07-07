@@ -164,17 +164,15 @@ public class StoreServiceImpl implements StoreService{
 	
 	
 	
-	
+
+	@Override
+	public List<StoreDTO> getRVThumb(Map map) {
+		return dao.getRVThumb(map);
+	}
 	@Override
 	public int insertRVThumb(Map map) {
 		return dao.insertRVThumb(map);
 	}
-
-	@Override
-	public int getRVThumb(Map map) {
-		return dao.getRVThumb(map);
-	}
-
 	@Override
 	public int deleteRVThumb(Map map) {
 		return dao.deleteRVThumb(map);

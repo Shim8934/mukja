@@ -92,12 +92,9 @@
 	
 	
     <!-- 리뷰 좋아요 --> 
-     <select id="getRVThumb" parameterType="java.util.Map" resultType="int">
-    	SELECT count(*) FROM review_thumb WHERE rv_no=#{rv_no}
+     <select id="getRVThumb" parameterType="java.util.Map" resultType="StoreDTO">
+    	select rv_no,count (rv_no) as count from review_thumb group by rv_no order by count desc
     </select> 
-     <select id="getRVThumbcount" parameterType="java.util.Map" resultType="int">
-    	SELECT count(*) FROM review_thumb WHERE rv_no=#{rv_no}
-    </select>       
     <insert id="insertRVThumb"  parameterType="java.util.Map" >
     	INSERT INTO review_thumb VALUES (SEQ_revthumb.nextval,#{rv_no},#{user_id})
     </insert> 

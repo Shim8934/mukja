@@ -41,17 +41,6 @@ public class SignDAO implements SignService {
 		return sqlMapper.selectOne("idCheck",map);
 	}
 	
-	@Override
-	public int updateMyInfo(Map map) {
-		return sqlMapper.update("updateMyInfo",map);
-	}
-
-	@Override
-	public UsersDTO getOneInfo(Map map) {
-		return sqlMapper.selectOne("getOneInfo",map);
-	}
-
-
 
 	
 

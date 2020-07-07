@@ -9,7 +9,4 @@ public interface SignService {
 	int foodmenu(Map map);
 	int idCheck(Map map);
 	
-	int updateMyInfo(Map map) ;
-	UsersDTO getOneInfo(Map map);
-
 }

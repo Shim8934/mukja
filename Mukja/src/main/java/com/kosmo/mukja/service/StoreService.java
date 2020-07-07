@@ -32,14 +32,16 @@ public interface StoreService {
 	public int updateReview(Map map);
 	public int deleteReview(Map map);
 	
+	
 	/*리뷰 가져오기*/
 	public int getStRvTotal(Map map);
 	public List<MyPageDTO> getStoreReviewcnt(Map map);
 	public List<MyPageDTO> getStoreReviewimg(Map map);
 	public List<UsersDTO> getUsersNicks(Map map);;
 	
+	
 	/*리뷰 좋아요*/
-	public int getRVThumb(Map map) ;
+	public List<StoreDTO> getRVThumb(Map map) ;
 	public int insertRVThumb(Map map) ;
 	public int deleteRVThumb(Map map) ;
 	

@@ -6,8 +6,16 @@
 
  	<!-- 회원정보 -->
  	<select id="getMyInfo" parameterType="java.util.Map" resultType="UsersDTO">   
-		select u_nick, username, u_tend, u_tend,u_img from users where username = #{user_id}
+		select * from users where username = #{user_id}
 	</select>
+	<update id="updateMyInfo" parameterType="java.util.Map">
+		UPDATE users SET password=#{password},u_nick=#{u_nick},u_img=#{u_img},
+		u_age=#{u_age},u_ph=#{u_ph},u_addr=#{u_addr} where username=#{user_id}
+	</update>
+	<!-- <select id="getOneInfo" parameterType="java.util.Map"
+	resultType="UsersDTO">
+	SELECT * FROM users WHERE username=#{user_id}
+	</select> -->	
 	
 	<!-- 찜 -->
 	<select id="getMyJjim" parameterType="java.util.Map" resultType="MyPageDTO">
@@ -50,7 +58,7 @@
 		SELECT er.er_no, er.username, er_time, er_tend, er_max, em.username user_id, em.erjoin_role FROM 
 		(SELECT * FROM 
 		(SELECT er_no,username,erjoin_role  FROM er_members where username= #{user_id}) 
-		where erjoin_role= 0) em join eattogether_room er on em.er_no = er.er_no order by er_postdate desc
+		where erjoin_role= -1) em join eattogether_room er on em.er_no = er.er_no order by er_postdate desc
 	</select>
 	<select id="getNicks" parameterType="java.util.Map" resultType="MyPageDTO">
 		select em.er_no, u.username, u.u_nick,em.erjoin_role from er_members em join users u on u.username = em.username where em.erjoin_role=1
@@ -79,5 +87,7 @@
 	</select>
 	
 	
+
+
 
 </mapper>

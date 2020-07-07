@@ -39,6 +39,9 @@ public class StoreDetailController {
 	@Value("${BLOCK_PAGE}")
 	private int blockPage;
 	
+
+	private String store_id;
+	
 	
 	@RequestMapping("/Store/DetailView.do")
 	public String StoreDetail(
@@ -48,6 +51,8 @@ public class StoreDetailController {
 			HttpServletRequest req ) {
 		
 		System.out.println("username : "+map.get("username"));
+		store_id=map.get("username").toString();
+		System.out.println("store_id : "+store_id);
 		
 		if(authentication!=null) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
@@ -147,8 +152,11 @@ public class StoreDetailController {
 		
 		
 		/*리뷰 좋아요*/	
-		int rvThumb = service.getRVThumb(map);
+		List<StoreDTO> rvThumb = service.getRVThumb(map);
 		model.addAttribute("rvThumb",rvThumb);
+		System.out.println("rvThumb : " + rvThumb.toString());
+		
+		
 		int clickThumb = service.insertRVThumb(map);
 		model.addAttribute("clickThumb",clickThumb);
 		int disThumb = service.deleteRVThumb(map);
@@ -191,20 +199,25 @@ public class StoreDetailController {
 
 	
 	@ResponseBody
-	@RequestMapping(value="/insertReview.do",method=RequestMethod.POST)
-	public String insertReview(@RequestParam Map map, Authentication auth, HttpServletRequest req) {	
-		System.out.println("username2 : "+map.get("username"));	
-		System.out.println("username2 : "+req.getParameter("username"));
+	@RequestMapping(value="/insertReview.bbs",method=RequestMethod.POST)
+	public String insertReview(HttpServletRequest req,
+			  Authentication auth,
+			  Model model,
+			  @RequestParam Map map) {	
+		//가게아이디 얻기
+		System.out.println("store_id : " + store_id);
+		//회원아이디 얻기
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
+		System.out.println("user_id2 : "+map.get("user_id"));	
+		//인서트		
+		service.insertReview(map);
 		
-		
-		int insert = service.insertReview(map);	
-		return "forward:insertReview.do";
+		return "forward:/Store/DetailView.tiles";
 	}
 	@ResponseBody
-	@RequestMapping(value="/UpdateReview.do",method=RequestMethod.GET)
+	@RequestMapping(value="/UpdateReview.bbs",method=RequestMethod.GET)
 	public String UpdateReview(@RequestParam Map map, Authentication auth, HttpServletRequest req) {	
 		System.out.println("username3 : "+map.get("username"));	
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();

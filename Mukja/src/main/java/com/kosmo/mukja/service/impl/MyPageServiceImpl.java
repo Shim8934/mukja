@@ -155,6 +155,15 @@ public class MyPageServiceImpl implements MyPageService{
 //	}
 //
 
+	@Override
+	public int updateMyInfo(Map map) {
+		return dao.getMyJjimTotal(map);
+	}
+
+	@Override
+	public UsersDTO getOneInfo(Map map) {
+		return dao.getOneInfo(map);
+	}
 
 	
 }
