@@ -144,14 +144,25 @@ public class StoreDetailController {
 		model.addAttribute("strvimgs",strvimgs);
 		List<UsersDTO> usersnks = service.getUsersNicks(map);
 		model.addAttribute("usersnks",usersnks);
+		
+		
+		/*리뷰 좋아요*/	
+		int rvThumb = service.getRVThumb(map);
+		model.addAttribute("rvThumb",rvThumb);
+		int clickThumb = service.insertRVThumb(map);
+		model.addAttribute("clickThumb",clickThumb);
+		int disThumb = service.deleteRVThumb(map);
+		model.addAttribute("disThumb",disThumb);
+		
+		
+		
+		
 	
-		return "/Store/DetailView.tiles";
 		
 		
 		
 		//베스트리뷰 뽑기
-		
-		
+		return "/Store/DetailView.tiles";
 	}
 	
 	@ResponseBody
@@ -164,30 +175,15 @@ public class StoreDetailController {
 			String val = map.get(key).toString();
 			System.out.println(String.format("키 : %s 값 : %s", key,val));
 			}
-		map.put("username", map.get("username").toString().replaceAll("\"",""));
-		map.put("user_id", map.get("user_id").toString().replaceAll("\"",""));
-		map.put("store_id", map.get("username").toString().replaceAll("\"",""));
 		int result = service.updateStoreAvg(map);
 		
 		return "{'result':"+result+"}";
 	}
-	// 
 	
 	@ResponseBody
 	@RequestMapping("/updateStoreRecommand.do")
 	public String updateStoreRecommand(@RequestParam Map map) {
-		System.out.println("추천 메소드 호출");
-		Iterator<String> iter = map.keySet().iterator();
-		while(iter.hasNext()){
-			String key = iter.next();
-			String val = map.get(key).toString();
-			System.out.println(String.format("키 : %s 값 : %s", key,val));
-			}
-		map.put("username", map.get("store_id").toString().replaceAll("\"",""));
-		map.put("store_id", map.get("store_id").toString().replaceAll("\"",""));
 		int result=service.updateStoreRecommand(map);
-		
-		
 		return "{'result':"+result+"}";
 	}
 	
@@ -204,7 +200,7 @@ public class StoreDetailController {
 		map.put("user_id",user_id);
 		
 		
-		int insert = service.insertSTreview(map);	
+		int insert = service.insertReview(map);	
 		return "forward:insertReview.do";
 	}
 	@ResponseBody
@@ -215,7 +211,7 @@ public class StoreDetailController {
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);		
 		
-		int update = service.insertSTreview(map);	
+		int update = service.updateReview(map);	
 		return "/Store/DetailView.tiles";
 	}
 	

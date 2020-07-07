@@ -92,34 +92,8 @@ public class StoreServiceImpl implements StoreService{
 	
 	
 	
-	@Override
-	public List<MyPageDTO> getStoreReview(Map map) {
-		return dao.getStoreReview(map);
-	}
-	@Override
-	public List<MyPageDTO> getStoreReviewcnt(Map map) {
-		return dao.getStoreReviewcnt(map);
-	}
-
-	@Override
-	public List<MyPageDTO> getStoreReviewimg(Map map) {
-		return dao.getStoreReviewimg(map);
-	}
-
-	@Override
-	public int getStRvTotal(Map map) {
-		return dao.getStRvTotal(map);
-	}
-
-	@Override
-	public List<UsersDTO> getUsersNicks(Map map) {
-		return dao.getUsersNicks(map);
-	}
-
-	@Override
-	public int insertSTreview(Map map) {
-		return dao.insertSTreview(map);
-	}
+	
+	
 
 	@Override
 	public int updateStoreInfo(Map map) {
@@ -138,4 +112,73 @@ public class StoreServiceImpl implements StoreService{
 		// TODO Auto-generated method stub
 		return dao.insertStoreImg(map);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public int insertReview(Map map) {
+		return dao.insertReview(map);
+	}
+
+	@Override
+	public int updateReview(Map map) {
+		return  dao.updateReview(map);
+	}
+
+	@Override
+	public int deleteReview(Map map) {
+		return  dao.deleteReview(map);
+	}
+	
+	
+	
+	
+	
+	@Override
+	public int getStRvTotal(Map map) {
+		return dao.getStRvTotal(map);
+	}
+
+	@Override
+	public List<MyPageDTO> getStoreReviewcnt(Map map) {
+		return dao.getStoreReviewcnt(map);
+	}
+
+	@Override
+	public List<MyPageDTO> getStoreReviewimg(Map map) {
+		return dao.getStoreReviewimg(map);
+	}
+	
+	@Override
+	public List<UsersDTO> getUsersNicks(Map map) {
+		return dao.getUsersNicks(map);
+	}
+
+	
+	
+	
+	
+	@Override
+	public int insertRVThumb(Map map) {
+		return dao.insertRVThumb(map);
+	}
+
+	@Override
+	public int getRVThumb(Map map) {
+		return dao.getRVThumb(map);
+	}
+
+	@Override
+	public int deleteRVThumb(Map map) {
+		return dao.deleteRVThumb(map);
+	}
+	
+
 }

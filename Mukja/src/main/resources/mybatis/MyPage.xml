@@ -17,7 +17,7 @@
      	select * from stores 
     </select>
 	<select id="getJjimImgs" parameterType="java.util.Map" resultType="StoreIMGDTO">    	 
-		select * from store_file
+		select * from store_file 
 	</select>
 	
 	<!-- 리뷰 -->
