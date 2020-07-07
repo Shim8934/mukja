@@ -528,7 +528,9 @@ var passwordCheck;
       <div class="row" style="text-align: center;">
          <div class="col-md-12  menu-wrap" style="display: inline-block;">
             <div class="heading-menu text-center ftco-animate">
-               <h2 style="font-weight: bold; color: #404040; margin-bottom: 30px;">매뉴관리<br/> <a href="<c:url value='/StoreMypage/ImgPop.do'/>" target="_blank" id="editMenuImg" class="btn btn-info">메뉴 수정</a></h2>
+               <h2 style="font-weight: bold; color: #404040; margin-bottom: 30px;">
+               		매뉴관리<br/>
+           		</h2>
             </div>
             <div class="row">
                <c:forEach items="${foodMenuList}" var="foodMenuDto">
