@@ -8,9 +8,9 @@
  	<select id="getMyInfo" parameterType="java.util.Map" resultType="UsersDTO">   
 		select * from users where username = #{user_id}
 	</select>
-	<update id="updateMyInfo" parameterType="java.util.Map">
-		UPDATE users SET password=#{password},u_nick=#{u_nick},u_img=#{u_img},
-		u_age=#{u_age},u_ph=#{u_ph},u_addr=#{u_addr} where username=#{user_id}
+	<update id="updateMyInfo" parameterType="java.util.Map" >
+		UPDATE users SET password=#{password},u_nick=#{u_nick},
+		u_age=#{u_age},u_ph=#{u_ph} where username=#{user_id}
 	</update>
 	<!-- <select id="getOneInfo" parameterType="java.util.Map"
 	resultType="UsersDTO">

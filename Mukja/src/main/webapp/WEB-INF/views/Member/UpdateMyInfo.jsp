@@ -152,7 +152,7 @@ section {
 		<div class="container" id='signup'>
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
-					<form action="<c:url value='/UpdateMyInfOk.bbs'/>" method="post">
+					<form action="<c:url value='/UpdateMyInfo.bbs'/>" method="post">
 						<div class="row">
 							<input type="hidden" name="user_id" value="${userInfo.username}">
 							<div class="col-md-offset-3 col-md-6">

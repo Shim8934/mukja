@@ -276,7 +276,7 @@ public class MyPageController{
 	}
 	
 	//회원정보 수정 처리]
-	@RequestMapping(value = "/UpdateMyInfOk.bbs", method = RequestMethod.POST)
+	@RequestMapping(value = "/UpdateMyInfo.bbs", method = RequestMethod.POST)
 	public String UpdateCompleted(HttpServletRequest req,
 			  Authentication auth,
 			  Model model,

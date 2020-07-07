@@ -157,7 +157,7 @@ public class MyPageServiceImpl implements MyPageService{
 
 	@Override
 	public int updateMyInfo(Map map) {
-		return dao.getMyJjimTotal(map);
+		return dao.updateMyInfo(map);
 	}
 
 	@Override
