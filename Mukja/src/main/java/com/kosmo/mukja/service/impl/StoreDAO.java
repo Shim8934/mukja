@@ -127,37 +127,6 @@ public class StoreDAO  implements StoreService{
 	}
 	
 	
-	
-	
-
-	@Override
-	public List<MyPageDTO> getStoreReviewcnt(Map map) {
-		return sqlMapper.selectList("getStoreReviewcnt", map);
-	}
-	@Override
-	public List<MyPageDTO> getStoreReview(Map map) {
-		return sqlMapper.selectList("getStoreReview", map);
-	}
-	@Override
-	public List<MyPageDTO> getStoreReviewimg(Map map) {
-		return sqlMapper.selectList("getStoreReviewimg", map);
-	}
-	
-	@Override
-	public List<UsersDTO> getUsersNicks(Map map) {
-		return sqlMapper.selectList("getUsersNicks", map);
-	}
-
-	@Override
-	public int insertSTreview(Map map) {
-		return sqlMapper.selectOne("insertSTreview", map);
-	}
-	/*주요*/
-	@Override
-	public int getStRvTotal(Map map) {
-		 return sqlMapper.selectOne("getStRvTotal",map);
-	}
-
 	@Override
 	public int updateStoreInfo(Map map) {
 		// TODO Auto-generated method stub
@@ -175,4 +144,76 @@ public class StoreDAO  implements StoreService{
 		// TODO Auto-generated method stub
 		return sqlMapper.update("insertStoreImg",map);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public int insertReview(Map map) {
+		return sqlMapper.insert("insertReview", map);
+	}
+
+	@Override
+	public int updateReview(Map map) {
+		return sqlMapper.update("updateReview", map);
+	}
+
+
+	@Override
+	public int deleteReview(Map map) {
+		return sqlMapper.delete("deleteReview", map);
+	}
+
+	
+	
+
+	@Override
+	public List<MyPageDTO> getStoreReviewcnt(Map map) {
+		return sqlMapper.selectList("getStoreReviewcnt", map);
+	}
+	@Override
+	public List<MyPageDTO> getStoreReviewimg(Map map) {
+		return sqlMapper.selectList("getStoreReviewimg", map);
+	}
+	
+	@Override
+	public List<UsersDTO> getUsersNicks(Map map) {
+		return sqlMapper.selectList("getUsersNicks", map);
+	}
+	/*주요*/
+	@Override
+	public int getStRvTotal(Map map) {
+		 return sqlMapper.selectOne("getStRvTotal",map);
+	}
+	
+	
+	
+	
+	
+
+	@Override
+	public int insertRVThumb(Map map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int getRVThumb(Map map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public int deleteRVThumb(Map map) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
 }

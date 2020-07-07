@@ -8,6 +8,7 @@
       <div class="row no-gutters slider-text align-items-center justify-content-center">
          <div class="col-md-9 ftco-animate text-center">
             <h1 class="mb-2 bread">My Page</h1>
+            <p>${Nicks}</p>
             <p class="breadcrumbs">
                <span class="mr-2"><a href="index.html">Home <i
                      class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a
@@ -51,10 +52,16 @@
                         <div>
                            <span class="sub-title">프로필사진 </span>
                         </div>
-                        
-                        <div style="margin-top: 1rem;">   
-                         <div class="img" style="height:200px; background-image: url(<c:url value="${myInfo.u_img}"/>);"></div>                   
-                        </div>
+                         <c:if test="${empty myInfo.u_img}">
+	                        <div style="margin-top: 1rem;">   
+	                         	<div class="img" style="height:200px; background-image: url(<c:url value=""/>);"></div>                   
+	                        </div>
+                        </c:if>
+                         <c:if test="${not empty myInfo.u_img}">
+	                        <div style="margin-top: 1rem;">   
+	                         	<div class="img" style="height:200px; background-image: url(<c:url value="${myInfo.u_img}"/>);"></div>                   
+	                        </div>
+                        </c:if>
                      </div>
                      <div class="siro col-md-5" style="float:none;">
                         <div>
@@ -98,10 +105,13 @@
 												  	<span>이미지 준비 중입니다.</span>
 												  </div>	
 											</c:if>
-						                  	<c:if test="${not EmptySP}">      
+				                        	<c:if test="${not EmptySP}">      
+													<% int count = 0; %>
 												<c:forEach items="${storeimgs}" var="storeimgs" varStatus="loop">											
 													<c:if test="${storetxt.username == storeimgs.username}">
-							                           <div class="img d-block w-100" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>						                         
+														<% if(count == 0) {%>
+							                           <div class="img d-block w-100" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>
+							                           <% }count = count + 1; %>						                         
 					                        		</c:if>
 					                        	</c:forEach>
 				                        	</c:if>
@@ -168,15 +178,19 @@
 				                            <c:if test="${empty rvimgs}">
 												<td><img class="rv_pics" /></td>
 											</c:if>
-											<c:if test="${not empty rvimgs}"> 
+											<c:if test="${not empty rvimgs}">     
+												<% int count = 0; %>
 												<c:forEach items="${rvimgs}" var="rvimgs" varStatus="loop">
 													<c:if test="${rvcnt.rv_no == rvimgs.rv_no}">
-														<c:forTokens  var="myrvpic" items="${rvimgs.rf_path}" delims=",">
+														<c:forTokens  var="myrvpic" items="${rvimgs.rf_path}" delims=",">														
+															<% if(count == 0) {%>
 					                              			<td><img class="rv_pics" src='<c:url value="${myrvpic}"/>'/></td>
-					                              		</c:forTokens>
+				                              		 		<% }count = count + 1; %>	
+					                              		</c:forTokens>	
 					                           		</c:if>
 												</c:forEach>
 											</c:if>
+											<td></td>
 				                           </tr>
 										</c:if>
 									</c:forEach>

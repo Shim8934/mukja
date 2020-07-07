@@ -62,45 +62,46 @@
     </select>
     
     
+    
+    
     <!-- 리뷰 쓰기 -->
-    <insert id="insertSTreview" parameterType="java.util.Map">
+    <insert id="insertReview" parameterType="java.util.Map">
      	insert into storereview values(SEQ_STOREREVIEW.nextval,'default_title',#{rv_content},sysdate,#{user_id},#{username},1)
     </insert>
-    <update id="UpdateReview" parameterType="java.util.Map">
-     	update storereview set (rv_title=#{rv_title}, rv_content={rv_content}) where rv_no=#{rv_no}
+    <update id="updateReview" parameterType="java.util.Map">
+     	UPDATE storereview set (rv_title=#{rv_title}, rv_content={rv_content}) where rv_no=#{rv_no}
+    </update>
+    <update id="deleteReview" parameterType="java.util.Map">
+     	DELETE storereview WHERE where rv_no=#{rv_no}
     </update>
     
-    <!-- 리뷰 가져오기-->
     
-    <select id="getStoreReview" parameterType="java.util.Map" resultType="MyPageDTO">
-		SELECT * FROM storereview WHERE store_name=#{username} order by rv_postdate desc
-	</select>
+    <!-- 리뷰 가져오기-->
 	<select id="getStRvTotal" parameterType="java.util.Map" resultType="int">
 		SELECT count(*) FROM storereview WHERE store_name = #{username}
-	</select>	
-	
+	</select>		
 	<select id="getStoreReviewcnt" parameterType="java.util.Map" resultType="MyPageDTO">
 		SELECT * FROM (SELECT T.*,ROWNUM R FROM (SELECT * FROM storereview WHERE store_name=#{username} order by rv_postdate desc)T)where R between #{strvstart} AND #{strvend}	
-	</select>
+	</select>	
 	<select id="getStoreReviewimg" parameterType="java.util.Map" resultType="MyPageDTO">
 		SELECT * FROM review_file 		
-	</select>	
+	</select>		
 	<select id="getUsersNicks" parameterType="java.util.Map" resultType="UsersDTO">
 		SELECT u_nick,username,u_img FROM users
 	</select>
 	
-	<select id="getBrv" parameterType="java.util.Map" resultType="UsersDTO">
-		select * from review_thumb
-	</select>
-    
-    <!-- 가게 정보 수정 -->
-    <update id="updateStoreInfo" parameterType="java.util.Map">
-    	update stores set password = #{password}, store_addr = #{store_addr}, store_phnum = #{store_phnum}, store_email = #{store_email}, store_time = #{store_time}, store_lat = #{store_lat}, store_lng = #{store_lng}, store_intro = #{store_intro} where username = #{username}
-    </update>
-    <update id="updateStoreImg" parameterType="java.util.Map">
-    	update store_file set sf_path = #{sf_path} where sf_no = #{sf_no}
-    </update>
-    <insert id="insertStoreImg" parameterType="java.util.Map">
-    	insert into store_file values(SEQ_SF.nextval,#{username},#{sf_path})
-    </insert>
+	
+    <!-- 리뷰 좋아요 --> 
+     <select id="getRVThumb" parameterType="java.util.Map" resultType="int">
+    	SELECT count(*) FROM review_thumb WHERE rv_no=#{rv_no}
+    </select> 
+     <select id="getRVThumbcount" parameterType="java.util.Map" resultType="int">
+    	SELECT count(*) FROM review_thumb WHERE rv_no=#{rv_no}
+    </select>       
+    <insert id="insertRVThumb"  parameterType="java.util.Map" >
+    	INSERT INTO review_thumb VALUES (SEQ_revthumb.nextval,#{rv_no},#{user_id})
+    </insert> 
+	<delete id="deleteRVThumb" parameterType="java.util.Map">
+    	DELETE review_thumb WHERE rv_no=#{rv_no} and rt_no=#{rt_no}
+    </delete>
 </mapper>
