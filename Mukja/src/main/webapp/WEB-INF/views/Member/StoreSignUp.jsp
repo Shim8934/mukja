@@ -357,14 +357,12 @@ section {
 														</div>
 														</div>
 													</div>
-													<div class="col-md-12 justify-content-right" style="margin-top: 10px;">
+													<div class="col-md-12 text-right" style="margin-top: 10px;">
 														<div class="form-group">
-															<a class="btn btn-primary py-3 px-5" href="#carousel-g"
-																data-slide="prev" id="btnleft" style="color: white">
+															<a class="btn btn-primary py-3 px-5" href="#carousel-g" data-slide="prev" id="btnleft" style="color: white">
 																&lt;&lt;이전
 															</a> 
-															<input type="submit" value="회원가입" id="testFrm" class="btn btn-primary py-3 px-5"
-																style="font-size: 20px; float: right;">
+															<input type="button" value="회원가입" id="testFrm" class="btn btn-primary py-3 px-5" style="font-size: 20px;">
 														</div>
 													</div>
 											</div>
@@ -390,9 +388,9 @@ section {
 		 
 	  $(document).on("click",".addInput",function(){
 		 console.log("태그 추가 이벤트 들어옴")
-     	 var forFlag = $(this).attr("id");
-     	 console.log("id값 왔냐? = " + forFlag);
-     	 if(forFlag==0){
+     	 var strFlag = $(this).attr("id");
+     	 console.log("id값 왔냐? = " + strFlag);
+     	 if(strFlag==0){
      		 console.log("처음 추가")
      		 var innerHtml = "<div class='form-group' style='margin-top:10px;'>"
      		 	+ "<div class='col-md-8'>"
@@ -408,7 +406,7 @@ section {
      		 $("#signUpImg").append(innerHtml);
      		 $("#addBtn0").html("");
      	 }
-     	 else if(forFlag==1){
+     	 else if(strFlag==1){
      		 console.log("2번째 추가 끝")
      		 var innerHtml = "<div class='form-group' style='margin-top:10px;'>"
      		 	+ "<div class='col-md-8'>"
@@ -487,47 +485,84 @@ section {
       resetInputFile($input, $preview);
    }
    // 가게 사진 추가 스크립트 끝
+   
+   
+   $(document).on("click","#testFrm",function(){
+	    var i;
+	    var $menuImgId;
+	    var $stImgId;
+	    var submitCheck = 0;
+		console.log("storeIndex 테스트 = "+storeIndex);
+		for(i=0;i<3;i++){			
+			// var fileCheck1 = document.getElementById("#sf_path"+i);
+			 $stImgId = $("#sf_path"+i);
+			if($stImgId.val()==""){
+				// 파일 등록 X
+				alert("가게 사진 등록은 필수입니다!");
+				// fileCheck1.focus();
+				$stImgId.focus();
+				submitCheck=1;
+				return;
+			}
+			else{
+				// 파일 등록 O
+				console.log("가게쪽 파일 등록 O"+i+"번째")
+				continue;
+			}
+		}
+	
+		if(submitCheck==1){
+			return false;
+		}
+		else{
+			
+			$("#frm").submit();	
+		}
+		
+   })
+   // 가입 신청 직전 이미지들 null 방지 체크
+   
 </script>
 
 <script>
 // 메뉴 태그 추가 이벤트 스크립트
 $(document).on("click",".addMenu",function(){
 	 console.log("메뉴등록 태그 추가 이벤트 들어옴")
-	 var forFlag = this.id.charAt(this.id.length-1);
-	 console.log("id값 왔냐? = " + forFlag + " / 타입? = "+typeof forFlag);
-	 forFlag = Number(forFlag);
-	 forFlag = forFlag+1;
-	 console.log("forFlag 숫자변환 시도 "+ typeof forFlag+ " / 값은? =" +forFlag);
+	 var menuFlag = this.id.charAt(this.id.length-1);
+	 console.log("id값 왔냐? = " + menuFlag + " / 타입? = "+typeof menuFlag);
+	 menuFlag= Number(menuFlag);
+	 menuFlag= menuFlag+1;
+	 console.log("forFlag 숫자변환 시도 "+ typeof menuFlag+ " / 값은? =" +menuFlag);
 	 
 	 var innerHtml = "<div class='col-md-6' style='margin-top:10px;'>"
 	 	+ "<div>"
-	 	+ "<span class='badge badge-pill badge-info addMenu' id='addMenu"+forFlag+"'>메뉴 추가+</span>"
+	 	+ "<span class='badge badge-pill badge-info addMenu' id='addMenu"+menuFlag+"'>메뉴 추가+</span>"
 	 	+ "</div>"
 	 	+ "<div class='col-md-6'>"
-	 	+ "<div id='menuPreview"+forFlag+"'></div></div>"
+	 	+ "<div id='menuPreview"+menuFlag+"'></div></div>"
 	 	+ "<div class='col-md-6'>"
-	 	+ "<div><label for='fm_path"+forFlag+"'>메뉴 사진 등록</label>"
-	 	+ "<input name='fm_path"+forFlag+"' id='fm_path"+forFlag+"' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-menu'>"
+	 	+ "<div><label for='fm_path"+menuFlag+"'>메뉴 사진 등록</label>"
+	 	+ "<input name='fm_path"+menuFlag+"' id='fm_path"+menuFlag+"' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-menu'>"
 		+ "</div>"
 		+ "<div><label>메뉴 이름</label>"
-		+ "<input class='form-control' type='text' id='menu_name"+forFlag+"' name='menu_name"+forFlag+"'>"
+		+ "<input class='form-control' type='text' id='menu_name"+menuFlag+"' name='menu_name"+menuFlag+"'>"
 		+ "<div class='check_font' id='mn_check'></dif></div>"
 		+ "<div><label>메뉴 소개글</label>"
-		+ "<textarea class='form-control' id='menu_info"+forFlag+"' name='menu_info"+forFlag+"'></textarea>"		
+		+ "<textarea class='form-control' id='menu_info"+menuFlag+"' name='menu_info"+menuFlag+"'></textarea>"		
 		+ "<div class='check_font' id='mi_check'></div></div>"
 		+ "<div><label>메뉴 가격</label>"
-		+ "<input class='form-control' type='text' id='menu_price"+forFlag+"' name='menu_price"+forFlag+"'>"
+		+ "<input class='form-control' type='text' id='menu_price"+menuFlag+"' name='menu_price"+menuFlag+"'>"
 		+ "<div class='check_font' id='mp_check'></div></div></div></div>"
 		
 	 	// + "<input class='form-control' type='text' id='menu_info"+forFlag+"' name='menu_info"+forFlag+"'>"
 	 $("#signUpMenu").append(innerHtml);
-	if(forFlag==1){
+	if(menuFlag==1){
 	 	$("#addMenu0").html("");
 	}
 	else{
-		forFlag = Number(forFlag);
-		forFlag = forFlag-1;
-		var $addMenu = $("#addMenu" + forFlag);
+		menuFlag = Number(menuFlag);
+		menuFlag= menuFlag-1;
+		var $addMenu = $("#addMenu" + menuFlag);
 		$addMenu.html("");
 	}
  	})

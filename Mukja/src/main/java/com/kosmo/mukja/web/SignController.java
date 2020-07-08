@@ -117,18 +117,19 @@ public class SignController {
 		MultipartRequest mr = FileUtility.upLoad(req, storePath);
 		
 		// 디비에 넣을 입력 받은 정보들 빼서 맵에 넣기
-		map.put("username", mr.getParameter("username").toString());
+		String username = mr.getParameter("username").toString();
+		map.put("username", username);
 		map.put("password", mr.getParameter("password").toString());
 		map.put("store_name", mr.getParameter("store_name").toString());
 		map.put("store_reginum", mr.getParameter("store_reginum").toString());
 		map.put("store_phnum", mr.getParameter("store_phnum").toString());
 		map.put("store_email", mr.getParameter("store_email").toString());
 		String store_intro = mr.getParameter("store_intro").toString();
-		store_intro.replace("<p>", "").replace("</p>", "");
+		store_intro = store_intro.replace("<p>", "").replace("</p>", "").trim();
 		System.out.println("store_intro 찍어봄 = "+store_intro);
 		map.put("store_intro", store_intro);
 		String store_time = mr.getParameter("store_time").toString();
-		store_time.replace("<p>", "").replace("</p>", "");
+		store_time = store_time.replace("<p>", "").replace("</p>", "").trim();
 		System.out.println("store_time 찍어봄 = "+store_time);
 		map.put("store_time", store_time);
 		map.put("store_lat", mr.getParameter("store_lat").toString());
@@ -138,7 +139,7 @@ public class SignController {
 		store_addr = store_addr+" "+mr.getParameter("store_addrDetail").toString();
 		System.out.println(store_addr + "디비에 들어갈 최종 주소값 정보 출력");
 		map.put("store_addr", store_addr);
-		
+		int result = 0;
 		// 회원가입 정보 및 가게 사진 파일 입력용
 		if(signService.storesignup(map)==1) {
 			for(int i=0;i<3;i++) {
@@ -146,9 +147,14 @@ public class SignController {
 				if(sf_path!=null) {
 					System.out.println("가게 회원가입 사진 인설트하기 직전 파일 경로? = "+sf_path);
 					map.put("sf_path", uploadDir+"/"+sf_path);
-					signService.insertStoreImg22(map);
+					result = signService.insertStoreImg22(map);
 				}
-				else {break;}
+				else {
+					sf_path=null;
+					map.put("sf_path", uploadDir+"/"+sf_path);
+					result = signService.insertStoreImg22(map);
+					break;
+					}
 			}
 		}// 회원 가입 끝
 		
@@ -164,7 +170,6 @@ public class SignController {
 		String menu_tend = mr.getParameter("menu_tend");
 		System.out.println("tend 찍어봄 = "+menu_tend);
 		//menu_tend = menu_tend.substring(0, menu_tend.lastIndexOf(","));
-		String username = mr.getParameter("username").toString();
 		System.out.println("유저네임 찍어봄"+username);
 		map.put("menu_tend", menu_tend);
 		map.put("username", username);
@@ -182,20 +187,28 @@ public class SignController {
 			String menu_price = mr.getParameter("menu_price"+k);
 			map.put("menu_price", menu_price);
 			String fm_path = mr.getFilesystemName("fm_path"+k);
+			if(fm_path==null) {
+				fm_path = "null";
+			}
 			map.put("fm_path", uploadDir+"/"+fm_path);		
 			System.out.println("파일 패스 찍어봄 "+fm_path);
-			signService.foodmenu(map);
+			result = signService.foodmenu(map);
 			
 			FoodMenuDTO dto = signService.getMenuNo(map);
 			map.put("menu_no", dto.getMenu_no().toString());
 			System.out.println(dto.getMenu_no().toString());
-			signService.insertFoodImg(map);
+			result = signService.insertFoodImg(map);
 			k++;
 			}
 			else {
 				j=false;
-			}
+			}		
 		}
+		if(result==1) {
+			map.put("username",username);
+			signService.insertStoreNewTable(map);
+		}// 굳이 조건 안 걸어도 됨.
+		
 		return "/index.tiles";
 	}///////////
 	

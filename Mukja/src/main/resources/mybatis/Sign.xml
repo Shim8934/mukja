@@ -32,6 +32,9 @@
 	<insert id="insertFoodImg22" parameterType="java.util.Map">
 		insert into fm_file values(#{menu_no},#{fm_path},seq_ff.nextval)
 	</insert>
+	<insert id="insertStoreNewTable" parameterType="java.util.Map">
+		insert into reservation values(#{username},'1,1','1-1-w',0,0)
+	</insert>
 	<!-- 가게 회원 가입  끝-->
 	
 	

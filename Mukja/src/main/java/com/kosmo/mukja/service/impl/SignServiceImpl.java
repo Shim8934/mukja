@@ -67,6 +67,12 @@ public class SignServiceImpl implements SignService {
 			return dao.getMenuNo(map);
 		}
 
+		@Override
+		public int insertStoreNewTable(Map map) {
+			// TODO Auto-generated method stub
+			return dao.insertStoreNewTable(map);
+		}
+
 		
 	
 

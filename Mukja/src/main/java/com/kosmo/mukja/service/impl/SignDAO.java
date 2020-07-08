@@ -71,6 +71,12 @@ public class SignDAO implements SignService {
 		return sqlMapper.selectOne("getMenuNo",map);
 	}
 
+	@Override
+	public int insertStoreNewTable(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertStoreNewTable",map);
+	}
+
 
 
 	
