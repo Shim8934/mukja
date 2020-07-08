@@ -286,7 +286,6 @@ $(function(){
                         
                         <div style="margin-bottom: 5px;">
                          <div class="form-group">
-                         	
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">비밀번호:</label>
                             <div class="col-sm-9">
                               <input type="password" placeholder="8~12자리의 영문 대/소문자, 숫자 및 특수문자 조합" class="form-control" name="password" id="password" value="${list[0].password}">
@@ -305,14 +304,12 @@ $(function(){
                             </div>
                           </div>
                         </div>
-                     
-                        
                         <div style="margin-bottom: 5px;">
                          <div class="form-group">
                             <label style="vertical-align:middle;" class="col-sm-3 control-label">주소:</label>
                             <div class="col-sm-9">
 								<a onclick="addr();">
-									<input type="text" class="form-control" id="store_addr" value="${list[0].store_addr}" name="store_addr" placeholder="관심지역을 선택하세요">
+									<input type="text" class="form-control" id="store_addr" value="${list[0].store_addr}" name="store_addr" placeholder="매장 주소를 등록해 주세요.">
 								</a>
 								<input type="hidden" id="store_lat" name="store_lat" value="${list[0].store_lat}"/>
 								<input type="hidden" id="store_lng" name="store_lng" value="${list[0].store_lng}"/>

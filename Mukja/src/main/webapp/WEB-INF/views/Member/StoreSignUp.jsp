@@ -38,7 +38,6 @@ section {
 	background: white;
 	color: red;
 }
-
 .trs {
 	clear: both;
 	float: left;
@@ -47,7 +46,6 @@ section {
 	border: 1px solid skyblue;
 	border-radius: 10px;
 }
-
 .img_size {
 	display: block;
 	width: 50px;
@@ -60,7 +58,6 @@ section {
 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px;
 	background-color: rgb(255, 255, 255);
 }
-
 .lb_size {
 	width: 50px;
 	background-color: white;
@@ -71,7 +68,6 @@ section {
 	margin-top: 5px;
 	text-align: center;
 }
-
 .wrapper {
 	padding-top: 10px;
 	padding-left: 10px;
@@ -91,14 +87,12 @@ section {
 		id='signup' data-stellar-background-ratio="0.5">
 		<div class="overlay"></div>
 		<div class="container">
-			<div
-				class="row no-gutters slider-text align-items-center justify-content-center">
+			<div class="row no-gutters slider-text align-items-center justify-content-center">
 				<div class="col-md-9 ftco-animate text-center">
 					<h1 class="mb-2 bread">회원가입</h1>
 					<p class="breadcrumbs">
-						<span class="mr-2"><a href="index.html">Home <i
-								class="ion-ios-arrow-forward"></i></a></span> <span>Reservation <i
-							class="ion-ios-arrow-forward"></i></span>
+						<span class="mr-2"><a href="index.html">Home <i class="ion-ios-arrow-forward"></i></a></span>
+						<span>Reservation <i class="ion-ios-arrow-forward"></i></span>
 					</p>
 				</div>
 			</div>
@@ -108,9 +102,8 @@ section {
 	<section class="ftco-section ftco-no-pt ftco-no-pb">
 		<div class="container" id='signup2'>
 			<div class="row d-flex">
-				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
-					<form id="frm" action="<c:url value='/StoreSignUp.bbs'/>"
-						method="post" onsubmit="return false;">
+				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5"><!--  onsubmit="return false;"  -->
+					<form id="frm" enctype="multipart/form-data" action="<c:url value='/StoreSignUp.bbs'/>" method="post">
 						<input hidden="hidden" />
 						<!-- 카라셀 -->
 						<div id="carousel-g" class="carousel slide" data-ride="carousel">
@@ -128,9 +121,8 @@ section {
 									<div class="row">
 										<div class="col-md-offset-3 col-md-6">
 											<div class="form-group" id="input">
-												<label for="">아이디</label> <input type="text"
-													class="form-control" id="username" name="username"
-													placeholder="아이디" maxlength="12">
+												<label for="">아이디</label>
+												<input type="text" class="form-control" id="username" name="username" placeholder="아이디" maxlength="12">
 												<div class="check_font" id="id_check"></div>
 											</div>
 										</div>
@@ -185,12 +177,15 @@ section {
 										</div>
 										<div class="col-md-offset-3 col-md-6">
 											<div class="form-group">
-												<label for="">매장 주소</label> <a onclick="addr();"><input
-													type="text" class="form-control" id="store_addr"
-													name="store_addr" placeholder="매장주소를 등록해주세요" readonly="readonly"></a> <input
-													type="hidden" id="store_lat" name="store_lat" value="" />
-												<input type="hidden" id="store_lng" name="store_lng"
-													value="" />
+												<label for="">매장 주소</label>
+												<a onclick="addr();">
+													<input type="text" class="form-control" id="store_addr" name="store_addr"
+												 	placeholder="매장주소를 등록해 주세요">												 	
+											 	</a>
+											 		<input type="text" class="form-control" id="store_addrDetail" name="store_addrDetail"
+												 	placeholder = "나머지 주소를 입력해 주세요.">
+												<input type="hidden" id="store_lat" name="store_lat" value="" />
+												<input type="hidden" id="store_lng" name="store_lng" value="" />
 												<div class="check_font" id="addr_check"></div>
 											</div>
 										</div>
@@ -204,34 +199,32 @@ section {
 								</div>
 								<div class="item">
 									<div class="container" id='signup3'>
-										<div class="row d-flex">
-											<div
-												class="col-md-11 ftco-animate makereservation p-4 p-md-5">
+										<div class="row justify-content-center">
+											<div class="col-md-11 ftco-animate makereservation p-4 p-md-5">
 												<div class="row">
-													<div class="form-group">
-														<div class="cal-md-offset-4 cal-md-8">
-															<label for="">매장 홍보글</label>
-															<textarea id="summernote" name="store_intro"></textarea>
-															<div class="check_font" id="intro_check"></div>
+													<div class="col-md-12">
+														<div class="form-group">
+															<div class=" col-md-6">
+																<label for="">매장 홍보글</label>
+																<textarea id="summernote" name="store_intro"></textarea>
+																<div class="check_font" id="intro_check"></div>
+															</div>
+														</div>
+														<div class="form-group" style="width: 100%">
+															<div class="col-md-6">
+																<label for="">매장 영업시간</label>
+																<span class="ion-ios-arrow-down" id="img"></span>
+																<textarea id="summernote1" name="store_time"></textarea>
+																<div class="check_font" id="time_check"></div>
+															</div>
 														</div>
 													</div>
-													<div class="form-group" style="width: 100%">
-														<div class="cal-md-offset-4 cal-md-8">
-															<label for="">매장 영업시간</label> <span
-																class="ion-ios-arrow-down" id="img"></span>
-															<textarea id="summernote1" name="store_time"></textarea>
-															<div class="check_font" id="time_check"></div>
-														</div>
-													</div>
-													<div class="form-group" style="width: 100%">
-														<div class="cal-md-offset-4 cal-md-8">
-															<label for="">메뉴 등록하기</label> <span
-																class="ion-ios-arrow-down" id="img"></span> <input
-																type="hidden" id="menu_tend" name="menu_tend" />
-
-
+													<div class="col-md-12 text-center" style="margin-top: 10px;">
+														<div class="form-group text-center" style="width: 100%">
+															<label for="">메뉴 등록하기</label>
+															<span class="ion-ios-arrow-down" id="img"></span>
+															<input type="hidden" id="menu_tend" name="menu_tend" />
 															<div class="col-xs-12">
-
 																<div class="col-xs-1">
 																	<!-- 물고기 -->
 																	<img id='T_FS'
@@ -311,50 +304,299 @@ section {
 																</div>
 															</div>
 														</div>
-														<div class="form-group" style="width: 100%">
-
-															<div>
-																<label>메뉴 이름</label> <input class="form-control"
-																	type="text" id="menu_name" name="menu_name">
-																<div class="check_font" id="mn_check"></div>
+													</div>
+													<div class="col-md-12" id="signUpImg" style="margin-top: 10px;margin-bottom: 20px;">
+														<div class="form-group" style="margin-top:10px;">
+															<div class="col-md-8">
+																<div id="preview0"></div>
 															</div>
-															<div>
-																<label>메뉴 소개글</label> <input class="form-control"
-																	type="text" id="menu_info" name="menu_info">
-																<div class="check_font" id="mi_check"></div>
+															<div class="col-md-4">
+																<label for="sf_path0">가게 사진 등록</label>
+																<input name="sf_path0" id="sf_path0" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control-file inp-img">
+																<div class="col-md-12 text-center" id="addBtn0">
+																	<span class="badge badge-pill badge-info addInput" id="0">
+																		사진 추가+
+																	</span>
+																</div>
 															</div>
-															<div>
-																<label>메뉴 가격</label> <input class="form-control"
-																	type="text" id="menu_price" name="MENU_price">
-																<div class="check_font" id="mp_check"></div>
-															</div>
-
 														</div>
+													</div>
+													<div class="col-md-12" style="margin-top: 10px;">
+														<div class="form-group" style="width: 100%" id="signUpMenu">
+														<div class="col-md-6" style="margin-top: 10px">
+															<div>
+																<span class="badge badge-pill badge-info addMenu" id="addMenu0">
+																	메뉴 추가+
+																</span>
+															</div>
+															<div class="col-md-6">
+																<div id="menuPreview0"></div>
+															</div>
+															<div class="col-md-6">
+																<div>
+																	<label for="fm_path0">메뉴 사진 등록</label>
+																	<input name="fm_path0" id="fm_path0" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control-file inp-menu">
+																</div>
+																<div>
+																	<label>메뉴 이름</label>
+																	<input class="form-control" type="text" id="menu_name0" name="menu_name0">
+																	<div class="check_font" id="mn_check"></div>
+																</div>
+																<div>
+																	<label>메뉴 소개글</label>
+																	<textarea class="form-control" id="menu_info0" name="menu_info0"></textarea>
+																	<!-- <input class="form-control" type="text" id="menu_info0" name="menu_info0"> -->
+																	<div class="check_font" id="mi_check"></div>
+																</div>
+																<div>
+																	<label>메뉴 가격</label>
+																	<input class="form-control" type="text" id="menu_price0" name="menu_price0">
+																	<div class="check_font" id="mp_check"></div>
+																</div>
+															</div>
+														</div>
+														</div>
+													</div>
+													<div class="col-md-12 justify-content-right" style="margin-top: 10px;">
 														<div class="form-group">
 															<a class="btn btn-primary py-3 px-5" href="#carousel-g"
-																data-slide="prev" id="btnleft" style="color: white">&lt;&lt;
-																이전</a> <input type="submit" value="회원가입"
-																class="btn btn-primary py-3 px-5"
+																data-slide="prev" id="btnleft" style="color: white">
+																&lt;&lt;이전
+															</a> 
+															<input type="submit" value="회원가입" id="testFrm" class="btn btn-primary py-3 px-5"
 																style="font-size: 20px; float: right;">
 														</div>
 													</div>
-												</div>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div>	
+					</div>
 					</form>
 				</div>
 			</div>
 		</div>
 	</section>
-	<script
-		src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script
-		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
-	<script><!--섬머노트 생성 js-->
+	
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
+
+<script>
+// 가게 사진 스크립트
+	$(function(){
+		 console.log('htmlfile 밑')
+		 
+	  $(document).on("click",".addInput",function(){
+		 console.log("태그 추가 이벤트 들어옴")
+     	 var forFlag = $(this).attr("id");
+     	 console.log("id값 왔냐? = " + forFlag);
+     	 if(forFlag==0){
+     		 console.log("처음 추가")
+     		 var innerHtml = "<div class='form-group' style='margin-top:10px;'>"
+     		 	+ "<div class='col-md-8'>"
+     		 	+ "<div id='preview1'></div></div>"
+     		 	+ "<div class='col-md-4'>"
+     		 	+ "<label for = 'sf_path1'>가게 사진 등록</label>"
+     		 	+ "<input name = 'sf_path1' id = 'sf_path1' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-img'>"
+     		 	+ "<div class='col-md-12 text-center' id= 'addBtn1'>"
+     		 	+ "<span class='badge badge-pill badge-info addInput' id='1'>"
+     		 	+ "사진 추가+"
+     		 	+ "</span></div></div></div>"
+     			 
+     		 $("#signUpImg").append(innerHtml);
+     		 $("#addBtn0").html("");
+     	 }
+     	 else if(forFlag==1){
+     		 console.log("2번째 추가 끝")
+     		 var innerHtml = "<div class='form-group' style='margin-top:10px;'>"
+     		 	+ "<div class='col-md-8'>"
+     		 	+ "<div id='preview2'></div></div>"
+     		 	+ "<div class='col-md-4'>"
+     		 	+ "<label for = 'sf_path2'>가게 사진 등록</label>"
+     		 	+ "<input name = 'sf_path2' id = 'sf_path2' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-img'>"
+     		 	+ "</div></div>"
+     		 $("#signUpImg").append(innerHtml);
+     		$("#addBtn1").html("");
+     	 }  
+      })
+      // 인풋박스 끝
+		
+		
+	})
+	
+	 var storeIndex;
+
+   $(document).on("change",".inp-img",function() {
+       console.log("this 찍어봄   " + this);
+       console.log("this.id 찍어봄   " + this.id);
+       console.log("this.name 찍어봄   " + this.name);
+       storeIndex = this.id.charAt(this.id.length-1);
+       console.log("storeIndex는? " + storeIndex)
+       readInputFile(this);
+       //등록 이미지 등록 미리보기
+       function readInputFile(input) {
+          console.log('미리 보기 시작')
+          if (input.files && input.files[0]) {
+             var reader = new FileReader();
+             console.log('파일 배열 찍어봄[0]   ' + input.files[0]);
+             console.log('id 찍어봄    ' + input.id);
+             console.log('name 찌거봄    ' + input.name);
+             reader.onload = function(e) {
+                $("#preview" + storeIndex)
+                      .html(
+                            "<a href=\"javascript:void(0);\" onclick=\"deleteImage3()\" id=\"'storeImg_id"
+                                  + storeIndex
+                                  + "\"'><img src="
+                                  + e.target.result
+                                  + " style='width:100%;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
+             }
+             reader.readAsDataURL(input.files[0]);
+          }
+       }
+   })
+
+   // 등록 이미지 삭제 ( input file reset )
+   var resetInputFile = function($input, $preview) {
+      console.log('사진 클릭해서 지움')
+
+      var agent = navigator.userAgent.toLowerCase();
+      if ((navigator.appName == 'Netscape' && navigator.userAgent
+            .search('Trident') != -1)
+            || (agent.indexOf("msie") != -1)) {
+         // ie 일때
+         $input.replaceWith($input.clone(true));
+         $preview.empty();
+      } else {
+         //other
+         $input.val("");
+         $preview.empty();
+      }
+   }
+
+   var deleteImage3 = function() {
+      console.log(storeIndex + "콘솔로 인덱스 찍기")
+      var img_id = "#storeImg_id" + storeIndex;
+      $(img_id).remove();
+      var $input = $("#sf_path" + storeIndex);
+      var $preview = $("#preview" + storeIndex);
+      console.log("지운 사진 id?  " + img_id)
+      console.log("지운 사진 input?  " + $input)
+      console.log("지운 사진 preview?  " + $preview)
+      resetInputFile($input, $preview);
+   }
+   // 가게 사진 추가 스크립트 끝
+</script>
+
+<script>
+// 메뉴 태그 추가 이벤트 스크립트
+$(document).on("click",".addMenu",function(){
+	 console.log("메뉴등록 태그 추가 이벤트 들어옴")
+	 var forFlag = this.id.charAt(this.id.length-1);
+	 console.log("id값 왔냐? = " + forFlag + " / 타입? = "+typeof forFlag);
+	 forFlag = Number(forFlag);
+	 forFlag = forFlag+1;
+	 console.log("forFlag 숫자변환 시도 "+ typeof forFlag+ " / 값은? =" +forFlag);
+	 
+	 var innerHtml = "<div class='col-md-6' style='margin-top:10px;'>"
+	 	+ "<div>"
+	 	+ "<span class='badge badge-pill badge-info addMenu' id='addMenu"+forFlag+"'>메뉴 추가+</span>"
+	 	+ "</div>"
+	 	+ "<div class='col-md-6'>"
+	 	+ "<div id='menuPreview"+forFlag+"'></div></div>"
+	 	+ "<div class='col-md-6'>"
+	 	+ "<div><label for='fm_path"+forFlag+"'>메뉴 사진 등록</label>"
+	 	+ "<input name='fm_path"+forFlag+"' id='fm_path"+forFlag+"' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-menu'>"
+		+ "</div>"
+		+ "<div><label>메뉴 이름</label>"
+		+ "<input class='form-control' type='text' id='menu_name"+forFlag+"' name='menu_name"+forFlag+"'>"
+		+ "<div class='check_font' id='mn_check'></dif></div>"
+		+ "<div><label>메뉴 소개글</label>"
+		+ "<textarea class='form-control' id='menu_info"+forFlag+"' name='menu_info"+forFlag+"'></textarea>"		
+		+ "<div class='check_font' id='mi_check'></div></div>"
+		+ "<div><label>메뉴 가격</label>"
+		+ "<input class='form-control' type='text' id='menu_price"+forFlag+"' name='menu_price"+forFlag+"'>"
+		+ "<div class='check_font' id='mp_check'></div></div></div></div>"
+		
+	 	// + "<input class='form-control' type='text' id='menu_info"+forFlag+"' name='menu_info"+forFlag+"'>"
+	 $("#signUpMenu").append(innerHtml);
+	if(forFlag==1){
+	 	$("#addMenu0").html("");
+	}
+	else{
+		forFlag = Number(forFlag);
+		forFlag = forFlag-1;
+		var $addMenu = $("#addMenu" + forFlag);
+		$addMenu.html("");
+	}
+ 	})
+ 	// 메뉴 인풋박스 끝
+	
+ 	 var menuIndex;
+
+   $(document).on("change",".inp-menu",function() {
+       console.log("this 찍어봄   " + this);
+       console.log("this.id 찍어봄   " + this.id);
+       console.log("this.name 찍어봄   " + this.name);
+       menuIndex = this.id.charAt(this.id.length-1);
+       console.log("storeIndex는? " + menuIndex)
+       readInputFile(this);
+       //등록 이미지 등록 미리보기
+       function readInputFile(input) {
+          console.log('미리 보기 시작')
+          if (input.files && input.files[0]) {
+             var reader = new FileReader();
+             console.log('파일 배열 찍어봄[0]   ' + input.files[0]);
+             console.log('id 찍어봄    ' + input.id);
+             console.log('name 찌거봄    ' + input.name);
+             reader.onload = function(e) {
+                $("#menuPreview" + menuIndex)
+                      .html(
+                            "<a href=\"javascript:void(0);\" onclick=\"deleteImage2()\" id=\"'foodImg_id"
+                                  + menuIndex
+                                  + "\"'><img src="
+                                  + e.target.result
+                                  + " style='width:100%;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
+             }
+             reader.readAsDataURL(input.files[0]);
+          }
+       }
+   })
+
+   // 등록 이미지 삭제 ( input file reset )
+   var resetInputFile = function($input, $preview) {
+      console.log('사진 클릭해서 지움')
+
+      var agent = navigator.userAgent.toLowerCase();
+      if ((navigator.appName == 'Netscape' && navigator.userAgent
+            .search('Trident') != -1)
+            || (agent.indexOf("msie") != -1)) {
+         // ie 일때
+         $input.replaceWith($input.clone(true));
+         $preview.empty();
+      } else {
+         //other
+         $input.val("");
+         $preview.empty();
+      }
+   }
+
+   var deleteImage2 = function() {
+      console.log(menuIndex + "콘솔로 인덱스 찍기")
+      var img_id = "#foodImg_id" + menuIndex;
+      $(img_id).remove();
+      var $input = $("#fm_path" + menuIndex);
+      var $preview = $("#menuPreview" + menuIndex);
+      console.log("지운 사진 id?  " + img_id)
+      console.log("지운 사진 input?  " + $input)
+      console.log("지운 사진 preview?  " + $preview)
+      resetInputFile($input, $preview);
+   }
+ 	
+</script>
+
+<script><!--섬머노트 생성 js-->
 	$('#summernote').summernote({
 		placeholder: '가게 소개를 적어주세요',
 		tabsize: 2,
@@ -370,7 +612,7 @@ section {
 $(".note-insert").empty();
 $(".note-view").empty();
 </script>
-	<script><!--주소를 좌표로 변환하는 js-->
+<script><!--주소를 좌표로 변환하는 js-->
     function addr() {
     	var geocoder = new daum.maps.services.Geocoder();
     	var width = 400; 
@@ -411,11 +653,11 @@ ertend_codes.forEach(function(ele,index){
 					
 					if(eles.indexOf(ele)==-1){
 						eles+=ele;
-					    $('#MENU_TEND').attr('value',eles+',');
+					    $('#menu_tend').attr('value',eles+',');
 					}
 					else{
 						eles+='';
-						$('#MENU_TEND').attr('value',eles);
+						$('#menu_tend').attr('value',eles);
 					}
 			}
 			else {
@@ -427,7 +669,7 @@ ertend_codes.forEach(function(ele,index){
 				else{
 					console.log('여기2')
 					var a=eles.replace(ele+',','')
-					$('#MENU_TEND').attr('value',a);
+					$('#menu_tend').attr('value',a);
 				}
 			}
 		})
@@ -526,7 +768,6 @@ $("#passwordok").blur(function() {
 		$('#passwordok_check').css('color', 'red');
 	}
 });
-
 // 이메일 검사 하기
 var email = $("#store_email").val();
 $("#store_email").keyup(function() {
@@ -551,8 +792,6 @@ $("#store_email").blur(function() {
 		$('#email_check').text("") 
 	}
 });
-
-
 //사업자 등록번호 검사 하기
 var reginum=$("#store_reginum").val();
 $("#store_reginum").keyup(function() {
@@ -573,7 +812,6 @@ $("#store_reginum").keyup(function() {
 			$('#reginum_check').css('color', 'red');
 		}		
 });
-
 $("#store_reginum").blur(function() {	
 	if(reginum==""){
 		$('#reginum_check').text('사업자 등록번호를 입력해주세요');
@@ -588,7 +826,6 @@ $("#store_reginum").blur(function() {
 	}
 	
 });
-
 //가게이름 검사하기
 var store_name=$("#store_name").val();
 $("#store_name").keyup(function() {
@@ -607,7 +844,6 @@ $("#store_name").blur(function() {
 		$('#name_check').css('color', 'red');
 	}
 });
-
 //매장연락처 검사하기
 var store_phnum=$("#store_phnum").val();
 $("#store_phnum").keyup(function() {
@@ -639,9 +875,10 @@ $("#store_phnum").blur(function() {
 	}
 });
 
-var addrs=$("#store_addr").val();
+
 
 function nullval() {
+	var addrs=$("#store_addr").val();
 	if(username=='' || password==''|| passwordok=='' || email=='' || reginum=='' || store_name=='' || store_phnum=='' || addrs==''){
 		if(username==""){$('#username').focus()}
 		
@@ -657,12 +894,15 @@ function nullval() {
 		
 		else if(store_phnum==""){$('#store_phnum').focus()}
 		
-		else {$('#addr_check').text("주소를 등록하세요")
+		else {
+			console.log("주소 오류에 들어옴")
+			$('#addr_check').text("주소를 등록하세요")
 			$('#addr_check').css('color', 'red');
 		}		
 	}
 	
 	else{
+		console.log("다음 버튼 눌러서 모달 띄우기 직전")
 		$('#btnright').attr('href','#carousel-g');
 	}
 }	
@@ -672,7 +912,7 @@ function nullval() {
 
 
 
-	<script>
+<script>
 	document.addEventListener('keydown', function(event) {
 	    if (event.keyCode === 13) {
 	        event.preventDefault();

@@ -357,7 +357,6 @@
 							</div>
 						</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
-							
 								<label for="sf_path" class="col-sm-2 col-form-label">사진등록</label>
 								<div id="fileList" class="col-sm-10">									
 									<small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small>

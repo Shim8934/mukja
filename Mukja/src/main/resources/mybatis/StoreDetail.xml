@@ -53,16 +53,23 @@
      <select id="getStoreThumb" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_thumb where store_id=#{username}
     </select>
-        <select id="isThumb" parameterType="java.util.Map" resultType="int">
+    <select id="isThumb" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_thumb where store_id=#{username} and user_id=#{user_id}
     </select>
     
+    <!-- 가게 정보 / 사진 수정용 -->
     <select id="selectFoodImg" parameterType="java.util.Map" resultType="storeDTO">
     	select fm.*,ff.fm_path from foodmenu fm join fm_file ff on fm.menu_no = ff.menu_no where fm.username = #{username}
     </select>
-    
-    
-    
+    <update id="updateStoreInfo" parameterType="java.util.Map">
+    	update stores set password = #{password}, store_addr = #{store_addr}, store_phnum = #{store_phnum}, store_email = #{store_email}, store_time = #{store_time}, store_lat = #{store_lat}, store_lng = #{store_lng}, store_intro = #{store_intro} where username = #{username}
+    </update>
+    <update id="updateStoreImg" parameterType="java.util.Map">
+    	update store_file set sf_path = #{sf_path} where sf_no = #{sf_no}
+    </update>
+    <insert id="insertStoreImg" parameterType="java.util.Map">
+    	insert into store_file values(SEQ_SF.nextval,#{username},#{sf_path})
+    </insert>
     
     <!-- 리뷰 쓰기 -->
     <insert id="insertReview" parameterType="java.util.Map">
@@ -71,9 +78,10 @@
     <update id="updateReview" parameterType="java.util.Map">
      	UPDATE storereview set (rv_title=#{rv_title}, rv_content={rv_content}) where rv_no=#{rv_no}
     </update>
-    <update id="deleteReview" parameterType="java.util.Map">
+    <delete id="deleteReview" parameterType="java.util.Map">
      	DELETE storereview WHERE where rv_no=#{rv_no}
-    </update>
+    </delete>
+    
     
     
     <!-- 리뷰 가져오기-->
