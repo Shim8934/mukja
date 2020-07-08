@@ -1,13 +1,57 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <script type="text/javascript">
-$(function(){
-  $('#img').click(function() {
-		console.log('여기')
-	  $('.trs').slideToggle(300)
-})
-});
+
+	$(function(){
+	  $('#img').click(function() {
+			console.log('여기')
+		  $('.trs').slideDown(300)
+	})
+	
+	//등록 이미지 등록 미리보기
+	function readInputFile(input) {
+	    if(input.files && input.files[0]) {
+	        var reader = new FileReader();
+	        reader.onload = function (e) {
+	        	console.log(e.target.result +'     파일 읽어오기');
+	            $('#preview').html("<img src="+ e.target.result +">");
+	        }
+	        reader.readAsDataURL(input.files[0]);
+	    }
+	}
+	 
+	$(".inp-img").on('change', function(){
+	    readInputFile(this);
+	});
+	 
+	 
+	// 등록 이미지 삭제 ( input file reset )
+	function resetInputFile($input, $preview) {
+	    var agent = navigator.userAgent.toLowerCase();
+	    if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
+	        // ie 일때
+	        $input.replaceWith($input.clone(true));
+	        $preview.empty();
+	    } else {
+	        //other
+	        $input.val("");
+	        $preview.empty();
+	    }       
+	}
+	 
+	$(".btn-danger").click(function(event) {
+	    var $input = $(".inp-img");
+	    var $preview = $('#preview');
+	    resetInputFile($input, $preview);
+	});
+	
+	});
+
+
+
+
 </script>
 
 <style type="text/css">
@@ -80,7 +124,6 @@ section {
 </style>
 
 
-
 </head>
 <body>
 	<!-- 인증되지 않은 모든 사용자인 경우:로그인 폼 보여주기 -->
@@ -104,11 +147,14 @@ section {
 		</div>
 	</section>
 	<section class="ftco-section ftco-no-pt ftco-no-pb">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+	
 		<div class="container" id='signup'>
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
-					<form action="<c:url value='/StoreSignUp.bbs'/>" method="post">
+					<form action="<c:url value='/UpdateMyInfo.bbs'/>" method="post">
 						<div class="row">
+							<input type="hidden" name="user_id" value="${userInfo.username}">
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group" id="input">
 									<label for="">아이디</label> <input type="text"
@@ -120,8 +166,8 @@ section {
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<label for="">비밀번호</label> <input type="password"
-										class="form-control" id="password" name="password"
-										placeholder="비밀번호" value="${userInfo.password}" />
+										class="form-control" id="password" name="password" value="${userInfo.password}"
+										placeholder="비밀번호"/>
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">
@@ -187,8 +233,8 @@ section {
 							</div>
 							<div class="col-md-offset-3 col-md-6">
                         <div class="form-group">
-                           <label for="">골라먹자 필터 지정하기</label> <span
-                              class="ion-ios-arrow-down" id="img"></span>
+                           <label for="">골라먹자 필터 지정하기</label> 
+                           <span class="ion-ios-arrow-down" id="img"></span>
 
                         </div>
                         <div class="col-md-12 trs" style="display: none;">
@@ -298,18 +344,18 @@ section {
    </section>
 
 
-   <script
-      src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-   <script
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
-   <script>
+ 
+
+	<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+	<script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=be8b4c494b923442e4a549fa1dd7f645&libraries=services"></script>
+	<script>
     function addr() {
-       var geocoder = new daum.maps.services.Geocoder();
-       var width = 400; 
-       var height = 500;
+    	var geocoder = new daum.maps.services.Geocoder();
+    	var width = 400; 
+    	var height = 500;
         new daum.Postcode({
-            width: width,
-            height: height,
+        	 width: width,
+ 		     height: height,
              oncomplete: function(data) {
                 var addr = data.address; // 최종 주소 변수
                 // 주소 정보를 해당 필드에 넣는다.
@@ -327,313 +373,333 @@ section {
                 });
             }
         }).open({
-           left: (window.screen.width/2)-(width / 2),
-           top: (window.screen.height/2)-(height / 2)
-       });
+	        left: (window.screen.width/2)-(width / 2),
+	        top: (window.screen.height/2)-(height / 2)
+	    });
     }
 </script>
 	<script><!--첨가된 음식종류 js-->
-		var ertend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
-		ertend_codes.forEach(function(ele,index){
-		      $('#T_'+ele).click(function() {
-		         var eles = document.getElementById('menu_tend').value
-		         if($('#T_'+ele).attr('src').includes('_o')){
-		            console.log('여기') $('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_o","_x"));
-		               
-		               if(eles.indexOf(ele)==-1){
-		                  eles+=ele;
-		                   $('#menu_tend').attr('value',eles+',');
-		               }
-		               else{
-		                  eles+='';
-		                  $('#menu_tend').attr('value',eles);
-		               }
-		         }
-		         else {
-		            $('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
-		            
-		            if(eles.indexOf(ele)==-1){
-		               console.log('여기1')
-		            }
-		            else{
-		               console.log('여기2')
-		               var a=eles.replace(ele+',','')
-		               $('#menu_tend').attr('value',a);
-		            }
-		         }
-		      })
-		});
+var ertend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
+ertend_codes.forEach(function(ele,index){
+		$('#T_'+ele).click(function() {
+			var eles = document.getElementById('menu_tend').value
+			if($('#T_'+ele).attr('src').includes('_o')){
+				console.log('여기')
+				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_o","_x"));
+					
+					if(eles.indexOf(ele)==-1){
+						eles+=ele;
+					    $('#menu_tend').attr('value',eles+',');
+					}
+					else{
+						eles+='';
+						$('#menu_tend').attr('value',eles);
+					}
+			}
+			else {
+				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
+				
+				if(eles.indexOf(ele)==-1){
+					console.log('여기1')
+				}
+				else{
+					console.log('여기2')
+					var a=eles.replace(ele+',','')
+					$('#menu_tend').attr('value',a);
+				}
+			}
+		})
+});
 </script>
 
 	<script><!--유효성 검사 하기-->
 // 아이디 유효성 검사(1 = 중복 / 0 != 중복)
-      //모든 공백 체크 정규식
-      var empJ = /\s/g;
-      //아이디 정규식
-      var idJ = /^[a-z0-9]{4,12}$/;
-      // 비밀번호 정규식
-      var pwJ = /^[A-Za-z0-9]{6,12}$/; 
-      // 이메일 검사 정규식
-      var mailJ = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
-      // 휴대폰 번호 정규식
-      var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
-      // 사업자 등록번호 정규식
-      var regJ = /^[0-9]{1,10}$/;
-      // 전화번호 정규식
-      var numJ = /^[0-9]{1,12}$/;
-      
-   
-   
-      
-      
-      
-//       id 유효성 검사 하기
+		//모든 공백 체크 정규식
+		var empJ = /\s/g;
+		//아이디 정규식
+		var idJ = /^[a-z0-9]{4,12}$/;
+		// 비밀번호 정규식
+		var pwJ = /^[A-Za-z0-9]{6,12}$/; 
+		// 이메일 검사 정규식
+		var mailJ = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+		// 휴대폰 번호 정규식
+		var phoneJ = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/;
+		// 사업자 등록번호 정규식
+		var regJ = /^[0-9]{1,10}$/;
+		// 전화번호 정규식
+		var numJ = /^[0-9]{1,12}$/;
+// 		id 유효성 검사 하기
 var username = $('#username').val();
-      $('#username').keyup(function() {
-      username = $('#username').val();
-      $.ajax({
-         url : "",
-         data:  {"username":username},
-         dataType: 'json',
-         success : function(data) {         
-            if (data==1) {
-                  // 1 : 아이디가 중복되는 문구
-                  $("#id_check").text("사용중인 아이디입니다");
-                  $("#id_check").css("color", "red");
-               } 
-            else {
-                  if(idJ.test(username)){
-                     // 0 : 아이디 길이 / 문자열 검사
-                     $("#id_check").text("");
-                  } 
-                  else {
-                     $('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다");
-                     $('#id_check').css('color', 'red');   
-                  }
-               }
-            }, error : function() {console.log("실패");}
-      });
-   });
-$("#username").blur(function() {   
+		$('#username').keyup(function() {
+		username = $('#username').val();
+		$.ajax({
+			url : "",
+			data:  {"username":username},
+			dataType: 'json',
+			success : function(data) {			
+				if (data==1) {
+						// 1 : 아이디가 중복되는 문구
+						$("#id_check").text("사용중인 아이디입니다");
+						$("#id_check").css("color", "red");
+					} 
+				else {
+						if(idJ.test(username)){
+							// 0 : 아이디 길이 / 문자열 검사
+							$("#id_check").text("");
+						} 
+						else {
+							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다");
+							$('#id_check').css('color', 'red');	
+						}
+					}
+				}, error : function() {console.log("실패");}
+		});
+	});
+$("#username").blur(function() {	
 if (username==""){
-   $('#id_check').text('아이디를 입력해주세요')
-   $('#id_check').css('color', 'red');
+	$('#id_check').text('아이디를 입력해주세요')
+	$('#id_check').css('color', 'red');
 }
-});   
+});	
 // 비밀번호 검사 하기
 var password=$("#password").val();
 $("#password").keyup(function() {
-   password=$("#password").val();
-      if(pwJ.test(password)){
-         $('#password_check').text("")
-      } 
-      else{
-         $('#password_check').text('숫자나 문자로 6~12자리  입력해주세요')
-         $('#password_check').css('color', 'red');
-      }   
+	password=$("#password").val();
+		if(pwJ.test(password)){
+			$('#password_check').text("")
+		} 
+		else{
+			$('#password_check').text('숫자나 문자로 6~12자리  입력해주세요')
+			$('#password_check').css('color', 'red');
+		}	
 });
 $("#password").blur(function() {
-   if (password==""){
-      $('#password_check').text('비밀번호를 입력해주세요')
-      $('#password_check').css('color', 'red');
-   }
+	if (password==""){
+		$('#password_check').text('비밀번호를 입력해주세요')
+		$('#password_check').css('color', 'red');
+	}
 });
 var passwordok= $('#passwordok').val();
-$("#passwordok").keyup(function() {   
-   passwordok = $(this).val();
-      if(password == passwordok){ 
-         $('#passwordok_check').text("") 
-         } 
-      else{
-         $('#passwordok_check').text('비밀번호가 일치 하지 않습니다.')
-         $('#passwordok_check').css('color', 'red');
-      }   
+$("#passwordok").keyup(function() {	
+	passwordok = $(this).val();
+		if(password == passwordok){ 
+			$('#passwordok_check').text("") 
+			} 
+		else{
+			$('#passwordok_check').text('비밀번호가 일치 하지 않습니다.')
+			$('#passwordok_check').css('color', 'red');
+		}	
 });
 
 // 이메일 검사 하기
 var email = $("#store_email").val();
 $("#store_email").keyup(function() {
-      email = $("#store_email").val();
-      if(mailJ.test(email)){
-         $('#email_check').text("") 
-      }
-      else{
-         $('#email_check').text('이메일 형식이 아닙니다.');
-         $('#email_check').css('color', 'red');
-      }   
+		email = $("#store_email").val();
+		if(mailJ.test(email)){
+			$('#email_check').text("") 
+		}
+		else{
+			$('#email_check').text('이메일 형식이 아닙니다.');
+			$('#email_check').css('color', 'red');
+		}	
 });
-$("#store_email").blur(function() {   
-   if (email==""){
-      $('#email_check').text('이메일을 입력해주세요');
-      $('#email_check').css('color', 'red');
-   }else{
-      $('#email_check').text("") 
-   }
+$("#store_email").blur(function() {	
+	if (email==""){
+		$('#email_check').text('이메일을 입력해주세요');
+		$('#email_check').css('color', 'red');
+	}else{
+		$('#email_check').text("") 
+	}
 });
 
 
 //사업자 등록번호 검사 하기
 var reginum=$("#store_reginum").val();
 $("#store_reginum").keyup(function() {
-   reginum=$("#store_reginum").val();
-      if(regJ.test(reginum)){ 
-         $('#reginum_check').text("")
-      }
-      else{
-         $('#reginum_check').text('숫자를 입력해주세요');
-         $('#reginum_check').css('color', 'red');
-      }
-      
-      if(reginum.length>10){
-         console.log("여기")
-         var result = reginum.substring(0, 10)
-         $("#store_reginum").val(result);
-         $('#reginum_check').text('사업자 등록번호는 10자리입니다.');
-         $('#reginum_check').css('color', 'red');
-      }      
+	reginum=$("#store_reginum").val();
+		if(regJ.test(reginum)){ 
+			$('#reginum_check').text("")
+		}
+		else{
+			$('#reginum_check').text('숫자를 입력해주세요');
+			$('#reginum_check').css('color', 'red');
+		}
+		
+		if(reginum.length>10){
+			console.log("여기")
+			var result = reginum.substring(0, 10)
+			$("#store_reginum").val(result);
+			$('#reginum_check').text('사업자 등록번호는 10자리입니다.');
+			$('#reginum_check').css('color', 'red');
+		}		
 });
 
-$("#store_reginum").blur(function() {   
-   if(reginum==""){
-      $('#reginum_check').text('사업자 등록번호를 입력해주세요');
-      $('#reginum_check').css('color', 'red');
-   }
-   else if(reginum.length<10){
-      $('#reginum_check').text('사업자 등록번호는 10자리입니다.');
-      $('#reginum_check').css('color', 'red');
-   }
-   else{
-      $('#reginum_check').text("")
-   }
-   
+$("#store_reginum").blur(function() {	
+	if(reginum==""){
+		$('#reginum_check').text('사업자 등록번호를 입력해주세요');
+		$('#reginum_check').css('color', 'red');
+	}
+	else if(reginum.length<10){
+		$('#reginum_check').text('사업자 등록번호는 10자리입니다.');
+		$('#reginum_check').css('color', 'red');
+	}
+	else{
+		$('#reginum_check').text("")
+	}
+	
 });
 
 //가게이름 검사하기
 var store_name=$("#store_name").val();
 $("#store_name").keyup(function() {
-   store_name=$("#store_name").val();
-   if (store_name==""){
-      $('#name_check').text('매장 명을 입력해주세요')
-      $('#name_check').css('color', 'red');
-   }
-   else{
-      $('#name_check').text("")
-   }
+	store_name=$("#store_name").val();
+	if (store_name==""){
+		$('#name_check').text('매장 명을 입력해주세요')
+		$('#name_check').css('color', 'red');
+	}
+	else{
+		$('#name_check').text("")
+	}
 });
 $("#store_name").blur(function() {
-   if (store_name==""){
-      $('#name_check').text('매장 명을 입력해주세요')
-      $('#name_check').css('color', 'red');
-   }
+	if (store_name==""){
+		$('#name_check').text('매장 명을 입력해주세요')
+		$('#name_check').css('color', 'red');
+	}
 });
 
 //매장연락처 검사하기
 var store_phnum=$("#store_phnum").val();
 $("#store_phnum").keyup(function() {
-   store_phnum=$("#store_phnum").val();
-   if (numJ.test(store_phnum)){
-      $('#phnum_check').text('')
-   }
-   else if(store_phnum==""){
-      $('#phnum_check').text('매장 전화번호를 입력해주세요')
-      $('#phnum_check').css('color', 'red');
-   }
-   else if(store_phnum.length>12){
-      $('#phnum_check').text("전화번호 형식이 아닙니다.")
-      $('#phnum_check').css('color', 'red');
-      }
-   else{
-      $('#phnum_check').text("숫자만 입력해주세요")
-      $('#phnum_check').css('color', 'red');
-   }
+	store_phnum=$("#store_phnum").val();
+	if (numJ.test(store_phnum)){
+		$('#phnum_check').text('')
+	}
+	else if(store_phnum==""){
+		$('#phnum_check').text('매장 전화번호를 입력해주세요')
+		$('#phnum_check').css('color', 'red');
+	}
+	else if(store_phnum.length>12){
+		$('#phnum_check').text("전화번호 형식이 아닙니다.")
+		$('#phnum_check').css('color', 'red');
+		}
+	else{
+		$('#phnum_check').text("숫자만 입력해주세요")
+		$('#phnum_check').css('color', 'red');
+	}
 });
 $("#store_phnum").blur(function() {
-   if (store_phnum==""){
-      $('#phnum_check').text('매장 전화번호을 입력해주세요')
-      $('#phnum_check').css('color', 'red');
-   }
-   else if (store_phnum.length<12){
-      $('#phnum_check').text("전화번호 형식이 아닙니다.")
-      $('#phnum_check').css('color', 'red');
-   }
+	if (store_phnum==""){
+		$('#phnum_check').text('매장 전화번호을 입력해주세요')
+		$('#phnum_check').css('color', 'red');
+	}
+	else if (store_phnum.length<12){
+		$('#phnum_check').text("전화번호 형식이 아닙니다.")
+		$('#phnum_check').css('color', 'red');
+	}
 });
 
 function nullval() {
-   if(username=='' || password=='' || email=='' || reginum=='' || store_name=='' || store_phnum=='' || store_addr=='' || passwordok==''){
-      console.log('여기')
-   }
-   else{
-      $('#btnright').attr('href','#carousel-g');
-   }
-}   
+	if(username=='' || password=='' || email=='' || reginum=='' || store_name=='' || store_phnum=='' || store_addr=='' || passwordok==''){
+		console.log('여기')
+	}
+	else{
+		$('#btnright').attr('href','#carousel-g');
+	}
+}	
 </script>
 
-<script>
-   document.addEventListener('keydown', function(event) {
-       if (event.keyCode === 13) {
-           event.preventDefault();
-       }
-   }, true);
+	<script>
+	document.addEventListener('keydown', function(event) {
+	    if (event.keyCode === 13) {
+	        event.preventDefault();
+	    }
+	}, true);
 </script>
-<script>
+	<script>
 var dice;
 var sss;
-function mail() {
-   
-   var username = $("#username").val();
-   console.log(username)
-   $.ajax({
-      url : "<c:url value='/mailCheck.bbs'/>",
-      type: "POST",
-      data:  {"username":username},
-      dataType: 'json',
-      success : function(data) {
-         alert("인증메일이 전송되었습니다!")
-         dice = data.dice;
-         var mm=1;
-         var ss=2;
-      var conter=setInterval(function(){
-            
-            var time_text = mm+':'+ss+'초';
-            $("#dice_check").text(time_text);
-            $("#dice_check").css('color','red');
-            ss--;
-            if(ss==0){
-               
-               if(mm < 1){
-                  mm=0;
-                  if(ss==0){
-                     
-                     $("#dice_check").text("");
-                     if($("#dice_check").val()==""){
-                        clearInterval(conter);
-                     }
-                     
-                  }
-               }
-               else{
-                  mm--;
-               }
-               
-               ss=5;
-            }
-            if(ss<=9){
-               ss = '0'+ss;
-            }
-            
-         },1000);
-      }, error : function() {console.log("실패");}      
-})
-}
-
-
+var click=0;
+var username;
+$('#mail1').click(function() {
+	click++;
+	$('#dice_check').css('display','');
+	username= $("#username").val();
+	if(click>=1){
+		$("#mail1").css('display','none').css('margin-top','40px').css('border','1px solid').css('cursor','pointer')
+		$("#mail2").css('display','')
+		$("#dice_check1").css('display','');
+		
+	}
+	var stop = false;
+	var mm=5;
+	var ss=59;	
+	var conter=setInterval(function(){
+		if(!stop){
+		var time_text =  mm+':'+ss+'초';
+		$("#dice_check").text(time_text);
+		$("#dice_check").css('color','red').css('display','inline-block');
+		ss--;
+		if(ss==-1){
+			if(mm < 1){
+				mm=0;
+				if(ss<0){
+					clearInterval(conter);
+					$("#dice_check").text('');
+					$("#dice_check1").css('display','none');
+				}
+			}
+			else{mm--;}
+			ss=10;
+		}
+		if(ss<=9){
+			ss = '0'+ss;
+		}
+		}
+		else{
+			clearInterval(conter);
+		}
+	},1000);
+	
+	$.ajax({
+		url : "<c:url value='/mailCheck.bbs'/>",
+		type: "POST",
+		data:  {"username":username},
+		dataType: 'json',
+		success : function(data) {
+			dice = data.dice;
+		}, error : function() {console.log("실패");}		
+	})
+	$('#mail2').click(function() {
+		mm=5;
+		ss=59;
+		username= $("#username").val();
+		$.ajax({
+			url : "<c:url value='/mailCheck.bbs'/>",
+			type: "POST",
+			data:  {"username":username},
+			dataType: 'json',
+			success : function(data) {
+				dice = data.dice;
+				
+			}, error : function() {console.log("실패");}		
+		})
+	})
+});
 var suc;
 $("#btn_dice").click(function(){
-   console.log("인증번호 확인버튼 누름");
-   if(dice==$("#dice").val()){
-      alert('성공');
-      suc =1;
-   }
+	console.log("인증번호 확인버튼 누름");
+	if(dice==$("#dice").val()){
+		alert('성공');
+		suc =1;
+		$("#dice_check1").css('display','');
+		mm=0;
+		ss=0;
+		
+	}
+	else{
+		alert('인증번호를 확인해주세요')
+	}
 });
 
 

@@ -293,7 +293,8 @@
 		<div class="row justify-content-center mb-5 pb-2">
 			<div class="col-md-7 text-center heading-section ftco-animate">
 				<span class="subheading">Gollamukja</span>
-				<h1 class="mb-4" style="font-weight: bold; color: #404040;">${list[0].store_name} Menu</h1>
+				<h1 class="mb-4" style="font-weight: bold; color: #404040;">${list[0].store_name}
+					Menu</h1>
 			</div>
 		</div>
 		<div class="row" style="text-align: center;">
@@ -309,19 +310,23 @@
 						<div class="col-xs-6 menus d-flex ftco-animate">
 
 							<!-- 메뉴이미지 카라셀 컨테이너 -->
-							<div style="display: inline-block; ">
+							<div style="display: inline-block;">
 								<!-- 카라셀 -->
-								<div id="carousel-example-generic" class="carousel slide menucasize" data-ride="carousel">
+								<div id="carousel-example-generic"
+									class="carousel slide menucasize" data-ride="carousel">
 									<!-- Indicators -->
 									<ol class="carousel-indicators">
 										<c:forEach items="${allFoodImgList}" var="foodimglist">
-											<c:forEach items="${foodimglist}" var="foodimgDTO" varStatus="status">
+											<c:forEach items="${foodimglist}" var="foodimgDTO"
+												varStatus="status">
 												<c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
 													<c:if test="${status.index==0}" var="result">
-														<li data-target="#carousel-example-generic" data-slide-to="${status.index}" class="active"></li>
+														<li data-target="#carousel-example-generic"
+															data-slide-to="${status.index}" class="active"></li>
 													</c:if>
 													<c:if test="${!result}">
-														<li data-target="#carousel-example-generic" data-slide-to="${status.index}"></li>
+														<li data-target="#carousel-example-generic"
+															data-slide-to="${status.index}"></li>
 													</c:if>
 												</c:if>
 											</c:forEach>
@@ -335,14 +340,16 @@
 												<c:if test="${status.index==0}">
 													<c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
 														<div class="item active">
-															<img src="<c:url value='${foodimgDTO.fm_path}'/>" style="width: 300px; height: 250px;">
+															<img src="<c:url value='${foodimgDTO.fm_path}'/>"
+																style="width: 300px; height: 250px;">
 														</div>
 													</c:if>
 												</c:if>
 												<c:if test="${status.index!=0}">
 													<c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
 														<div class="item">
-															<img src="<c:url value='${foodimgDTO.fm_path}'/>" style="width: 300px; height: 250px;">
+															<img src="<c:url value='${foodimgDTO.fm_path}'/>"
+																style="width: 300px; height: 250px;">
 														</div>
 													</c:if>
 												</c:if>
@@ -387,16 +394,11 @@
 					</c:forEach>
 				</div>
 			</div>
-
-
-
-			<!--  -->
 		</div>
 		<div style="text-align: center;">
 			<a style="font-size: 1.2em; display: inline-block;" href="<c:url value='/MenuList.bbs'/>">+ 메뉴 더 보기</a>
-			
 		</div>
-
+	</div>
 </section>
 
 
@@ -406,7 +408,7 @@
 
 
 
-<!-------------------------------------- 베스트리뷰 -------------------------------------->
+<!-- REVIEW -->
 <section class="ftco-section testimony-section ">
 	<div class="container">
 		<!-- REVIEW TITLE -->
@@ -421,48 +423,70 @@
 		<div class="row ftco-animate justify-content-center">
 			<!-- <div class=" col-md-7"> <div class="carousel-testimony owl-carousel ftco-owl">CAROUSEL 적용 -->
 			
-			<c:if test="${empty StRvs}" var="isEmpty">
+			<!-- 
+			<c:if test="${empty rvThumb}">
 				<div class="item col-md-2">	
 					<span>베스트 리뷰가 없습니다.</span>
 				</div>
 			</c:if>
-			<c:if test="${not isEmpty}">
-				<c:forEach items="${StRvs}" var="items" varStatus="loop">
-					<div class="item col-md-3">
-						<div class="testimony-wrap text-center py-4 pb-5">
-							<div class="user-img mb-4"
-								style="background-image: url(<c:url value="${items.rf_path}"/>);">
-								<span class="quote d-flex align-items-center justify-content-center">
-									<i class="icon-quote-left"></i>
-								</span>
+			<c:if test="${not empty rvThumb}">
+				<c:forEach items="${rvThumb}" var="BestRV" varStatus="loop">
+					<c:forEach items="${strvcnts}" var="rvCnt" varStatus="loop">
+						<c:if test="${BestRV.rv_no == rvCnt.rv_no}">
+						
+							<div class="item col-md-3">
+								<div class="testimony-wrap text-center py-4 pb-5">	
+																			
+									<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
+										<c:if test="${BestRV.rv_no == rvImg.rv_no}">
+											<c:if test=" ${empty rvImg.rf_path}" var="noRvImg">
+												<div class="user-img mb-4">
+													
+												</div>
+											</c:if>
+											<c:if test=" ${not noRvImg}">
+												<div class="user-img mb-4" style="background-image: url(<c:url value="${rvImg.rf_path}"/>);">
+													<span class="quote d-flex align-items-center justify-content-center">
+														<i class="icon-quote-left"></i>
+													</span>
+												</div>
+											</c:if>
+										</c:if>
+									</c:forEach>
+									<c:forEach items="${usersnks}" var="usernk" varStatus="loop">
+										<c:if test="${rvCnt.user_email == usernk.username}">
+											<div class="text px-3 pt-3">
+												<p class="name overflow">${usernk.u_nick}</p>
+												<span class="food-type overflow">${rvCnt.rv_postdate}</span>
+												<p class="mb-4 overflow">${rvCnt.rv_content}</p>
+											</div>
+										</c:if>
+									</c:forEach>
+								</div>
 							</div>
-							<div class="text px-3 pt-3">
-								<p class="name overflow">${items.u_nick}</p>
-								<span class="food-type overflow">${items.rv_postdate}</span>
-								<p class="mb-4 overflow">${items.RV_CONTENT}</p>
-								
-							</div>
-						</div>
-					</div>
+						</c:if>
+					</c:forEach>
 				</c:forEach>
-			</c:if>				
+			</c:if>	
+			 -->
+						
 		</div>			
 	</div>
 	
-<!-------------------------------------- 리뷰보기 -------------------------------------->
 	<div class="container">
-		<div>
-			<h3 class="mb-5 h4 font-weight-bold p-4 col-md-8 col-md-offset-2" style="text-align: center; font-family: 'Gugi', sans-serif; display: inline-block;">모든 리뷰 보기</h3>
-			<div class="btn py-3 px-4 btn-black gugi" id="myBtn" style="float:right; display: inline-block;margin-top:20px;" data-target="#layerpop" data-toggle="modal"> 
-				후기 남기기 
-			</div>	
-		</div>	
-		
+		<h3 class="mb-5 h4 font-weight-bold p-4" style="text-align: center; font-family: 'Gugi', sans-serif;">모든 리뷰 보기</h3>
+		<div class="btn py-3 px-4 btn-black" id="myBtn" style="float:right" data-target="#layerpop" data-toggle="modal"> 후기 남기기 </div>
+	
 		<div class="comment-form-wrap pt-5">
 			<ul style="list-style: none;">
 				<c:if test="${empty strvcnts}">
 					<li class="comment">
-						<span>작성된 리뷰가 없습니다.</span>
+						<div class="comment-body col-md-12 justify-content-center" style="margin-top:10px; padding:20px 0 30px 0;border: 1px solid #d7d7d7; margin-bottom: 40px;" >
+						
+							<div class="comment-body col-md-offset-5 justify-content-center" style="margin-top:10px; padding:20px 0 20px 0;">
+								<span style="text-align: center;">작성된 리뷰가 없습니다.</span>
+							</div>
+						</div>
 					</li>
 				</c:if>
 				<c:if test="${not empty strvcnts}">
@@ -483,7 +507,7 @@
 										</c:if>
 									</c:forEach>
 								</div>
-								<div class="col-md-9">
+								<div class="col-md-8">
 									<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${strvcnt.rv_postdate}</div>
 									<p style="color: black;">${strvcnt.rv_content}</p>								
 									<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
@@ -501,6 +525,16 @@
 		                           		</c:if>
 									</c:forEach>
 								</div>
+								<!-- 수정 삭제 -->
+								<div class="col-md-1">
+									<!--<c:if test="${user_id == strvcnt.user_email}">-->
+									<ul style="list-style: none;">
+										<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
+										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
+									</ul>
+									<!--</c:if>			-->				
+								</div>
+								<!-- 좋아요 -->
 								<div class="col-md-1">
 									<!--<c:if test="${user_id == strvcnt.user_email}">-->
 									<ul style="list-style: none;">
@@ -515,192 +549,184 @@
 					</c:forEach>
 				</c:if>				
 			</ul>
-		
 		</div>
 		
-<!-------------------------------------- 리뷰 페이징 -------------------------------------->
-		<div class="col-md-12 pd-4 pt-4 mb-5 mt-5 text-center" style="margin-left: 0px; margin-left: 0px; ">
-           <div class=" " >${strvPagingString}</div>
-        </div>
-        
- 
-<!-------------------------------------- 리뷰쓰기 -------------------------------------->       
-        <sec:authorize access="hasRole('ROLE_USER')">
-			<!-- <input type="hidden" name="username" value="${username}">-->
-			<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
+		<sec:authorize access="hasRole('ROLE_USER')">
+		<div class="comment-form-wrap col-md-12"
+			style="background: orange; border-radius: 1%;">
 			<input name="username" id="username" value="${username}" type="hidden" class="form-control">
-				<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
-				<form action="<c:url value='/insertReview.do'/>" class="p-4 p-md-5" method="post">
-					<div class="form-group poor">
-						<div>
-							<label class="col-md-2" for="message" style="text-align: right; padding-top:15px;">title</label>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom:10px;">
-							</div>
+			<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
+			<form name="form1" method="post">
+				<div class="form-group poor">
+					<div class="col-md-12">
+						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
+						<div class="col-md-9" style="padding-bottom: 15px;">
+							<select id="menu_name">
+								<option>메뉴 이름</option>
+								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
+									<option>${foodMenuDto.menu_name}</option>
+								</c:forEach>
+							</select>
 						</div>
-						<div>
-							<label class="col-md-2" for="message" style="text-align: right; padding-top:15px;">Contents</label>		
-							<div class="col-md-9 poor">					
-								<textarea name="rv_content" cols="30" rows="7" class="form-control"  placeholder="내용을 입력하세요" style="margin-bottom:10px;"></textarea>
-							</div>
-						</div>
-						<div>
-							<label class="col-md-2" for="message" style="text-align: right; padding-top:15px;">Images</label>		
-							<div class="col-md-9 poor">					
-								<input name="rf_path" class="form-control"  placeholder="파일업로드용"  style="margin-bottom:30px;"></input>
-							</div>
-						</div>
-						
 					</div>
-						<div class="form-group col-md-offset-5"  style="align-content: center; align-items: center;">
-							<input type="submit" value="리뷰 작성" class="btn py-3 px-4 btn-primary gugi" >						
+					<div class="col-md-12">
+						<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">title</label>
+						<div class="col-md-9">
+							<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
 						</div>
-					
-				</form>
-			</div>			
-		</sec:authorize>
-		
-		
-	<!-- 경고창 모달 시작 -->
-	<div class="modal fade" id="small-modal" data-backdrop="static">
-		<div class="modal-dialog modal-sm">
-			<div class="modal-content">
-				<div class="modal-body">
-					<button class="close" data-dismiss="modal">
-						<span>&times;
-						</span>
-					</button>  
-					<h4 class="modal-title">
-						<span class="glyphicon glyphicon-bullhorn">경고 메시지</span>
-					</h4>
-					<h5 id="warningMessage"></h5>
+					</div>
+					<div class="col-md-12">
+						<label class="col-md-2" for="message"
+							style="text-align: right; padding-top: 15px;">Contents</label>
+						<div class="col-md-9 poor">
+							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요"
+								style="margin-bottom: 10px;"></textarea>
+						</div>
+					</div>
+					<div class="col-md-12">
+						<label class="col-md-2" for="message"
+							style="text-align: right; padding-top: 15px;">Images</label>
+						<div class="col-md-9 poor">
+							<input name="rf_path" class="form-control" placeholder="파일업로드용"
+								style="margin-bottom: 30px;"></input>
+						</div>
+					</div>
+
 				</div>
+				<div class="col-md-12">
+					<div class="form-group col-md-offset-5" style="align-content: center; align-items: center;">
+						<input type="submit" value="리뷰 작성" id="btnInsert" class="btn py-3 px-4 btn-primary gugi">
+					</div>
+				</div>
+
+			</form>
+		</div>
+	</sec:authorize> 
+     </div>
+     
+     
+     <div class="row"  style="margin-right: 0px; margin-left: 0px;">
+		<div class="col-md-12 text-center">${strvPagingString}</div>
+	 </div>
+	 
+	 <!-- -------------------------------------------리뷰쓰기 -->
 	
+
+
+	<div id="myModal" class="modal fade" style="opacity: 1; ">
+		<div class="modal-dialog modal-lg" style="padding: 0;border:none; margin-top:200px; ">
+			<!-- Modal content -->
+			<div class="modal-content" style=" background: orange;">
+				<!-- modal-header -->
+				<div>
+					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
+					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
+				</div>
+				<!-- modal-body -->
+				<form id="reviewWriteForm" action="/insertReview.bbs" >
+					<div style="padding-top: 20px;">
+						<div class="col-md-12">
+							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
+							<div class="col-md-9" style="padding-bottom: 15px;">
+								<select id="menu_name">
+									<option>메뉴 이름</option>
+									<c:forEach items="${foodMenuList}" var="foodMenuDto"
+										varStatus="loop">
+										<option>${foodMenuDto.menu_name}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label class="col-md-2" for="message"
+								style="text-align: right; padding-top: 15px;">title</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" name="title"
+									placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label class="col-md-2" for="message"
+								style="text-align: right; padding-top: 15px;">Contents</label>
+							<div class="col-md-9 poor">
+								<textarea name="rv_content" cols="30" rows="7"
+									class="form-control" placeholder="내용을 입력하세요"
+									style="margin-bottom: 10px;"></textarea>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<label class="col-md-2" for="message"
+								style="text-align: right; padding-top: 15px;">Images</label>
+							<div class="col-md-9 poor">
+								<input name="rf_path" class="form-control" placeholder="파일업로드용"
+									style="margin-bottom: 30px;"></input>
+							</div>
+						</div>
+					</div>
+					<!-- modal-footer -->
+					<div class="modal-footer col-md-12 text-center" style="background: orange;">
+						<input type="button" id="btnInsert" value="작성" class="btn py-3 px-4 btn-default" > 
+						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
+							<span class="close" style="height: 28px; width:20; font-size: 14px; padding: 10px 15px; ">취소</span>
+						</button>					
+					</div>
+				</form>
 			</div>
 		</div>
-	</div>	
-	<script>	    
-    	$(function(){    		
-    		var focusObject;  		
-    		//모달창이 닫혔을때 발생하는 이벤트 처리 - 해당 객체에 포커스 주기
-    		$('#small-modal').on('hidden.bs.modal', function (e) {
-    			focusObject.focus();    			
-    		});    		
-    		$('form').on('submit',function(){ 
-    			if($(this).get(0).rv_title.value==""){
-    				$('#warningMessage').html('제목을 입력하세요');
-    				$('#small-modal').modal('show');
-    				focusObject=$(this).get(0).title; 				
-    				return false;
-    			}
-    			if($(this).get(0).rv_content.value==""){
-    				$('#warningMessage').html('내용을 입력하세요');
-    				$('#small-modal').modal('show');
-    				focusObject=$(this).get(0).content; 				
-    				return false;
-    			}
-    		});   
-    	});    
-    </script>
-		
-		
-		
-		<!-- END comment-list -->
-		<!-- 
-		<div class="modal fade" id="layerpop" data-keyboard="false">
-			<div class="modal-dialog">
-				<div class="modal-content"> -->
-					<!-- header 
-					<div class="modal-header">-->
-						<!-- 닫기(x) 버튼 
-						<button type="button" class="close" data-dismiss="modal">×</button>-->
-						<!-- header title 
-						<h4 class="modal-title gugi">골라먹자 리뷰를 남겨보세요</h4>
-					</div>-->
-					<!-- body 
-					<div class="modal-body">
-						<div class="form-group gugi">
-							<label for="message ">Contents</label>
-							<textarea name="" id="message" cols="30" rows="5" class="form-control"></textarea>
-						</div>
-					</div>-->
-					<!-- Footer
-					<div class="modal-footer">
-						<input type="submit" value="작성" class="btn py-3 px-4 btn-warning" href="<c:url value='/ReviewList.bbs'/>">
-						<button type="button" class="btn py-3 px-4 btn-primary" data-dismiss="modal">닫기</button>
-					</div>
-				</div>
-			</div>
-		</div> -->
-		
-		
-		 <!-- The Modal -->
-		<div id="myModal" class="modal">
-			<div class="container">
-				<!-- Modal content -->
-				<div class="modal-content" style=" background: orange;">
-					<!-- modal-header -->
-					<div>
-						<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
-						<span class="close">&times;</span>							
-					</div>
-					<!-- modal-body -->
-					<form>
-						<div style="padding-top: 20px;">
-							<div>
-								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">title</label>
-								<div class="col-md-9 poor">
-									<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
-								</div>
-							</div>
-							<div>
-								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">Contents</label>
-								<div class="col-md-9 poor">
-									<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
-								</div>
-							</div>
-							<div>
-								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">Images</label>
-								<div class="col-md-9 poor">
-									<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
-								</div>
-							</div>
-						</div>
-						<!-- modal-footer -->
-						<div class="form-group col-md-12 text-center">
-							<input type="submit" id="create" value="작성" class="btn py-3 px-4 btn-default" src="<c:url value='/insertReview.do'/>"> 
-							<input type="button" id="close" value="취소" class="btn py-3 px-4 btn-primary" data-dismiss="modal">
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<script>
-			$(function(){
-			   	// Get the modal
-			    var modal = document.getElementById('myModal');		
-			    // Get the button that opens the modal
-			    var btn = document.getElementById("myBtn");		
-			    // Get the <span> element that closes the modal
-			    var span = document.getElementsByClassName("close")[0]; 
-			    // When the user clicks on the button, open the modal 
-			    btn.onclick = function() {
-			        modal.style.display = "block";
-			    }		
-			    // When the user clicks on <span> (x), close the modal
-			    span.onclick = function() {
-			        modal.style.display = "none";
-			    }
-			    // When the user clicks anywhere outside of the modal, close it
-			    window.onclick = function(event) {
-			        if (event.target == modal) {
-			            modal.style.display = "none";
-			        }
-			    }
-			})				
-		</script>	
-
-
-
 	</div>
+	
+	<script>
+	
+	$(function(){
+		$("#btnInsert").click(function(){
+			$("#reviewWriteForm").serialize();
+			$.ajax({
+				type:"post",
+				url:"<c:url value='/insertReview.bbs'/>",
+			    data: {rv_title:"rv_title",rv_content:"rv_content",user_email:"user_id",store_name:"store_id",menu_no:"menu_no"},		    
+		        dataType: 'json',
+		        success : function(data){
+					console.log('성공..?:',data);
+					alert('리뷰 작성 완료!');
+					window.location = "<c:url value='/Store/DetailView.tiles'/>";		
+				}
+			})
+		})
+	});
+	
+	$("#menu_name option:selected").val();
+	<%
+		
+	%>
+	$(function(){
+	   // Get the modal
+	    var modal = document.getElementById('myModal');
+	
+	    // Get the button that opens the modal
+	    var btn = document.getElementById("myBtn");
+	
+	    // Get the <span> element that closes the modal
+	    var span = document.getElementsByClassName("close")[0];                                      
+	
+	    // When the user clicks on the button, open the modal 
+	    btn.onclick = function() {
+	        modal.style.display = "block";
+	    }
+	
+	    // When the user clicks on <span> (x), close the modal
+	    span.onclick = function() {
+	        modal.style.display = "none";
+	    }
+	
+	    // When the user clicks anywhere outside of the modal, close it
+	    window.onclick = function(event) {
+	        if (event.target == modal) {
+	            modal.style.display = "none";
+	        }
+	    }
+	});
+	</script>	
+
 </section>
+
+	

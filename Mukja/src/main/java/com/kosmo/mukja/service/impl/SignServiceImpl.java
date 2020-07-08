@@ -38,16 +38,7 @@ public class SignServiceImpl implements SignService {
 			return dao.idCheck(map);
 		}
 
-		@Override
-		public int updateMyInfo(Map map) {
-			return 0;
-		}
-
-		@Override
-		public UsersDTO getOneInfo(Map map) {
-			return null;
-		}
-
+		
 	
 
 

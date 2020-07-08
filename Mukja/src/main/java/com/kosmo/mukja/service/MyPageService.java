@@ -47,5 +47,10 @@ public interface MyPageService {
 //	MyPageDTO selectOne(Map map);
 //	MyPageDTO selectPrev(Map map);
 //	MyPageDTO selectNext(Map map);
+	
+
+	int updateMyInfo(Map map) ;
+	UsersDTO getOneInfo(Map map);
+
 
 }

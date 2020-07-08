@@ -1,5 +1,7 @@
 package com.kosmo.mukja.web;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,8 +14,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MyPageDTO;
@@ -39,6 +41,7 @@ public class MyPageController{
 	@Value("${BLOCK_PAGE_MP}")
 	private int blockPage;
 	
+	private String user_id;
 	
 	@RequestMapping(value = "/MyPage.bbs")
 	public String MyPage(
@@ -47,13 +50,14 @@ public class MyPageController{
 							Model model, 
 							HttpServletRequest req,
 							Authentication auth) {
-		System.out.println("여기");
+
+		
+		
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
 		System.out.println("user_id 출력! : "+user_id);
-					
-				
+		
 		// ddd 왜자꾸 reject 될까............ㅇ
 		
 		/*프로필*/
@@ -70,6 +74,8 @@ public class MyPageController{
 			}
 		}//리스트에서 뽑은 성향의 포문
 		System.out.println("myInfo username : "+myInfo.getUsername());
+		System.out.println("myInfo username : "+myInfo.getU_nick());
+		System.out.println("myInfo username : "+myInfo.getU_tend());
 		model.addAttribute("myInfo",myInfo);
 		
 		
@@ -98,13 +104,23 @@ public class MyPageController{
 		
 		List<StoreDTO> storetxt = service.getJjimInfo(map);
 		for(int i=0; i<storetxt.size();i++) {
-			System.out.println("storetxt : "+storetxt.get(i).getUsername());
+			System.out.println("storetxt username: "+storetxt.get(i).getUsername());
 		}
 		model.addAttribute("storetxt",storetxt);
-		
+
 		List<StoreIMGDTO> storeimgs = service.getJjimImgs(map);
+		
 		for(int i=0; i<storeimgs.size();i++) {
-			System.out.println("storeimgs : "+storeimgs.get(i).getUsername());
+			/*
+			 * System.out.println(i); if(storeImgs.size() == 0) {
+			 * storeImgs.add(storeimgs.get(i)); } boolean duplicate = false; for(int j = 0;
+			 * j < storeImgs.size(); j++) {
+			 * if(storeImgs.get(j).getUsername().equals(storeimgs.get(i).getUsername())) {
+			 * duplicate = true; }
+			 * 
+			 * if(duplicate == false) { storeImgs.add(storeimgs.get(i)); } }
+			 */
+			System.out.println("storeimgs path: "+storeimgs.get(i).getSf_path());
 		}
 		model.addAttribute("storeimgs",storeimgs);	
 		
@@ -186,6 +202,9 @@ public class MyPageController{
 			System.out.println("myET0 er_no  :" + myET0.get(i).getEr_no());
 		}
 		
+		
+		
+		
 		List<MyPageDTO> myET1 = service.getETrecv1(map);
 		System.out.println("myet1 IN");
 		String[] et1tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS","JS","HS","BS,","YS"};
@@ -225,7 +244,7 @@ public class MyPageController{
 		}		
 		model.addAttribute("Nicks",Nicks);
 
-		
+		System.out.println("탑 Mypage 누르고 나감");
 //		/*ET기록
 //		List<MyPageDTO> myservice.getMyETHistory(map);
 //		model.addAttribute("myETHist",myETHist);*/ 
@@ -237,7 +256,38 @@ public class MyPageController{
 	
 	
 	
+	//회원정보 수정 폼으로 이동]
+	@RequestMapping(value = "/UpdateMyInfo.bbs", method = RequestMethod.GET)
+	public String goUpdate(HttpServletRequest req,
+			  Authentication auth,
+			  Model model,
+			  @RequestParam Map map) {			
+		System.out.println("수정폼으로 이동 완료!");
+		//회원아이디 얻기
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		System.out.println("user_id in 회원정보 수정폼 : "+map.get("user_id"));
+						
+		UsersDTO userInfo = service.getMyInfo(map);
+		model.addAttribute("userInfo",userInfo);
+		System.out.println("userInfo : "+userInfo.getU_nick());
+		return "/Member/UpdateMyInfo.tiles";
+	}
 	
+	//회원정보 수정 처리]
+	@RequestMapping(value = "/UpdateMyInfo.bbs", method = RequestMethod.POST)
+	public String UpdateCompleted(HttpServletRequest req,
+			  Authentication auth,
+			  Model model,
+			  @RequestParam Map map) {	
+		System.out.println(map.get("user_id"));
+		System.out.println("수정  IN!!!!!!!!!!!!!");
+		int result = service.updateMyInfo(map);
+		System.out.println(result==0?"수정 실패":"수정 성공");
+		System.out.println("수정완료 !!!!!!!!!!!!!");
+		return "forward:/MyPage.bbs";
+	}///////////
 	
 	
 	
