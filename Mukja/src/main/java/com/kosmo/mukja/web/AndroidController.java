@@ -58,78 +58,50 @@ public class AndroidController {
 			}
 			
 			@CrossOrigin
-			@GetMapping(value="/CreatEroom/json")
-			public String anEroom(@RequestParam Map map) {	
-				System.out.println(map.get("json"));
-				return "1";
+			@GetMapping(value = "/CreatEroom/json")
+			public String anEroom(@RequestParam Map map) {
+				int result = 0;
+				try {
+					String ERtitle =map.get("title").toString();
+					String ERcontent = map.get("content").toString();
+					String ERtime = map.get("date").toString()+" "+map.get("time").toString() ;
+					String ER_TEND = map.get("store_id").toString()+","+map.get("tend").toString() ;
+					String ERmax = map.get("max").toString();
+					map.put("ERtitle",ERtitle);
+					map.put("ERcontent",ERcontent);
+					map.put("ERmax",ERmax);
+					map.put("ERtime",ERtime);
+					map.put("ER_TEND", ER_TEND);
+				
+					//방을 생성함
+					result = androidService.createEroom(map);
+					if(result==1) {
+						//현 생성된 방의 번호를 불러옴
+						int er_no=androidService.getRoomNo(map);
+						map.put("er_no",er_no);
+						System.out.println("채팅방생성을 위한 반번호:"+er_no);
+						
+						//생성된 방의 마스터를 가지고옴
+						String er_master=androidService.getRoomMaster(map);
+						map.put("er_master",er_master);
+						System.out.println("방참여를 위한 방장이름:"+er_master);
+						
+						//방번에 맞게 채팅방 생성
+						androidService.creatERC(map);
+						int erc_no=androidService.getERoomCno(map);
+						map.put("erc_no",erc_no);
+						System.out.println("채팅방과 참여방의 연결번호:"+erc_no);
+						
+						androidService.joinERoom(map);
+						androidService.setupER_role(map);
+						System.out.println( "{'resunt':"+result+"}");
+					}
+					
+					
+				} catch (NullPointerException e) {
+					String ER_TEND = map.get("store_id").toString()+",";
+				}
+				return "{'resunt':"+result+"}";
 			}
-			
-			
-//			public String submitER(@RequestParam Map map,Authentication auth) {
-//				UserDetails userDetails = (UserDetails)auth.getPrincipal();
-//				String username =userDetails.getUsername();
-//				JSONArray jsonArray = new JSONArray();
-//				Iterator<String> iter = map.keySet().iterator();
-//				StringBuffer tendbutt = new StringBuffer();
-//				while(iter.hasNext()){
-//					String key = iter.next();
-//					String val = map.get(key).toString();
-//					System.out.println(String.format("키 : %s 값 : %s", key,val));
-//					if(!map.get(key).equals("")) {
-//						if((!key.equals("ERtitle"))&&!(key.equals("ERcontent"))&&!(key.equals("ERtime"))&&!(key.equals("ERdate"))&&!(key.equals("ERmax"))) {
-//							tendbutt.append(map.get(key)+",");	
-//						}
-//					}
-//				}
-//				map.put("ER_TEND", tendbutt.toString());
-//				map.put("username",username);
-//				System.out.println("로그인된 유저의 아이디 : "+username);
-//				System.out.println("store_id:"+map.get("store_id"));
-//				System.out.println("ERcontent:"+map.get("ERcontent"));
-//				System.out.println("ERtitle:"+map.get("ERtitle"));
-//				System.out.println("ERtime:"+map.get("ERtime"));
-//				System.out.println("ERdate:"+map.get("ERdate"));
-//				
-//				
-//				String date = map.get("ERdate").toString();
-//				String time = map.get("ERtime").toString();
-//				
-//				time=time.replaceAll(":", "시");
-//				time+="분";
-//				String[] dates=date.split("/");
-//				date="";
-//				date =date+dates[2]+"년 ";
-//				date =date+ dates[0]+"월 ";
-//				date =date+ dates[1]+"일 ";
-//				String ERtime = date+time;
-//				map.put("ERtime", ERtime);
-//				
-//				
-//				//방을 생성함
-//				int result = service.insertER(map);
-//				if(result==1) {
-//					//현 생성된 방의 번호를 불러옴
-//					int er_no=service.getERno(map);
-//					map.put("er_no",er_no);
-//					System.out.println("채팅방생성을 위한 반번호:"+er_no);
-//					
-//					//생성된 방의 마스터를 가지고옴
-//					String er_master=service.getERmaster(map);
-//					map.put("er_master",er_master);
-//					System.out.println("방참여를 위한 방장이름:"+er_master);
-//					
-//					//방번에 맞게 채팅방 생성
-//					service.joinERC(map);
-//					int erc_no=service.getERCno(map);
-//					map.put("erc_no",erc_no);
-//					System.out.println("채팅방과 참여방의 연결번호:"+erc_no);
-//					
-//					service.joinER(map);
-//					service.setupERjoin_role(map);
-//					System.out.println( "{'resunt':"+result+"}");
-//				}
-//				return "{'resunt':"+result+"}";
-//			}
-
 
 }

@@ -1,5 +1,6 @@
 package com.kosmo.mukja;
 
+import java.net.Socket;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +56,7 @@ public class HomeController {
 		   			  Map map,
 		   			  @RequestParam(required = false,defaultValue = "1") int nowPage,
 		   			  HttpServletRequest req) {
+	   
       logger.info("Welcome home! The client locale is {}.", locale);
 
       List<MainDTO> dto = mainService.selectList(map);
@@ -363,8 +365,6 @@ public class HomeController {
    @RequestMapping(value = "/Map.bbs", method = RequestMethod.GET)
    public String mapBumsam(Locale locale, Model model) {
       logger.info("Welcome home! The client locale is {}.", locale);
-//      server = new AndroidChatServer();
-//      server.start();
       return "index.tiles";
    }
    

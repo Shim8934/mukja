@@ -1,6 +1,5 @@
 package com.kosmo.mukja.service.impl;
 
-
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -10,9 +9,6 @@ import org.springframework.stereotype.Repository;
 
 import com.kosmo.mukja.service.AndroidDTO;
 import com.kosmo.mukja.service.AndroidService;
-import com.kosmo.mukja.service.SignService;
-import com.kosmo.mukja.service.UsersDTO;
-
 
 @Repository
 public class AndroidDAO implements AndroidService {
@@ -25,6 +21,43 @@ public class AndroidDAO implements AndroidService {
 	public AndroidDTO anIsLogin(AndroidDTO dto) {
 		return sqlMapper.selectOne("anIsLogin",dto);
 	}
+	
+	@Override
+	public int createEroom(Map map) {
+		return sqlMapper.insert("createEroom",map);
+	}
+	
+	@Override
+	public int getRoomNo(Map map) {
+		return sqlMapper.selectOne("getRoomNo",map);
+	}
+	
+	@Override
+	public String getRoomMaster(Map map) {
+		return sqlMapper.selectOne("getRoomMaster",map);
+	}
+
+	@Override
+	public int creatERC(Map map) {
+		return sqlMapper.insert("creatERC",map);
+	}
+
+	@Override
+	public int getERoomCno(Map map) {
+		return sqlMapper.selectOne("getERoomCno",map);
+	}
+
+	@Override
+	public int joinERoom(Map map) {
+		return sqlMapper.insert("joinERoom",map);
+	}
+
+	@Override
+	public int setupER_role(Map map) {
+		return sqlMapper.update("setupER_role",map);
+	}
+
+	
 
 	
 
