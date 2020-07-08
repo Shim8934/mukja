@@ -606,7 +606,9 @@
      
      
      <div class="row"  style="margin-right: 0px; margin-left: 0px;">
-		<div class="col-md-12 text-center">${strvPagingString}</div>
+		<div class="col-md-12 text-center">${strvPagingString}
+		</div>
+		
 	 </div>
 	 
 	 <!-- -------------------------------------------리뷰쓰기 -->
