@@ -9,4 +9,11 @@ public interface SignService {
 	int foodmenu(Map map);
 	int idCheck(Map map);
 	
+	public FoodMenuDTO getMenuNo(Map map);
+	int insertFoodImg(Map map);
+	int insertStoreImg22(Map map);
+	int updateMyInfo(Map map) ;
+	int insertStoreNewTable(Map map);
+	UsersDTO getOneInfo(Map map);
+
 }

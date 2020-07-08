@@ -17,6 +17,7 @@ public class UsersDTO {
 	private int enabled;
 	private String authority;
 
+
 	public UsersDTO() {
 		super();
 	

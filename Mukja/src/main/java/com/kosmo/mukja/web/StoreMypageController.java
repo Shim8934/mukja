@@ -276,11 +276,14 @@ public class StoreMypageController {
 								// if 안에 들어오면 올린 이미지가 존재
 								map.put("sf_no", oriSf_no);
 								
-								sf_path = uploadDir+sf_path;
+								sf_path = uploadDir+"/"+sf_path;
 								map.put("sf_path",sf_path);
 								System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
 								result = service.updateStoreImg(map);
-								FileUtility.deleteFile(req, uploadDir, oriSf_path);
+								if(result==1) {
+									System.out.println(" 수정하고 파일 삭제 1");
+									FileUtility.deleteFile(req, uploadDir, oriSf_path);
+								}
 								System.out.println(result==1?"수정했음":"수정 오류남 ");
 						} // for문 안 if
 						else {
@@ -303,10 +306,13 @@ public class StoreMypageController {
 							// if 안에 들어오면 올린 이미지가 존재
 									map.put("sf_no", oriSf_no);
 									System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
-									sf_path = uploadDir+sf_path;
+									sf_path = uploadDir+"/"+sf_path;
 									map.put("sf_path",sf_path);
 									result = service.updateStoreImg(map);
-									FileUtility.deleteFile(req, uploadDir, oriSf_path);
+									if(result==1) {
+										System.out.println(" 수정하고 파일 삭제 2");
+										FileUtility.deleteFile(req, uploadDir, oriSf_path);
+									}
 									System.out.println(result==1?"수정했음":"수정 오류남 ");
 							} // for문 안 if
 							else {
@@ -316,12 +322,14 @@ public class StoreMypageController {
 							} // for문 안 else
 					}// for문
 					if(mr.getFilesystemName("sf_path2")!=null) {
+						System.out.println("기존 이미지 2개 있고 / 사진 신규 등록");
 						// 기존 가게 이미지 2개 있는 경우 중, 신규 이미지  등록
-						
-						sf_path = uploadDir+sf_path;
+						sf_path = mr.getFilesystemName("sf_path2");
+						sf_path = uploadDir+"/"+sf_path;
 						map.put("sf_path",sf_path);
 						service.insertStoreImg(map);
 					}
+				
 				}// 기존 이미지 2개인 경우 끝
 				else {
 				// 기존 가게 이미지가 1개 있는 경우
@@ -330,17 +338,20 @@ public class StoreMypageController {
 						oriSf_no = mr.getParameter("oriNo0");
 						oriSf_path = mr.getParameter("oriImg0");
 						map.put("sf_no", oriSf_no);
-						sf_path = uploadDir+sf_path;
+						sf_path = uploadDir+"/"+sf_path;
 						map.put("sf_path",sf_path);
-						service.updateStoreImg(map);
-						FileUtility.deleteFile(req, uploadDir, oriSf_path);
+						result = service.updateStoreImg(map);
+						if(result==1) {
+							System.out.println(" 수정하고 파일 삭제31");
+							FileUtility.deleteFile(req, uploadDir, oriSf_path);
+						}
 					}// 기존 이미지 수정하는 경우 끝
 					else {
 						// 기존이미지 수정 X
 						for(int i=1;i<3;i++) {
 							sf_path = mr.getFilesystemName("sf_path"+i);
 							if(sf_path!=null) {
-								sf_path = uploadDir+sf_path;
+								sf_path = uploadDir+"/"+sf_path;
 								map.put("sf_path",sf_path);
 								service.insertStoreImg(map);
 							}

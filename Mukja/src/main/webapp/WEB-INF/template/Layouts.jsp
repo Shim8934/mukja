@@ -663,9 +663,9 @@ function divAlign(){
 
 $(function (){
 	
-		console.log("ws://localhost:8080<c:url value='/chat.do'/>");
+		console.log("ws://192.168.0.6:8080<c:url value='/chat.do'/>");
 		
-		wsocket = new WebSocket("ws://192.168.0.3:8080<c:url value='/chat.do'/>");
+		wsocket = new WebSocket("ws://192.168.0.6:8080<c:url value='/chat.do'/>");
 		console.log("erc_username:"+erc_username);
 		//서버와 연결된 소켓에 이벤트 등록
 		wsocket.onopen = open;
