@@ -693,11 +693,6 @@
 			})
 		})
 	});
-	
-	$("#menu_name option:selected").val();
-	<%
-		
-	%>
 	$(function(){
 	   // Get the modal
 	    var modal = document.getElementById('myModal');

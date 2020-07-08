@@ -14,6 +14,7 @@ public interface MyPageService {
 	
 	
 	public UsersDTO getMyInfo(Map map);
+	int updateMyInfo(Map map) ;
 	
 	public List<MyPageDTO> getMyJjim(Map map);
 	public List<StoreDTO> getJjimInfo(Map map);
@@ -21,36 +22,30 @@ public interface MyPageService {
 
 	public List<MyPageDTO> getMyReview(Map map);	
 	public List<MyPageDTO> getMyReviewPics (Map map);
+	int updateMyReview(Map map);
+	int deleteMyReview(Map map);
+	public MyPageDTO getMyReviewForUpdate(Map map);	
+	public MyPageDTO getMyReviewPicForUpdate(Map map);
+	public List<StoreDTO> getMenu(Map map);
 
-//	public List<MyPageDTO> getETList(Map map);
-//	public List<MyPageDTO> getETtends(Map map);
-//	public List<MyPageDTO> getETNames(Map map);
-//	public List<UsersDTO> getUsersNks(Map map);
-	
 	public List<MyPageDTO> getETrecv0(Map map);
-	public List<MyPageDTO> getNicks(Map map);	
 	public List<MyPageDTO> getETrecv1(Map map);
-	public List<MyPageDTO> getNicks1(Map map);	
-	
-//	public List<MyPageDTO> getMyETAppc(Map map);
-//	public List<MyPageDTO> getFriendRecv(Map map);
-//	
-//	public List<MyPageDTO> getMyETHistory(Map map);
-//	
-//	//전체 레코드 수]
+
+	public List<MyPageDTO> getNicks(Map map);	
+	public List<MyPageDTO> getInCount(Map map);
+
+	//전체 레코드 수]
 	int getMyJjimTotal(Map map);
 	int getMyReviewTotal(Map map);
-//	int getMyETAppcTotal(Map map);
-//	int getMyETHistTotal(Map map);
-//	
-//		//상세보기용]
+	int getMyETApplTotal(Map map);
+	int getMyETHistTotal(Map map);
+
+	
+	//상세보기용]
 //	MyPageDTO selectOne(Map map);
 //	MyPageDTO selectPrev(Map map);
 //	MyPageDTO selectNext(Map map);
 	
-
-	int updateMyInfo(Map map) ;
-	UsersDTO getOneInfo(Map map);
 
 
 }
