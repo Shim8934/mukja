@@ -106,6 +106,12 @@ public class MainDAO implements MainService{
 		// TODO Auto-generated method stub
 		return sqlMapper.selectOne("selectStore_name",map);
 	}
+
+	@Override
+	public MainDTO selectRankContent(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("selectRankContent",map);
+	}
 	
 	
 	

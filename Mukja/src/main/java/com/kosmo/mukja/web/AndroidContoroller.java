@@ -17,19 +17,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.kosmo.mukja.service.AndroidERDTO;
+import com.kosmo.mukja.service.AndroidMyERDTO;
+import com.kosmo.mukja.service.AndroidReviewDTO;
+import com.kosmo.mukja.service.AndroidReviewImgDTO;
+import com.kosmo.mukja.service.AndroidService;
+import com.kosmo.mukja.service.FallowDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
+import com.kosmo.mukja.service.MyPageDTO;
+import com.kosmo.mukja.service.SignService;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
+import com.kosmo.mukja.service.UsersDTO;
 
 @Controller
 public class AndroidContoroller {
 	@Resource(name = "StoreInfoService")
 	private StoreService service;
-	
+	@Resource(name = "androidService")
+	private AndroidService androidService;
+	private String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
+	private String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
 	@ResponseBody
 	@RequestMapping(value = "/Andorid/Store/DetailView.do" , produces = "application/json; charset=utf8")
-	public String StoreDetail(@RequestParam Map map, Model model) {
+	public String StoreDetail(@RequestParam Map map) {
 		
 		System.out.println("username:"+map.get("store_id"));
 		System.out.println("username:"+map.get("user_id"));
@@ -64,9 +76,6 @@ public class AndroidContoroller {
 		
 		//메뉴변환
 		List<FoodMenuDTO> foodMenuList = service.getFoodMenu(map);
-		String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
-		String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
-		
 		for(int j=0; j<tend_codes.length;j++) {
 			for(int i=0; i<foodMenuList.size();i++) {
 				foodMenuList.get(i).setMenu_tend(foodMenuList.get(i).getMenu_tend().replaceAll(tend_codes[j], tend_text[j]));
@@ -87,6 +96,349 @@ public class AndroidContoroller {
 		return storeInfoJson.toJSONString();
 	}
 	
-
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/Store/Review.do" , produces = "application/json; charset=utf8")
+	public String StoreReview(@RequestParam Map map) {
+		map.put("username", map.get("username").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		List<AndroidReviewDTO> reivew_list =  androidService.getAndroidReviewList(map);
+		
 	
+		JSONArray  jsonArray = new JSONArray();
+		
+		for(AndroidReviewDTO dto:reivew_list) {
+			JSONObject jsonObject = new  JSONObject();
+			jsonObject.put("rv_no", dto.getRv_no());
+			jsonObject.put("rv_title", dto.getRv_title());
+			jsonObject.put("rv_content", dto.getRv_content());
+			jsonObject.put("rv_postdate", dto.getRv_postdate());
+			jsonObject.put("u_nick", dto.getU_nick());			
+			jsonObject.put("u_img", dto.getU_img());			
+			jsonObject.put("u_id", dto.getUsername());
+			map.put("rv_no",  dto.getRv_no());
+			List<AndroidReviewImgDTO> img_list =  androidService.getAndroidReviewImg(map);
+			for(AndroidReviewImgDTO imgdto: img_list) {
+				jsonObject.put("rf_path", imgdto.getRf_path());	
+			}
+			 
+			jsonArray.add(jsonObject);
+			
+			
+		}
+	
+		return jsonArray.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/User/UserInfo.do" , produces = "application/json; charset=utf8")
+	public String UserInfo(@RequestParam Map map) {
+		map.put("username", map.get("username").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		UsersDTO userInfo= androidService.getUserInfo(map);
+	
+		
+		
+		for(int j=0; j<tend_codes.length;j++) {
+		
+			userInfo.setU_tend(userInfo.getU_tend().replaceAll(tend_codes[j], tend_text[j]));
+			
+			
+		}//리스트에서 뽑은 성향의 포문
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("u_nick", userInfo.getU_nick());
+		jsonObject.put("u_tend", userInfo.getU_tend());
+		jsonObject.put("u_img", userInfo.getU_img());
+		jsonObject.put("u_addr", userInfo.getU_addr());
+		
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/Store/MyReview.do" , produces = "application/json; charset=utf8")
+	public String MyReview(@RequestParam Map map) {
+		map.put("username", map.get("username").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		List<AndroidReviewDTO> reivew_list =  androidService.getMyAndroidReviewList(map);
+		
+	
+		JSONArray  jsonArray = new JSONArray();
+		
+		for(AndroidReviewDTO dto:reivew_list) {
+			JSONObject jsonObject = new  JSONObject();
+			jsonObject.put("rv_no", dto.getRv_no());
+			jsonObject.put("rv_title", dto.getRv_title());
+			jsonObject.put("rv_content", dto.getRv_content());
+			jsonObject.put("rv_postdate", dto.getRv_postdate());
+			jsonObject.put("u_nick", dto.getU_nick());			
+			jsonObject.put("u_img", dto.getU_img());			
+			jsonObject.put("u_id", dto.getUsername());
+			map.put("rv_no",  dto.getRv_no());
+			List<AndroidReviewImgDTO> img_list =  androidService.getAndroidReviewImg(map);
+			for(AndroidReviewImgDTO imgdto: img_list) {
+				jsonObject.put("rf_path", imgdto.getRf_path());	
+			}
+			 
+			jsonArray.add(jsonObject);
+			
+			
+		}
+	
+		return jsonArray.toJSONString();
+	}//StoreReview
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/DeleteReview.do" , produces = "application/json; charset=utf8")
+	public String deleteReview(@RequestParam Map map) {
+		map.put("rv_no", map.get("rv_no").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		int result =  androidService.deleteAndroidReview(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result", result);
+	
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/Fallow.do" , produces = "application/json; charset=utf8")
+	public String Fallow(@RequestParam Map map) {
+		map.put("store_id", map.get("store_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		map.put("fallow_content", "default");
+		int result =  androidService.FallowAndroidReview(map);
+		
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result", result);
+	
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/Store/FallowList.do" , produces = "application/json; charset=utf8")
+	public String fallowlist(@RequestParam Map map) {
+		map.put("user_id", map.get("user_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		List<FallowDTO> fallow_list =  androidService.getFallowList(map);
+		
+	
+		JSONArray  jsonArray = new JSONArray();
+		
+		for(FallowDTO dto:fallow_list) {
+			JSONObject jsonObject = new  JSONObject();
+			jsonObject.put("ms_no", dto.getMs_no());
+			jsonObject.put("ms_storename", dto.getStore_name());
+			jsonObject.put("ms_postdate", dto.getMs_postdate());
+			jsonObject.put("ms_img", dto.getSf_path());
+			jsonObject.put("ms_storeid", dto.getUsername());
+			jsonArray.add(jsonObject);
+		}
+	
+		return jsonArray.toJSONString();
+	}//StoreReview
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/DeleteAndroidFallow.do" , produces = "application/json; charset=utf8")
+	public String deleteAndroidFallow(@RequestParam Map map) {
+		map.put("ms_no", map.get("ms_no").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		int result =  androidService.deleteAndroidFallow(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result", result);
+	
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/Store/ER_list.do" , produces = "application/json; charset=utf8")
+	public String getER_list(@RequestParam Map map) {
+		map.put("user_id", map.get("user_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		List<AndroidERDTO> er_list =  androidService.getRequestERList(map);
+		
+	
+		JSONArray  jsonArray = new JSONArray();
+		
+		for(int j=0; j<tend_codes.length;j++) {
+			for(int i=0; i<er_list.size();i++) {
+				er_list.get(i).setU_tend(er_list.get(i).getU_tend().replaceAll(tend_codes[j], tend_text[j]));
+			}
+		}//리스트에서 뽑은 성향의 포문
+		
+		for(AndroidERDTO dto:er_list) {
+			JSONObject jsonObject = new  JSONObject();
+			jsonObject.put("store_name", dto.getStore_name());
+			jsonObject.put("store_id", dto.getStore_id());
+			jsonObject.put("er_title", dto.getEr_title());
+			jsonObject.put("er_postdate", dto.getEr_postdate());
+			jsonObject.put("user_id", dto.getUser_id());
+			
+			jsonObject.put("erjoin_num", dto.getErjoin_num());
+			jsonObject.put("u_nick", dto.getU_nick());
+			jsonObject.put("u_tend", dto.getU_tend());
+			jsonObject.put("u_age", dto.getU_age()+"대");
+			jsonObject.put("u_img", dto.getU_img());
+			jsonArray.add(jsonObject);
+		}
+	
+		return jsonArray.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/AndroidRequestER_Accept.do" , produces = "application/json; charset=utf8")
+	public String androidRequestER_Accept(@RequestParam Map map) {
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		map.put("erjoin_num", map.get("erjoin_num").toString().replace("\"",""));
+		
+		int result =  androidService.androidRequestER_Accept(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result_Accept", result);
+	
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/AndroidRequestER_Reject.do" , produces = "application/json; charset=utf8")
+	public String androidRequestER_Reject(@RequestParam Map map) {
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		map.put("erjoin_num", map.get("erjoin_num").toString().replace("\"",""));
+		
+		int result =  androidService.androidRequestER_Reject(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result_Reject", result);
+	
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Andorid/Store/MyER_list.do" , produces = "application/json; charset=utf8")
+	public String getMyER_list(@RequestParam Map map) {
+		map.put("user_id", map.get("user_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		List<AndroidMyERDTO> myer_list =  androidService.getMyRequestERList(map);
+		
+	
+		JSONArray  jsonArray = new JSONArray();
+		
+		for(int j=0; j<tend_codes.length;j++) {
+			for(int i=0; i<myer_list.size();i++) {
+				myer_list.get(i).setU_tend(myer_list.get(i).getU_tend().replaceAll(tend_codes[j], tend_text[j]));
+			}
+		}//리스트에서 뽑은 성향의 포문
+		for(int j=0; j<tend_codes.length;j++) {
+			for(int i=0; i<myer_list.size();i++) {
+				myer_list.get(i).setEr_tend(myer_list.get(i).getEr_tend().replaceAll(tend_codes[j], tend_text[j]));
+			}
+		}//리스트에서 뽑은 성향의 포문
+		
+		for(AndroidMyERDTO dto:myer_list) {
+			JSONObject jsonObject = new  JSONObject();
+			jsonObject.put("er_no", dto.getEr_no());
+			jsonObject.put("erjoin_num", dto.getErjoin_num());
+			jsonObject.put("store_name", dto.getStore_name());
+			jsonObject.put("er_title", dto.getEr_title());
+			jsonObject.put("er_tend", dto.getEr_tend());
+			jsonObject.put("er_max", dto.getEr_max());
+			jsonObject.put("er_time", dto.getEr_title());
+			
+			jsonObject.put("u_nick", dto.getU_nick());
+			jsonObject.put("u_tend", dto.getU_tend());
+			jsonObject.put("u_age", dto.getU_age()+"대");
+			jsonObject.put("u_img", dto.getU_img());
+			jsonArray.add(jsonObject);
+		}
+	
+		return jsonArray.toJSONString();
+	}//StoreReview
 }

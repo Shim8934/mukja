@@ -575,14 +575,7 @@
 						<h4 class="content_title" id="content_title0">채팅</h4>
 						
 					</div>
-					<div class="col-xs-4"style="margin-top:10px;">
-						<h4 class="content_title" id="content_title1">친구</h4>
-						
-					</div>
-					<div class="col-xs-4"style="margin-top:10px;">
-						<h4 class="content_title"id="content_title2">쪽지</h4>
-						
-					</div>
+					
 					
 				</div>
 				<div class="row">
@@ -590,12 +583,7 @@
 						<div class="row" id="content0" style="display: none">
 							
 						</div>
-						<div class="row"id="content2" style="display: none">
-							쪽지내용
-						</div>
-						<div class="row" id="content1" style="display: none">
-							친구내용
-						</div>
+						
 					</div>
 				</div>
 			</div>
@@ -675,9 +663,9 @@ function divAlign(){
 
 $(function (){
 	
-		console.log("ws://localhost:8080<c:url value='/chat.do'/>");
+		console.log("ws://192.168.0.6:8080<c:url value='/chat.do'/>");
 		
-		wsocket = new WebSocket("ws://192.168.0.3:8080<c:url value='/chat.do'/>");
+		wsocket = new WebSocket("ws://192.168.0.6:8080<c:url value='/chat.do'/>");
 		console.log("erc_username:"+erc_username);
 		//서버와 연결된 소켓에 이벤트 등록
 		wsocket.onopen = open;

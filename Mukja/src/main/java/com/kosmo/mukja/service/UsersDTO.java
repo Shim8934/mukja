@@ -16,9 +16,9 @@ public class UsersDTO {
 	private String u_ph;
 	private int enabled;
 	private String authority;
-	
+
+
 	public UsersDTO() {
-		
 	}
 	
 	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,

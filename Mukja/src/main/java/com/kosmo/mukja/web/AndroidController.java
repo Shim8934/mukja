@@ -8,8 +8,6 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
-
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,66 +40,37 @@ import com.kosmo.mukja.service.UsersDTO;
 
 @RestController
 public class AndroidController {
-	
+
 	// 서비스 주입]
 	@Resource(name = "androidService")
-	private AndroidService androidService ;
-	
-			//안드로이드 앱에 데이타 제공용
-			//JSON으로 제공시
-			@CrossOrigin
-			@GetMapping(value="/android/json")
-			public AndroidDTO anIsLogins(AndroidDTO dto) {	
-				System.out.println("여기");
-				System.out.println(androidService.anIsLogin(dto));
-				return	androidService.anIsLogin(dto);	
-			}
+
+	private AndroidService androidService;
+	// 안드로이드 앱에 데이타 제공용
+	// JSON으로 제공시
+	@CrossOrigin
+	@GetMapping(value = "/android/json")
+	public AndroidDTO anIsLogins(AndroidDTO dto) {
+		System.out.println("여기");
+		System.out.println(androidService.anIsLogin(dto));
+		return androidService.anIsLogin(dto);
+	}
+
+	@CrossOrigin
+	@GetMapping(value = "/CreatEroom/json")
+	public String anEroom(@RequestParam Map map) {
+		try {
 			
-			@CrossOrigin
-			@GetMapping(value = "/CreatEroom/json")
-			public String anEroom(@RequestParam Map map) {
-				int result = 0;
-				try {
-					String ERtitle =map.get("title").toString();
-					String ERcontent = map.get("content").toString();
-					String ERtime = map.get("date").toString()+" "+map.get("time").toString() ;
-					String ER_TEND = map.get("store_id").toString()+","+map.get("tend").toString() ;
-					String ERmax = map.get("max").toString();
-					map.put("ERtitle",ERtitle);
-					map.put("ERcontent",ERcontent);
-					map.put("ERmax",ERmax);
-					map.put("ERtime",ERtime);
-					map.put("ER_TEND", ER_TEND);
-				
-					//방을 생성함
-					result = androidService.createEroom(map);
-					if(result==1) {
-						//현 생성된 방의 번호를 불러옴
-						int er_no=androidService.getRoomNo(map);
-						map.put("er_no",er_no);
-						System.out.println("채팅방생성을 위한 반번호:"+er_no);
-						
-						//생성된 방의 마스터를 가지고옴
-						String er_master=androidService.getRoomMaster(map);
-						map.put("er_master",er_master);
-						System.out.println("방참여를 위한 방장이름:"+er_master);
-						
-						//방번에 맞게 채팅방 생성
-						androidService.creatERC(map);
-						int erc_no=androidService.getERoomCno(map);
-						map.put("erc_no",erc_no);
-						System.out.println("채팅방과 참여방의 연결번호:"+erc_no);
-						
-						androidService.joinERoom(map);
-						androidService.setupER_role(map);
-						System.out.println( "{'resunt':"+result+"}");
-					}
-					
-					
-				} catch (NullPointerException e) {
-					String ER_TEND = map.get("store_id").toString()+",";
-				}
-				return "{'resunt':"+result+"}";
-			}
+			System.out.println("username:" + map.get("username").toString());
+			System.out.println("title:" + map.get("title").toString());
+			System.out.println("content:" + map.get("content").toString());
+			System.out.println("horizontalCounter:" + map.get("horizontalCounter").toString());
+			System.out.println("datePicker:" + map.get("datePicker").toString());
+			System.out.println("timePicker:" + map.get("timePicker").toString());
+			System.out.println("tent:" + map.get("tent").toString());
+		} catch (NullPointerException e) {
+			String tent = "";
+		}
+		return null;
+	}
 
 }

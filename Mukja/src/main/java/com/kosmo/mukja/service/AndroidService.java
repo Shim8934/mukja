@@ -5,13 +5,19 @@ import java.util.Map;
 
 public interface AndroidService {
 	AndroidDTO anIsLogin(AndroidDTO dto);
-	public int createEroom(Map map);
-	public int getRoomNo(Map map);
-	public String getRoomMaster(Map map);
-	public int creatERC(Map map);
-	public int getERoomCno(Map map);
-	public int joinERoom(Map map);
-	public int setupER_role(Map map);
-	
 
+	List<AndroidReviewDTO> getAndroidReviewList(Map map);
+	List<AndroidReviewImgDTO> getAndroidReviewImg(Map map);
+	List<AndroidReviewDTO> getMyAndroidReviewList(Map map);
+	UsersDTO getUserInfo(Map map);
+	List<FallowDTO> getFallowList(Map map);	
+	int deleteAndroidFallow(Map map);
+	int deleteAndroidReview(Map map);
+	int FallowAndroidReview(Map map);
+	int androidRequestER_Accept(Map map);
+	int androidRequestER_Reject(Map map);
+	List<AndroidERDTO> getRequestERList(Map map);
+	List<AndroidMyERDTO> getMyRequestERList(Map map);
+	
 }
+

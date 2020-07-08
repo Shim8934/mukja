@@ -23,6 +23,10 @@
 		order by sa_avg*good desc
 	</select>
 	
+	<select id="selectRankContent" parameterType="java.util.Map" resultType="mainDTO">
+		select store_intro from stores where username=#{username}
+	</select>
+	
 	<select id="selectImg" parameterType="java.util.Map" resultType="mainDTO">
 		select sf_path from store_file where username=#{username}
 	</select>
@@ -30,11 +34,13 @@
 	
 	<!--  리뷰 좋아요 랭킹  -->
 	<select id="selectBestRv" parameterType="java.util.Map" resultType="mainDTO">
-		select rownum, t.* from (select sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no,rf.rf_path, 
+		select rownum, t.* from (select sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no,rf.rf_path, fm.menu_name, us.u_nick, 
 		(select count(*) from review_thumb rt where sr.rv_no = rt.rv_no) good from storereview sr 
 		join review_thumb rt on sr.rv_no = rt.rv_no 
 		join review_file rf on sr.rv_no = rf.rv_no 
-		group by sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no, rf.rf_path 
+		join foodmenu fm on sr.menu_no = fm.menu_no 
+		join users us on sr.user_email = us.username 
+		group by sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no, rf.rf_path, fm.menu_name, us.u_nick  
 		order by good desc) t where rownum<![CDATA[<=]]>4
 	</select>
 	

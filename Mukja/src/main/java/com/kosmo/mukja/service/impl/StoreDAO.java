@@ -127,16 +127,55 @@ public class StoreDAO  implements StoreService{
 	}
 	
 	
+	@Override
+	public int updateStoreInfo(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateStoreInfo",map);
+	}
+
+	@Override
+	public int updateStoreImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateStoreImg", map);
+	}
+
+	@Override
+	public int insertStoreImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("insertStoreImg",map);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	@Override
+	public int insertReview(Map map) {
+		return sqlMapper.insert("insertReview", map);
+	}
+
+	@Override
+	public int updateReview(Map map) {
+		return sqlMapper.update("updateReview", map);
+	}
+
+
+	@Override
+	public int deleteReview(Map map) {
+		return sqlMapper.delete("deleteReview", map);
+	}
+
 	
 	
 
 	@Override
 	public List<MyPageDTO> getStoreReviewcnt(Map map) {
 		return sqlMapper.selectList("getStoreReviewcnt", map);
-	}
-	@Override
-	public List<MyPageDTO> getStoreReview(Map map) {
-		return sqlMapper.selectList("getStoreReview", map);
 	}
 	@Override
 	public List<MyPageDTO> getStoreReviewimg(Map map) {
@@ -147,14 +186,31 @@ public class StoreDAO  implements StoreService{
 	public List<UsersDTO> getUsersNicks(Map map) {
 		return sqlMapper.selectList("getUsersNicks", map);
 	}
-
-	@Override
-	public int insertSTreview(Map map) {
-		return sqlMapper.selectOne("insertSTreview", map);
-	}
 	/*주요*/
 	@Override
 	public int getStRvTotal(Map map) {
 		 return sqlMapper.selectOne("getStRvTotal",map);
 	}
+	
+	
+	
+	
+	
+
+	@Override
+	public List<StoreDTO> getRVThumb(Map map) {
+		return sqlMapper.selectList("getRVThumb", map);
+	}
+	
+	@Override
+	public int insertRVThumb(Map map) {
+		 return sqlMapper.selectOne("List<MyPageDTO> ",map);
+	}
+
+	@Override
+	public int deleteRVThumb(Map map) {
+		 return sqlMapper.selectOne("deleteRVThumb",map);
+	}
+
+	
 }

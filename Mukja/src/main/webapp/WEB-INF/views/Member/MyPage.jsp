@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+dsgsdg
 
 <section class="hero-wrap hero-wrap-2 align-items-center" style="background-image: url('<c:url value='/resources/bootstrap/images/bg_4.jpg'/>');" data-stellar-background-ratio="0.5">
    <div class="overlay"></div>
@@ -44,6 +44,7 @@
                <div class="border3bc">
                   <div class="sub-title">
                      <h4 class="title col-md-offset-1 col-md-10 "> ${myInfo.u_nick}님의 MyType 성향</h4>
+                     
                      <div><a href="<c:url value='/UpdateMyInfo.bbs'/>" class="btn btn-black">수정</a></div>
                   </div>
                   <div class="jNs">
@@ -51,10 +52,16 @@
                         <div>
                            <span class="sub-title">프로필사진 </span>
                         </div>
-                        
-                        <div style="margin-top: 1rem;">   
-                         <div class="img" style="height:200px; background-image: url(<c:url value="${myInfo.u_img}"/>);"></div>                   
-                        </div>
+                         <c:if test="${empty myInfo.u_img}">
+	                        <div style="margin-top: 1rem;">   
+	                         	<div class="img" style="height:200px; background-image: url(<c:url value=""/>);"></div>                   
+	                        </div>
+                        </c:if>
+                         <c:if test="${not empty myInfo.u_img}">
+	                        <div style="margin-top: 1rem;">   
+	                         	<div class="img" style="height:200px; background-image: url(<c:url value="${myInfo.u_img}"/>);"></div>                   
+	                        </div>
+                        </c:if>
                      </div>
                      <div class="siro col-md-5" style="float:none;">
                         <div>
@@ -98,10 +105,13 @@
 												  	<span>이미지 준비 중입니다.</span>
 												  </div>	
 											</c:if>
-						                  	<c:if test="${not EmptySP}">      
+				                        	<c:if test="${not EmptySP}">      
+													<% int count = 0; %>
 												<c:forEach items="${storeimgs}" var="storeimgs" varStatus="loop">											
 													<c:if test="${storetxt.username == storeimgs.username}">
-							                           <div class="img d-block w-100" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>						                         
+														<% if(count == 0) {%>
+							                           <div class="img d-block w-100" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>
+							                           <% }count = count + 1; %>						                         
 					                        		</c:if>
 					                        	</c:forEach>
 				                        	</c:if>
@@ -144,12 +154,12 @@
                      <div class="row"  style="margin-right: 0px; margin-left: 0px;">
                         <table class="mplist table table-bordered table-hover text-center">
                            <tr>
-                              <th style="width: 15%">가게이름</th>
-                              <th style="width: 15%">날짜</th>
-                              <th style="width: 10%">별점</th>
-                              <th style="width: 45%">내용</th>
-                              <th style="width: 15%">사진</th>
-                              <th style="width: 15%">수정,삭제</th>
+                              <th>가게이름</th>
+                              <th>날짜</th>
+                              <th>별점</th>
+                              <th>내용</th>
+                              <th>사진</th>
+                              <th>수정,삭제</th>
                            </tr>
                            <c:if test="${empty rvcnt}" var="EmptyRVC">
 								<tr>
@@ -168,15 +178,19 @@
 				                            <c:if test="${empty rvimgs}">
 												<td><img class="rv_pics" /></td>
 											</c:if>
-											<c:if test="${not empty rvimgs}"> 
+											<c:if test="${not empty rvimgs}">     
+												<% int count = 0; %>
 												<c:forEach items="${rvimgs}" var="rvimgs" varStatus="loop">
 													<c:if test="${rvcnt.rv_no == rvimgs.rv_no}">
-														<c:forTokens  var="myrvpic" items="${rvimgs.rf_path}" delims=",">
+														<c:forTokens  var="myrvpic" items="${rvimgs.rf_path}" delims=",">														
+															<% if(count == 0) {%>
 					                              			<td><img class="rv_pics" src='<c:url value="${myrvpic}"/>'/></td>
-					                              		</c:forTokens>
+				                              		 		<% }count = count + 1; %>	
+					                              		</c:forTokens>	
 					                           		</c:if>
 												</c:forEach>
 											</c:if>
+											<td></td>
 				                           </tr>
 										</c:if>
 									</c:forEach>
@@ -247,7 +261,7 @@
 											<td class="overflow">														
 												<c:forEach items="${Nicks}" var="Nick" varStatus="loop">
 													<c:if test="${myET0.er_no == Nick.er_no}">
-														<span class="overflow">${Nick.u_nick}</span>
+														<a class="overflow" href='<c:url value="/Member/MyPage.bbs?username=${Nick.username}"/>'>${Nick.u_nick},</a>
 													</c:if>
 												</c:forEach>
 											</td>
@@ -277,29 +291,36 @@
 	                	<div class="row ftco-animate text-center align-items-center justify-content-center"  style="margin-right: 0px; margin-left: 0px;">
 	                    	<c:forEach items="${myET1}" var="myET1" varStatus="loop">	
 								<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
-									<c:if test="${myET1.username == storetxt.username}">
-										
+									<c:if test="${myET1.username == storetxt.username}">										
 										
 										<div class="mpjjim bd2bc align-items-center" style="padding: 10px; marjin: 10px; float: none; background: lightblue;">
-											<div class="img"style="border: 1px double black; width:150px; float:left; display:inline-block;">
+											<div class="img " style="border: 1px double black; width:150px; float:left; display:inline-block;">
+												
+												<% int count = 0; %>
 												<c:forEach items="${storeimgs}" var="storeimgs" varStatus="loop">
+												
 													<c:if test="${storetxt.username == storeimgs.username}">
+														
 														<c:if test="${empty storeimgs}">
-															<div class="img rv_list_img" style="border: 1px double black; width:150px; float:left; display:inline-block;">
+															<div class="img rv_list_img" style="border: 1px double black; width:150px; float:left;">
 																<span>no Image</span>
 															</div>
 														</c:if>
+														
 														<c:if test="${not empty storeimgs}">
-															<div class="img rv_list_img" style="border: 1px double black; width:150px; float:left; display:inline-block; 
+														<% if(count == 0) {%>
+															<div class="img rv_list_img" style="width:150px; float:left; 
 																background-image: url(<c:url value="${storeimgs.sf_path}"/>);">
+																
 															</div>
+														<% }count = count + 1; %>	
 														</c:if>
 													</c:if>														
 												</c:forEach>
 											</div>
-											<div class="text col-md-7" style="padding-top: 0rem; display: inline-block; background: orange;">
+											<div class="text" style="padding-top: 0rem; display: inline-block;">
 												<div>
-													<span class="mn_name overflow" style="font-weight: bold; font-size: 15px; color: black;">
+													<span class="mn_name overflow" style="font-weight: bold; font-size: 15px; color: black; padding-top: 10px;">
 														<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
 													</span>
 												</div>
@@ -312,7 +333,7 @@
 												<div class="overflow">
 													<c:forEach items="${Nicks}" var="Nick" varStatus="loop">		
 														<c:if test="${myET1.er_no == Nick.er_no}">
-															<span class="overflow"><a href='<c:url value="/Member/MyPage.do?username=${Nick.username}"/>'>${Nick.u_nick}</a></span>
+															<span class="overflow"><a href='<c:url value="/Member/MyPage.do?username=${Nick.username}"/>'>${Nick.u_nick}, </a></span>
 														</c:if>
 													</c:forEach>
 												</div>

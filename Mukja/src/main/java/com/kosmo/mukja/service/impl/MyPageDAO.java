@@ -103,6 +103,17 @@ public class MyPageDAO implements MyPageService {
 
 
 	
-	
+
+	@Override
+	public int updateMyInfo(Map map) {
+		return sqlMapper.update("updateMyInfo",map);
+	}
+
+	@Override
+	public UsersDTO getOneInfo(Map map) {
+		return sqlMapper.selectOne("getOneInfo",map);
+	}
+
+
 
 }

@@ -35,7 +35,7 @@ tr td{
       	<div class="overlay"></div>
         <div class="container-fluid p-0">
           <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="/resources/storeIMG/bg_3.jpg"/>);">
+          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank1Img[0].sf_path }"/>);">
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
@@ -48,9 +48,9 @@ tr td{
 		            <br>
 		            <p>대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
-		            	<c:forEach items="${rank1Img}" var="img" varStatus="loop">
+		            	<c:forEach items="${rank1Img}" var="rank1Img" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${img.sf_path}"/>);"></div>
+		            			<div class="img" style="background-image: url(<c:url value="${rank1Img.sf_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>
@@ -66,7 +66,7 @@ tr td{
       	<div class="overlay"></div>
         <div class="container-fluid p-0">
           <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="/resources/storeIMG/bg_3.jpg"/>);">
+          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank2Img[0].sf_path}"/>);">
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
@@ -79,9 +79,9 @@ tr td{
 		            <br>
 		            <p>대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
-		            	<c:forEach items="${rank2Img}" var="img" varStatus="loop">
+		            	<c:forEach items="${rank2Img}" var="rank2Img" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${img.sf_path}"/>);"></div>
+		            			<div class="img" style="background-image: url(<c:url value="${rank2Img.sf_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>
@@ -96,7 +96,7 @@ tr td{
       	<div class="overlay"></div>
         <div class="container-fluid p-0">
           <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="/resources/storeIMG/bg_3.jpg"/>);">
+          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank3Img[0].sf_path}"/>);">
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
@@ -109,9 +109,9 @@ tr td{
 		            <br>
 		            <p>대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
-		            	<c:forEach items="${rank3Img}" var="img" varStatus="loop">
+		            	<c:forEach items="${rank3Img}" var="rank3Img" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${img.sf_path}"/>);"></div>
+		            			<div class="img" style="background-image: url(<c:url value="${rank3Img.sf_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>
@@ -140,11 +140,13 @@ tr td{
 					<div class="text px-4 pt-4">
 						<h3>${item.store_name}<br/><br/>
 						${item.rv_title}
-						</h3>
-						<span class="position mb-2">좋아요 : ${item.good}</span>
+						</h3>						
 						<div class="faded">
 							<p>${item.rv_content}</p>
 						</div>
+						<span class="position mb-2">작성자 : ${item.u_nick}</span><br/>
+						<span class="position mb-2">좋아요 : ${item.good}</span><br/>
+						<span class="position mb-2">메뉴 : ${item.menu_name}</span>
 					</div>
 				</div>
 			</div>

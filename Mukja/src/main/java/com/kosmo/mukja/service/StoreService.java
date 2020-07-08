@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface StoreService {
+	
 	public List<StoreDTO> getStoreInfo(Map map);
 	public int getReviewCount(Map map);
 	public List<FoodMenuDTO> getFoodMenu(Map map);
@@ -18,15 +19,31 @@ public interface StoreService {
 	public int updateTableInfo(Map map);
 	public List<StoreDTO> selectFoodImg(Map map);
 	
+	
+	/*가게 정보 수정*/
+	public int updateStoreInfo(Map map);
+	public int updateStoreImg(Map map);
+	public int insertStoreImg(Map map);
 
-
-	public List<MyPageDTO> getStoreReview(Map map);
+	
+	
+	/*리뷰 쓰기*/
+	public int insertReview(Map map);
+	public int updateReview(Map map);
+	public int deleteReview(Map map);
+	
+	
+	/*리뷰 가져오기*/
+	public int getStRvTotal(Map map);
 	public List<MyPageDTO> getStoreReviewcnt(Map map);
 	public List<MyPageDTO> getStoreReviewimg(Map map);
-	public List<UsersDTO> getUsersNicks(Map map);
-
-	public int insertSTreview(Map map) ;
-	public int getStRvTotal(Map map);
+	public List<UsersDTO> getUsersNicks(Map map);;
+	
+	
+	/*리뷰 좋아요*/
+	public List<StoreDTO> getRVThumb(Map map) ;
+	public int insertRVThumb(Map map) ;
+	public int deleteRVThumb(Map map) ;
 	
 	
 }
