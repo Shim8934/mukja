@@ -416,12 +416,13 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			String val = map.get(key).toString();
 			System.out.println(String.format("키 : %s 값 : %s", key,val));
 			if(!map.get(key).equals("")) {
-				if((!key.equals("ERtitle"))&&!(key.equals("ERcontent"))&&!(key.equals("ERtime"))&&!(key.equals("ERdate"))&&!(key.equals("ERmax"))) {
+				if((!key.equals("ERtitle"))&&!(key.equals("ERcontent"))&&!(key.equals("ERtime"))&&!(key.equals("ERdate"))&&!(key.equals("ERmax"))&&!(key.equals("store_id"))) {
 					tendbutt.append(map.get(key)+",");	
 				}
 			}
 		}
-		map.put("ER_TEND", tendbutt.toString());
+		String er_tend = tendbutt.toString().substring(0, tendbutt.toString().length()-1);
+		map.put("ER_TEND",er_tend);
 		map.put("username",username);
 		System.out.println("로그인된 유저의 아이디 : "+username);
 		System.out.println("store_id:"+map.get("store_id"));
@@ -502,6 +503,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 		
 		
 		int joinER = service.joinER(map);
+		System.out.println("joinER:"+joinER);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("joinER", joinER);
 		return jsonObject.toJSONString();

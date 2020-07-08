@@ -42,7 +42,7 @@
             SELECT SEQ_ERMEMBERS.nextval,#{er_no},#{username},sysdate,0,#{erc_no} FROM DUAL
             WHERE NOT EXISTS 
             (SELECT * FROM er_members em join eattogether_room er on er.er_no=em.er_no            
-            WHERE em.USERNAME = #{username} and er.USERNAME=#{store_id})
+            WHERE em.USERNAME = #{username} and er.er_no = #{er_no} )
 	</insert> 
 	
 	<insert id="joinERC" parameterType="java.util.Map">
@@ -54,7 +54,7 @@
 	</insert>
 	
 	 <select id="currcount" parameterType="java.util.Map" resultType="int">
-		 select count(*) from er_members where er_no = #{er_no}
+		 select count(*) from er_members where er_no = #{er_no} and erjoin_role=1
 	</select>
 	
 	<select id="getERno" parameterType="java.util.Map" resultType="int">

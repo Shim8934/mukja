@@ -83,7 +83,7 @@
 		SELECT * FROM (SELECT T.*,ROWNUM R FROM (SELECT * FROM storereview WHERE store_name=#{username} order by rv_postdate desc)T)where R between #{strvstart} AND #{strvend}	
 	</select>
 	<select id="getStoreReviewimg" parameterType="java.util.Map" resultType="MyPageDTO">
-		SELECT * FROM review_file 		
+		SELECT * FROM review_file WHERE store_name = #{username}
 	</select>	
 	<select id="getUsersNicks" parameterType="java.util.Map" resultType="UsersDTO">
 		SELECT u_nick,username,u_img FROM users
