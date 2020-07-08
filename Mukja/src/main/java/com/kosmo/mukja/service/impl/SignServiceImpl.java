@@ -39,6 +39,7 @@ public class SignServiceImpl implements SignService {
 			return dao.idCheck(map);
 		}
 
+<<<<<<< HEAD
 		@Override
 		public int updateMyInfo(Map map) {
 			return 0;
@@ -67,6 +68,9 @@ public class SignServiceImpl implements SignService {
 			return dao.getMenuNo(map);
 		}
 
+=======
+		
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja
 	
 
 

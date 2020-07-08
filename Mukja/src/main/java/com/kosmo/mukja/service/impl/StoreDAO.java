@@ -198,21 +198,18 @@ public class StoreDAO  implements StoreService{
 	
 
 	@Override
-	public int insertRVThumb(Map map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public List<StoreDTO> getRVThumb(Map map) {
+		return sqlMapper.selectList("getRVThumb", map);
 	}
-
+	
 	@Override
-	public int getRVThumb(Map map) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int insertRVThumb(Map map) {
+		 return sqlMapper.selectOne("List<MyPageDTO> ",map);
 	}
 
 	@Override
 	public int deleteRVThumb(Map map) {
-		// TODO Auto-generated method stub
-		return 0;
+		 return sqlMapper.selectOne("deleteRVThumb",map);
 	}
 
 	

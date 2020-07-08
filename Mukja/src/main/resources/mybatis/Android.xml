@@ -9,4 +9,94 @@
 		SELECT * FROM users WHERE username=#{username} and password=#{password}
 	</select>
 	
+	<select id="getAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
+		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where store_name = #{username} ORDER by  rv_postdate desc
+	</select>
+	
+	<select id="getAndroidReviewImg" parameterType="java.util.Map" resultType="androidReviewImgDTO">
+		select * from review_file  where rv_no=#{rv_no}
+	</select>
+		
+	<select id="getAndroidUserInfo" parameterType="java.util.Map" resultType="usersDTO">
+		select * from users where username =#{username}
+	</select>	
+	
+	
+	<select id="getMyAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
+		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where u.username = #{username} ORDER by  rv_postdate desc
+	</select>
+	
+	<delete id="deleteAndroidReview" parameterType="java.util.Map">
+		delete storereview where rv_no = #{rv_no}
+	</delete>
+	
+	<insert id="FallowAndroidReview" parameterType="java.util.Map">
+		INSERT INTO my_storelist (ms_no, ms_postdate,ms_coment,store_name,user_email) 
+            SELECT SEQ_MYSTORE.nextval,sysdate,#{fallow_content},#{store_id},#{user_id}
+            FROM DUAL
+            WHERE NOT EXISTS 
+            (SELECT * FROM my_storelist 
+            WHERE user_email = #{user_id} and store_name = #{store_id})
+	</insert>
+	
+	<select id="getFallowList" parameterType="java.util.Map" resultType="fallowDTO">
+		select ms.ms_no,s.store_name,s.username, ms.ms_postdate,sf.sf_path,ms.user_email
+		from my_storelist ms join stores s
+		on ms.store_name = s.username
+		join (
+		SELECT sf_path,username FROM store_file 
+		WHERE  ROWID IN (SELECT MAX(ROWID) FROM store_file GROUP BY username)
+		) sf on sf.username=s.username
+		WHERE ms.user_email =#{user_id} 
+	</select>
+	
+	<delete id="deleteAndroidFallow" parameterType="java.util.Map">
+		delete my_storelist where ms_no = #{ms_no}
+	</delete>
+	
+	<select id="getRequestERList" parameterType="java.util.Map" resultType="androidERDTO">
+		select s.store_name,
+		s.username "store_id",
+		er.er_title,
+		er.er_postdate,
+		erm.username "user_id",
+		erm.erjoin_num,
+		u.u_nick,
+		u.u_tend,
+		u.u_age,
+		u.u_img
+		from eattogether_room er join stores s on er.username=s.username
+		join er_members erm on erm.er_no = er.er_no
+		join users u on u.username = erm.username
+		where er.er_master=#{user_id} and erm.erjoin_role=0
+	</select>
+	
+	<update id="androidRequestER_Accept" parameterType="java.util.Map">
+		update er_members set erjoin_role =1 where erjoin_num=#{erjoin_num}
+	</update>
+	
+	<update id="androidRequestER_Reject" parameterType="java.util.Map">
+		update er_members set erjoin_role =-1 where erjoin_num=#{erjoin_num}
+	</update>
+	
+	<select id="getMyRequestERList" parameterType="java.util.Map" resultType="androidMyERDTO">
+		select 
+		er.er_no,
+		erm.erjoin_num,
+		s.store_name,
+		er.er_title,
+		er.er_tend,
+		er.er_max,
+		er.er_time,
+		u.u_nick,
+		u.u_tend,
+		u.u_age,
+		u.u_img
+		from er_members erm 
+		join eattogether_room er on erm.er_no=er.er_no
+		join users u on er.er_master= u.username
+		join stores s on er.username = s.username
+		where erm.username = #{user_id} and erm.erjoin_role=1 and er.er_master != #{user_id}
+	</select>
+	
 </mapper>

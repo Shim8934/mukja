@@ -22,6 +22,11 @@
 		<typeAlias alias="androidDTO" type="com.kosmo.mukja.service.AndroidDTO"/>
 		<typeAlias alias="mainDTO" type="com.kosmo.mukja.service.MainDTO"/>
 		<typeAlias alias="myPageDTO" type="com.kosmo.mukja.service.MyPageDTO"/>
+		<typeAlias alias="androidReviewDTO" type="com.kosmo.mukja.service.AndroidReviewDTO"/>
+		<typeAlias alias="androidReviewImgDTO" type="com.kosmo.mukja.service.AndroidReviewImgDTO"/>
+		<typeAlias alias="fallowDTO" type="com.kosmo.mukja.service.FallowDTO"/>
+		<typeAlias alias="androidERDTO" type="com.kosmo.mukja.service.AndroidERDTO"/>
+		<typeAlias alias="androidMyERDTO" type="com.kosmo.mukja.service.AndroidMyERDTO"/>
 	</typeAliases>	
 	<mappers>
 		<mapper resource="mybatis/SearchMap.xml" />		
