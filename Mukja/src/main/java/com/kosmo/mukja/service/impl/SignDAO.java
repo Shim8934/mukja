@@ -43,7 +43,6 @@ public class SignDAO implements SignService {
 		return sqlMapper.selectOne("idCheck",map);
 	}
 	
-<<<<<<< HEAD
 	@Override
 	public int updateMyInfo(Map map) {
 		return sqlMapper.update("updateMyInfo",map);
@@ -73,8 +72,6 @@ public class SignDAO implements SignService {
 	}
 
 
-=======
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja
 
 	
 
