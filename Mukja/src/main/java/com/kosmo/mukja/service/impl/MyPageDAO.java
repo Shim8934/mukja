@@ -24,7 +24,14 @@ public class MyPageDAO implements MyPageService {
 		System.out.println(map.get("user_id"));
 		return sqlMapper.selectOne("getMyInfo", map);
 	}
+	
+	@Override
+	public int updateMyInfo(Map map) {
+		return sqlMapper.update("updateMyInfo",map);
+	}
 
+	
+	
 	
 	 @Override 
 	 public List<MyPageDTO> getMyJjim(Map map) { 
@@ -42,6 +49,7 @@ public class MyPageDAO implements MyPageService {
 
 	 
 	 
+	 
 	@Override
 	public List<MyPageDTO> getMyReview(Map map) {
 		return sqlMapper.selectList("getMyReview",map);
@@ -51,44 +59,50 @@ public class MyPageDAO implements MyPageService {
 	public List<MyPageDTO> getMyReviewPics(Map map) {
 		return sqlMapper.selectList("getMyReviewPics",map);
 	}
-
 	
 
-	 
-//	@Override
-//	public List<MyPageDTO> getETList(Map map) {
-//		return sqlMapper.selectList("getETList",map);
-//	}
-//
-//	@Override
-//	public List<MyPageDTO> getETtends(Map map) {
-//		return sqlMapper.selectList("getETtends",map);
-//	}
+	@Override
+	public MyPageDTO getMyReviewForUpdate(Map map) {
+		return sqlMapper.selectOne("getMyReviewForUpdate",map);
+	}
 
-//	@Override
-//	public List<MyPageDTO> getETNames(Map map) {
-//		return sqlMapper.selectList("getETNames",map);
-//	}
-//	@Override
-//	public List<UsersDTO> getUsersNks(Map map) {
-//		return sqlMapper.selectList("getUsersNks",map);
-//	}
+	@Override
+	public MyPageDTO getMyReviewPicForUpdate(Map map) {
+		return sqlMapper.selectOne("getMyReviewPicForUpdate",map);
+	}
+
+	@Override
+	public List<StoreDTO> getMenu(Map map) {
+		return sqlMapper.selectList("getMenu",map);
+	}
+
+	@Override
+	public int updateMyReview(Map map) {
+		return sqlMapper.update("updateMyReview",map);
+	}
+	@Override
+	public int deleteMyReview(Map map) {
+		return sqlMapper.delete("deleteMyReview",map);
+	}
+	
+	
+	 
 	
 	@Override
 	public List<MyPageDTO> getETrecv0(Map map) {
 		return sqlMapper.selectList("getETrecv0",map);
 	}
 	@Override
-	public List<MyPageDTO> getNicks(Map map) {
-		return sqlMapper.selectList("getNicks",map);
-	}
-	@Override
 	public List<MyPageDTO> getETrecv1(Map map) {
 		return sqlMapper.selectList("getETrecv1",map);
 	}
 	@Override
-	public List<MyPageDTO> getNicks1(Map map) {
-		return sqlMapper.selectList("getNicks1",map);
+	public List<MyPageDTO> getNicks(Map map) {
+		return sqlMapper.selectList("getNicks",map);
+	}
+	@Override
+	public List<MyPageDTO> getInCount(Map map) {
+		return sqlMapper.selectList("getInCount",map);
 	}
 
 
@@ -100,19 +114,17 @@ public class MyPageDAO implements MyPageService {
 	public int getMyReviewTotal(Map map) {
 		return sqlMapper.selectOne("getMyReviewTotal",map);
 	}
-
+	@Override
+	public int getMyETApplTotal(Map map) {
+		return sqlMapper.selectOne("getMyETApplTotal",map);
+	}
+	@Override
+	public int getMyETHistTotal(Map map) {
+		return sqlMapper.selectOne("getMyETHistTotal",map);
+	}
 
 	
 
-	@Override
-	public int updateMyInfo(Map map) {
-		return sqlMapper.update("updateMyInfo",map);
-	}
-
-	@Override
-	public UsersDTO getOneInfo(Map map) {
-		return sqlMapper.selectOne("getOneInfo",map);
-	}
 
 
 
