@@ -143,7 +143,8 @@ public class StoreDetailController {
 		System.out.println("strvcnts"+strvcnts);
 		model.addAttribute("strvcnts", strvcnts);		
 		model.addAttribute("strvPagingString", strvPagingString);	
-				
+
+
 		List<MyPageDTO> strvimgs = service.getStoreReviewimg(map);	
 		model.addAttribute("strvimgs",strvimgs);
 		List<UsersDTO> usersnks = service.getUsersNicks(map);
