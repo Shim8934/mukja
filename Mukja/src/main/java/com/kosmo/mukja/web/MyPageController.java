@@ -2,12 +2,14 @@ package com.kosmo.mukja.web;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MyPageDTO;
@@ -142,6 +145,9 @@ public class MyPageController{
 		
 		List<MyPageDTO> rvcnt = service.getMyReview(map);
 		//데이타 저장]
+		model.addAttribute("rvCount",rvCount);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("nowPage",nowPage);
 		String rvPagingString=PagingUtil.pagingBootStrapStyle(rvCount, pageSize,blockPage, nowPage, req.getContextPath()+"/Member/MyPage.bbs?");
 		model.addAttribute("rvcnt",rvcnt);
 		model.addAttribute("rvPagingString", rvPagingString);
@@ -155,6 +161,35 @@ public class MyPageController{
 		
 		
 		
+		List<MyPageDTO> Nicks = service.getNicks(map);
+		System.out.println("닉네임얻기");
+		for(int i=0; i<Nicks.size(); i++) {	
+			System.out.println("Nicks : "+Nicks.get(i).getEr_no());	
+			System.out.println("Nicks : "+Nicks.get(i).getUsername());
+		}		
+		model.addAttribute("Nicks",Nicks);
+		
+		List<MyPageDTO> etInCount = service.getInCount(map);
+		for(int i=0; i<etInCount.size(); i++) {	
+			System.out.println("IC.er_no : "+etInCount.get(i).getEr_no()+", IC.count : "+etInCount.get(i).getCount());	
+			System.out.println("Nicks : "+Nicks.get(i).getUsername());
+		}
+		model.addAttribute("etInCount",etInCount);
+		
+		
+		
+		/*리뷰*/
+		//페이징을 위한 로직 시작]
+		//전체 레코드수	
+		int applCount = service.getMyReviewTotal(map);
+		//전체 페이지수]
+		int applTotalPage = (int)Math.ceil((double)applCount/pageSize);		
+		//시작 및 끝 ROWNUM구하기]
+		int apstart = (nowPage-1)*pageSize+1;
+		int apend   = nowPage*pageSize;	
+		//페이징을 위한 로직 끝]	
+		map.put("apstart", apstart);
+		map.put("apend", apend);
 		
 		List<MyPageDTO> myET0 = service.getETrecv0(map);
 		String[] et0tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS","JS","HS","BS,","YS"};
@@ -176,7 +211,13 @@ public class MyPageController{
 			myET0.get(i).setEr_time(myET0.get(i).getEr_time().replace("시", ":"));
 			myET0.get(i).setEr_time(myET0.get(i).getEr_time().replace("분", ""));				
 		}
+		model.addAttribute("applCount",applCount);
+		model.addAttribute("pageSize",pageSize);
+		model.addAttribute("nowPage",nowPage);
+		String applPagingString=PagingUtil.pagingBootStrapStyle(applCount, pageSize, blockPage, nowPage, req.getContextPath()+"/Member/MyPage.bbs?");
 		model.addAttribute("myET0",myET0);
+		model.addAttribute("applPagingString", applPagingString);
+		
 		for(int i=0; i<myET0.size();i++) {
 			System.out.println("myET0 username : " + myET0.get(i).getUsername());
 			System.out.println("myET0 ertend : " + myET0.get(i).getEr_tend());
@@ -219,20 +260,6 @@ public class MyPageController{
 		model.addAttribute("myET1",myET1);
 		
 		
-		List<MyPageDTO> Nicks = service.getNicks(map);
-		System.out.println("닉네임얻기");
-		for(int i=0; i<Nicks.size(); i++) {	
-			System.out.println("Nicks : "+Nicks.get(i).getEr_no());	
-			System.out.println("Nicks : "+Nicks.get(i).getUsername());
-		}		
-		model.addAttribute("Nicks",Nicks);
-		
-		List<MyPageDTO> etInCount = service.getInCount(map);
-		for(int i=0; i<etInCount.size(); i++) {	
-			System.out.println("IC.er_no : "+etInCount.get(i).getEr_no()+", IC.count : "+etInCount.get(i).getCount());	
-			System.out.println("Nicks : "+Nicks.get(i).getUsername());
-		}
-		model.addAttribute("etInCount",etInCount);
 		
 		
 		return "Member/MyPage.tiles";
@@ -262,7 +289,7 @@ public class MyPageController{
 	
 	//회원정보 수정 처리]
 	@RequestMapping(value = "/UpdateMyInfo.bbs", method = RequestMethod.POST)
-	public String UpdateCompleted( Authentication auth, Model model, @RequestParam Map map) {	
+	public String UpdateCompleted(Authentication auth, Model model, @RequestParam Map map) {	
 		System.out.println(map.get("user_id"));
 		System.out.println("수정  IN!!!!!!!!!!!!!");
 		int result = service.updateMyInfo(map);
@@ -273,90 +300,56 @@ public class MyPageController{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	//수정폼으로 이동 및 수정처리]
-	@RequestMapping("/updateMyReview.bbs")
-	public String edit(Authentication auth, HttpServletRequest req, Model model, @RequestParam Map map) {
+	//회원정보 수정 폼으로 이동]
+	@RequestMapping(value = "/updateMyReview.bbs", method = RequestMethod.GET)
+	public String updateMyReview(Authentication auth, Model model, @RequestParam Map map) {			
+		System.out.println("리뷰 수정폼으로 이동 완료!");
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		System.out.println("회원정보 수정폼 user_id: "+map.get("user_id"));
 		
-		if(req.getMethod().equals("GET")) {//수정폼으로 이동		
-			System.out.println("리뷰 수정폼으로 이동 완료!");
-//			UserDetails userDetails = (UserDetails)auth.getPrincipal();
-//			user_id = userDetails.getUsername();
-//			map.put("user_id",user_id);
-			System.out.println("회원정보 수정폼 user_id: "+map.get("user_id"));
-			
-			//서비스 호출]
-			MyPageDTO rvcnt4up = service.getMyReviewForUpdate(map);
-			model.addAttribute("리뷰 수정폼 rvcnt4up : ",rvcnt4up);			
-			System.out.println("리뷰 수정폼 rvcnt4up의 rv_no : "+rvcnt4up.getRv_no());
-			System.out.println("리뷰 수정폼 rvcnt4up의 Menu_no : "+rvcnt4up.getMenu_no());
-			
-			MyPageDTO rvimgs4up = service.getMyReviewPicForUpdate(map);
-			model.addAttribute("리뷰 수정폼 rvimgs : ", rvimgs4up);
-			System.out.println("리뷰 수정폼 rvimgs : " + rvimgs4up);	
-			
-			List<StoreDTO> menus = service.getMenu(map);
-			model.addAttribute("리뷰 수정폼 menus : ",menus);
-			System.out.println("리뷰 수정폼 menus : "+menus);
-			
-			
-			//수정 폼으로 이동]
-			return "/User/UpdateMyReview.tiles";
+		//서비스 호출]
+		MyPageDTO rvcnt4up = service.getMyReviewForUpdate(map);
+		rvcnt4up.setRv_title(rvcnt4up.getRv_title().trim());
+		rvcnt4up.setRv_content(rvcnt4up.getRv_content().trim());
+		model.addAttribute("rvcnt4up",rvcnt4up);
+		System.out.println("리뷰 수정폼 rvcnt4up의 rv_no : "+rvcnt4up.getRv_no());
+		System.out.println("리뷰 수정폼 rvcnt4up의 Menu_no : "+rvcnt4up.getMenu_no());	
+		System.out.println("리뷰 수정폼 rvcnt4up의 Store_name2 : "+rvcnt4up.getStore_name2());		
+		
+		MyPageDTO rvimgs4up = service.getMyReviewPicForUpdate(map);
+		model.addAttribute("rvimgs4up", rvimgs4up);
+		System.out.println("리뷰 수정폼 rvimgs : " + rvimgs4up);	
+		
+		List<StoreDTO> menus = service.getMenu(map);
+		model.addAttribute("menus",menus);
+		for(int i=0; i<menus.size(); i++) {
+			System.out.println("리뷰 수정폼 menus.menu_no : "+menus.get(i).getMenu_no());
 		}
-		
-		//수정처리후 상세보기로 이동
-		//서비스 호출
+		return "/User/UpdateMyReview.tiles";
+	}
+	//리뷰 수정 처리]
+	@RequestMapping(value = "/updateMyReviewOk.bbs", method = RequestMethod.POST)
+	public String updateMyReview(Authentication auth, @RequestParam Map map) {
 		System.out.println(map.get("user_id"));
+		System.out.println(map.get("rv_no"));
 		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
 		int updateRV = service.updateMyReview(map);
 		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
 		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");
-		//뷰로 포워드
 		return "forward:/MyPage.bbs";
-	}//////////////edit
-	
-	
-	
-	
-//	//회원정보 수정 폼으로 이동]
-//		@RequestMapping(value = "/UpdateMyInfo.bbs", method = RequestMethod.GET)
-//		public String updateMyReview(HttpServletRequest req,
-//				  Authentication auth,
-//				  Model model,
-//				  @RequestParam Map map) {			
-//			System.out.println("수정폼으로 이동 완료!");
-//			//회원아이디 얻기
-//			UserDetails userDetails = (UserDetails)auth.getPrincipal();
-//			user_id = userDetails.getUsername();
-//			map.put("user_id",user_id);
-//			System.out.println("user_id in 회원정보 수정폼 : "+map.get("user_id"));
-//							
-//			UsersDTO userInfo = service.getMyInfo(map);
-//			model.addAttribute("userInfo",userInfo);
-//			System.out.println("userInfo : "+userInfo.getU_nick());
-//			return "/Member/UpdateMyInfo.tiles";
-//		}
-	//리뷰 수정 처리]
-//	@RequestMapping(value = "/updateMyReview.bbs", method = RequestMethod.POST)
-//	public String updateMyReview(Authentication auth, @RequestParam Map map) {
-//		System.out.println(map.get("user_id"));
-//		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
-//		int updateRV = service.updateMyReview(map);
-//		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
-//		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");
-//		return "forward:/MyPage.bbs";
-//	}
+	}
 		
+	
+	
+	
+	
 	//리뷰 삭제 처리]
-	@RequestMapping(value = "/deleteMyReview.bbs", method = RequestMethod.POST)
-	public String deleteMyReview( Authentication auth, @RequestParam Map map) {	
-		System.out.println(map.get("user_id"));
-		System.out.println("리뷰 삭제  IN!!!!!!!!!!!!!");		
+	@RequestMapping(value = "/deleteMyReview.do", method = RequestMethod.POST)
+	public String deleteMyReview( Authentication auth, Model model,@RequestParam Map map) {		
+
+		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");
 		int deleteRV = service.deleteMyReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
 		System.out.println("리뷰 삭제 완료 !!!!!!!!!!!!!");
@@ -364,6 +357,42 @@ public class MyPageController{
 	}///////////
 	
 	
+
 	
 	
+	@ResponseBody
+	@RequestMapping(value = "/User/er_Reject.do")
+	public String er_Reject(@RequestParam Map map) {
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		map.put("erjoin_num", map.get("erjoin_num").toString().replace("\"",""));
+		
+		int result =  service.er_Reject(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result_Reject", result);
+	
+		return jsonObject.toJSONString();
+	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/User/er_Accept.do", method = RequestMethod.GET)
+	public String er_Accept(@RequestParam Map map) {
+      System.out.println(map.get("user_id").toString());
+      System.out.println(map.get("er_no").toString());
+      System.out.println(map.get("nowPage").toString());
+      int result = service.er_Accept(map);
+
+      JSONObject json = new JSONObject();
+      json.put("nowPage", map.get("nowPage").toString());
+      json.put("result",result==1?"성공":"실패");
+      return json.toJSONString();
+   }
 }

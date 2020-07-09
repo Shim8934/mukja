@@ -16,10 +16,12 @@ public interface MyPageService {
 	public UsersDTO getMyInfo(Map map);
 	int updateMyInfo(Map map) ;
 	
+	
 	public List<MyPageDTO> getMyJjim(Map map);
 	public List<StoreDTO> getJjimInfo(Map map);
 	public List<StoreIMGDTO> getJjimImgs(Map map);
 
+	
 	public List<MyPageDTO> getMyReview(Map map);	
 	public List<MyPageDTO> getMyReviewPics (Map map);
 	int updateMyReview(Map map);
@@ -28,11 +30,16 @@ public interface MyPageService {
 	public MyPageDTO getMyReviewPicForUpdate(Map map);
 	public List<StoreDTO> getMenu(Map map);
 
+	
 	public List<MyPageDTO> getETrecv0(Map map);
 	public List<MyPageDTO> getETrecv1(Map map);
 
 	public List<MyPageDTO> getNicks(Map map);	
 	public List<MyPageDTO> getInCount(Map map);
+
+	
+	int er_Accept(Map map);
+	int er_Reject(Map map);
 
 	//전체 레코드 수]
 	int getMyJjimTotal(Map map);

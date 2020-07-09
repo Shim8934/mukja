@@ -138,11 +138,10 @@ public class StoreDetailController {
 		map.put("strvend", strvend);
 		
 		List<MyPageDTO> strvcnts= service.getStoreReviewcnt(map);
-//		List<MyPageDTO> strvcnts= service.getStoreReview(map);	
 		//데이타 저장]
 		String strvPagingString = PagingUtil.pagingBootStrapStyle(strvCount, pageSize,blockPage, nowPage, req.getContextPath()+"/Store/DetailView.do?");
 		System.out.println("strvcnts"+strvcnts);
-		model.addAttribute("strvcnts", strvcnts);
+		model.addAttribute("strvcnts", strvcnts);		
 		model.addAttribute("strvPagingString", strvPagingString);	
 				
 		List<MyPageDTO> strvimgs = service.getStoreReviewimg(map);	

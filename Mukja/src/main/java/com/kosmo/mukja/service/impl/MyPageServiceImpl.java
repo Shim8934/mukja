@@ -83,6 +83,7 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 
 	
+	
 	@Override
 	public List<MyPageDTO> getETrecv0(Map map) {
 		return dao.getETrecv0(map);
@@ -100,6 +101,17 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getInCount(map);
 	}
 	
+
+	@Override
+	public int er_Accept(Map map) {
+		return dao.er_Accept(map);
+	}
+
+	@Override
+	public int er_Reject(Map map) {
+		return dao.er_Reject(map);
+	}
+
 	
 	
 	@Override

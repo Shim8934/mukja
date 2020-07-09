@@ -265,7 +265,7 @@ $(function(){
 						</c:forEach>
 						</c:if>
 					</table>
-					<input type="hidden" id="nowPage" value="${nowPage }">
+					<input type="hidden" id="nowPage" value="${nowPage}">
 				</div>
 				<!-- table 다이브 끝 -->
 				

@@ -19,72 +19,87 @@
       </div>
    </div>
 </section>
-<!-- REVIEW -->
-<section class="ftco-section testimony-section ">
 
-	<div class="container">
+<section class="ftco-section ftco-no-pt ftco-no-pb">
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
+	<input type="hidden" name="rv_no" value="${rvcnt.rv_no}">
 
-		<sec:authorize access="hasRole('ROLE_USER')">
-			<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
-				<input type="hidden" name="rv_no" value="${rvcnt.rv_no}">
-				<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기 </h3>
-				
-				<form name="form1" method="post" action="/updateMyReview.bbs?">
-						<div class="form-group poor">
-							<div class="col-md-12">
-								<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
-								<div class="col-md-9" style="padding-bottom: 15px;">
-									<select id="menu_name">
-										<option>메뉴 이름</option>
-											<!-- <c:forEach items="${menus}" var="menus" varStatus="loop">
-												<c:if test="${rvcnt4up.store_name == menus.username}">
-													<option>${menus.menu_name}</option>
-												</c:if>
-											</c:forEach> -->
-										<option>${rvcnt4up.menu_no}</option>
-									</select>
-								</div>
+	<div class="container" id='signup'>
+		<div class="row d-flex">
+			<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
+				<form action="<c:url value='/updateMyReviewOk.bbs'/>" method="post">
+					<div class="row">
+						<input type="hidden" name="user_id" value="${userInfo.username}">
+
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group">
+								<label for="">닉네임 :  ${rvcnt4up.user_email}</label> 
+								<!-- <input type="text" class="form-control" id="user_email" name="user_email" value="${rvcnt4up.user_email}" readonly="readonly"> -->
+							 </div>
+						</div>
+						
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group">
+								<label for="">리뷰 작성 날짜 :  ${rvcnt4up.rv_postdate}</label> 
+								<input type="text" class="form-control" id="rv_postdate" name="rv_postdate" value="${rvcnt4up.rv_postdate}" readonly="readonly">
+							 	
+							 </div>
+						</div>
+						
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group">
+								<label for="">가게 이름</label> 
+								<input type="text" class="form-control" id="rv_postdate" name="rv_postdate" value="${rvcnt4up.store_name2}" readonly="readonly">
 							</div>
-							<div class="col-md-12">
-								<label class="col-md-2" for="message"
-									style="text-align: right; padding-top: 15px;">title</label>
-								<div class="col-md-9">
-									<input type="text" class="form-control" name="title" value="" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
-								</div>
+						</div>
+
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group" id="input">
+								<label for="">메뉴</label> 
+								<select id="menu_no" id="menu_no" class="form-control">
+									<option value="${rvcnt4up.menu_no}">메뉴 선택</option>
+									<c:forEach items="${menus}" var="menus" varStatus="loop">
+										<c:if test="${rvcnt4up.store_name == menus.username}">
+											<option>${menus.menu_name}</option>
+										</c:if>											<
+									</c:forEach>
+								</select>
 							</div>
-							<div class="col-md-12">
-								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">Contents</label>
-								<div class="col-md-9 poor">
-									<textarea name="rv_content" cols="30" rows="7"
-										class="form-control" placeholder="내용을 입력하세요"
-										style="margin-bottom: 10px;">${rvcnt4up.rv_content}</textarea>
-								</div>
+						</div>
+
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group">
+								<label for="">리뷰 제목</label> <input type="text"
+									class="form-control" id="rv_title" name="rv_title"
+									placeholder="제목" value="${rvcnt4up.rv_title}">
 							</div>
-							<div class="col-md-12">
-								<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">Images</label>
-								<div class="col-md-9 poor">
-									<c:if test="${empty rvimgs4up.rf_path}"> 
-										<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;">
-									</c:if>
-									<c:if test="${not empty rvimgs4up.rf_path}">
-										<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;" value="${rvimgs4up.rf_path}">									
-									</c:if>	
-												
-								</div>
+						</div>
+
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group">
+								<label for="">내용</label>
+								<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"> 
+									${rvcnt4up.rv_content}
+								</textarea>
 							</div>
-	
+						</div>
+
+						<div class="col-md-offset-3 col-md-6">
+							<div class="form-group">
+								<label for="">리뷰 이미지</label> <input type="text"
+									class="form-control" id="rf_path" name="rf_path"
+									placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}">
+							</div>
 						</div>
 						<div class="col-md-12">
-							<div class="form-group col-md-offset-5" style="align-content: center; align-items: center;">
-								<input type="submit" value="회원정보 수정" class="btn btn-primary py-3 px-5">
+							<input type="hidden" name="rv_no" value="${rvimgs4up.rv_no}">
+							<div class="form-group col-md-offset-5">
+								<input type="submit" value="리뷰 수정" class="btn btn-primary py-3 px-5">
 							</div>
 						</div>
+					</div>
 				</form>
-				
 			</div>
-		</sec:authorize>
+		</div>
 	</div>
-
-
-
 </section>

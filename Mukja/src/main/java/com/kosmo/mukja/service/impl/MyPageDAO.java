@@ -106,6 +106,16 @@ public class MyPageDAO implements MyPageService {
 	}
 
 
+	
+	@Override
+	public int er_Accept(Map map) {
+		return sqlMapper.update("er_Accept",map);
+	}
+	
+	@Override
+	public int er_Reject(Map map) {
+		return sqlMapper.update("er_Reject",map);
+	}
 	@Override
 	public int getMyJjimTotal(Map map) {
 		return sqlMapper.selectOne("getMyJjimTotal",map);
