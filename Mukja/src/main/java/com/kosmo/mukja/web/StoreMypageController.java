@@ -40,8 +40,18 @@ public class StoreMypageController {
 		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
-	
+		
 		List<StoreDTO> list = service.getStoreInfo(map);
+		System.out.println("StoreDetail 이동 / 가게 주소 찍어봄 = "+list.get(0).getStore_addr().toString());
+		String store_addr = list.get(0).getStore_addr().toString();
+		if(store_addr.contains("/")) {
+			System.out.println("상세 주소 존재해서 분리하는 작업으로 들어옴");
+			String store_addr1 = store_addr.substring(store_addr.lastIndexOf("/")+1);
+			store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
+			list.get(0).setStore_addr(store_addr);
+			list.get(0).setStore_addr1(store_addr1);
+		}
+		
 		model.addAttribute("list",list);
 		
 		int reviewCount= service.getReviewCount(map);
@@ -135,14 +145,34 @@ public class StoreMypageController {
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
+	
+	// 가게 수정 // 왜 내가 ajax처리함? ajax 의미없게 함
 	@ResponseBody
 	@RequestMapping("/StoreMypage/editStoreInfo.do")
 	public String editStoreInfo(@RequestParam Map map, Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
+		String store_addr ="";
+		if(map.get("store_addr1")!=null) {
+			// 상세 주소 적은 경우
+			System.out.println("상세 주소 있어서 가게 상세 주소 찍어봄(addr1)  = "+map.get("store_addr1"));
+			store_addr = map.get("store_addr").toString() +"/"+ map.get("store_addr1").toString();
+			
+			System.out.println("합친 주소 찍어봄  =  "+store_addr);
+			map.put("store_addr", store_addr);
+		}
+		else {
+			store_addr = map.get("store_addr").toString();
+			System.out.println("상세 주소 없는 경우  = " + store_addr);
+		}
+		System.out.println(map.get("store_intro")!=null?"가게 소개 수정 값 넘어옴 ":" 가게 소개 수정 값  안 넘어옴");
+		System.out.println("소개값 넘어와서 찍어봄 = "+map.get("store_intro").toString().trim());
+		String store_intro = map.get("store_intro").toString().trim();
+		if(store_intro.contains("<p>")&& store_intro.contains("</p>")){
+			store_intro = store_intro.replace("<p>", "").replace("</p>", "");
+			map.put("store_intro", store_intro);
+		}
 		
-		System.out.println("비번 찍어봄  " + map.get("password").toString());
-		System.out.println("가게 주소 찍어봄  " + map.get("store_addr").toString());
 		int result;
 		result = service.updateStoreInfo(map);
 		JSONObject jsonObject = new JSONObject();

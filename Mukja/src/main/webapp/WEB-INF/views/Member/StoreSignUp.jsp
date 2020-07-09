@@ -74,6 +74,14 @@ section {
 	display: grid;
 	grid-template-columns: 16% 16% 16% 16% 16% 16%;
 }
+
+.text-area{
+	width:100%;
+	border:1;
+	overflow:visible;
+	text-overflow:ellipsis;
+}
+
 </style>
 
 
@@ -204,16 +212,13 @@ section {
 													<div class="col-md-12">
 														<div class="form-group">
 															<div class=" col-md-6">
-																<label for="">매장 홍보글</label>
-																<textarea id="summernote" name="store_intro"></textarea>
+																<label for="store_intro">매장 홍보글</label>
+																<textarea id="store_intro" class="form-control text-area" name="store_intro" rows="20"></textarea>
 																<div class="check_font" id="intro_check"></div>
 															</div>
-														</div>
-														<div class="form-group" style="width: 100%">
 															<div class="col-md-6">
 																<label for="">매장 영업시간</label>
-																<span class="ion-ios-arrow-down" id="img"></span>
-																<textarea id="summernote1" name="store_time"></textarea>
+																<textarea id="store_time" class="form-control text-area" name="store_time" rows="20"></textarea>
 																<div class="check_font" id="time_check"></div>
 															</div>
 														</div>
@@ -726,22 +731,6 @@ $(document).on("click",".addMenu",function(){
  	
 </script>
 
-<script><!--섬머노트 생성 js-->
-	$('#summernote').summernote({
-		placeholder: '가게 소개를 적어주세요',
-		tabsize: 2,
-		height: 300
-	})
-		$('#summernote1').summernote({
-			placeholder: '영업시간을 적어주세요',
-			tabsize: 2,
-			height: 150
-		})		
-	</script>
-	<script type="text/javascript">
-$(".note-insert").empty();
-$(".note-view").empty();
-</script>
 <script><!--주소를 좌표로 변환하는 js-->
     function addr() {
     	var geocoder = new daum.maps.services.Geocoder();

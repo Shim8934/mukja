@@ -149,12 +149,6 @@ public class SignController {
 					map.put("sf_path", uploadDir+"/"+sf_path);
 					result = signService.insertStoreImg22(map);
 				}
-				else {
-					sf_path=null;
-					map.put("sf_path", uploadDir+"/"+sf_path);
-					result = signService.insertStoreImg22(map);
-					break;
-					}
 			}
 		}// 회원 가입 끝
 		
