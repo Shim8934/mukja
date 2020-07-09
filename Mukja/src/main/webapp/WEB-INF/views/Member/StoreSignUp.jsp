@@ -74,6 +74,14 @@ section {
 	display: grid;
 	grid-template-columns: 16% 16% 16% 16% 16% 16%;
 }
+
+.text-area{
+	width:100%;
+	border:1;
+	overflow:visible;
+	text-overflow:ellipsis;
+}
+
 </style>
 
 
@@ -104,7 +112,6 @@ section {
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5"><!--  onsubmit="return false;"  -->
 					<form id="frm" enctype="multipart/form-data" action="<c:url value='/StoreSignUp.bbs'/>" method="post">
-						<input hidden="hidden" />
 						<!-- 카라셀 -->
 						<div id="carousel-g" class="carousel slide" data-ride="carousel">
 							<!-- Indicators -->
@@ -205,106 +212,18 @@ section {
 													<div class="col-md-12">
 														<div class="form-group">
 															<div class=" col-md-6">
-																<label for="">매장 홍보글</label>
-																<textarea id="summernote" name="store_intro"></textarea>
+																<label for="store_intro">매장 홍보글</label>
+																<textarea id="store_intro" class="form-control text-area" name="store_intro" rows="20"></textarea>
 																<div class="check_font" id="intro_check"></div>
 															</div>
-														</div>
-														<div class="form-group" style="width: 100%">
 															<div class="col-md-6">
 																<label for="">매장 영업시간</label>
-																<span class="ion-ios-arrow-down" id="img"></span>
-																<textarea id="summernote1" name="store_time"></textarea>
+																<textarea id="store_time" class="form-control text-area" name="store_time" rows="20"></textarea>
 																<div class="check_font" id="time_check"></div>
 															</div>
 														</div>
 													</div>
-													<div class="col-md-12 text-center" style="margin-top: 10px;">
-														<div class="form-group text-center" style="width: 100%">
-															<label for="">메뉴 등록하기</label>
-															<span class="ion-ios-arrow-down" id="img"></span>
-															<input type="hidden" id="menu_tend" name="menu_tend" />
-															<div class="col-xs-12">
-																<div class="col-xs-1">
-																	<!-- 물고기 -->
-																	<img id='T_FS'
-																		src='<c:url value="/resources/tend_IMG/sutend/pesco_x.png"/>'
-																		alt="F" class="img-circle img_size">
-																	<div class="lb_size">생선</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 달걀-->
-																	<img id='T_EG'
-																		src="<c:url value="/resources/tend_IMG/sutend/ovo_x.png"/>"
-																		alt="E" class="img-circle img_size">
-																	<div class="lb_size">달걀</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 우유-->
-																	<img id='T_MK'
-																		src="<c:url value="/resources/tend_IMG/sutend/dairy_x.png"/>"
-																		alt="M" class="img-circle img_size">
-																	<div class="lb_size">우유</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 가금류-->
-																	<img id='T_BD'
-																		src="<c:url value="/resources/tend_IMG/sutend/chicken_x.png"/>"
-																		alt="B" class="img-circle img_size">
-																	<div class="lb_size">가금류</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 돼지고기-->
-																	<img id='T_PK'
-																		src="<c:url value="/resources/tend_IMG/sutend/pig_x.png"/>"
-																		alt="P" class="img-circle img_size">
-																	<div class="lb_size">돼지</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 소고기-->
-																	<img id='T_CW'
-																		src="<c:url value="/resources/tend_IMG/sutend/cow_x.png"/>"
-																		alt="C" class="img-circle img_size">
-																	<div class="lb_size">소</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 땅콩-->
-																	<img id='T_PE'
-																		src="<c:url value="/resources/tend_IMG/sutend/nuts_x.png"/>"
-																		alt="PE" class="img-circle img_size">
-																	<div class="lb_size">땅콩</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 각갑류-->
-																	<img id='T_SF'
-																		src="<c:url value="/resources/tend_IMG/sutend/shrimp_x.png"/>"
-																		alt="SF" class="img-circle img_size">
-																	<div class="lb_size">갑각류</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 치즈-->
-																	<img id='T_DP'
-																		src="<c:url value="/resources/tend_IMG/sutend/dairy_x.png"/>"
-																		alt="DP" class="img-circle img_size">
-																	<div class="lb_size">유제품</div>
-																</div>
-																<div class="col-xs-1">
-																	<!-- 콩-->
-																	<img id='T_SB'
-																		src="<c:url value="/resources/tend_IMG/sutend/s_x.png"/>"
-																		alt="SB" class="img-circle img_size">
-																	<div class="lb_size">대두</div>
-																</div>
-																<div class="col-xs-1" style="margin-bottom: 10px;">
-																	<!-- 밀가루 -->
-																	<img id='T_FL'
-																		src="<c:url value="/resources/tend_IMG/sutend/gluten_x.png"/>"
-																		alt="FL" class="img-circle img_size">
-																	<div class="lb_size">글루텐</div>
-																</div>
-															</div>
-														</div>
-													</div>
+													
 													<div class="col-md-12" id="signUpImg" style="margin-top: 10px;margin-bottom: 20px;">
 														<div class="form-group" style="margin-top:10px;">
 															<div class="col-md-8">
@@ -321,18 +240,143 @@ section {
 															</div>
 														</div>
 													</div>
-													<div class="col-md-12" style="margin-top: 10px;">
+													
+													<div class="col-md-12 text-center" style="margin-top: 10px;">
 														<div class="form-group" style="width: 100%" id="signUpMenu">
-														<div class="col-md-6" style="margin-top: 10px">
-															<div>
-																<span class="badge badge-pill badge-info addMenu" id="addMenu0">
-																	메뉴 추가+
-																</span>
+															<label style="margin-top: 20px;">메뉴 등록하기</label>
+															<input type="hidden" id="menu_tend0" name="menu_tend0" />
+															<div id="addMenu0">
+																<input type="button" class="btn btn-info addMenu" value="메뉴 추가+">
 															</div>
-															<div class="col-md-6">
+															<div>
+															<span>&nbsp;</span>
+															</div>
+															<div class="col-xs-12">
+																<div class="col-xs-3"></div>	
+																<div class="col-xs-1">
+																	<!-- 중화요리-->
+																	<img id='H_CS0' src="<c:url value="/resources/tend_IMG/chi_b.JPG"/>"
+																		alt="J" class="img-circle img_size">
+																	<div class="lb_size">중식</div>
+																</div>
+
+																<div class="col-xs-1">
+																	<!-- 일식-->
+																	<img id='H_JS0' src="<c:url value="/resources/tend_IMG/j_b.png"/>"
+																		alt="JP" class="img-circle img_size">
+																	<div class="lb_size">일식</div>
+																</div>
+
+																<div class="col-xs-1">
+																	<!-- 양식-->
+																	<img id='H_HS0'
+																		src="<c:url value="/resources/tend_IMG/k_b.png"/>"
+																		alt="H" class="img-circle img_size">
+																	<div class="lb_size">한식</div>
+																</div>
+
+																<div class="col-xs-1">
+																	<!-- 분식-->
+																	<img id='H_BS0'
+																		src="<c:url value="/resources/tend_IMG/bs_b.JPG"/>"
+																		alt="BS" class="img-circle img_size">
+																	<div class="lb_size">분식</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 분식-->
+																	<img id='H_YS0'
+																		src="<c:url value="/resources/tend_IMG/y_b.jpg"/>"
+																		alt="Y" class="img-circle img_size">
+																	<div class="lb_size">양식</div>
+																</div>
+															</div>
+															<div class="col-xs-12">
+																<div class="col-xs-1">
+																	<!-- 물고기 -->
+																	<img id='T_FS0'
+																		src='<c:url value="/resources/tend_IMG/sutend/pesco_x.png"/>'
+																		alt="F" class="img-circle img_size">
+																	<div class="lb_size">생선</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 달걀-->
+																	<img id='T_EG0'
+																		src="<c:url value="/resources/tend_IMG/sutend/ovo_x.png"/>"
+																		alt="E" class="img-circle img_size">
+																	<div class="lb_size">달걀</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 우유-->
+																	<img id='T_MK0'
+																		src="<c:url value="/resources/tend_IMG/sutend/dairy_x.png"/>"
+																		alt="M" class="img-circle img_size">
+																	<div class="lb_size">우유</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 가금류-->
+																	<img id='T_BD0'
+																		src="<c:url value="/resources/tend_IMG/sutend/chicken_x.png"/>"
+																		alt="B" class="img-circle img_size">
+																	<div class="lb_size">가금류</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 돼지고기-->
+																	<img id='T_PK0'
+																		src="<c:url value="/resources/tend_IMG/sutend/pig_x.png"/>"
+																		alt="P" class="img-circle img_size">
+																	<div class="lb_size">돼지</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 소고기-->
+																	<img id='T_CW0'
+																		src="<c:url value="/resources/tend_IMG/sutend/cow_x.png"/>"
+																		alt="C" class="img-circle img_size">
+																	<div class="lb_size">소</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 땅콩-->
+																	<img id='T_PE0'
+																		src="<c:url value="/resources/tend_IMG/sutend/nuts_x.png"/>"
+																		alt="PE" class="img-circle img_size">
+																	<div class="lb_size">땅콩</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 각갑류-->
+																	<img id='T_SF0'
+																		src="<c:url value="/resources/tend_IMG/sutend/shrimp_x.png"/>"
+																		alt="SF" class="img-circle img_size">
+																	<div class="lb_size">갑각류</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 치즈-->
+																	<img id='T_DP0'
+																		src="<c:url value="/resources/tend_IMG/sutend/dairy_x.png"/>"
+																		alt="DP" class="img-circle img_size">
+																	<div class="lb_size">유제품</div>
+																</div>
+																<div class="col-xs-1">
+																	<!-- 콩-->
+																	<img id='T_SB0'
+																		src="<c:url value="/resources/tend_IMG/sutend/s_x.png"/>"
+																		alt="SB" class="img-circle img_size">
+																	<div class="lb_size">대두</div>
+																</div>
+																<div class="col-xs-1" style="margin-bottom: 10px;">
+																	<!-- 밀가루 -->
+																	<img id='T_FL0'
+																		src="<c:url value="/resources/tend_IMG/sutend/gluten_x.png"/>"
+																		alt="FL" class="img-circle img_size">
+																	<div class="lb_size">글루텐</div>
+																</div>
+															</div>
+															
+															
+																<div class="form-group" style="width: 100%">
+														<div class="col-xs-12" style="margin-top: 10px">
+															<div class="col-xs-6">
 																<div id="menuPreview0"></div>
 															</div>
-															<div class="col-md-6">
+															<div class="col-xs-6">
 																<div>
 																	<label for="fm_path0">메뉴 사진 등록</label>
 																	<input name="fm_path0" id="fm_path0" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control-file inp-menu">
@@ -350,13 +394,17 @@ section {
 																</div>
 																<div>
 																	<label>메뉴 가격</label>
-																	<input class="form-control" type="text" id="menu_price0" name="menu_price0">
+																	<input class="form-control" placeholder="숫자만 입력해 주세요." type="text" id="menu_price0" name="menu_price0">
 																	<div class="check_font" id="mp_check"></div>
 																</div>
 															</div>
 														</div>
-														</div>
 													</div>
+												</div>
+												<!-- 메뉴 1개 formGroup 끝 -->
+											</div>
+													
+													
 													<div class="col-md-12 text-right" style="margin-top: 10px;">
 														<div class="form-group">
 															<a class="btn btn-primary py-3 px-5" href="#carousel-g" data-slide="prev" id="btnleft" style="color: white">
@@ -532,29 +580,80 @@ $(document).on("click",".addMenu",function(){
 	 console.log("id값 왔냐? = " + menuFlag + " / 타입? = "+typeof menuFlag);
 	 menuFlag= Number(menuFlag);
 	 menuFlag= menuFlag+1;
-	 console.log("forFlag 숫자변환 시도 "+ typeof menuFlag+ " / 값은? =" +menuFlag);
+	 console.log("menuFlag 숫자변환 시도 "+ typeof menuFlag+ " / 값은? =" +menuFlag);
 	 
-	 var innerHtml = "<div class='col-md-6' style='margin-top:10px;'>"
-	 	+ "<div>"
-	 	+ "<span class='badge badge-pill badge-info addMenu' id='addMenu"+menuFlag+"'>메뉴 추가+</span>"
-	 	+ "</div>"
-	 	+ "<div class='col-md-6'>"
+	 var innerHtml = "<label style='margin-top:20px;'>메뉴 등록하기</label>"
+		+ "<input type='hidden' id='menu_tend"+menuFlag+"' name='menu_tend"+menuFlag+"'/>"
+	 	+ "<div id='addMenu"+menuFlag+"'>"
+	 	+ "<input type='button' class='btn btn-info addMenu' id='addMenu"+menuFlag+"' value='메뉴 추가+'>"
+	 	+ "</div><div><span>&nbsp;</span></div>"
+	 	+ "<div class='col-xs-12'>"
+	 	+ "<div class='col-xs-3'></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='H_CS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/chi_b.JPG'/>' alt='J' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>중식</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='H_JS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/j_b.png'/>' alt='JP' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>일식</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='H_HS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/k_b.png'/>' alt='H' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>한식</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='H_BS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/bs_b.JPG'/>' alt='BS' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>분식</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='H_YS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/y_b.jpg'/>' alt='Y' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>양식</div></div></div>"
+	 	+ "<div class='col-xs-12'>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_FS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/pesco_x.png'/>' alt='F' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>생선</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_EG"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/ovo_x.png'/>' alt='E' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>달걀</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_MK"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/dairy_x.png'/>' alt='M' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>우유</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_BD"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/chicken_x.png'/>' alt='B' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>가금류</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_PK"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/pig_x.png'/>' alt='P' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>돼지</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_CW"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/cow_x.png'/>' alt='C' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>소</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_PE"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/nuts_x.png'/>' alt='PE' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>땅콩</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_SF"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/shrimp_x.png'/>' alt='SF' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>갑각류</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_DP"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/dairy_x.png'/>' alt='DP' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>유제품</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_SB"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/s_x.png'/>' alt='SB' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>대두</div></div>"
+	 	+ "<div class='col-xs-1'>"
+	 	+ "<img id='T_FL"+menuFlag+"' src='<c:url value='/resources/tend_IMG/sutend/gluten_x.png'/>' alt='FL' class='img-circle img_size'>"
+	 	+ "<div class='lb_size'>글루텐</div></div></div>"
+	 	+ "<div class'form-group' style='width:100%;'>"
+	 	+ "<div class='col-xs-12' style='margin-top:10px'>"
+	 	+ "<div class='col-xs-6'>"
 	 	+ "<div id='menuPreview"+menuFlag+"'></div></div>"
-	 	+ "<div class='col-md-6'>"
-	 	+ "<div><label for='fm_path"+menuFlag+"'>메뉴 사진 등록</label>"
+	 	+ "<div class='col-xs-6'><div><label for='fm_path"+menuFlag+"'>메뉴 사진 등록</label>"
 	 	+ "<input name='fm_path"+menuFlag+"' id='fm_path"+menuFlag+"' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-menu'>"
-		+ "</div>"
-		+ "<div><label>메뉴 이름</label>"
-		+ "<input class='form-control' type='text' id='menu_name"+menuFlag+"' name='menu_name"+menuFlag+"'>"
-		+ "<div class='check_font' id='mn_check'></dif></div>"
-		+ "<div><label>메뉴 소개글</label>"
-		+ "<textarea class='form-control' id='menu_info"+menuFlag+"' name='menu_info"+menuFlag+"'></textarea>"		
-		+ "<div class='check_font' id='mi_check'></div></div>"
-		+ "<div><label>메뉴 가격</label>"
-		+ "<input class='form-control' type='text' id='menu_price"+menuFlag+"' name='menu_price"+menuFlag+"'>"
-		+ "<div class='check_font' id='mp_check'></div></div></div></div>"
-		
-	 	// + "<input class='form-control' type='text' id='menu_info"+forFlag+"' name='menu_info"+forFlag+"'>"
+	 	+ "</div><div><label>메뉴 이름</label>"
+	 	+ "<input name='menu_name"+menuFlag+"' id='menu_name"+menuFlag+"' type='text' class='form-control'>"
+	 	+ "<div class='check_font' id='mn_check"+menuFlag+"'></div></div>"
+	 	+ "<div><label>메뉴 소개글</label>"
+	 	+ "<textarea class='form-control' id='menu_info"+menuFlag+"' name='menu_info"+menuFlag+"'></textarea>"
+	 	+ "<div class='check_font' id='mi_check"+menuFlag+"'></div></div>"
+	 	+ "<div><label>메뉴 가격</label>"
+	 	+ "<input class='form-control' placeholder='숫자만 입력해 주세요.' type='text' id='menu_price"+menuFlag+"' name='menu_price"+menuFlag+"'>"
+	 	+ "<div class='check_font' id='mp_check"+menuFlag+"'></div></div></div></div></div>"
+	 	
 	 $("#signUpMenu").append(innerHtml);
 	if(menuFlag==1){
 	 	$("#addMenu0").html("");
@@ -565,6 +664,7 @@ $(document).on("click",".addMenu",function(){
 		var $addMenu = $("#addMenu" + menuFlag);
 		$addMenu.html("");
 	}
+ 	
  	})
  	// 메뉴 인풋박스 끝
 	
@@ -631,22 +731,6 @@ $(document).on("click",".addMenu",function(){
  	
 </script>
 
-<script><!--섬머노트 생성 js-->
-	$('#summernote').summernote({
-		placeholder: '가게 소개를 적어주세요',
-		tabsize: 2,
-		height: 300
-	})
-		$('#summernote1').summernote({
-			placeholder: '영업시간을 적어주세요',
-			tabsize: 2,
-			height: 150
-		})		
-	</script>
-	<script type="text/javascript">
-$(".note-insert").empty();
-$(".note-view").empty();
-</script>
 <script><!--주소를 좌표로 변환하는 js-->
     function addr() {
     	var geocoder = new daum.maps.services.Geocoder();
@@ -677,22 +761,40 @@ $(".note-view").empty();
 	    });
     }
 </script>
-	<script><!--첨가된 음식종류 js-->
-var ertend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
-ertend_codes.forEach(function(ele,index){
-		$('#T_'+ele).click(function() {
-			var eles = document.getElementById('menu_tend').value
+
+<script><!--첨가된 음식종류 js-->
+$(document).on("click",".img-circle",function(){
+	console.log(this)
+  	console.log("this 찍어봄   " + this);
+    console.log("this.id 찍어봄   " + this.id);
+    
+	var tendFlag = this.id;
+	console.log("tendFlag에 아이디 담음 = "+tendFlag);
+	console.log("타입 ? = "+typeof tendFlag)
+	
+	tendFlag = tendFlag.charAt(tendFlag.length-1);
+	
+	tendFlag = Number(tendFlag);
+	console.log("tendFlag 바꿔봄 = "+tendFlag);	
+	
+	var ertend_codes=['FS'+tendFlag,'EG'+tendFlag,'MK'+tendFlag,'BD'+tendFlag,'PK'+tendFlag,'CW'+tendFlag,'PE'+tendFlag,
+					'SF'+tendFlag,'DP'+tendFlag,'FL'+tendFlag,'SB'+tendFlag,'CS'+tendFlag,'JS'+tendFlag,'HS'+tendFlag,'BS'+tendFlag,'YS'+tendFlag];
+	console.log("ertend_codes 찍어봄 = "+ertend_codes);
+	
+	ertend_codes.forEach(function(ele,index){
+		$(document).on("click","#T_"+ele,function(){
+			var eles = document.getElementById('menu_tend'+tendFlag).value
 			if($('#T_'+ele).attr('src').includes('_x')){
 				console.log('여기')
 				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
 					
 					if(eles.indexOf(ele)==-1){
 						eles+=ele;
-					    $('#menu_tend').attr('value',eles+',');
+					    $('#menu_tend'+tendFlag).attr('value',eles+',');
 					}
 					else{
 						eles+='';
-						$('#menu_tend').attr('value',eles);
+						$('#menu_tend'+tendFlag).attr('value',eles);
 					}
 			}
 			else {
@@ -704,11 +806,42 @@ ertend_codes.forEach(function(ele,index){
 				else{
 					console.log('여기2')
 					var a=eles.replace(ele+',','')
-					$('#menu_tend').attr('value',a);
+					$('#menu_tend'+tendFlag).attr('value',a);
 				}
 			}
 		})
-});
+		$(document).on("click","#H_"+ele,function(){
+			var eles = document.getElementById('menu_tend'+tendFlag).value
+			if($('#H_'+ele).attr('src').includes('_b')){
+				console.log('여기')
+				$('#H_'+ele).attr('src',$('#H_'+ele).attr('src').toString().replace("_b","_c"));
+					
+					if(eles.indexOf(ele)==-1){
+						eles+=ele;
+					    $('#menu_tend'+tendFlag).attr('value',eles+',');
+					}
+					else{
+						eles+='';
+						$('#menu_tend'+tendFlag).attr('value',eles);
+					}
+			}
+			else {
+				$('#H_'+ele).attr('src',$('#H_'+ele).attr('src').toString().replace("_c","_b"));
+				
+				if(eles.indexOf(ele)==-1){
+					console.log('여기1')
+				}
+				else{
+					console.log('여기2')
+					var a=eles.replace(ele+',','')
+					$('#menu_tend'+tendFlag).attr('value',a);
+				}
+			}
+		})
+	});
+	
+})
+
 </script>
 	<script><!-- 캐러셀-->
 	$('.carousel').carousel({
@@ -942,10 +1075,6 @@ function nullval() {
 	}
 }	
 </script>
-
-
-
-
 
 <script>
 	document.addEventListener('keydown', function(event) {

@@ -149,12 +149,6 @@ public class SignController {
 					map.put("sf_path", uploadDir+"/"+sf_path);
 					result = signService.insertStoreImg22(map);
 				}
-				else {
-					sf_path=null;
-					map.put("sf_path", uploadDir+"/"+sf_path);
-					result = signService.insertStoreImg22(map);
-					break;
-					}
 			}
 		}// 회원 가입 끝
 		
@@ -167,24 +161,32 @@ public class SignController {
 	    	System.out.println("경로 만듦 / ");
 	    }
 		
-		String menu_tend = mr.getParameter("menu_tend");
-		System.out.println("tend 찍어봄 = "+menu_tend);
-		//menu_tend = menu_tend.substring(0, menu_tend.lastIndexOf(","));
 		System.out.println("유저네임 찍어봄"+username);
-		map.put("menu_tend", menu_tend);
 		map.put("username", username);
 		System.out.println();
 		int k=0;
 		boolean j = true;
+		System.out.println("메뉴성향 추가 옴?"+mr.getParameter("menu_tend1").toString());
 		while(j) {
 			System.out.println("음식 메뉴 및 음식 사진 넣는 while문 안까지 왔음 ");
 			if(mr.getParameter("menu_name"+k)!=null) {
+				
 			String menu_name = mr.getParameter("menu_name"+k);
 			System.out.println("메뉴이름 찍어봄 = "+menu_name);
 			map.put("menu_name", menu_name);
+			
+			String menu_tend = mr.getParameter("menu_tend"+k);
+			System.out.println(menu_tend);
+			String o = Integer.toString(k);
+			System.out.println(o + "  o 변수 찍음");
+			menu_tend = menu_tend.replace(o, "");
+			System.out.println("바꾼 tend 찍어봄 = "+menu_tend);
+			map.put("menu_tend",menu_tend);
+			
 			String menu_info = mr.getParameter("menu_info"+k);
 			map.put("menu_info", menu_info);
 			String menu_price = mr.getParameter("menu_price"+k);
+			System.out.println("메뉴 가격 찍어봄 = "+menu_price);
 			map.put("menu_price", menu_price);
 			String fm_path = mr.getFilesystemName("fm_path"+k);
 			if(fm_path==null) {
@@ -199,6 +201,7 @@ public class SignController {
 			System.out.println(dto.getMenu_no().toString());
 			result = signService.insertFoodImg(map);
 			k++;
+			System.out.println(k +"  k 찍어봄");
 			}
 			else {
 				j=false;

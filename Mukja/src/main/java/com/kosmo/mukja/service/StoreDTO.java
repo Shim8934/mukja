@@ -13,6 +13,7 @@ public class StoreDTO {
 	private double store_lat;
 	private double store_lng;
 	private String store_addr;
+	private String store_addr1;
 	private String store_role;
 	private String enabled;
 	private String authority;
@@ -36,9 +37,9 @@ public class StoreDTO {
 
 	public StoreDTO(String username, String password, String store_name, String store_regnum, String store_phnum,
 			String store_email, int store_avg, String store_intro, String store_time, double store_lat,
-			double store_lng, String store_addr, String store_role, String enabled, String authority, String menu_no,
-			String menu_name, String menu_tend, String menu_info, String menu_regidate, String username_1,
-			String fm_path, int rt_no, int rv_no) {
+			double store_lng, String store_addr, String store_addr1, String store_role, String enabled,
+			String authority, String menu_no, String menu_name, String menu_tend, String menu_info,
+			String menu_regidate, String username_1, String fm_path, int rt_no, int rv_no) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -52,6 +53,7 @@ public class StoreDTO {
 		this.store_lat = store_lat;
 		this.store_lng = store_lng;
 		this.store_addr = store_addr;
+		this.store_addr1 = store_addr1;
 		this.store_role = store_role;
 		this.enabled = enabled;
 		this.authority = authority;
@@ -187,6 +189,16 @@ public class StoreDTO {
 	}
 
 
+	public String getStore_addr1() {
+		return store_addr1;
+	}
+
+
+	public void setStore_addr1(String store_addr1) {
+		this.store_addr1 = store_addr1;
+	}
+
+
 	public String getStore_role() {
 		return store_role;
 	}
@@ -306,8 +318,6 @@ public class StoreDTO {
 		this.rv_no = rv_no;
 	}
 
-
-	
 
 }
 	

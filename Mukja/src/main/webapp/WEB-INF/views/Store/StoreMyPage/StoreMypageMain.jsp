@@ -311,6 +311,7 @@ $(function(){
 								<a onclick="addr();">
 									<input type="text" class="form-control" id="store_addr" value="${list[0].store_addr}" name="store_addr" placeholder="매장 주소를 등록해 주세요.">
 								</a>
+									<input type="text" class="form-control" id="store_addr1" value="${list[0].store_addr1}" name="store_addr1" placeholder="상세 주소를 작성해 주세요.">
 								<input type="hidden" id="store_lat" name="store_lat" value="${list[0].store_lat}"/>
 								<input type="hidden" id="store_lng" name="store_lng" value="${list[0].store_lng}"/>
                             </div>
@@ -352,12 +353,15 @@ $(function(){
                            <div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">
 								음식점소개
                            </div>
-                            <textarea id="editor2" name="store_intro" id="store_intro">
+                            <textarea id="editor2" class="form-control editor2" name="store_intro">
                               ${list[0].store_intro}
                            </textarea>
                            <script src="https://cdn.ckeditor.com/4.13.0/standard/ckeditor.js"></script>
                            <script>
-                               CKEDITOR.replace( 'editor2' );
+                           $('#editor2').summernote({
+	                       		placeholder: '가게 소개를 수정할 내용을 적어주세요',
+	                       		height:150
+                       		})
                            </script>
                         </div>
                         <hr>
@@ -382,15 +386,19 @@ var passwordCheck;
 	$(function(){
 		
 		$("#password").focus(function(){
-			$("#stPass").html("띄어쓰기 없는 8~12자리의 영문 대/소문자, 숫자 및 특수문자 조합으로 입력하셔야 합니다.");
+			$("#stPass").html("띄어쓰기 없는 6~12자리의 숫자 조합으로 입력하셔야 합니다.");
 		})
 		$("#password").blur(function(){
 			$("#stPass").html("");
 			password = $("#password").val();
 			// 1) 비밀번호 길이 체크
-			if(password.length<=8){
+			if(password.length<6){
 				$("#password").focus();
-				$("#stPass").html("비밀번호 길이를 확인해 주세요.");
+				$("#stPass").html("비밀번호는 최소 6자리로 구성됩니다.");
+			}
+			else if(password.length>12){
+				$("#password").focus();
+				$("#stPass").html("비밀번호는 최대 12자리로 구성됩니다..");
 			}
 		
 			passwordCheck = $("#passwordCheck").val();
@@ -413,7 +421,7 @@ var passwordCheck;
 				$("#stPassCheck").html("");
 				$("#stPassCheck").html("비밀번호가 맞지 않습니다. 비밀번호를 다시 확인해 주세요.")
 				document.getElementById("stPassCheck").style.color = "red";
-				$("#passwordCheck").focus();
+			
 			}
 		})
 			
@@ -425,7 +433,11 @@ var passwordCheck;
 			// store_email = $("#store_email").val();
 			// store_time = $("#store_time").val();
 			// store_intro = $("#store_intro").val();
-			var params = $("#storeEditInfo").serialize();
+
+			
+			var params = $("#storeEditInfo").serialize(); 
+			// params.push({name:'store_intro',value:store_intro}); 안 먹음
+			
 			$.ajax({
 				url:"<c:url value='/StoreMypage/editStoreInfo.do'/>",
 			    data: params,			    
