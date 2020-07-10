@@ -26,6 +26,7 @@ public interface MyPageService {
 	public List<MyPageDTO> getMyReviewPics (Map map);
 	int updateMyReview(Map map);
 	int deleteMyReview(Map map);
+	
 	public MyPageDTO getMyReviewForUpdate(Map map);	
 	public MyPageDTO getMyReviewPicForUpdate(Map map);
 	public List<StoreDTO> getMenu(Map map);

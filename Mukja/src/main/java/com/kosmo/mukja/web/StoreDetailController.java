@@ -147,26 +147,19 @@ public class StoreDetailController {
 
 		List<MyPageDTO> strvimgs = service.getStoreReviewimg(map);	
 		model.addAttribute("strvimgs",strvimgs);
+		System.out.println("strvimgs"+strvimgs);
+		
 		List<UsersDTO> usersnks = service.getUsersNicks(map);
 		model.addAttribute("usersnks",usersnks);
+		System.out.println("usersnks"+usersnks);
 		
 		
-		/*리뷰 좋아요*/	
-		List<StoreDTO> rvThumb = service.getRVThumb(map);
+		List<MyPageDTO> rvThumb = service.getRVThumb(map);
 		model.addAttribute("rvThumb",rvThumb);
-		System.out.println("rvThumb : " + rvThumb.toString());
-		
-		
-		int clickThumb = service.insertRVThumb(map);
-		model.addAttribute("clickThumb",clickThumb);
-		int disThumb = service.deleteRVThumb(map);
-		model.addAttribute("disThumb",disThumb);
-		
-		
-		
-		
-	
-		
+		for(int k =0; k< rvThumb.size();k++) {
+		System.out.println("rvThumb.rv_no : "+rvThumb.get(k).getRv_no()
+				+" rvThumb.count : "+rvThumb.get(k).getCount());
+		}
 		
 		
 		//베스트리뷰 뽑기
@@ -216,16 +209,44 @@ public class StoreDetailController {
 		
 		return "forward:/Store/DetailView.tiles";
 	}
+	
+	
 	@ResponseBody
-	@RequestMapping(value="/UpdateReview.bbs",method=RequestMethod.GET)
-	public String UpdateReview(@RequestParam Map map, Authentication auth, HttpServletRequest req) {	
+	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
+	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
+		
 		System.out.println("username3 : "+map.get("username"));	
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);		
 		
-		int update = service.updateReview(map);	
+		int clickThumb = service.insertRVThumb(map);
+		model.addAttribute("clickThumb",clickThumb);
+		System.out.println(clickThumb==0?"실패":"성공");
+	
+	
 		return "/Store/DetailView.tiles";
 	}
+	
+//
+//	
+	/*리뷰 좋아요*/	
+	@ResponseBody
+	@RequestMapping(value="/disThumb.bbs",method=RequestMethod.GET)
+	public String disThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
+		System.out.println("username3 : "+map.get("username"));	
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String user_id = userDetails.getUsername();
+		map.put("user_id",user_id);		
+		
+		int disThumb = service.deleteRVThumb(map);
+		model.addAttribute("disThumb",disThumb);
+		System.out.println(disThumb!=0?"성공":"실패");
+		
+		
+		return "/Store/DetailView.tiles";
+	}
+	
+	
 	
 }

@@ -420,57 +420,52 @@
 		</div>
 
 		<!-- BEST REVIEW -->
-		<div class="row ftco-animate justify-content-center">
-			<!-- <div class=" col-md-7"> <div class="carousel-testimony owl-carousel ftco-owl">CAROUSEL 적용 -->
-			
-			<!-- 
+		<div class="owl-carousel ftco-animate justify-content-center">
 			<c:if test="${empty rvThumb}">
-				<div class="item col-md-2">	
+				<div class="item col-md-12">	
 					<span>베스트 리뷰가 없습니다.</span>
 				</div>
 			</c:if>
 			<c:if test="${not empty rvThumb}">
-				<c:forEach items="${rvThumb}" var="BestRV" varStatus="loop">
-					<c:forEach items="${strvcnts}" var="rvCnt" varStatus="loop">
-						<c:if test="${BestRV.rv_no == rvCnt.rv_no}">
+				<c:forEach items="${rvThumb}" var="BestRV" end="6">						
+					<div class="row col-md-12" style="border: 1px red solid;" >
+						<div class="img" style="border: 1px solid black;  width:auto;" >
+							<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
+								<c:if test="${BestRV.rv_no == rvImg.rv_no}">
+									<c:if test=" ${empty rvImg.rf_path}">
+										<div style="height: 100px;"></div>
+									</c:if>
+									<c:if test="${not empty rvImg.rf_path}">
+										<img src='<c:url value="${rvImg.rf_path}"/>'> 
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</div>
+						<div class="text overflow">
+							<c:forEach items="${usersnks}" var="usernk" varStatus="loop">
+								<c:if test="${BestRV.user_email == usernk.username}">									
+									<p class="name" style="text-align: center; font-weight: bold;">${usernk.u_nick}</p>
+									<span class="food-type">${BestRV.rv_postdate}</span>
+									<p class="mb-4">${BestRV.rv_content}</p>
+								</c:if>
+							</c:forEach>
+						</div>
+							
+					</div>
 						
-							<div class="item col-md-3">
-								<div class="testimony-wrap text-center py-4 pb-5">	
-																			
-									<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
-										<c:if test="${BestRV.rv_no == rvImg.rv_no}">
-											<c:if test=" ${empty rvImg.rf_path}" var="noRvImg">
-												<div class="user-img mb-4">
-													
-												</div>
-											</c:if>
-											<c:if test=" ${not noRvImg}">
-												<div class="user-img mb-4" style="background-image: url(<c:url value="${rvImg.rf_path}"/>);">
-													<span class="quote d-flex align-items-center justify-content-center">
-														<i class="icon-quote-left"></i>
-													</span>
-												</div>
-											</c:if>
-										</c:if>
-									</c:forEach>
-									<c:forEach items="${usersnks}" var="usernk" varStatus="loop">
-										<c:if test="${rvCnt.user_email == usernk.username}">
-											<div class="text px-3 pt-3">
-												<p class="name overflow">${usernk.u_nick}</p>
-												<span class="food-type overflow">${rvCnt.rv_postdate}</span>
-												<p class="mb-4 overflow">${rvCnt.rv_content}</p>
-											</div>
-										</c:if>
-									</c:forEach>
-								</div>
-							</div>
-						</c:if>
-					</c:forEach>
 				</c:forEach>
-			</c:if>	
-			 -->
-						
-		</div>			
+			</c:if>						
+		</div>	
+		<script>
+		$(document).ready(
+			function() {
+				$('.owl-carousel').owlCarousel(
+					{
+					items : 6,
+					loop : true
+				});
+		});
+	</script>		
 	</div>
 	
 	<div class="container">
@@ -534,17 +529,17 @@
 									</ul>
 									<!--</c:if>			-->				
 								</div>
-								<!-- 좋아요 -->
-								<div class="col-md-1">
+																		
+							</div>
+							<!-- 좋아요 -->
+								<div class="col-md-12">
 									<!--<c:if test="${user_id == strvcnt.user_email}">-->
 									<ul style="list-style: none;">
-										<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
-										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
+										<a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">좋아요</a>									
 									</ul>
 									<!--</c:if>			-->				
 								</div>
-																				
-							</div>
+										
 						</li>
 					</c:forEach>
 				</c:if>				
@@ -602,7 +597,7 @@
 			</form>
 		</div>
 	</sec:authorize> 
-     </div>
+      </div>
      
      
      <div class="row"  style="margin-right: 0px; margin-left: 0px;">
@@ -610,21 +605,20 @@
 		</div>
 		
 	 </div>
-	 
+
+
+</section>	 
 	 <!-- -------------------------------------------리뷰쓰기 -->
 	
 
 
 	<div id="myModal" class="modal fade" style="opacity: 1; ">
 		<div class="modal-dialog modal-lg" style="padding: 0;border:none; margin-top:200px; ">
-			<!-- Modal content -->
 			<div class="modal-content" style=" background: orange;">
-				<!-- modal-header -->
 				<div>
 					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
 					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
 				</div>
-				<!-- modal-body -->
 				<form id="reviewWriteForm" action="/insertReview.bbs" >
 					<div style="padding-top: 20px;">
 						<div class="col-md-12">
@@ -665,7 +659,6 @@
 							</div>
 						</div>
 					</div>
-					<!-- modal-footer -->
 					<div class="modal-footer col-md-12 text-center" style="background: orange;">
 						<input type="button" id="btnInsert" value="작성" class="btn py-3 px-4 btn-default" > 
 						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
@@ -676,7 +669,6 @@
 			</div>
 		</div>
 	</div>
-	
 	<script>
 	
 	$(function(){
@@ -694,7 +686,7 @@
 				}
 			})
 		})
-	});
+	}); 
 	$(function(){
 	   // Get the modal
 	    var modal = document.getElementById('myModal');
@@ -723,7 +715,5 @@
 	    }
 	});
 	</script>	
-
-</section>
 
 	

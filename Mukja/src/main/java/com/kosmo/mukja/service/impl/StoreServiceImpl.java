@@ -166,7 +166,7 @@ public class StoreServiceImpl implements StoreService{
 	
 
 	@Override
-	public List<StoreDTO> getRVThumb(Map map) {
+	public List<MyPageDTO> getRVThumb(Map map) {
 		return dao.getRVThumb(map);
 	}
 	@Override
