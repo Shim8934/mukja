@@ -676,6 +676,8 @@
 	</div>
 	<script>
 	
+	
+	
 	    
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
