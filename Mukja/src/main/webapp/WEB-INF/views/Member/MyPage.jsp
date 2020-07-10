@@ -1,39 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script>
-$(function(){
-	var er_no=$('#er_no').val();
-	var erjon_role=$('#erjon_role').val();
-	var nowPage=$('#nowPage').val();
-	
-	$('#signCheck').click( function() {
-		console.log(er_no + ' er 넘버 확인');
-		$
-				.ajax({
-					url : "<c:url value='/User/er_Accept.do'/>",
-					data : {
-						"er_no" : er_no,
-						"erjoin_role" : erjoin_role,
-						"nowPage":nowPage
-					},
-					dataType : 'json',
-					success : function(data) {
-						console.log('성공..?:', data);
-						alert('승인 완료!');
-						window.location = "<c:url value='/MyPage.bbs?nowPage="+nowPage+"'/>";
-					},
-					error : function(request, status, error) {
-						console
-								.log(
-										'응답코드:%s,에러메시지:%s,error:%s,status:%s',
-										request.status,
-										request.responseText,
-										error, status);
-					}
-				});
-	})
-})
-</script>
+
 
 <section class="hero-wrap hero-wrap-2 align-items-center" style="background-image: url('<c:url value='/resources/bootstrap/images/bg_4.jpg'/>');" data-stellar-background-ratio="0.5">
    <div class="overlay"></div>
@@ -204,7 +171,7 @@ $(function(){
 					</div>
 					
 					<!-- 리뷰 시작 -->
-					<div class="row reviews border3bc mplist"
+					<div id="RVList" class="row reviews border3bc mplist"
 						style="margin-right: 0px; margin-left: 0px;">
 						<div class="sub-title">
 							<h4 class="title">내가 쓴 리뷰 보기</h4>
@@ -281,9 +248,11 @@ $(function(){
 							<div class="row" style="margin-right: 0px; margin-left: 0px;">
 								<div class="col-md-12 text-center">${rvPagingString}</div>
 							</div>
+							
 						</div>
 					</div>
 				</div>
+				
 				<!-- 삭제 알람 띄우기 -->				
 
 
