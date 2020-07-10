@@ -9,6 +9,7 @@ import java.util.Vector;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MyPageDTO;
@@ -67,8 +69,6 @@ public class StoreDetailController {
 		}
 		List<StoreDTO> list = service.getStoreInfo(map);
 		model.addAttribute("list",list);
-		
-		
 		
 		int reviewCount= service.getReviewCount(map);
 		model.addAttribute("reviewCount",reviewCount);
@@ -187,64 +187,64 @@ public class StoreDetailController {
 		return "{'result':"+result+"}";
 	}
 
-
-
 	@ResponseBody
 	@RequestMapping(value="/insertSTReview.do",method=RequestMethod.POST)
-	public String insertSTReview(HttpServletRequest req,
-			  Authentication auth,
-			  Model model,
-			  @RequestParam Map map) {	
-		//가게아이디 얻기
-		System.out.println("리뷰쓰기폼 속 store_id : " + store_id);
-		//회원아이디 얻기
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		String user_id = userDetails.getUsername();
-		map.put("user_id",user_id);
-		System.out.println("user_id2 : "+map.get("user_id"));	
+	public String insertSTReviewOk(Authentication auth, Model model, @RequestParam Map map) {	
+		System.out.println("---------------------------리뷰쓰기폼-----------------------------");
+		UserDetails userDetails = (UserDetails) auth.getPrincipal();
+		map.put("user_id", userDetails.getUsername());
+		
+		JSONObject json= new JSONObject();		
+		System.out.println("rv_no: " + map.get("rv_no"));	
+		System.out.println("rv_title: "+map.get("rv_title"));	
+		System.out.println("rv_content: " + map.get("rv_content"));
+		System.out.println("user_id : "+map.get("user_id"));	
+		System.out.println("store_id : " + map.get("store_id"));
+		System.out.println("menu_no : "+ map.get("menu_no"));
+
+		int insertrv = service.insertReview(map);		
 		//인서트		
-		int insertrv = service.insertReview(map);
-		
-		return "forward:/Store/DetailView.tiles";
+		System.out.println(insertrv==0?"실패":"리뷰 쓰기 성공!!!!");
+		return json.toJSONString();
 	}
 	
 	
-	@ResponseBody
-	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
-	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
-		
-		System.out.println("username3 : "+map.get("username"));	
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		String user_id = userDetails.getUsername();
-		map.put("user_id",user_id);		
-		
-		int clickThumb = service.insertRVThumb(map);
-		model.addAttribute("clickThumb",clickThumb);
-		System.out.println(clickThumb==0?"실패":"성공");
-	
-	
-		return "/Store/DetailView.tiles";
-	}
-	
-//
+//	@ResponseBody
+//	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
+//	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
+//		
+//		System.out.println("username3 : "+map.get("username"));	
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		String user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);		
+//		
+//		int clickThumb = service.insertRVThumb(map);
+//		model.addAttribute("clickThumb",clickThumb);
+//		System.out.println(clickThumb==0?"실패":"성공");
 //	
-	/*리뷰 좋아요*/	
-	@ResponseBody
-	@RequestMapping(value="/disThumb.bbs",method=RequestMethod.GET)
-	public String disThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
-		System.out.println("username3 : "+map.get("username"));	
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		String user_id = userDetails.getUsername();
-		map.put("user_id",user_id);		
-		
-		int disThumb = service.deleteRVThumb(map);
-		model.addAttribute("disThumb",disThumb);
-		System.out.println(disThumb!=0?"성공":"실패");
-		
-		
-		return "/Store/DetailView.tiles";
-	}
-	
-	
+//	
+//		return "/Store/DetailView.tiles";
+//	}
+//	
+////
+////	
+//	/*리뷰 좋아요*/	
+//	@ResponseBody
+//	@RequestMapping(value="/disThumb.bbs",method=RequestMethod.GET)
+//	public String disThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
+//		System.out.println("username3 : "+map.get("username"));	
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		String user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);		
+//		
+//		int disThumb = service.deleteRVThumb(map);
+//		model.addAttribute("disThumb",disThumb);
+//		System.out.println(disThumb!=0?"성공":"실패");
+//		
+//		
+//		return "/Store/DetailView.tiles";
+//	}
+//	
+//	
 	
 }

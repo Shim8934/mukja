@@ -340,6 +340,7 @@
 <!-- 커스텀모달 (같이먹자)-->
 <div id="mask">
 </div>
+
 <div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none; ' class="lb_size" >
 	<div class="container" style="margin-top: 20px;width: 800px;">
 		<div class="row"style="margin-bottom:20px;"> 

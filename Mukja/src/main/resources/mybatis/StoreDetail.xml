@@ -84,14 +84,14 @@
 	<select id="getUsersNicks" parameterType="java.util.Map" resultType="UsersDTO">
 		SELECT u_nick,username,u_img FROM users
 	</select>
-	
+
 	
   
 
 	<!-- 리뷰 삽입,수정,삭제 용 -->
 	<insert id="insertReview" parameterType="java.util.Map">
 		insert into storereview (rv_no, rv_title, rv_content, user_email, store_name, menu_no)
-		values (SEQ_STOREREVIEW.nextval,#{rv_title},#{rv_content},#{user_id},#{store_id},#{menu_no}) where store_name=#{store_id}
+		values (SEQ_STOREREVIEW.nextval,#{rv_title},#{rv_content},#{user_id},#{store_id},#{menu_no})
 	</insert>
 	
 	
@@ -101,7 +101,7 @@
 <select id="getRVThumb" parameterType="java.util.Map" resultType="MyPageDTO" >
 	select * from 
 	(select rv_no,count (rv_no) as count from review_thumb group by rv_no) rt
-	join storereview sr on rt.rv_no = sr.rv_no order by count desc
+	join storereview sr on rt.rv_no = sr.rv_no where  sr.store_name =#{username} order by count desc
 </select>
 
 <insert parameterType="java.util.Map" id="insertRVThumb">	

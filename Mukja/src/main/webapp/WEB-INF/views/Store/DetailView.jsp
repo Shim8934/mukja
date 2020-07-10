@@ -13,8 +13,7 @@
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
 	<div class="container" style="width: 1400px;">
 		<div class="row no-gutters" style="margin-top: -50px;">
-
-			<!-- left-side picture -->
+		<!-- left-side picture -->
 			<!-- 카라셀 -->
 			<div id="carousel-example-generic" class="carousel slide casize"
 				data-ride="carousel" style="margin-top: 100px;">
@@ -88,7 +87,7 @@
 							</div>
 							<div style="margin-bottom: 5px;">
 								<div class="row">
-									<div class="col-xs-3" style="text-align: right;">주소 :</div>
+									<div class="col-xs-3" style="text-align: right;">주소 : </div>
 									<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_addr}</div>
 								</div>
 							</div>
@@ -427,13 +426,15 @@
 				</div>
 			</c:if>
 			<c:if test="${not empty rvThumb}">
-				<c:forEach items="${rvThumb}" var="BestRV" end="6">						
-					<div class="row col-md-12" style="border: 1px red solid; margin:0px; padding: 10px;" >
+				<c:forEach items="${rvThumb}" var="BestRV" end="3">						
+					<div class="row col-md-11" style="background-color:white; margin:0px; padding: 20px;" >
 						<div class="img" style="width:auto; " >
 							<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
 								<c:if test="${BestRV.rv_no == rvImg.rv_no}">
 									<c:if test=" ${empty rvImg.rf_path}">
-										<div style="height: 100px;"></div>
+										<div style="height: 100px; background-color:  black">
+										                                                     
+										</div>
 									</c:if>
 									<c:if test="${not empty rvImg.rf_path}">
 										<img src='<c:url value="${rvImg.rf_path}"/>' style="border-radius: 50%"> 
@@ -449,7 +450,13 @@
 							<c:forEach items="${usersnks}" var="usernk" varStatus="loop">
 								<c:if test="${BestRV.user_email == usernk.username}">									
 									<p class="name" style="text-align: center; font-weight: bold;">${usernk.u_nick}</p>
-									<span class="food-type">${BestRV.rv_postdate}</span>
+									<span class="food-type">
+										<c:forEach items="${foodMenuList}" var="MenuDto" varStatus="loop">
+											<c:if test="${BestRV.menu_no == MenuDto.menu_no}">
+											${MenuDto.menu_name}  
+											</c:if>
+										</c:forEach>
+									/  ${BestRV.rv_postdate}</span>
 									<p class="mb-4">${BestRV.rv_content}</p>
 								</c:if>
 							</c:forEach>
@@ -463,7 +470,7 @@
 			function() {
 				$('.owl-carousel').owlCarousel(
 					{
-					items : 6,
+					items : 3,
 					loop : true
 				});
 		});
@@ -534,12 +541,13 @@
 							</div>
 							<!-- 좋아요 -->
 							<div class="col-md-12">
-								<!--<c:if test="${user_id == strvcnt.user_email}">-->
-								<ul style="list-style: none;">
-									<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
-									<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
-								</ul>
-								<!--</c:if>			-->				
+								<c:if test="${user_id == strvcnt.user_email}">
+									<ul style="list-style: none;">
+										<input type="hidden" name="rv_no" value="${strvcnt.rv_no}">	
+										<li><a href="<c:url value='/updateMyReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
+										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
+									</ul>
+								</c:if>			
 							</div>
 										
 						</li>
@@ -548,7 +556,7 @@
 			</ul>
 		</div>
 		
-		<div class="col-md-12">
+		<div class="col-md-12 col-md-offset-5">
 			${strvPagingString}
      	</div>
 		
@@ -556,53 +564,63 @@
 		<sec:authorize access="hasRole('ROLE_USER')">
 		<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
 			<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
-			<form name="form1" method="post" action="<c:url value="/insertSTReview.do"/>">
+			<form id="reviewWriteForm" name="reviewWriteForm" method="post" action="<c:url value="/insertSTReview.do"/>">
+				<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
 				<div class="form-group poor">
 				
 					<div class="col-md-12">
 						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
 						<div class="col-md-9" style="padding-bottom: 15px;">
-							<select id="menu_name" style="padding:10px; boder-radius:3%;'">
+							<select name="menu_no" style="padding:10px; boder-radius:3%;">
 								<option>메뉴 이름</option>
 								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
-									<option>${foodMenuDto.menu_name}</option>
+									<option value="${foodMenuDto.menu_no}">${foodMenuDto.menu_name}</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
+					
 					<div class="col-md-12">
 						<label class="col-md-2" style="text-align:right;">리뷰 제목</label> 
 						<div class="col-md-9">
 							<input type="text" class="form-control" id="rv_title" name="rv_title" placeholder="제목"  style="margin-bottom: 10px;">
 						</div>
 					</div>
+					
 					<div class="col-md-12">
 						<label class="col-md-2" style="text-align:right;">내용</label>
 						<div class="col-md-9">
 							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
 						</div>
 					</div>
+					
 					<div class="col-md-12">
 						<label class="col-md-2" style="text-align:right;">리뷰 이미지</label> 
 						<div class="col-md-9">
 							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
 						</div>
 					</div>
+					
 					<div class="col-md-12 mt-4 pb-3" >
 						<div class="form-group col-md-offset-5">
-							<input type="submit" value="리뷰 작성" class="btn btn-primary py-3 px-5">
+							<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 						</div>
 					</div>
 				</div>
 			</form>	
 		</div>
 	</sec:authorize> 
+	
      
      
      
 	</div>
 </section>	 
-	 <!-- -------------------------------------------리뷰쓰기 모달------------------------------------------- -->
+
+
+
+
+<!-- -------------------------------------------리뷰쓰기 모달------------------------------------------- -->
 	
 
 
@@ -613,7 +631,7 @@
 					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
 					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
 				</div>
-				<form id="reviewWriteForm" action="/insertReview.bbs" >
+				<form id="reviewWriteForm" name="reviewWriteForm" action="/insertSTReview.do"  >
 					<div style="padding-top: 20px;">
 						<div class="col-md-12">
 							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
@@ -630,7 +648,7 @@
 						<div class="col-md-12">
 							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 제목</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+								<input type="text" class="form-control" name="rv_title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
 							</div>
 						</div>
 						<div class="col-md-12">
@@ -647,7 +665,7 @@
 						</div>
 					</div>
 					<div class="modal-footer col-md-12 text-center" style="background: orange;">
-						<input type="button" id="btnInsert" value="작성" class="btn py-3 px-4 btn-default" > 
+						<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert"> 
 						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
 							<span class="close" style="height: 28px; width:20; font-size: 14px; padding: 10px 15px; ">취소</span>
 						</button>					
@@ -658,22 +676,29 @@
 	</div>
 	<script>
 	
-	$(function(){
-		$("#btnInsert").click(function(){
-			$("#reviewWriteForm").serialize();
-			$.ajax({
-				type:"post",
-				url:"<c:url value='/insertReview.bbs'/>",
-			    data: {rv_title:"rv_title",rv_content:"rv_content",user_email:"user_id",store_name:"store_id",menu_no:"menu_no"},		    
-		        dataType: 'json',
-		        success : function(data){
-					console.log('성공..?:',data);
-					alert('리뷰 작성 완료!');
-					window.location = "<c:url value='/Store/DetailView.tiles'/>";		
-				}
-			})
-		})
-	}); 
+	    
+	    $("#btnInsert").click(function(){
+	    	var param = jQuery("#reviewWriteForm").serialize();     
+	         $.ajax({
+	        	 type:"POST",
+	        	 url:"<c:url value='/insertSTReview.do'/>",
+				data: param,             
+	            dataType: 'json',
+	            success : function(data){
+		              console.log('성공..?:',data);
+		              alert('처리 완료!');
+		              window.location = "<c:url value='/Store/DetailView.do?username="+${store_id}+"'/>";
+		          },
+	              error:function(request,status,error){
+	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
+	                       request.status,request.responseText,error,status);
+	              }
+	        	 
+	        	 
+        	});
+	    });
+/* 
+	   
 	$(function(){
 	   // Get the modal
 	    var modal = document.getElementById('myModal');
@@ -700,7 +725,7 @@
 	            modal.style.display = "none";
 	        }
 	    }
-	});
+	}); */
 	</script>	
 
 	
