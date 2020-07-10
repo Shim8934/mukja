@@ -90,6 +90,8 @@
 								<div class="row">
 									<div class="col-xs-3" style="text-align: right;">주소 :</div>
 									<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_addr}</div>
+									<div class="col-xs-3" style="text-align: right;">상세 주소 :</div>
+									<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_addr1}</div>
 								</div>
 							</div>
 							<div style="margin-bottom: 5px;">

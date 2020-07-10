@@ -64,20 +64,25 @@ public class HomeController {
       
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank1 = mainService.selectRank1List(map);
-      List<MainDTO> rank1Img = mainService.selectRank1Img(map);
-      rank1.get(0).setStore_intro(temp.getStore_intro());      
+      List<MainDTO> rank1storeImg = mainService.selectRank1Img(map);
+      List<MainDTO> rank1FoodImg = mainService.selectFoodMenuForMain(map);
+      
+      rank1.get(0).setStore_intro(temp.getStore_intro().trim());      
+      System.out.println(rank1storeImg.get(0).getSf_path().toString());
       
       map.put("username", dto.get(1).getUsername());
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank2 = mainService.selectRank2List(map);
-      List<MainDTO> rank2Img = mainService.selectRank2Img(map);
-      rank2.get(0).setStore_intro(temp.getStore_intro());
+      List<MainDTO> rank2storeImg = mainService.selectRank2Img(map);
+      List<MainDTO> rank2FoodImg = mainService.selectFoodMenuForMain(map);
+      rank2.get(0).setStore_intro(temp.getStore_intro().trim());
       
       map.put("username", dto.get(2).getUsername());
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank3 = mainService.selectRank3List(map);
-      List<MainDTO> rank3Img = mainService.selectRank3Img(map);
-      rank3.get(0).setStore_intro(temp.getStore_intro());
+      List<MainDTO> rank3storeImg = mainService.selectRank3Img(map);
+      List<MainDTO> rank3FoodImg = mainService.selectFoodMenuForMain(map);
+      rank3.get(0).setStore_intro(temp.getStore_intro().trim());
       // 1) 랭킹 추천수에 따른 가게 뿌리기 끝
       
       // 2) 리뷰 추천수에 따른 뿌리기
@@ -139,13 +144,16 @@ public class HomeController {
 		
 	  // 1) 가게 랭킹
       model.addAttribute("rank1",rank1);
-      model.addAttribute("rank1Img",rank1Img);
+      model.addAttribute("rank1storeImg",rank1storeImg);
+      model.addAttribute("rank1FoodImg",rank1FoodImg);
       
       model.addAttribute("rank2",rank2);
-      model.addAttribute("rank2Img",rank2Img);
+      model.addAttribute("rank2storeImg",rank2storeImg);
+      model.addAttribute("rank2FoodImg",rank2FoodImg);
       
       model.addAttribute("rank3",rank3);
-      model.addAttribute("rank3Img",rank3Img);
+      model.addAttribute("rank3storeImg",rank3storeImg);
+      model.addAttribute("rank3FoodImg",rank3FoodImg);
       
       // 2) 리뷰 랭킹
       model.addAttribute("reviewList",review);

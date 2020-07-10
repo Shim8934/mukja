@@ -24,6 +24,7 @@ public class MainDTO {
 	private String store_time;
 	private String store_addr;
 	private String sf_path;
+	private String fm_path;
 	
 	// 공지사항용 변수
 	private String NT_NO;
@@ -43,8 +44,8 @@ public class MainDTO {
 	public MainDTO(String sa_no, String store_id, String sa_avg, String user_id, String username, String good,
 			String rv_no, String rv_title, String rv_content, String menu_no, String rf_path, String rownum,
 			String menu_name, String u_nick, String store_name, String store_intro, String store_time,
-			String store_addr, String sf_path, String nT_NO, String nT_TITLE, String nT_CONTENT, String uSERNAME2,
-			Date nT_REGITDATE, String bF_NO, String bF_PATH) {
+			String store_addr, String sf_path, String fm_path, String nT_NO, String nT_TITLE, String nT_CONTENT,
+			String uSERNAME2, Date nT_REGITDATE, String bF_NO, String bF_PATH) {
 		super();
 		this.sa_no = sa_no;
 		this.store_id = store_id;
@@ -65,6 +66,7 @@ public class MainDTO {
 		this.store_time = store_time;
 		this.store_addr = store_addr;
 		this.sf_path = sf_path;
+		this.fm_path = fm_path;
 		NT_NO = nT_NO;
 		NT_TITLE = nT_TITLE;
 		NT_CONTENT = nT_CONTENT;
@@ -226,6 +228,14 @@ public class MainDTO {
 		this.sf_path = sf_path;
 	}
 
+	public String getFm_path() {
+		return fm_path;
+	}
+
+	public void setFm_path(String fm_path) {
+		this.fm_path = fm_path;
+	}
+
 	public String getNT_NO() {
 		return NT_NO;
 	}
@@ -281,6 +291,5 @@ public class MainDTO {
 	public void setBF_PATH(String bF_PATH) {
 		BF_PATH = bF_PATH;
 	}
-
 	
 }

@@ -87,9 +87,9 @@
 	<select id="UsRpList" parameterType="java.util.Map" resultType="adminDTO">
 		SELECT * FROM
 		(SELECT T.*, ROWNUM R FROM 
-		(SELECT UR.*,ENABLED FROM user_report UR JOIN users US on ur.ur_target = us.username 
+		(SELECT UR.*,ENABLED FROM user_report UR JOIN users US on ur.ur_target = us.username WHERE ur_type=0 
 		<if test="searchWord != null">
-			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+			and ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
 		ORDER BY ur_no DESC) T) 
 		WHERE R BETWEEN ${start} AND ${end}	
@@ -98,6 +98,12 @@
 		SELECT COUNT(*) FROM user_report 
 		<if test="searchWord != null">
 			WHERE ${searchColumn} LIKE '%' || #{searchWord} || '%'
+		</if>
+	</select>
+	<select id="UsRpCount" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM user_report WHERE ur_type=0
+		<if test="searchWord != null">
+			and ${searchColumn} LIKE '%' || #{searchWord} || '%'
 		</if>
 	</select>
 	<select id="UsRpOne" parameterType="java.util.Map" resultType="adminDTO">
@@ -141,6 +147,9 @@
 	<!-- 가입 리스트 카운트 -->
 	<select id="stTotalRecord" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM STORES WHERE ENABLED = '0'
+	</select>
+	<select id="getStSignRecord" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM STORES
 	</select>
 	<!-- 가입 승인시 쿼리 -->
 	<update id="stSignUpdate" parameterType="java.util.Map">

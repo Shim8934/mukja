@@ -11,6 +11,7 @@ public interface MainService {
 	List<MainDTO> selectRank1List(Map map);
 	List<MainDTO> selectRank1Img(Map map);
 	MainDTO selectRankContent(Map map);
+	List<MainDTO> selectFoodMenuForMain(Map map);
 	
 	List<MainDTO> selectRank2List(Map map);
 	List<MainDTO> selectRank2Img(Map map);

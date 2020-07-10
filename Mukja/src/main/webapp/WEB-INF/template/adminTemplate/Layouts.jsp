@@ -22,7 +22,7 @@
   </head>
   <body>
   <!-- 전체 감싸는 div -->
-    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header fixed-footer closed-sidebar">
+    <div class="app-container app-theme-white body-tabs-shadow fixed-sidebar fixed-header">
     
 	<!-- top부분 -->
 	<tiles:insertAttribute name="top"/>

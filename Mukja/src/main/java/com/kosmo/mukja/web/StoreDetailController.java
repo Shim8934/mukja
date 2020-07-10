@@ -66,6 +66,17 @@ public class StoreDetailController {
 			model.addAttribute("is_Thumb",0);
 		}
 		List<StoreDTO> list = service.getStoreInfo(map);
+
+		// 상세 주소 쪼개기용
+		String store_addr = list.get(0).getStore_addr();
+		if(store_addr.contains("/")) {
+			store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
+			String store_addr1 = list.get(0).getStore_addr().substring(list.get(0).getStore_addr().lastIndexOf("/")+1);
+			list.get(0).setStore_addr(store_addr);
+			list.get(0).setStore_addr1(store_addr1);
+		} 		// 상세 주소 쪼개기용 끝
+		
+		
 		model.addAttribute("list",list);
 		
 		
@@ -156,13 +167,20 @@ public class StoreDetailController {
 		model.addAttribute("rvThumb",rvThumb);
 		System.out.println("rvThumb : " + rvThumb.toString());
 		
-		
+		/*
+		// 여기서 오류 나길래 우선 넣어봄 ( by 기영)
+		System.out.println("리뷰 좋아요 번호 얻기 = "+rvThumb.get(0).getRv_no());
+		map.put("rv_no", rvThumb.get(0).getRv_no());
 		int clickThumb = service.insertRVThumb(map);
-		model.addAttribute("clickThumb",clickThumb);
-		int disThumb = service.deleteRVThumb(map);
-		model.addAttribute("disThumb",disThumb);
+		// 여기서 오류 나길래 우선 넣어봄 ( by 기영)
 		
+		 
 		
+		//model.addAttribute("clickThumb",clickThumb);
+		//int disThumb = service.deleteRVThumb(map);
+		//model.addAttribute("disThumb",disThumb);
+		
+		*/
 		
 		
 	
