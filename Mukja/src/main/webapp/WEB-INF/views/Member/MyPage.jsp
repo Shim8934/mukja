@@ -1,6 +1,39 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
+<script>
+$(function(){
+	var er_no=$('#er_no').val();
+	var erjon_role=$('#erjon_role').val();
+	var nowPage=$('#nowPage').val();
+	
+	$('#signCheck').click( function() {
+		console.log(er_no + ' er 넘버 확인');
+		$
+				.ajax({
+					url : "<c:url value='/User/er_Accept.do'/>",
+					data : {
+						"er_no" : er_no,
+						"erjoin_role" : erjoin_role,
+						"nowPage":nowPage
+					},
+					dataType : 'json',
+					success : function(data) {
+						console.log('성공..?:', data);
+						alert('승인 완료!');
+						window.location = "<c:url value='/MyPage.bbs?nowPage="+nowPage+"'/>";
+					},
+					error : function(request, status, error) {
+						console
+								.log(
+										'응답코드:%s,에러메시지:%s,error:%s,status:%s',
+										request.status,
+										request.responseText,
+										error, status);
+					}
+				});
+	})
+})
+</script>
 
 <section class="hero-wrap hero-wrap-2 align-items-center" style="background-image: url('<c:url value='/resources/bootstrap/images/bg_4.jpg'/>');" data-stellar-background-ratio="0.5">
    <div class="overlay"></div>
@@ -21,6 +54,8 @@
 </section>
 
 <section class="ftco-section mypage">
+
+	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
    <div class="container-fluid align-items-center justify-content-center">
       <!-- 마이페이지 타이틀 -->
       <div class="row justify-content-center" style="width: 100%">
@@ -31,7 +66,7 @@
       </div>
       <!-- MT & ET시작 -->
 		<div class=" ftco-animate justify-content-center">
-			<div class="text-center mtNet">
+			<div class="text-center">
 				<!-- 골라먹자 타이틀 -->
 				<div class="col-md-5 mt text-center heading-section ftco-animate"
 					style="float: none;">
@@ -41,7 +76,6 @@
 					</div>
 					<!-- 골라먹자 시작 -->
 					<!-- 성향 시작 -->
-
 					<div class="border3bc">
 						<div class="sub-title">
 							<h4 class="title col-md-offset-1 col-md-10 ">
@@ -86,7 +120,6 @@
 					</div>
 
 					<!-- 찜 시작 -->
-
 					<div class="border3bc">
 						<div class="sub-title">
 							<h4 class="title">가게 찜보기</h4>
@@ -170,6 +203,7 @@
 							<div class="col-md-12 text-center">${jjimPagingString}</div>
 						</div>
 					</div>
+					
 					<!-- 리뷰 시작 -->
 					<div class="row reviews border3bc mplist"
 						style="margin-right: 0px; margin-left: 0px;">
@@ -226,7 +260,9 @@
 														<td>
 															<input type="hidden" name="rv_no" value="${rvcnt.rv_no}">														 	
 															<a href="<c:url value='/updateMyReview.bbs?rv_no=${rvcnt.rv_no}'/>" class="btn btn-warning" style="font-size: 12px; padding: 3px 6px;">수정</a>	
-															<a href="<c:url value='/deleteMyReview.bbs?rv_no=${rvcnt.rv_no}'/>" class="btn btn-danger"  style="font-size: 12px; padding: 3px 6px;">삭제</a>												
+																								 	
+															<a href="<c:url value='/deletMyReview.bbs?rv_no=${rvcnt.rv_no}'/>" class="btn btn-danger" style="font-size: 12px; padding: 3px 6px;">삭제</a>	
+															
 														</td>
 													</tr>
 												</c:if>
@@ -241,128 +277,18 @@
 						</div>
 					</div>
 				</div>
-<!-- -------------------------------------------리뷰수정-------------------------------------------  
-	<div id="myModal" class="modal fade">
-		<div class="modal-dialog modal-lg" style="padding: 0;border:none; margin-top:200px; ">
-			<div class="modal-content" style=" background: orange;">
-				<div>
-					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
-					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
-				</div>
-				<form id="updateRVForm" action="/insertReview.bbs" >
-					<div style="padding-top: 20px;">
-						<div class="col-md-12">
-							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
-							<div class="col-md-9" style="padding-bottom: 15px;">
-								<select id="menu_name">
-									<option>메뉴 이름</option>
-									<c:forEach items="${foodMenuList}" var="foodMenuDto"
-										varStatus="loop">
-										<option>${foodMenuDto.menu_name}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">title</label>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="title"
-									placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">Contents</label>
-							<div class="col-md-9 poor">
-								<textarea name="rv_content" cols="30" rows="7"
-									class="form-control" placeholder="내용을 입력하세요"
-									style="margin-bottom: 10px;"></textarea>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">Images</label>
-							<div class="col-md-9 poor">
-								<input name="rf_path" class="form-control" placeholder="파일업로드용"
-									style="margin-bottom: 30px;"></input>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer col-md-12 text-center" style="background: orange;">
-						<input type="button" id="btnUpdate" value="수정" class="btn py-3 px-4 btn-default" > 
-						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
-							<span class="close" style="height: 28px; width:20; font-size: 14px; padding: 10px 15px; ">취소</span>
-						</button>					
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-	
-	<script>
-	
-	$(function(){
-		$("#btnUpdate").click(function(){
-			$("#updateRVForm").serialize();
-			$.ajax({
-				type:"post",
-				url:"<c:url value='/insertReview.bbs'/>",
-			    data: {rv_title:"rv_title",rv_content:"rv_content",user_email:"user_id",store_name:"store_id",menu_no:"menu_no"},		    
-		        dataType: 'json',
-		        success : function(data){
-					console.log('성공..?:',data);
-					alert('리뷰 작성 완료!');
-					window.location = "<c:url value='/Store/DetailView.tiles'/>";		
-				}
-			})
-		})
-	});
-	$(function(){
-	   // Get the modal
-	    var modal = document.getElementById('myModal');
-	
-	    // Get the button that opens the modal
-	    var btn = document.getElementById("myBtn");
-	
-	    // Get the <span> element that closes the modal
-	    var span = document.getElementsByClassName("close")[0];                                      
-	
-	    // When the user clicks on the button, open the modal 
-	    btn.onclick = function() {
-	        modal.style.display = "block";
-	    }
-	
-	    // When the user clicks on <span> (x), close the modal
-	    span.onclick = function() {
-	        modal.style.display = "none";
-	    }
-	
-	    // When the user clicks anywhere outside of the modal, close it
-	    window.onclick = function(event) {
-	        if (event.target == modal) {
-	            modal.style.display = "none";
-	        }
-	    }
-	});
-	</script>-->
-	
-	
-	
-	
-	
+				<!-- 삭제 알람 띄우기 -->				
 
 
-				<div class="col-md-5 et text-center heading-section ftco-animate"
-					style="float: none;">
+				<div class="col-md-5 et text-center heading-section ftco-animate" style="float: none;">
 					<!-- ET title -->
 					<div class="text-center">
 						<span class="subheading" style="display: inline;">E.T</span>
 						<h2 class="mb-4" style="font-family: 'Gugi', sans-serif;">같이먹자</h2>
 					</div>
+					
 					<!-- ET 신청 목록보기 -->
-					<div class="row groups border3bc mplist"
-						style="margin-right: 0px; margin-left: 0px;">
+					<div class="row groups border3bc mplist" style="margin-right: 0px; margin-left: 0px;">
 						<div class="sub-title">
 							<h4 class="title">신청 온 ET 목록</h4>
 						</div>
@@ -370,12 +296,12 @@
 							<div class="row" style="margin-right: 0px; margin-left: 0px;">
 								<table class="mplist table table-bordered table-hover text-center item-a">
 									<tr class="thead-light ">
-										<th>수락</th>
-										<th>가게이름</th>
-										<th>ET 성향</th>
-										<th>시간</th>
-										<th>참여자</th>
-										<th>인원</th>
+										<th style="width: 5%">수락</th>
+										<th style="width: 25%">가게이름</th>
+										<th style="width: 20%">ET 성향</th>
+										<th style="width: 20%">시간</th>
+										<th style="width: 20%">참여자</th>
+										<th style="width: 10%">인원</th>
 									</tr>
 									<c:if test="${empty myET0}">
 										<tr>
@@ -384,23 +310,21 @@
 									</c:if>
 									<c:if test="${not empty myET0}">
 										<c:forEach items="${myET0}" var="ET0" varStatus="loop">
-											<c:forEach items="${storetxt}" var="storetxt"
-												varStatus="loop">
+											<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
 												<c:if test="${ET0.username == storetxt.username}">
 													<tr>
 														<td>
-															<label class="customcheckbox"> <input
-																	type="checkbox" class="listCheckbox"> <span
-																	class="checkmark"></span>
-															</label>
+														<input type="hidden" name="er_no" value="${ET0.er_no}" id="er_no">
+															<button type="button" class="btn mr-2 mb-2 btn-primary" id="erjoin_role" value="${ET0.erjoin_role}" data-toggle="modal" data-target="#etAccept">
+																수락
+															</button>
 														</td>
-														<td class="overflow" style="font-weight: bold;"><a
+														<td style="font-weight: bold;"><a
 															href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
 														</td>
-														<td class="overflow">
+														<td>
 															<div style="padding-bottom: 0px;">
-																<c:forTokens var="ertend" items="${ET0.er_tend}"
-																	delims=",">
+																<c:forTokens var="ertend" items="${ET0.er_tend}" delims=",">
 																	<div class="etlist-box"
 																		style="display: inline-block; padding-bottom: 0px;">
 																		<img class="etlist-img"
@@ -410,37 +334,64 @@
 																</c:forTokens>
 															</div>
 														</td>
-														<td class="overflow">${ET0.er_time}</td>
+														<td>${ET0.er_time}</td>
 
-														<td class="overflow">
+														<td style="font-size: 18px;">
 															<c:forEach items="${Nicks}" var="Nick" varStatus="loop">
 																<c:if test="${ET0.er_no == Nick.er_no}">
-																	<span class="overflow"> <a
-																		href='<c:url value="/Member/MyPage.do?username=${Nick.username}"/>'>
-																			${Nick.u_nick} </a>
+																	<span class="overflow"> 
+																	<a href='<c:url value="/Member/MyPage.do?username=${Nick.username}"/>'>
+																		${Nick.u_nick} 
+																	</a>
 																	</span>
 																</c:if>
 															</c:forEach>
 														</td>
-														<td class="overflow">${myET0.er_max}</td>
+														<c:forEach items="${etInCount}" var="etcnt" varStatus="loop">
+															<c:if test="${ET0.er_no == etcnt.er_no}">
+																<td class="overflow"> ${etcnt.count} / ${ET0.er_max} 명 </td>
+															</c:if>
+														</c:forEach>
 													</tr>
 												</c:if>
 											</c:forEach>
 										</c:forEach>
 									</c:if>
 								</table>
+								<input type="hidden" id="nowPage" value="${nowPage}">
+							</div>
+							<div class="row" style="margin-right: 0px; margin-left: 0px;">
+								<div class="col-md-12 text-center">${applPagingString}</div>
 							</div>
 						</div>
 					</div>
+					
+					<script>
+						function getValue(){
+							
+							var checks = Document.getElementsByClassName('checks');
+							
+							var str = '';
+							for(int i=0; i< ; i++){
+								if(.checks[i].checked === true){
+									str += checks[i].vales + " ";
+								}
+								
+							}
+							alert(str);
+						}
+					
+					</script>
+					<!-- ET 신청 끝 -->
 
 					<!-- ET 기록 보기  -->
-					<div class="groups border3bc">
+					<div class="groups border3bc col-md-12">
 						<div class="sub-title">
 							<h4 class="title">내가 참가한 ET 보기</h4>
 						</div>
-						<div class="row et_records" style="border: 1px solid red; margin: 10px; padding:10px;">
+						<div class="owl-carousel col-md-12 pt-3" style="padding:0px; margin: 0px;">
 							<c:if test="${empty myET1}">
-								<div class="mpjjim bd2bc" style="padding: 10px; margin: 10px; float: none; background: lightblue;">
+								<div class="mpjjim bd2bc col-md-12" style="float: none; background: lightblue;">
 									<span>참가한 ET가 없습니다.</span>
 								</div>
 							</c:if>
@@ -450,8 +401,8 @@
 									<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
 										<c:if test="${myET1.username == storetxt.username}">
 
-											<div class="mpjjim bd2bc" style="padding: 10px; margin: 5px; float: none; background: lightblue;">
-												<div class="img" style="border: 1px double black; width: 150px; display: inline-block;">
+											<div class="mpjjim bd2bc pb-3 pt-3 col-md-11" style="float: none; background: lightblue; display: inline-block;">
+												<div class="img col-md-6" style=" display: inline-block; padding:5px; margin:0px; ">
 
 													<% int count = 0; %>
 													<c:forEach items="${storeimgs}" var="storeimgs"
@@ -460,30 +411,23 @@
 														<c:if test="${storetxt.username == storeimgs.username}">
 
 															<c:if test="${empty storeimgs}">
-																<div class="img rv_list_img"
-																	style="border: 1px double black; width: 150px; float: left;">
+																<div class="img rv_list_img col-md-12" style="border: 1px solid red; float: left;">
 																	<span>no Image</span>
 																</div>
 															</c:if>
 
 															<c:if test="${not empty storeimgs}">
 																<% if(count == 0) {%>
-																<div class="img rv_list_img"
-																	style="width:150px; float:left; 
-															background-image: url(<c:url value="${storeimgs.sf_path}"/>);">
-
-																</div>
+																<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"> </div>
 																<% }count = count + 1; %>
 															</c:if>
 														</c:if>
 													</c:forEach>
 												</div>
-												<div class="text" style="padding-top: 0rem; display: inline-block; padding-left: 10px; width: 145px;">
+												<div class="text col-md-6" style="display: inline-block; padding:5px; margin:0px; vertical-align: top; ">
 													<div>
-														<span class="mn_name overflow"
-															style="font-weight: bold; font-size: 15px; color: black; padding-top: 10px;">
-															<a
-															href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'
+														<span class="mn_name overflow" style="font-weight: bold; font-size: 15px; color: black; padding-top: 10px; ">
+															<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'
 															style="text-decoration: none;">${storetxt.store_name}</a>
 														</span>
 													</div>
@@ -508,26 +452,65 @@
 													<div style="padding-bottom: 0px;">
 														<c:forTokens var="ertend" items="${myET1.er_tend}"
 															delims=",">
-															<div class="etlist-box"
-																style="display: inline-block; padding-bottom: 0px;">
-																<img class="etlist-img" src='<c:url value="${ertend}"/>'
-																	style="width: 30px; height: 30px;">
+															<div class="etlist-box" style="display: inline-block; padding-bottom: 0px;">
+																<img class="etlist-img" src='<c:url value="${ertend}"/>' style="width: 30px; height: 30px;">
 															</div>
 														</c:forTokens>
 													</div>
 												</div>
+												<c:if test="${myET1.user_id == myET1.er_master}" var="deleteHist">
+													<div class="col-md-12 pt-3">
+														<input type="button" class="btn btn-danger" value="삭제" >	
+													</div>
+												</c:if>
+												<c:if test="${not deleteHist}">
+													<div class="col-md-12 pt-3">
+														<input type="button" class="btn btn-danger" value="삭제" >	
+													</div>
+												</c:if>
 											</div>
 											
+																				
 										</c:if>
 									</c:forEach>
 								</c:forEach>
 							</c:if>
 						</div>
 					</div>
+					<script>
+						$(document).ready(
+							function() {
+								$('.owl-carousel').owlCarousel(
+									{items :4,
+									loop : true
+								});
+						});
+					</script>					
 				</div>
 			</div>
 		</div>
 	</div>
 </section>
+
+<div class="modal fade bd-example-modal-lg" id="etAccept" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-exclamation icon-gradient bg-deep-blue"></i>&nbsp;&nbsp;주의</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+            	<P>${ET0.er_no}</P>
+				<p>해당 같이먹기를 수락하시겠습니까? DSF</p>
+			</div>
+            <div class="modal-footer">
+               <a class="btn btn-primary" style="cursor:pointer;" id="signCheck" href="javascript:click()">확인</a>
+       		   <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 

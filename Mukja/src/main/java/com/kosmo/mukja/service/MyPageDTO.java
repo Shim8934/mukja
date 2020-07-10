@@ -9,6 +9,7 @@ public class MyPageDTO {
 	private String u_nick;
 	private String user_id;
 	private int count;
+	private String store_name2;
 
 
 	//찜스토어
@@ -407,7 +408,7 @@ public class MyPageDTO {
 			int erjoin_num, int erjoin_role, int erc_no, String fl_send, String fl_recv, Date fl_regidate,
 			int fl_status, int fl_no, String store_name, Date ms_postdate, String ms_comment, String user_email,
 			int ms_no, int rv_no, String rv_title, String rv_content, Date rv_postdate, int menu_no, String rf_path,
-			int rf_no, int count, String menu_name) {
+			int rf_no, int count, String menu_name, String store_name2) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -444,6 +445,21 @@ public class MyPageDTO {
 		this.rf_no = rf_no;
 		this.count = count;
 		this.menu_name = menu_name;
+		this.store_name2 = store_name2;
+	}
+
+
+
+
+	public String getStore_name2() {
+		return store_name2;
+	}
+
+
+
+
+	public void setStore_name2(String store_name2) {
+		this.store_name2 = store_name2;
 	}
 
 

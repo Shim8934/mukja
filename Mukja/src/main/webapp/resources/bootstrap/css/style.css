@@ -9666,10 +9666,6 @@ textarea.form-control {
 .mypage{
   position: relative; 
 }
-.mtNet{
-	margin-left: 50px;
-}
-
 .mypage .mt, .et{
 	border: 5px black solid;
 	padding: 20px ;
@@ -9844,7 +9840,8 @@ textarea.form-control {
 }
 .reviews th{
 	color: black;
-	font-size: 14px;font-family: 'Poor Story', cursive;
+	font-size: 14px;
+	font-family: 'Poor Story', cursive;
 }
 .mplist td{
 	color: black;
@@ -9852,7 +9849,8 @@ textarea.form-control {
 	height: 20px;
     overflow: hidden;
    	text-overflow: ellipsis;
-	font-size: 12px;font-family: 'Poor Story', cursive;
+	font-size: 14px;
+	font-family: 'Poor Story', cursive;
 }
 .mplist img{
 	height: 50px; 
