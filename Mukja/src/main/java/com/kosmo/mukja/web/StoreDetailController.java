@@ -68,6 +68,17 @@ public class StoreDetailController {
 			model.addAttribute("is_Thumb",0);
 		}
 		List<StoreDTO> list = service.getStoreInfo(map);
+
+		// 상세 주소 쪼개기용
+		String store_addr = list.get(0).getStore_addr();
+		if(store_addr.contains("/")) {
+			store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
+			String store_addr1 = list.get(0).getStore_addr().substring(list.get(0).getStore_addr().lastIndexOf("/")+1);
+			list.get(0).setStore_addr(store_addr);
+			list.get(0).setStore_addr1(store_addr1);
+		} 		// 상세 주소 쪼개기용 끝
+		
+		
 		model.addAttribute("list",list);
 		
 		int reviewCount= service.getReviewCount(map);

@@ -204,7 +204,7 @@ public class StoreDAO  implements StoreService{
 	
 	@Override
 	public int insertRVThumb(Map map) {
-		 return sqlMapper.selectOne("List<MyPageDTO> ",map);
+		 return sqlMapper.selectOne("insertRVThumb",map);
 	}
 
 	@Override

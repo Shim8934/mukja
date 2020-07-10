@@ -61,8 +61,18 @@ public class AdminController {
    
    // 0. 관리자 메인 컨트롤러
    @RequestMapping(value = "/AdminMain.bbs", method = RequestMethod.GET)
-   public String main(Locale locale, Model model) {      
-      
+   public String main(Model model, Map map) {
+	   int signUpTotalCount = adminService.getStSignTotalRecord(map);
+	   model.addAttribute("signUpTotalCount",signUpTotalCount);
+	   int getStSignRecord = adminService.getStSignRecord(map);
+	   model.addAttribute("getStSignRecord",getStSignRecord);
+	   
+	   int reportCount = adminService.getUsRPTotalRecord(map);
+	   model.addAttribute("reportCount",reportCount);
+	   int reportTotalCount = adminService.UsRpCount(map);
+	   model.addAttribute("UsRpTotalCount",reportTotalCount);
+	   
+	   
       return "AdminMain.admins";
    }
 
@@ -136,6 +146,8 @@ public class AdminController {
       result = adminService.updateUsRP2(map);
       JSONObject json = new JSONObject();
       json.put("result",result==1?"성공":"실패");
+      
+      
       return json.toJSONString();
    }
    

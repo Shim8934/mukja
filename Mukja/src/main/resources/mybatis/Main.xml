@@ -27,8 +27,12 @@
 		select store_intro from stores where username=#{username}
 	</select>
 	
-	<select id="selectImg" parameterType="java.util.Map" resultType="mainDTO">
+	<select id="selectMainStoreImg" parameterType="java.util.Map" resultType="mainDTO">
 		select sf_path from store_file where username=#{username}
+	</select>
+	
+	<select id="forMainFmNo" parameterType="java.util.Map" resultType="mainDTO">
+		select fm.menu_no, ff.fm_path from foodmenu fm join fm_file ff on fm.menu_no = ff.menu_no where fm.username=#{username}
 	</select>
 	<!-- 가게 좋아요 평점 랭킹 끝 -->
 	

@@ -26,7 +26,6 @@ tr td{
 	</div>
 </section>
 
-
 <!-- 좋아요 추천 수에 따른 음식점 띄워줄 캐러셀 시작   / 추천수 상위 랭킹 6개만 띄울 예정 -->
  
 <section class="home-slider js-fullheight owl-carousel bg-white">
@@ -35,22 +34,23 @@ tr td{
       	<div class="overlay"></div>
         <div class="container-fluid p-0">
           <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank1Img[0].sf_path }"/>);">
+          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank1storeImg[0].sf_path }"/>);">
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
 	          	<div class="text mt-md-5">
 		            <h1 class="mb-4">추천 순위 1위 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
-		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br> ${item.store_name}</h1>
+		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br>
+		            				<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>">${item.store_name}</a></h1>
 		            <p>${item.store_intro}</p>
 		            <p>${item.store_addr}</p>
 		            <p>${item.store_time}</p>
 		            <br>
 		            <p>대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
-		            	<c:forEach items="${rank1Img}" var="rank1Img" varStatus="loop">
+		            	<c:forEach items="${rank1FoodImg}" var="imgPath1" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${rank1Img.sf_path}"/>);"></div>
+		            			<div class="img" style="background-image: url(<c:url value="${imgPath1.fm_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>
@@ -66,22 +66,23 @@ tr td{
       	<div class="overlay"></div>
         <div class="container-fluid p-0">
           <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank2Img[0].sf_path}"/>);">
+          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank2storeImg[0].sf_path}"/>);">
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
 	          	<div class="text mt-md-5">
 		            <h1 class="mb-4">추천 순위 2위 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
-		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br> ${item.store_name}</h1>
+		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br> 
+		            							<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>">${item.store_name}</a></h1>
 		            <p>${item.store_intro}</p>
 		            <p>${item.store_addr}</p>
 		            <p>${item.store_time}</p>
 		            <br>
 		            <p>대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
-		            	<c:forEach items="${rank2Img}" var="rank2Img" varStatus="loop">
+		            	<c:forEach items="${rank2FoodImg}" var="imgPath2" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${rank2Img.sf_path}"/>);"></div>
+		            			<div class="img" style="background-image: url(<c:url value="${imgPath2.fm_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>
@@ -96,22 +97,23 @@ tr td{
       	<div class="overlay"></div>
         <div class="container-fluid p-0">
           <div class="row d-md-flex no-gutters slider-text js-fullheight align-items-center justify-content-end" data-scrollax-parent="true">
-          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank3Img[0].sf_path}"/>);">
+          	<div class="one-third order-md-last img js-fullheight" style="background-image:url(<c:url value="${rank3storeImg[0].sf_path}"/>);">
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
 	          	<div class="text mt-md-5">
 		            <h1 class="mb-4">추천 순위 3위 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
-		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br> ${item.store_name}</h1>
+		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br>
+		            							<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>">${item.store_name}</a></h1>
 		            <p>${item.store_intro}</p>
 		            <p>${item.store_addr}</p>
 		            <p>${item.store_time}</p>
 		            <br>
 		            <p>대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
-		            	<c:forEach items="${rank3Img}" var="rank3Img" varStatus="loop">
+		            	<c:forEach items="${rank3FoodImg}" var="imgPath3" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${rank3Img.sf_path}"/>);"></div>
+		            			<div class="img" style="background-image: url(<c:url value="${imgPath3.fm_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>

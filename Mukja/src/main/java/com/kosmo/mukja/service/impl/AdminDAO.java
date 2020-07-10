@@ -203,6 +203,18 @@ public class AdminDAO implements AdminService{
 		// TODO Auto-generated method stub
 		return 0;
 	}
+
+	@Override
+	public int getStSignRecord(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("getStSignRecord",map);
+	}
+
+	@Override
+	public int UsRpCount(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("UsRpCount",map);
+	}
 	
 
 }//////class AdminDAO

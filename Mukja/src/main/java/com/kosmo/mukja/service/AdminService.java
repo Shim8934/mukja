@@ -35,6 +35,7 @@ public interface AdminService {
 	
 	// 유저리포트용
 	List<AdminDTO> selectUserRpList(Map map);
+	int UsRpCount(Map map);
 	//전체 레코드 수]
 	int getUsRPTotalRecord(Map map);
 	//상세보기용]
@@ -52,6 +53,7 @@ public interface AdminService {
 	List<AdminDTO> selectStSignList(Map map);
 	//전체 레코드 수]
 	int getStSignTotalRecord(Map map);
+	int getStSignRecord(Map map);
 	//상세보기용]
 	AdminDTO selectStOne(Map map);
 	AdminDTO selectStPrev(Map map);
