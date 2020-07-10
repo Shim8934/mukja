@@ -675,7 +675,24 @@
 		</div>
 	</div>
 	<script>
-	
+	/* function btnInsert(){
+	 var param = jQuery("#reviewWriteForm").serialize();click(funtion(){	      
+         $.ajax({
+            url:"<c:url value='/insertSTReview.do'/>",
+            data: param,             
+            dataType: 'json',
+            success : function(data){
+	              console.log('성공..?:',data);
+	              alert('처리 완료!');
+	              window.location = "<c:url value='/UserReportList.bbs'/>";
+	          },
+              error:function(request,status,error){
+                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
+                       request.status,request.responseText,error,status);
+              }
+         });
+	   };
+	    */
 	    
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
@@ -687,7 +704,7 @@
 	            success : function(data){
 		              console.log('성공..?:',data);
 		              alert('처리 완료!');
-		              window.location = "<c:url value='/Store/DetailView.do?username="+${store_id} +"'/>";
+		              window.location = "<c:url value='/Store/DetailView.do?username="+${username} +"'/>";
 		          },
 	              error:function(request,status,error){
 	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
