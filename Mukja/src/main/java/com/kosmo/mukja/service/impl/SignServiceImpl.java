@@ -35,8 +35,8 @@ public class SignServiceImpl implements SignService {
 			return dao.foodmenu(map);
 		}
 		@Override
-		public int idCheck(Map map) {
-			return dao.idCheck(map);
+		public int storeIdCheck(Map map) {
+			return dao.storeIdCheck(map);
 		}
 
 		@Override
@@ -71,6 +71,12 @@ public class SignServiceImpl implements SignService {
 		public int insertStoreNewTable(Map map) {
 			// TODO Auto-generated method stub
 			return dao.insertStoreNewTable(map);
+		}
+
+		@Override
+		public int userIdCheck(Map map) {
+			// TODO Auto-generated method stub
+			return dao.userIdCheck(map);
 		}
 
 		

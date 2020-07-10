@@ -39,8 +39,8 @@ public class SignDAO implements SignService {
 		return sqlMapper.insert("foodmenu",map);
 	}
 	@Override
-	public int idCheck(Map map) {
-		return sqlMapper.selectOne("idCheck",map);
+	public int storeIdCheck(Map map) {
+		return sqlMapper.selectOne("storeIdCheck",map);
 	}
 	
 	@Override
@@ -75,6 +75,12 @@ public class SignDAO implements SignService {
 	public int insertStoreNewTable(Map map) {
 		// TODO Auto-generated method stub
 		return sqlMapper.insert("insertStoreNewTable",map);
+	}
+
+	@Override
+	public int userIdCheck(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("userIdCheck",map);
 	}
 
 

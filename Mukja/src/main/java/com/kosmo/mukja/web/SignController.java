@@ -93,10 +93,69 @@ public class SignController {
 		
 	// 회원가입 처리]
 	@RequestMapping(value = "/isSignUp.bbs", method = RequestMethod.POST)
-	public String SignUp(@RequestParam Map map) {
-		System.out.println(map);
-		map.remove("passwordOk");
-		System.out.println(map);
+	public String SignUp(@RequestParam Map map,
+						HttpServletRequest req) {
+		String userPath = req.getSession().getServletContext().getRealPath("/resources/user_IMG");
+		String uploadDir ="/resources/user_IMG";
+		
+		   File dir = new File(userPath);
+		    if(!dir.exists()) {
+		    	dir.mkdirs();
+		    	System.out.println("경로 만듦 / ");
+		    }
+		
+		MultipartRequest mr = FileUtility.upLoad(req, userPath);
+		
+		String username = mr.getParameter("username").toString();
+		System.out.println("아이디 = "+username);
+		
+		String password = mr.getParameter("password").toString();
+		System.out.println("비밀번호 = "+password);
+		
+		String u_nick = mr.getParameter("u_nick").toString();
+		System.out.println("닉네임 = "+u_nick);
+		
+		String u_age = mr.getParameter("u_age").toString();
+		System.out.println("연령대 = "+u_age);
+		
+		String u_lat = mr.getParameter("u_lat").toString();
+		System.out.println("위도 = "+u_lat);
+		
+		String u_lng = mr.getParameter("u_lng").toString();
+		System.out.println("경도 = "+u_lng);
+		
+		String u_addr = mr.getParameter("u_addr").toString();
+		System.out.println("주소 = "+u_addr);
+		
+		String u_ph = mr.getParameter("u_ph").toString();
+		System.out.println("연락처 = "+u_ph);
+		
+		String u_tend = mr.getParameter("menu_tend").toString();
+		System.out.println("성향 = "+u_tend);
+		
+		map.put("username", username);
+		map.put("password", password);
+		map.put("u_nick", u_nick);
+		map.put("u_age", u_age);
+		map.put("u_lat", u_lat);
+		map.put("u_lng", u_lng);
+		map.put("u_addr", u_addr);
+		map.put("u_ph", u_ph);
+		map.put("u_tend", u_tend);
+		map.put("authority","ROLE_USER");
+		map.put("enabled", 1);
+		String u_img = mr.getFilesystemName("u_img");
+		if(u_img!=null) {
+			System.out.println("프로필사진 있음 / 경로 세팅 직전 찍어봄 = "+u_img);
+			u_img = uploadDir +"/" + u_img;
+			System.out.println("디비 최종 입력 직전 찍어봄 = "+u_img);
+			map.put("u_img",u_img);
+		}
+		else {
+			u_img = uploadDir +"/"+"null";
+			map.put("u_img", u_img);
+			
+		}
 		signService.signup(map);
 		return "/index.tiles";
 	}///////////
@@ -136,7 +195,7 @@ public class SignController {
 		map.put("store_lng", mr.getParameter("store_lng").toString());
 		// 상세 주소까지 넣기용
 		String store_addr = mr.getParameter("store_addr").toString();
-		store_addr = store_addr+" "+mr.getParameter("store_addrDetail").toString();
+		store_addr = store_addr+"/"+mr.getParameter("store_addrDetail").toString();
 		System.out.println(store_addr + "디비에 들어갈 최종 주소값 정보 출력");
 		map.put("store_addr", store_addr);
 		int result = 0;
@@ -216,10 +275,17 @@ public class SignController {
 	}///////////
 	
 		@ResponseBody
-		@RequestMapping(value = "/idCheck.bbs", method = RequestMethod.GET)
+		@RequestMapping(value = "/storeIdCheck.bbs", method = RequestMethod.GET)
+		public int storeIdCheck(@RequestParam Map map) {
+			System.out.println(map);
+			return signService.storeIdCheck(map);
+		}///////////
+		
+		@ResponseBody
+		@RequestMapping(value = "/userIdCheck.bbs", method = RequestMethod.GET)
 		public int IdCheck(@RequestParam Map map) {
 			System.out.println(map);
-			return signService.idCheck(map);
+			return signService.userIdCheck(map);
 		}///////////
 	
 		

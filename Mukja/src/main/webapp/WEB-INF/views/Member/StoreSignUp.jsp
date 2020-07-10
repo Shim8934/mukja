@@ -872,7 +872,7 @@ var username = $('#username').val();
 		$('#username').keyup(function() {
 		username = $('#username').val();
 		$.ajax({
-			url : "<c:url value='/idCheck.bbs'/>",
+			url : "<c:url value='/storeIdCheck.bbs'/>",
 			data:  {"username":username},
 			dataType: 'json',
 			success : function(data) {
@@ -885,7 +885,8 @@ var username = $('#username').val();
 				else {
 						if(idJ.test(username)){
 							// 0 : 아이디 길이 / 문자열 검사
-							$("#id_check").text("");
+							$("#id_check").val("가입 가능한 아이디입니다.");
+							$("#id_check").css("color","green");
 						} 
 						else {
 							$('#id_check').text("소문자와 숫자 조합 5~12자리까지 가능합니다");

@@ -7,47 +7,57 @@
 	  $('#img').click(function() {
 			console.log('여기')
 		  $('.trs').slideDown(300)
+		})
+	
+	});
+	
+	$(document).on("change",".inp-img",function(){
+		//등록 이미지 등록 미리보기
+		 readInputFile(this);
+		function readInputFile(input) {
+		    if(input.files && input.files[0]) {
+		        var reader = new FileReader();
+		        reader.onload = function (e) {
+		        	console.log(e.target.result +'     파일 읽어오기');
+		            $('#preview').html("<a href='javascript:void(0);' onclick='deleteImage()' id='usersImg'>"
+		            		+"<img src="+ e.target.result +" class='img-thumbnail' title='이미지를 클릭하시면 제거됩니다.'></a>");
+		        }
+		        reader.readAsDataURL(input.files[0]);
+		    }
+		}
+		
 	})
 	
-	//등록 이미지 등록 미리보기
-	function readInputFile(input) {
-	    if(input.files && input.files[0]) {
-	        var reader = new FileReader();
-	        reader.onload = function (e) {
-	        	console.log(e.target.result +'     파일 읽어오기');
-	            $('#preview').html("<img src="+ e.target.result +">");
-	        }
-	        reader.readAsDataURL(input.files[0]);
-	    }
-	}
-	 
-	$(".inp-img").on('change', function(){
-	    readInputFile(this);
-	});
-	 
-	 
-	// 등록 이미지 삭제 ( input file reset )
-	function resetInputFile($input, $preview) {
-	    var agent = navigator.userAgent.toLowerCase();
-	    if((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
-	        // ie 일때
-	        $input.replaceWith($input.clone(true));
-	        $preview.empty();
-	    } else {
-	        //other
-	        $input.val("");
-	        $preview.empty();
-	    }       
-	}
-	 
-	$(".btn-danger").click(function(event) {
-	    var $input = $(".inp-img");
-	    var $preview = $('#preview');
-	    resetInputFile($input, $preview);
-	});
 	
-	});
+	// 등록 이미지 삭제 ( input file reset )
+	var resetInputFile = function($input, $preview) {
+	   console.log('사진 클릭해서 지움')
+	
+	   var agent = navigator.userAgent.toLowerCase();
+	   if ((navigator.appName == 'Netscape' && navigator.userAgent
+	         .search('Trident') != -1)
+	         || (agent.indexOf("msie") != -1)) {
+	      // ie 일때
+	      $input.replaceWith($input.clone(true));
+	      $preview.empty();
+	   } else {
+	      //other
+	      $input.val("");
+	      $preview.empty();
+	   }
+	}
 
+   var deleteImage = function() {
+	  console.log("지우는 작업 들어옴")
+      var img_id = "#usersImg";
+      $(img_id).remove();
+      var $input = $("#u_img");
+      var $preview = $("#preview");
+      console.log("지운 사진 id?  " + img_id)
+      console.log("지운 사진 input?  " + $input)
+      console.log("지운 사진 preview?  " + $preview)
+      resetInputFile($input, $preview);
+   }
 
 
 
@@ -137,11 +147,7 @@ section {
 				class="row no-gutters slider-text align-items-center justify-content-center">
 				<div class="col-md-9 ftco-animate text-center">
 					<h1 class="mb-2 bread">회원가입</h1>
-					<p class="breadcrumbs">
-						<span class="mr-2"><a href="index.html">Home <i
-								class="ion-ios-arrow-forward"></i></a></span> <span>Reservation <i
-							class="ion-ios-arrow-forward"></i></span>
-					</p>
+					<p class="breadcrumbs"> </p>
 				</div>
 			</div>
 		</div>
@@ -150,12 +156,13 @@ section {
 		<div class="container" id='signup'>
 			<div class="row d-flex">
 				<div class="col-md-12 ftco-animate makereservation p-4 p-md-5">
-					<form action="<c:url value='/isSignUp.bbs'/>" method="post">
+					<form action="<c:url value='/isSignUp.bbs'/>" method="post" enctype="multipart/form-data">
 						<div class="row">
 							<div class="col-md-offset-3 col-md-5">
 								<div class="form-group" id="input">
 									<label for="username">아이디</label> 
 									<input type="text" class="form-control" id="username" name="username" placeholder="이메일">
+									<div class="check_font" id="id_check"></div>
 								</div>
 							</div>
 							<div style="display: inline-block;">
@@ -167,7 +174,7 @@ section {
 								style="display: none;">
 								<div class="form-group" id="input">
 									<input type="text" class="form-control" id="dice" name="dice" placeholder="인증번호를 입력하세요"> 
-									<a class="btn btn-defualt" id="btn_dice">인증번호 확인</a>
+									<a class="btn btn-default btn-sm" id="btn_dice">인증번호 확인</a>
 									<div class="check_font" id="dice_check" style="display: none;"></div>
 								</div>
 							</div>
@@ -195,28 +202,15 @@ section {
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<label for="u_img">프로필사진</label>
-									<div id="preview"></div><span class="btn-danger">삭제</span>
-									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
-								</div>
-							</div>
-							<div class="col-md-offset-3 col-md-6">
-								<div class="form-group" style="width: 100%; height: 70%">
-									<label>성별</label>
-									<div style="width: 100%; height: 100%; margin-bottom: 10px;">
-										<label class="box-radio-input"
-											style="width: 49%; height: 100%;"><input type="radio"
-											name="gender" value="man"><span style="">남자</span></label> <label
-											class="box-radio-input" style="width: 49%; height: 100%;"><input
-											type="radio" name="gender" value="woman"><span
-											style="width: 100%; height: 100%;">여자</span></label>
-										<div class="check_font" id="gender_check"></div>
+									<div id="preview">
 									</div>
+									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6" style="padding-top: 10px;">
 								<div class="form-group">
-									<label for="">연락처</label> <input type="text"
-										class="form-control" id="u_ph" name="u_ph" placeholder="연락처">
+									<label for="">연락처</label>
+									<input type="text" class="form-control" id="u_ph" name="u_ph" placeholder="연락처">
 									<div class="check_font" id="ph_check"></div>
 								</div>
 							</div>
@@ -234,7 +228,7 @@ section {
 											<option value="60">60~69세</option>
 										</select>
 									</div>
-									<div class="check_font" id="id_check"></div>
+									
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">
@@ -364,24 +358,19 @@ section {
 		<div class="col-md-12">
 			<div class="form-group" style="text-align: center">
 
-				<div class="btn-group" role="group" aria-label="..."
-					style="text-align: center; padding: 0 auto; margin: 0 auto">
-
-					<a class="btn" onclick="loginWithKakao()"
-						style="border-radius: 1em;"> <img alt="카카오"
-						src="<c:url value='/resources/bootstrap/images/kakao.png'/>"
-						style="border-radius: 1.2em;">
-					</a> <a class="btn" id="naver_id_login" style="border-radius: 1.2em;">Middle</a>
-					<a class="btn" onclick="fbLoginAction();"> <img alt="페이스북"
-						src="<c:url value='/resources/bootstrap/images/facebook.jpg'/>"
-						style="border-radius: 1.2em;">
-					</a> <a type="button" class="btn " data-onsuccess="onSignIn"
-						data-theme="dark" onclick="onSignIn();"> <img alt="구글"
-						src="<c:url value='/resources/bootstrap/images/google.png'/>"
-						style="border-radius: 1.2em;">
+				<div class="btn-group" role="group" aria-label="..." style="text-align: center; padding: 0 auto; margin: 0 auto">
+					<a class="btn" onclick="loginWithKakao()" style="border-radius: 1em;">
+						<img alt="카카오"  src="<c:url value='/resources/bootstrap/images/kakao.png'/>" style="border-radius: 1.2em;">
 					</a>
-
-
+					<a class="btn" id="naver_id_login" style="border-radius: 1.2em;">
+						Middle
+					</a>
+					<a class="btn" onclick="fbLoginAction();">
+						<img alt="페이스북" src="<c:url value='/resources/bootstrap/images/facebook.jpg'/>" style="border-radius: 1.2em;">
+					</a>
+					<a type="button" class="btn " data-onsuccess="onSignIn" data-theme="dark" onclick="onSignIn();">
+						<img alt="구글" src="<c:url value='/resources/bootstrap/images/google.png'/>" style="border-radius: 1.2em;">
+					</a>
 				</div>
 			</div>
 
@@ -457,12 +446,12 @@ ertend_codes.forEach(function(ele,index){
 });
 </script>
 
-	<script><!--유효성 검사 하기-->
-// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
+<script><!--유효성 검사 하기-->
+		// 아이디 유효성 검사(1 = 중복 / 0 != 중복)
 		//모든 공백 체크 정규식
 		var empJ = /\s/g;
 		//아이디 정규식
-		var idJ = /^[a-z0-9]{4,12}$/;
+		var idJ = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 		// 비밀번호 정규식
 		var pwJ = /^[A-Za-z0-9]{6,12}$/; 
 		// 이메일 검사 정규식
@@ -473,15 +462,19 @@ ertend_codes.forEach(function(ele,index){
 		var regJ = /^[0-9]{1,10}$/;
 		// 전화번호 정규식
 		var numJ = /^[0-9]{1,12}$/;
-// 		id 유효성 검사 하기
-var username = $('#username').val();
+		
+		
+		// 		id 유효성 검사 하기
+		var username = $('#username').val();
 		$('#username').keyup(function() {
+			console.log("키업 반응 있음?")
 		username = $('#username').val();
 		$.ajax({
-			url : "",
+			url : "<c:url value='/userIdCheck.bbs'/>",
 			data:  {"username":username},
 			dataType: 'json',
-			success : function(data) {			
+			success : function(data) {
+				$("#id_check").text("");
 				if (data==1) {
 						// 1 : 아이디가 중복되는 문구
 						$("#id_check").text("사용중인 아이디입니다");
@@ -490,16 +483,18 @@ var username = $('#username').val();
 				else {
 						if(idJ.test(username)){
 							// 0 : 아이디 길이 / 문자열 검사
-							$("#id_check").text("");
+							$("#id_check").text("가입 가능한 아이디입니다.");
+							$("#id_check").css("color","green");
 						} 
 						else {
 							$('#id_check').text("아이디는 소문자와 숫자 4~12자리만 가능합니다");
-							$('#id_check').css('color', 'red');	
+							$('#id_check').css('color', 'red');
 						}
 					}
 				}, error : function() {console.log("실패");}
+			});
 		});
-	});
+		
 $("#username").blur(function() {	
 if (username==""){
 	$('#id_check').text('아이디를 입력해주세요')
@@ -666,10 +661,18 @@ var dice;
 var sss;
 var click=0;
 var username;
+var conter;
 $('#mail1').click(function() {
+	username = $("#username").val();
+	console.log("이메일칸 미 입력시 뭐가 뜸?"+username)
+	var idJ = /([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+	if(username==""&&!idJ.test(username)){
+		alert("형식에 맞게 이메일을 입력해 주세요!");
+		return;
+	}
 	click++;
 	$('#dice_check').css('display','');
-	username= $("#username").val();
+	
 	if(click>=1){
 		$("#mail1").css('display','none').css('margin-top','40px').css('border','1px solid').css('cursor','pointer')
 		$("#mail2").css('display','')
@@ -679,7 +682,7 @@ $('#mail1').click(function() {
 	var stop = false;
 	var mm=5;
 	var ss=59;	
-	var conter=setInterval(function(){
+	conter = setInterval(function(){
 		if(!stop){
 		var time_text =  mm+':'+ss+'초';
 		$("#dice_check").text(time_text);
@@ -736,7 +739,10 @@ $("#btn_dice").click(function(){
 	console.log("인증번호 확인버튼 누름");
 	if(dice==$("#dice").val()){
 		alert('성공');
+		clearInterval(conter);
 		suc =1;
+		$("#dice_check").html("인증 완료!") ;
+		$("#dice_check").css("color","green");
 		$("#dice_check1").css('display','');
 		mm=0;
 		ss=0;
@@ -746,6 +752,9 @@ $("#btn_dice").click(function(){
 		alert('인증번호를 확인해주세요')
 	}
 });
+
+
+
 
 
 </script>
