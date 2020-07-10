@@ -121,7 +121,6 @@ public class StoreDetailController {
 		int store_Thumb = service.getStoreThumb(map);
 		model.addAttribute("store_Thumb",store_Thumb);
 		
-
 		
 		/*가게리뷰보기*/
 		//페이징을 위한 로직 시작]
