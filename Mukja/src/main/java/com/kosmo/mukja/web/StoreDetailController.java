@@ -167,35 +167,10 @@ public class StoreDetailController {
 		
 		List<MyPageDTO> rvThumb = service.getRVThumb(map);
 		model.addAttribute("rvThumb",rvThumb);
-<<<<<<< HEAD
-		System.out.println("rvThumb : " + rvThumb.toString());
-		
-		/*
-		// 여기서 오류 나길래 우선 넣어봄 ( by 기영)
-		System.out.println("리뷰 좋아요 번호 얻기 = "+rvThumb.get(0).getRv_no());
-		map.put("rv_no", rvThumb.get(0).getRv_no());
-		int clickThumb = service.insertRVThumb(map);
-		// 여기서 오류 나길래 우선 넣어봄 ( by 기영)
-		
-		 
-		
-		//model.addAttribute("clickThumb",clickThumb);
-		//int disThumb = service.deleteRVThumb(map);
-		//model.addAttribute("disThumb",disThumb);
-		
-		*/
-		
-		
-	
-		
-		
-		
-=======
 		for(int k =0; k< rvThumb.size();k++) {
 		System.out.println("rvThumb.rv_no : "+rvThumb.get(k).getRv_no()
 				+" rvThumb.count : "+rvThumb.get(k).getCount());
 		}
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja
 		//베스트리뷰 뽑기
 		return "/Store/DetailView.tiles";
 	}

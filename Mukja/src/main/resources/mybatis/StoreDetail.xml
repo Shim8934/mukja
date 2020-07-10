@@ -86,18 +86,6 @@
 	</select>
 	
 	
-<<<<<<< HEAD
-    <!-- 리뷰 좋아요 --> 
-     <select id="getRVThumb" parameterType="java.util.Map" resultType="StoreDTO">
-    	select rv_no,count(rv_no) as count from review_thumb group by rv_no order by count desc
-    </select> 
-    <insert id="insertRVThumb"  parameterType="java.util.Map" >
-    	INSERT INTO review_thumb VALUES (SEQ_revthumb.nextval,#{rv_no},#{user_id})
-    </insert> 
-	<delete id="deleteRVThumb" parameterType="java.util.Map">
-    	DELETE review_thumb WHERE rv_no=#{rv_no} and rt_no=#{rt_no}
-    </delete>
-=======
   
 
 	<!-- 리뷰 삽입,수정,삭제 용 -->
@@ -124,5 +112,4 @@
 	DELETE review_thumb WHERE rt_no=#{rt_no} 
 </delete>
 
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja
 </mapper>
