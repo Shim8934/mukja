@@ -132,6 +132,7 @@ public class StoreDetailController {
 		int strvstart = (nowPage-1)*pageSize+1;
 		int strvend   = nowPage*pageSize;	
 		
+		
 		//페이징을 위한 로직 끝]	
 		map.put("strvstart", strvstart);
 		map.put("strvend", strvend);
