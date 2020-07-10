@@ -428,15 +428,19 @@
 			</c:if>
 			<c:if test="${not empty rvThumb}">
 				<c:forEach items="${rvThumb}" var="BestRV" end="6">						
-					<div class="row col-md-12" style="border: 1px red solid;" >
-						<div class="img" style="border: 1px solid black;  width:auto;" >
+					<div class="row col-md-12" style="border: 1px red solid; margin:0px; padding: 10px;" >
+						<div class="img" style="width:auto; " >
 							<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
 								<c:if test="${BestRV.rv_no == rvImg.rv_no}">
 									<c:if test=" ${empty rvImg.rf_path}">
 										<div style="height: 100px;"></div>
 									</c:if>
 									<c:if test="${not empty rvImg.rf_path}">
-										<img src='<c:url value="${rvImg.rf_path}"/>'> 
+										<img src='<c:url value="${rvImg.rf_path}"/>' style="border-radius: 50%"> 
+											<span class="quote d-flex align-items-center justify-content-center" 
+											>
+										<i class="glyphicon glyphicon-heart-empty" style="font-size: 20px;"></i>
+								</span>
 									</c:if>
 								</c:if>
 							</c:forEach>
@@ -450,9 +454,7 @@
 								</c:if>
 							</c:forEach>
 						</div>
-							
 					</div>
-						
 				</c:forEach>
 			</c:if>						
 		</div>	
@@ -485,7 +487,7 @@
 					</li>
 				</c:if>
 				<c:if test="${not empty strvcnts}">
-					<c:forEach items="${strvcnts}" var="strvcnt" varStatus="loop">
+					<c:forEach items="${strvcnts}" var="strvcnt" varStatus="loop">		
 						<li class="comment">
 							<div class="comment-body col-md-12 justify-content-center" style="margin-top:10px; padding:20px 0 30px 0;border-bottom: 1px solid #d7d7d7; ">
 
@@ -502,7 +504,7 @@
 										</c:if>
 									</c:forEach>
 								</div>
-								<div class="col-md-8">
+								<div class="col-md-9">
 									<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${strvcnt.rv_postdate}</div>
 									<p style="color: black;">${strvcnt.rv_content}</p>								
 									<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
@@ -521,24 +523,24 @@
 									</c:forEach>
 								</div>
 								<!-- 수정 삭제 -->
-								<div class="col-md-1">
-									<!--<c:if test="${user_id == strvcnt.user_email}">-->
-									<ul style="list-style: none;">
-										<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
-										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
-									</ul>
-									<!--</c:if>			-->				
+								<div class="col-md-1" style="text-align: center; ">
+									<a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="glyphicon glyphicon-thumbs-up"> 
+										<br/>
+										좋아요
+									</a>
+									
 								</div>
 																		
 							</div>
 							<!-- 좋아요 -->
-								<div class="col-md-12">
-									<!--<c:if test="${user_id == strvcnt.user_email}">-->
-									<ul style="list-style: none;">
-										<a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">좋아요</a>									
-									</ul>
-									<!--</c:if>			-->				
-								</div>
+							<div class="col-md-12">
+								<!--<c:if test="${user_id == strvcnt.user_email}">-->
+								<ul style="list-style: none;">
+									<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
+									<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
+								</ul>
+								<!--</c:if>			-->				
+							</div>
 										
 						</li>
 					</c:forEach>
@@ -546,17 +548,21 @@
 			</ul>
 		</div>
 		
+		<div class="col-md-12">
+			${strvPagingString}
+     	</div>
+		
+		
 		<sec:authorize access="hasRole('ROLE_USER')">
-		<div class="comment-form-wrap col-md-12"
-			style="background: orange; border-radius: 1%;">
-			<input name="username" id="username" value="${username}" type="hidden" class="form-control">
+		<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
 			<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
-			<form name="form1" method="post">
+			<form name="form1" method="post" action="<c:url value="/insertSTReview.do"/>">
 				<div class="form-group poor">
+				
 					<div class="col-md-12">
 						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
 						<div class="col-md-9" style="padding-bottom: 15px;">
-							<select id="menu_name">
+							<select id="menu_name" style="padding:10px; boder-radius:3%;'">
 								<option>메뉴 이름</option>
 								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
 									<option>${foodMenuDto.menu_name}</option>
@@ -565,50 +571,38 @@
 						</div>
 					</div>
 					<div class="col-md-12">
-						<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">title</label>
+						<label class="col-md-2" style="text-align:right;">리뷰 제목</label> 
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+							<input type="text" class="form-control" id="rv_title" name="rv_title" placeholder="제목"  style="margin-bottom: 10px;">
 						</div>
 					</div>
 					<div class="col-md-12">
-						<label class="col-md-2" for="message"
-							style="text-align: right; padding-top: 15px;">Contents</label>
-						<div class="col-md-9 poor">
-							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요"
-								style="margin-bottom: 10px;"></textarea>
+						<label class="col-md-2" style="text-align:right;">내용</label>
+						<div class="col-md-9">
+							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
 						</div>
 					</div>
 					<div class="col-md-12">
-						<label class="col-md-2" for="message"
-							style="text-align: right; padding-top: 15px;">Images</label>
-						<div class="col-md-9 poor">
-							<input name="rf_path" class="form-control" placeholder="파일업로드용"
-								style="margin-bottom: 30px;"></input>
+						<label class="col-md-2" style="text-align:right;">리뷰 이미지</label> 
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
 						</div>
 					</div>
-
-				</div>
-				<div class="col-md-12">
-					<div class="form-group col-md-offset-5" style="align-content: center; align-items: center;">
-						<input type="submit" value="리뷰 작성" id="btnInsert" class="btn py-3 px-4 btn-primary gugi">
+					<div class="col-md-12 mt-4 pb-3" >
+						<div class="form-group col-md-offset-5">
+							<input type="submit" value="리뷰 작성" class="btn btn-primary py-3 px-5">
+						</div>
 					</div>
 				</div>
-
-			</form>
+			</form>	
 		</div>
 	</sec:authorize> 
-      </div>
      
      
-     <div class="row"  style="margin-right: 0px; margin-left: 0px;">
-		<div class="col-md-12 text-center">${strvPagingString}
-		</div>
-		
-	 </div>
-
-
+     
+	</div>
 </section>	 
-	 <!-- -------------------------------------------리뷰쓰기 -->
+	 <!-- -------------------------------------------리뷰쓰기 모달------------------------------------------- -->
 	
 
 
@@ -634,28 +628,21 @@
 							</div>
 						</div>
 						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">title</label>
+							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 제목</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="title"
-									placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+								<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
 							</div>
 						</div>
 						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">Contents</label>
+							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 내용</label>
 							<div class="col-md-9 poor">
-								<textarea name="rv_content" cols="30" rows="7"
-									class="form-control" placeholder="내용을 입력하세요"
-									style="margin-bottom: 10px;"></textarea>
+								<textarea name="rv_content" cols="30" rows="5" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
 							</div>
 						</div>
 						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">Images</label>
+							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 이미지</label>
 							<div class="col-md-9 poor">
-								<input name="rf_path" class="form-control" placeholder="파일업로드용"
-									style="margin-bottom: 30px;"></input>
+								<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
 							</div>
 						</div>
 					</div>

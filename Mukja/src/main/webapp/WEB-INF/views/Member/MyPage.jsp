@@ -188,20 +188,19 @@ $(function(){
 										</c:forEach>
 									</c:forEach>
 								</c:if>
+								<div class="owl-dots"></div>
 							</div>
+						</div>
+						
 							<script>
-						$(document).ready(
-							function() {
-								$('.owl-carousel').owlCarousel(
-									{items : 2,
-									loop : true
+								$(document).ready(
+									function() {
+										$('.owl-carousel').owlCarousel(
+											{items : 2,
+											loop : true
+										});
 								});
-						});
-					</script>
-						</div>
-						<div class="row" style="margin-right: 0px; margin-left: 0px;">
-							<div class="col-md-12 text-center">${jjimPagingString}</div>
-						</div>
+							</script>
 					</div>
 					
 					<!-- 리뷰 시작 -->
@@ -232,8 +231,16 @@ $(function(){
 											<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
 												<c:if test="${rvcnt.store_name == storetxt.username}">
 													<tr>
-														<td><a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>' style="text-decoration: none;">
-																${storetxt.store_name} </a>
+														<td>
+															<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>' style="text-decoration: none;">
+																${storetxt.store_name} 
+															</a>
+															<br/>
+																<c:forEach items="${menus}" var="menus" varStatus="loop">
+																	<c:if test="${rvcnt.menu_no == menus.menu_no}">
+																		${menus.menu_name}
+																	</c:if>											
+																</c:forEach>
 														</td>
 														<td>${rvcnt.rv_postdate}</td>
 														<td>4.0</td>

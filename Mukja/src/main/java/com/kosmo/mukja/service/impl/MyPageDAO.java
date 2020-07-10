@@ -63,6 +63,7 @@ public class MyPageDAO implements MyPageService {
 
 	@Override
 	public MyPageDTO getMyReviewForUpdate(Map map) {
+		System.out.println("리뷰dao");
 		return sqlMapper.selectOne("getMyReviewForUpdate",map);
 	}
 

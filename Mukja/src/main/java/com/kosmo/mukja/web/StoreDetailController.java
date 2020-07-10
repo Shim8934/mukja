@@ -160,8 +160,6 @@ public class StoreDetailController {
 		System.out.println("rvThumb.rv_no : "+rvThumb.get(k).getRv_no()
 				+" rvThumb.count : "+rvThumb.get(k).getCount());
 		}
-		
-		
 		//베스트리뷰 뽑기
 		return "/Store/DetailView.tiles";
 	}
@@ -181,31 +179,31 @@ public class StoreDetailController {
 		return "{'result':"+result+"}";
 	}
 	
+	
 	@ResponseBody
 	@RequestMapping("/updateStoreRecommand.do")
 	public String updateStoreRecommand(@RequestParam Map map) {
 		int result=service.updateStoreRecommand(map);
 		return "{'result':"+result+"}";
 	}
-	
-	
 
-	
+
+
 	@ResponseBody
-	@RequestMapping(value="/insertReview.bbs",method=RequestMethod.POST)
-	public String insertReview(HttpServletRequest req,
+	@RequestMapping(value="/insertSTReview.do",method=RequestMethod.POST)
+	public String insertSTReview(HttpServletRequest req,
 			  Authentication auth,
 			  Model model,
 			  @RequestParam Map map) {	
 		//가게아이디 얻기
-		System.out.println("store_id : " + store_id);
+		System.out.println("리뷰쓰기폼 속 store_id : " + store_id);
 		//회원아이디 얻기
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
 		System.out.println("user_id2 : "+map.get("user_id"));	
 		//인서트		
-		service.insertReview(map);
+		int insertrv = service.insertReview(map);
 		
 		return "forward:/Store/DetailView.tiles";
 	}

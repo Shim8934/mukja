@@ -86,19 +86,18 @@
 	</select>
 	
 	
+  
 
-    
-<!-- 리뷰 쓰기 -->
-
-<insert parameterType="java.util.Map" id="insertReview">insert into storereview values(SEQ_STOREREVIEW.nextval,'default_title',#{rv_content},sysdate,#{user_id},#{username},1) </insert>
-
-<update parameterType="java.util.Map" id="updateReview">UPDATE storereview set (rv_title=#{rv_title}, rv_content={rv_content}) where rv_no=#{rv_no} </update>
-
-<update parameterType="java.util.Map" id="deleteReview">DELETE storereview WHERE where rv_no=#{rv_no} </update>
-
+	<!-- 리뷰 삽입,수정,삭제 용 -->
+	<insert id="insertReview" parameterType="java.util.Map">
+		insert into storereview (rv_no, rv_title, rv_content, user_email, store_name, menu_no)
+		values (SEQ_STOREREVIEW.nextval,#{rv_title},#{rv_content},#{user_id},#{store_id},#{menu_no}) where store_name=#{store_id}
+	</insert>
+	
+	
+	
 	
 <!-- 리뷰 좋아요 -->
-
 <select id="getRVThumb" parameterType="java.util.Map" resultType="MyPageDTO" >
 	select * from 
 	(select rv_no,count (rv_no) as count from review_thumb group by rv_no) rt
