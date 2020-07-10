@@ -258,7 +258,11 @@ public class MyPageController{
 			System.out.println("myET1 ertime : " + myET1.get(i).getEr_time());
 		}					
 		model.addAttribute("myET1",myET1);
-		
+		List<StoreDTO> menus = service.getMenu(map);
+		model.addAttribute("menus",menus);
+		for(int i=0; i<menus.size(); i++) {
+			System.out.println("리뷰 수정폼 menus.menu_no : "+menus.get(i).getMenu_no());
+		}
 		
 		
 		
@@ -311,8 +315,10 @@ public class MyPageController{
 		
 		//서비스 호출]
 		MyPageDTO rvcnt4up = service.getMyReviewForUpdate(map);
+		System.out.println(rvcnt4up.getRv_content());
 		rvcnt4up.setRv_title(rvcnt4up.getRv_title().trim());
 		rvcnt4up.setRv_content(rvcnt4up.getRv_content().trim());
+		
 		model.addAttribute("rvcnt4up",rvcnt4up);
 		System.out.println("리뷰 수정폼 rvcnt4up의 rv_no : "+rvcnt4up.getRv_no());
 		System.out.println("리뷰 수정폼 rvcnt4up의 Menu_no : "+rvcnt4up.getMenu_no());	

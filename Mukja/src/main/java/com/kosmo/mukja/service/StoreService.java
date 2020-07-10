@@ -41,7 +41,7 @@ public interface StoreService {
 	
 	
 	/*리뷰 좋아요*/
-	public List<StoreDTO> getRVThumb(Map map) ;
+	public List<MyPageDTO> getRVThumb(Map map) ;
 	public int insertRVThumb(Map map) ;
 	public int deleteRVThumb(Map map) ;
 	

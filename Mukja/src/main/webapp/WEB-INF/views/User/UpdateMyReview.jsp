@@ -33,23 +33,20 @@
 
 						<div class="col-md-offset-3 col-md-6">
 							<div class="form-group">
-								<label for="">닉네임 :  ${rvcnt4up.user_email}</label> 
-								<!-- <input type="text" class="form-control" id="user_email" name="user_email" value="${rvcnt4up.user_email}" readonly="readonly"> -->
+								<label for="">닉네임  :  ${rvcnt4up.user_email}</label> 
 							 </div>
 						</div>
 						
 						<div class="col-md-offset-3 col-md-6">
 							<div class="form-group">
-								<label for="">리뷰 작성 날짜 :  ${rvcnt4up.rv_postdate}</label> 
-								<input type="text" class="form-control" id="rv_postdate" name="rv_postdate" value="${rvcnt4up.rv_postdate}" readonly="readonly">
+								<label for="">리뷰 작성 날짜  :  ${rvcnt4up.rv_postdate}</label> 
 							 	
 							 </div>
 						</div>
 						
 						<div class="col-md-offset-3 col-md-6">
 							<div class="form-group">
-								<label for="">가게 이름</label> 
-								<input type="text" class="form-control" id="rv_postdate" name="rv_postdate" value="${rvcnt4up.store_name2}" readonly="readonly">
+								<label for="">가게 이름  :  ${rvcnt4up.store_name2}</label> 
 							</div>
 						</div>
 
@@ -69,18 +66,15 @@
 
 						<div class="col-md-offset-3 col-md-6">
 							<div class="form-group">
-								<label for="">리뷰 제목</label> <input type="text"
-									class="form-control" id="rv_title" name="rv_title"
-									placeholder="제목" value="${rvcnt4up.rv_title}">
+								<label for="">리뷰 제목</label> 
+								<input type="text" class="form-control" id="rv_title" name="rv_title" placeholder="제목" value="${rvcnt4up.rv_title}">
 							</div>
 						</div>
 
 						<div class="col-md-offset-3 col-md-6">
 							<div class="form-group">
 								<label for="">내용</label>
-								<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"> 
-									${rvcnt4up.rv_content}
-								</textarea>
+								<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;">${rvcnt4up.rv_content} </textarea>
 							</div>
 						</div>
 

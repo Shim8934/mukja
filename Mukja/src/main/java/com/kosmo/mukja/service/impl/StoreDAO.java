@@ -142,33 +142,13 @@ public class StoreDAO  implements StoreService{
 	@Override
 	public int insertStoreImg(Map map) {
 		// TODO Auto-generated method stub
-		return sqlMapper.update("insertStoreImg",map);
+		return sqlMapper.insert("insertStoreImg",map);
 	}
 	
 	
 	
 	
-	
-	
-	
-	
-	
 
-	@Override
-	public int insertReview(Map map) {
-		return sqlMapper.insert("insertReview", map);
-	}
-
-	@Override
-	public int updateReview(Map map) {
-		return sqlMapper.update("updateReview", map);
-	}
-
-
-	@Override
-	public int deleteReview(Map map) {
-		return sqlMapper.delete("deleteReview", map);
-	}
 
 	
 	
@@ -195,10 +175,30 @@ public class StoreDAO  implements StoreService{
 	
 	
 	
+
+	@Override
+	public int insertReview(Map map) {
+		return sqlMapper.insert("insertReview", map);
+	}
+
+	@Override
+	public int updateReview(Map map) {
+		return sqlMapper.update("updateReview", map);
+	}
+
+
+	@Override
+	public int deleteReview(Map map) {
+		return sqlMapper.delete("deleteReview", map);
+	}
+	
+	
+	
+	
 	
 
 	@Override
-	public List<StoreDTO> getRVThumb(Map map) {
+	public List<MyPageDTO> getRVThumb(Map map) {
 		return sqlMapper.selectList("getRVThumb", map);
 	}
 	

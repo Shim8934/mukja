@@ -50,7 +50,6 @@ public class MyPageDTO {
 	private Date rv_postdate;
 	private int menu_no;
 	
-	
 	//review_file
 	private String rf_path;
 	private int rf_no;
