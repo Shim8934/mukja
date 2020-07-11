@@ -599,7 +599,8 @@
 					<div class="col-md-12">
 						<label class="col-md-2" style="text-align:right;">리뷰 이미지</label> 
 						<div class="col-md-9">
-							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
+							<small>이미지를 등록해 주세요.</small>
+							<input type="file" class="form-control" id="rf_path" name="rf_path" style="margin-bottom: 10px;">
 						</div>
 					</div>
 					

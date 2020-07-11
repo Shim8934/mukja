@@ -45,7 +45,7 @@
 		join foodmenu fm on sr.menu_no = fm.menu_no 
 		join users us on sr.user_email = us.username 
 		group by sr.rv_no, sr.rv_title, sr.store_name, sr.menu_no, rf.rf_path, fm.menu_name, us.u_nick  
-		order by good desc) t where rownum<![CDATA[<=]]>4
+		order by good desc) t where rownum<![CDATA[<=]]>6
 	</select>
 	
 	<select id="selectContent" parameterType="java.util.Map" resultType="mainDTO">
@@ -53,7 +53,7 @@
 	</select>
 	
 	<select id="selectStore_name" parameterType="java.util.Map" resultType="mainDTO">
-		select store_name from stores where username = #{username}
+		select username, store_name from stores where username = #{username}
 	</select>
 	
 	

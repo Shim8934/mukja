@@ -93,6 +93,7 @@ public class HomeController {
       review.get(0).setRv_content(content1.getRv_content().toString());
       map.put("username", review.get(0).getStore_name());
       content1 = mainService.selectStore_Name(map);
+      review.get(0).setUsername(content1.getUsername().toString());
       review.get(0).setStore_name(content1.getStore_name().toString());
       
       map.put("rv_no", review.get(1).getRv_no());
@@ -100,6 +101,7 @@ public class HomeController {
       review.get(1).setRv_content(content2.getRv_content().toString());
       map.put("username", review.get(1).getStore_name());
       content2 = mainService.selectStore_Name(map);
+      review.get(1).setUsername(content2.getUsername().toString());
       review.get(1).setStore_name(content2.getStore_name().toString());
       
       map.put("rv_no", review.get(2).getRv_no());
@@ -107,6 +109,7 @@ public class HomeController {
       review.get(2).setRv_content(content3.getRv_content().toString());
       map.put("username", review.get(2).getStore_name());
       content3 = mainService.selectStore_Name(map);
+      review.get(2).setUsername(content3.getUsername().toString());
       review.get(2).setStore_name(content3.getStore_name().toString());
       
       map.put("rv_no", review.get(3).getRv_no());
@@ -114,9 +117,26 @@ public class HomeController {
       review.get(3).setRv_content(content4.getRv_content().toString());
       map.put("username", review.get(3).getStore_name());
       content4 = mainService.selectStore_Name(map);
+      review.get(3).setUsername(content4.getUsername().toString());
       review.get(3).setStore_name(content4.getStore_name().toString());
+      /*
+      map.put("rv_no", review.get(4).getRv_no());
+      MainDTO content5 = mainService.selectContent(map);
+      review.get(4).setRv_content(content5.getRv_content().toString());
+      map.put("username", review.get(4).getStore_name());
+      content4 = mainService.selectStore_Name(map);
+      review.get(4).setUsername(content5.getUsername().toString());
+      review.get(4).setStore_name(content5.getStore_name().toString());
       
       
+      map.put("rv_no", review.get(5).getRv_no());
+      MainDTO content6 = mainService.selectContent(map);
+      review.get(5).setRv_content(content6.getRv_content().toString());
+      map.put("username", review.get(5).getStore_name());
+      content4 = mainService.selectStore_Name(map);
+      review.get(5).setUsername(content6.getUsername().toString());
+      review.get(5).setStore_name(content6.getStore_name().toString());
+      */
       // 3) 공지사항 뿌리기
 	  String searchColumn = "";
 	  String searchWord = "";

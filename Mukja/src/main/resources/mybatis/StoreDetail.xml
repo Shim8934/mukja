@@ -112,4 +112,13 @@
 	DELETE review_thumb WHERE rt_no=#{rt_no} 
 </delete>
 
+
+<!-- 메뉴 수정 -->
+<update id="updateFoodMenu" parameterType="java.util.Map">
+	update foodmenu set menu_name = #{editMenu_name}, menu_tend=#{editMenu_tend}, menu_info = #{editMenu_info}, menu_price=#{editMenu_price} where menu_no=#{editMenu_no}
+</update>
+<update id="updateFoodImg" parameterType="java.util.Map">
+	update fm_file set fm_path = #{editFm_path} where menu_no=#{editMenu_no}
+</update>
+
 </mapper>

@@ -538,8 +538,10 @@ var passwordCheck;
          <div class="col-md-12  menu-wrap" style="display: inline-block;">
             <div class="heading-menu text-center ftco-animate">
                <h2 style="font-weight: bold; color: #404040; margin-bottom: 30px;">
-               		매뉴관리<br/>
+               		메뉴 관리<br/>
            		</h2>
+           		<a style="margin-bottom: 10px;" href="<c:url value='/StoreMypage/ImgPop2.do'/>" target="_blank" id="editMenuImg" class="btn btn-info">메뉴 정보 수정</a>
+           		
             </div>
             <div class="row">
                <c:forEach items="${foodMenuList}" var="foodMenuDto">
@@ -555,8 +557,7 @@ var passwordCheck;
                            <!-- Indicators -->
                            <ol class="carousel-indicators">
                               <c:forEach items="${allFoodImgList}" var="foodimglist">
-                                 <c:forEach items="${foodimglist}" var="foodimgDTO"
-                                    varStatus="status">
+                                 <c:forEach items="${foodimglist}" var="foodimgDTO"  varStatus="status">
                                     <c:if test="${foodimgDTO.menu_no==foodMenuDto.menu_no}">
                                        <c:if test="${status.index==0}" var="result">
                                           <li data-target="#carousel-example-generic" data-slide-to="${status.index}" class="active"></li>

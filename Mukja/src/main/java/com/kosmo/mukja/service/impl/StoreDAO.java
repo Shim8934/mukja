@@ -212,5 +212,17 @@ public class StoreDAO  implements StoreService{
 		 return sqlMapper.selectOne("deleteRVThumb",map);
 	}
 
+	@Override
+	public int updateFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateFoodMenu",map);
+	}
+
+	@Override
+	public int updateFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateFoodImg",map);
+	}
+
 	
 }

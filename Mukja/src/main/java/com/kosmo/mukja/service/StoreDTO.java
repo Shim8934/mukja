@@ -23,6 +23,7 @@ public class StoreDTO {
 	private String menu_tend;
 	private String menu_info;
 	private String menu_regidate;
+	private String menu_price;
 	private String username_1;
 	private String fm_path;
 	
@@ -39,7 +40,7 @@ public class StoreDTO {
 			String store_email, int store_avg, String store_intro, String store_time, double store_lat,
 			double store_lng, String store_addr, String store_addr1, String store_role, String enabled,
 			String authority, String menu_no, String menu_name, String menu_tend, String menu_info,
-			String menu_regidate, String username_1, String fm_path, int rt_no, int rv_no) {
+			String menu_regidate, String menu_price, String username_1, String fm_path, int rt_no, int rv_no) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -62,6 +63,7 @@ public class StoreDTO {
 		this.menu_tend = menu_tend;
 		this.menu_info = menu_info;
 		this.menu_regidate = menu_regidate;
+		this.menu_price = menu_price;
 		this.username_1 = username_1;
 		this.fm_path = fm_path;
 		this.rt_no = rt_no;
@@ -279,6 +281,16 @@ public class StoreDTO {
 	}
 
 
+	public String getMenu_price() {
+		return menu_price;
+	}
+
+
+	public void setMenu_price(String menu_price) {
+		this.menu_price = menu_price;
+	}
+
+
 	public String getUsername_1() {
 		return username_1;
 	}
@@ -317,7 +329,6 @@ public class StoreDTO {
 	public void setRv_no(int rv_no) {
 		this.rv_no = rv_no;
 	}
-
 
 }
 	
