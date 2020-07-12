@@ -204,12 +204,12 @@ public class StoreDAO  implements StoreService{
 	
 	@Override
 	public int insertRVThumb(Map map) {
-		 return sqlMapper.selectOne("insertRVThumb",map);
+		 return sqlMapper.insert("insertRVThumb",map);
 	}
 
 	@Override
 	public int deleteRVThumb(Map map) {
-		 return sqlMapper.selectOne("deleteRVThumb",map);
+		 return sqlMapper.delete("deleteRVThumb",map);
 	}
 	
 	
@@ -232,17 +232,17 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int deleteOneReview(Map map) {
-		return sqlMapper.selectOne("deleteOneReview", map);
+		return sqlMapper.delete("deleteOneReview", map);
 	}
 
 	@Override
 	public int deleteOneReviewPic(Map map) {
-		return sqlMapper.selectOne("deleteOneReviewPic", map);
+		return sqlMapper.delete("deleteOneReviewPic", map);
 	}
 
 	@Override
 	public int deleteOneReviewThumb(Map map) {
-		return sqlMapper.selectOne("deleteOneReviewThumb", map);
+		return sqlMapper.delete("deleteOneReviewThumb", map);
 	}
 
 

@@ -172,7 +172,7 @@
 							</div>
 						</div>
 						<div class="col-md-12 text-center">
-							<input type="hidden" name="rv_no" value="${rvcnt4up.rv_no}">	
+							<input type="hidden" name="rv_no" id="rv_no" value="${rvcnt4up.rv_no}">	
 								<div class="form-group">
 									<input type="submit" value="리뷰 수정" class="btn btn-primary py-3 px-5">
 								</div>
