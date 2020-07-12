@@ -213,27 +213,14 @@ section {
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">
-								<div class="form-group">
-									<label for="u_img">프로필사진</label>
-									<div id="preview"></div><span class="btn-danger">삭제</span>
-									<c:if test="${map==null}"> 
-									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
-									</c:if>
-									<input type="file" class="form-control inp-img" id="u_img" name="u_img"  accept=".gif, .jpg, .png">								
-								</div>
-							</div>
-							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group" style="width: 100%; height: 70%">
-									<label>성별</label>
-									<div style="width: 100%; height: 100%; margin-bottom: 10px;">
-										<label class="box-radio-input"
-											style="width: 49%; height: 100%;"><input type="radio"
-											name="gender" value="man"><span style="">남자</span></label> <label
-											class="box-radio-input" style="width: 49%; height: 100%;"><input
-											type="radio" name="gender" value="woman"><span
-											style="width: 100%; height: 100%;">여자</span></label>
-										<div class="check_font" id="gender_check"></div>
+								<label for="u_img">프로필사진</label>
+									<c:if test="${map==null}"> 
 									<div id="preview"></div>
+									</c:if>
+									<c:if test="${map!=null}"> 
+									<div id="preview"><img alt="" src="${map.img}"></div>
+									</c:if>
 									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
 								</div>
 							</div>

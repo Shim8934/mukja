@@ -81,9 +81,10 @@
 	</beans:bean>
 	
 	<!-- 안드로이드용 업다운 -->
+	<!--
 	<resources location="/WEB-INF/upload/andorid/" mapping="/andorid/**" />
 	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />
 	</beans:bean>
-	
+	-->
 </beans:beans>

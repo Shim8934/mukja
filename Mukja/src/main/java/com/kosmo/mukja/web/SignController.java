@@ -330,23 +330,14 @@ public class SignController {
 		System.out.println(tomail);
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
-
 				System.getProperty("line.separator") + // 한줄씩 줄간격을 두기위해 작성
-
 						System.getProperty("line.separator") +
-
 						"안녕하세요 회원님 저희 홈페이지를 찾아주셔서 감사합니다"
-
 						+ System.getProperty("line.separator") +
-
 						System.getProperty("line.separator") +
-
 						" 인증번호는 " + dice + " 입니다. "
-
 						+ System.getProperty("line.separator") +
-
 						System.getProperty("line.separator") +
-
 						"받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
 
 		try {
