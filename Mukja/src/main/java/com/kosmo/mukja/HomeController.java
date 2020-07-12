@@ -1,5 +1,6 @@
 package com.kosmo.mukja;
 
+import java.net.Socket;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,6 +56,7 @@ public class HomeController {
 		   			  Map map,
 		   			  @RequestParam(required = false,defaultValue = "1") int nowPage,
 		   			  HttpServletRequest req) {
+	   
       logger.info("Welcome home! The client locale is {}.", locale);
 
       List<MainDTO> dto = mainService.selectList(map);
@@ -273,7 +275,7 @@ public class HomeController {
 	   dto.get(2).setStore_intro(temp.getStore_intro().toString());
 	   List<MainDTO> rank32Img = mainService.selectRank3Img(map);
 	   String img = "";
-      
+
 	   	for(int k=0; k<rank12Img.size();k++) {
 	   	 System.out.println("1위 가게 이미지들"+rank12Img.get(k).getSf_path());
     	  if((k+1)==rank12Img.size()) {
@@ -328,8 +330,7 @@ public class HomeController {
     	  rank.put("username",mdto.getUsername().toString());
     	  rank.put("store_name",mdto.getStore_name().toString());
     	  rank.put("store_intro",mdto.getStore_intro().toString());
-    	  rank.put("sa_avg",mdto.getSa_avg().toString());
-    	  
+    	  rank.put("sa_avg",mdto.getSa_avg().toString());  	  
     	  rank.put("sf_path",mdto.getSf_path().toString());
     	  mainJsonArray.add(rank);
     	  
@@ -432,17 +433,10 @@ public class HomeController {
    @RequestMapping(value = "/Map.bbs", method = RequestMethod.GET)
    public String mapBumsam(Locale locale, Model model) {
       logger.info("Welcome home! The client locale is {}.", locale);
-//      server = new AndroidChatServer();
-//      server.start();
       return "index.tiles";
    }
    
-   @RequestMapping(value="/Mypage.bbs", method = RequestMethod.GET)
-   public String Mypage(String str) {
-      return "/Member/MyPage.tiles";
-   }
- 
-   
+
    
    /*----------------------------가게페이지------------------------------*/
    @RequestMapping(value="/Restaurants.bbs", method = RequestMethod.GET)

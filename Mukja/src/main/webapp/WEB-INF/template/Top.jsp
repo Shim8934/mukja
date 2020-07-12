@@ -45,15 +45,6 @@
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a href="<c:url value="/"/>" class="nav-link">먹자홈</a></li>
-				<sec:authorize access="isAnonymous()">
-					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
-					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
-				</sec:authorize>
-				<sec:authorize access="hasRole('ROLE_USER')">
-					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
-
-					<li class="nav-item"><a href="<c:url value="/MyPage.bbs"/>"class="nav-link">마이먹자</a></li>
-				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin</a></li>
@@ -68,6 +59,14 @@
 			<li class="nav-item"><a href="<c:url value="/Map.bbs"/>"  class="nav-link">골라먹자</a></li>
 			<li class="nav-item"><a href="<c:url value="/CollectMain.do"/>"  class="nav-link">긁어먹자</a></li>
 			<li class="nav-item"><a href="<c:url value="/Teachable.do"/>"  class="nav-link">알고먹자</a></li>
+				<sec:authorize access="isAnonymous()">
+					<li class="nav-item"><a href="<c:url value="/SignIn.bbs"/>"  class="nav-link">로그인</a></li>
+					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_USER')">
+					<li class="nav-item"><a href="<c:url value="/MyPage.bbs"/>"class="nav-link">마이먹자</a></li>
+					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
+				</sec:authorize>
 			</ul>
 		</div>
 	</div>

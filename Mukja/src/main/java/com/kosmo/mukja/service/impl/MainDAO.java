@@ -19,13 +19,11 @@ public class MainDAO implements MainService{
 
 	@Override
 	public List<MainDTO> selectList(Map map) {
-		// TODO Auto-generated method stub
 		return sqlMapper.selectList("selectOrderByRank",map);
 	}
 
 	@Override
 	public List<MainDTO> selectRank1List(Map map) {
-		// TODO Auto-generated method stub
 		return sqlMapper.selectList("selectList",map);
 	}
 

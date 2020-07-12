@@ -17,6 +17,29 @@ public class AndroidDTO {
 	private int enabled;
 	private String authority;
 	
+	public AndroidDTO() {
+		super();
+	}
+
+	public AndroidDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,
+			String u_tend, String u_addr, int u_lat, int u_lng, String u_ph, int enabled, String authority) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.u_nick = u_nick;
+		this.u_regidate = u_regidate;
+		this.u_img = u_img;
+		this.u_age = u_age;
+		this.u_tend = u_tend;
+		this.u_addr = u_addr;
+		this.u_lat = u_lat;
+		this.u_lng = u_lng;
+		this.u_ph = u_ph;
+		this.enabled = enabled;
+		this.authority = authority;
+	}
+
+
 	public String getUsername() {
 		return username;
 	}

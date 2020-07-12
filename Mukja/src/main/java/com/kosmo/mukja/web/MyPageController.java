@@ -43,8 +43,9 @@ public class MyPageController{
 	private int pageSize;
 	@Value("${BLOCK_PAGE_MP}")
 	private int blockPage;
-	
+
 	private String user_id;
+
 	
 	@RequestMapping(value = "/MyPage.bbs")
 	public String MyPage(
@@ -54,8 +55,6 @@ public class MyPageController{
 							HttpServletRequest req,
 							Authentication auth) {
 
-		
-		
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
