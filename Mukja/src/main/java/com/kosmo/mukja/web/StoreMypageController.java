@@ -425,6 +425,10 @@ public class StoreMypageController {
 		@RequestMapping(value = "/StoreMypage/editImgPop2.do",method = RequestMethod.POST)
 		public String menuImgPopEdit(Map map, Model model, Authentication authentication, HttpServletRequest req) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			System.out.println(req.getAttribute("fm_path")!=null?"존재":" 미존재");
+			System.out.println(req.getParameter("fm_path")!=null?"존재":" 미존재");
+			
+			
 			map.put("username", userDetails.getUsername());
 
 			String dbPath = "/resources/storeIMG";
