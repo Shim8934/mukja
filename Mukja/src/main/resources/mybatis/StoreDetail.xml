@@ -4,8 +4,8 @@
 <!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
 <mapper namespace="mybatis.StoreDetail">
 
-<select id="getStoreDetailInfo" parameterType="java.util.Map" resultType="storeDTO">
-     select * from Stores s join foodmenu f on s.username = f.username where s.username = #{username}
+	<select id="getStoreDetailInfo" parameterType="java.util.Map" resultType="storeDTO">
+    	 select * from Stores s join foodmenu f on s.username = f.username where s.username = #{username}
     </select>
     
  	 <select id="getReviewCount" parameterType="java.util.Map" resultType="int">
@@ -24,7 +24,7 @@
     </select>
     
     <update id="updateStoreAvg" parameterType="java.util.Map">
-    	update store_avg set sa_avg=#{starCount} where  store_id=#{store_id} and user_id=#{user_id}
+    	update store_avg set sa_avg=#{starCount} where store_id=#{store_id} and user_id=#{user_id}
     </update>
     
     <insert id="insertStoreAvg"  parameterType="java.util.Map">
@@ -79,6 +79,16 @@
 	<update id="updateFoodImg" parameterType="java.util.Map">
 		update fm_file set fm_path = #{editFm_path} where menu_no=#{editMenu_no}
 	</update>
+	<insert id="insertMoreFoodMenu" parameterType="java.util.Map">
+		insert into foodmenu values(seq_foodmenu.nextval,#{menu_name},#{menu_tend},#{menu_info},#{menu_regitdate},#{username},#{menu_price})
+	</insert>
+	<select id="" parameterType="java.util.Map" resultType="storeDTO">
+		select menu_no from foodmenu where menu_name = #{menu_name} and username = #{username}
+	</select>
+	<insert id="insertMoreFoodImg" parameterType="java.util.Map">
+		insert into fm_file values(#{menu_no},#{fm_path} ,seq_ff.nextval)
+	</insert>
+	
 
 
  <!--///////////////////////////////////////////////////리뷰//////////////////////////////////////////////////////-->

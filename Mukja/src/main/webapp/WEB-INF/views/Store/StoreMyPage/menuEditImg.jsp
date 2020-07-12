@@ -81,12 +81,12 @@ section {
 		<div class="row justify-content-center mb-5 pb-2">
 			<div class="col-md-7 text-center heading-section ftco-animate">
 				<span class="subheading">Edit FoodMenu Photo</span>
-				<h2 class="mb-4">음식 사진</h2>
+				<h2 class="mb-4">음식 사진 수정 / 주가</h2>
 			</div>
 		</div>
 	</div>
 		<div class="container">
-			<div class="row justify-content-center">
+			<div class="row justify-content-center"  style="border: 1px solid gray;">
 				<div class="col-md-11 ftco-animate makereservation p-4 p-md-5 fadeInUp ftco-animated">
 				<form action="<c:url value='/StoreMypage/editImgPop2.do'/>" id="editFoodMenuSt" enctype="multipart/form-data" method="post">
 				<div id="signUpMenu">
@@ -97,7 +97,7 @@ section {
 								
 								<label style="margin-top: 20px;">${loop.index+1}번 메뉴 등록하기</label>
 								<input type="hidden" id="menu_no${loop.index}" name="menu_no${loop.index }" value="${menuList.menu_no}">
-								<input type="hidden" id="menu_tend${loop.index}" name="menu_tend${loop.index }">
+								<input type="hidden" id="menu_tend${loop.index}" class="tendMust" name="menu_tend${loop.index }">
 								<c:if test="${loop.last}">
 								<div id="addMenu${loop.index}">
 									<input type="button" class="btn btn-info addMenu" id="moreMenu${loop.index}" value="메뉴 추가+">
@@ -108,6 +108,7 @@ section {
 								</div>
 								<div class=""></div>
 								<div class="col-xs-12">
+									<div class="col-xs-12"><p style="color:red">필터를 설정해 주세요.</p></div>
 									<div class="col-xs-3"></div>
 									<div class="col-xs-1">
 										<!-- 중화요리-->
@@ -235,8 +236,10 @@ section {
 						</div>
 					</c:forEach>
 					</div>
-					<div class="text-center col-md-12">
-						<button type="submit" id="formSubmit" class="btn btn-default form-control">수정</button>
+					<div class="col-md-12" style="margin-top: 5px;">
+						<div class="col-md-2 col-md-offset-5">
+							<button type="submit" id="formSubmit" class="btn btn-default form-control">수정</button>
+						</div>
 					</div>
 					</form>
 				
@@ -267,11 +270,12 @@ $(document).on("click",".addMenu",function(){
 	 var innerHtml = "<div class='row'>"
 	 	+ "<div class='col-md-12 text-center' id='"+menuFlag+"' style='margin-top:10px;'>" 
 		+ "<label style='margin-top:20px;'>"+(menuFlag+1)+"번 메뉴 등록하기</label>"
-		+ "<input type='hidden' id='menu_tend"+menuFlag+"' name='menu_tend"+menuFlag+"'/>"
+		+ "<input type='hidden' id='menu_tend"+menuFlag+"' class='tendMust' name='menu_tend"+menuFlag+"'/>"
 	 	+ "<div id='addMenu"+menuFlag+"'>"
 	 	+ "<input type='button' class='btn btn-info addMenu' id='addMenu"+menuFlag+"' value='메뉴 추가+'>"
 	 	+ "</div><div><span>&nbsp;</span></div>"
 	 	+ "<div class='col-xs-12'>"
+	 	+ "<div class='col-xs-12'><p style='color:red'>필터를 설정해 주세요.</p></div>"
 	 	+ "<div class='col-xs-3'></div>"
 	 	+ "<div class='col-xs-1'>"
 	 	+ "<img id='H_CS"+menuFlag+"' src='<c:url value='/resources/tend_IMG/chi_b.JPG'/>' alt='J' class='img-circle img_size'>"

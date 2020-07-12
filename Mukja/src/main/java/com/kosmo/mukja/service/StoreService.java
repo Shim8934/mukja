@@ -59,4 +59,9 @@ public interface StoreService {
 	public int updateFoodMenu(Map map);
 	public int updateFoodImg(Map map);
 	
+	/* 메뉴 추가 */
+	public int insertMoreFoodMenu(Map map);
+	public int insertMoreFoodImg(Map map);
+	public StoreDTO selectNewMenuNo(Map map);
+	
 }

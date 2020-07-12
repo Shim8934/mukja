@@ -223,6 +223,24 @@ public class StoreServiceImpl implements StoreService{
 		// TODO Auto-generated method stub
 		return dao.updateFoodImg(map);
 	}
+
+	@Override
+	public int insertMoreFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertMoreFoodMenu(map);
+	}
+
+	@Override
+	public int insertMoreFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertMoreFoodImg(map);
+	}
+
+	@Override
+	public StoreDTO selectNewMenuNo(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectNewMenuNo(map);
+	}
 	
 
 }

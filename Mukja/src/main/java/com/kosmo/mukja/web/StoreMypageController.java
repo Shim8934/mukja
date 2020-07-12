@@ -433,7 +433,10 @@ public class StoreMypageController {
 			MultipartRequest mr = FileUtility.upLoad(req, path);
 			List<StoreDTO> stDto = service.selectFoodImg(map);
 
-			for(int i=0; i<stDto.size();i++) {
+			int sizeFlag = stDto.size();
+			
+			
+			for(int i=0; i<sizeFlag;i++) {
 				String editMenu_tend = mr.getParameter("menu_tend"+i).toString();
 				String editFm_path = mr.getFilesystemName("fm_path"+i).toString();
 				String editMenu_info = mr.getParameter("menu_info"+i).toString();
@@ -450,6 +453,43 @@ public class StoreMypageController {
 				service.updateFoodMenu(map);
 				service.updateFoodImg(map);
 			}
+			System.out.println("메뉴 에디트는 완료");
+			// 메뉴 수정 아닌 추가가 존재해서 인설트 시작
+			int insertFlag = sizeFlag+1;
+			System.out.println("인설트용플래그 = "+insertFlag);
+			boolean exitFlag = true; 
+			System.out.println("메뉴 네임 추가 넘어옴? "+mr.getParameter("menu_name"+insertFlag));
+			if(mr.getParameter("menu_name"+insertFlag)!=null) {
+				System.out.println("인설트용 메뉴 네임 존재함");
+				while(exitFlag) {
+					if(mr.getParameter("menu_name"+insertFlag)!=null) {
+						String menu_tend = mr.getParameter("menu_tend"+insertFlag).toString();
+						String fm_path = mr.getFilesystemName("fm_path"+insertFlag).toString();
+						String menu_info = mr.getParameter("menu_info"+insertFlag).toString();
+						String menu_name = mr.getParameter("menu_name"+insertFlag).toString();
+						String menu_price = mr.getParameter("menu_price"+insertFlag).toString();
+						service.insertMoreFoodMenu(map);
+						map.put("username", userDetails.getUsername());
+						
+						// 추가한 메뉴번호 이미지 넣기용 번호 얻기
+						StoreDTO tempDto = service.selectNewMenuNo(map);
+						map.put("menu_no", tempDto.getMenu_no());
+						
+						// 이미지 삽입
+						service.insertMoreFoodImg(map);
+						insertFlag++;
+						System.out.println(insertFlag+"번 메뉴 추가 입력함");
+					}
+					else {
+						exitFlag = false;
+					}
+					
+				}
+			}
+			
+			
+			System.out.println("메뉴 입력 수정 끝");
+			
 			return "forward:/StoreMypage/ImgPop2.do";
 		}
 	
