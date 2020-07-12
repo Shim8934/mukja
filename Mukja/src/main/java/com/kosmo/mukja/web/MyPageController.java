@@ -378,6 +378,9 @@ public class MyPageController{
 		System.out.println(result==0?"수락 거절 실패":"수락 거절 성공");
 
 	
+		
+		
+		
 		return "forward:/MyPage.bbs";
 	}//StoreReview
 	
