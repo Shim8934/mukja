@@ -5,12 +5,16 @@ import java.sql.Date;
 public class MyPageDTO {
 	private String username;
 	private String password;
+	/*added*/
 	private String u_nick;
 	private String user_id;
+	private int count;
+	private String store_name2;
+	
 
 
 	//찜스토어
-	private Number er_no;
+	private int er_no;
 	private String er_master;
 	private String er_title;
 	private String er_content;
@@ -38,6 +42,7 @@ public class MyPageDTO {
 	private String ms_comment;
 	private String user_email;	
 	private int ms_no;	
+	private String menu_name;
 	
 	//store review
 	private int rv_no;	
@@ -45,7 +50,6 @@ public class MyPageDTO {
 	private String rv_content;
 	private Date rv_postdate;
 	private int menu_no;
-	
 	
 	//review_file
 	private String rf_path;
@@ -94,7 +98,7 @@ public class MyPageDTO {
 		return er_no;
 	}
 
-	public void setEr_no(Number er_no) {
+	public void setEr_no(int er_no) {
 		this.er_no = er_no;
 	}
 
@@ -375,12 +379,36 @@ public class MyPageDTO {
 	}
 
 
-	public MyPageDTO(String username, String password, String u_nick, String user_id, Number er_no, String er_master, String er_title,
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+
+	public String getMenu_name() {
+		return menu_name;
+	}
+
+
+
+	public void setMenu_name(String menu_name) {
+		this.menu_name = menu_name;
+	}
+
+
+
+
+	public MyPageDTO(String username, String password, String u_nick, String user_id, int er_no, String er_master, String er_title,
 			String er_content, String er_time, String er_tend, int er_max, Date er_postdate, Date erjoin_date,
 			int erjoin_num, int erjoin_role, int erc_no, String fl_send, String fl_recv, Date fl_regidate,
 			int fl_status, int fl_no, String store_name, Date ms_postdate, String ms_comment, String user_email,
 			int ms_no, int rv_no, String rv_title, String rv_content, Date rv_postdate, int menu_no, String rf_path,
-			int rf_no) {
+			int rf_no, int count, String menu_name, String store_name2) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -415,6 +443,23 @@ public class MyPageDTO {
 		this.menu_no = menu_no;
 		this.rf_path = rf_path;
 		this.rf_no = rf_no;
+		this.count = count;
+		this.menu_name = menu_name;
+		this.store_name2 = store_name2;
+	}
+
+
+
+
+	public String getStore_name2() {
+		return store_name2;
+	}
+
+
+
+
+	public void setStore_name2(String store_name2) {
+		this.store_name2 = store_name2;
 	}
 
 

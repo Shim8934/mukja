@@ -10,11 +10,11 @@
     </select>
    
 	<select id="getMarkerList" parameterType="java.util.Map" resultType="storeDTO">
-		 select * from stores <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng}]]>  
+		 select * from stores <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng} and enabled=1]]>  
 	</select>
 	
 	<select id="getMarkerWithMenuList" parameterType="java.util.Map" resultType="storeDTO">
-		 select * from stores s join foodmenu f on s.username = f.username  <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng}]]>  order by s.username desc  
+		 select * from stores s join foodmenu f on s.username = f.username  <![CDATA[where store_lat<#{bukdonglat} and  store_lat>#{namsualat} and store_lng<#{bukdonglng} and store_lng >#{namsualng} and enabled=1]]>  order by s.username desc  
 	</select>
 	
 	<select id="getMenuCount" parameterType="java.util.Map" resultType="int">

@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+	
 	<script>
-	function click() {
+	function click() {		
 		var UR_NO = $('#UR_NO').val();
 		var username = $('#username').val();
 		console.log(UR_NO)

@@ -1,5 +1,6 @@
 package com.kosmo.mukja.web;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
@@ -7,7 +8,7 @@ import java.util.Random;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
-
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -24,8 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.SignService;
 import com.kosmo.mukja.service.UsersDTO;
+import com.kosmo.mukja.web.util.FileUtility;
+import com.oreilly.servlet.MultipartRequest;
 
 /*
  * ※스프링 씨큐리티 사용시에는 
@@ -89,29 +93,199 @@ public class SignController {
 		
 	// 회원가입 처리]
 	@RequestMapping(value = "/isSignUp.bbs", method = RequestMethod.POST)
-	public String SignUp(@RequestParam Map map) {
-		System.out.println(map);
-		map.remove("passwordOk");
-		System.out.println(map);
+	public String SignUp(@RequestParam Map map,
+						HttpServletRequest req) {
+		String userPath = req.getSession().getServletContext().getRealPath("/resources/user_IMG");
+		String uploadDir ="/resources/user_IMG";
+		
+		   File dir = new File(userPath);
+		    if(!dir.exists()) {
+		    	dir.mkdirs();
+		    	System.out.println("경로 만듦 / ");
+		    }
+		
+		MultipartRequest mr = FileUtility.upLoad(req, userPath);
+		
+		String username = mr.getParameter("username").toString();
+		System.out.println("아이디 = "+username);
+		
+		String password = mr.getParameter("password").toString();
+		System.out.println("비밀번호 = "+password);
+		
+		String u_nick = mr.getParameter("u_nick").toString();
+		System.out.println("닉네임 = "+u_nick);
+		
+		String u_age = mr.getParameter("u_age").toString();
+		System.out.println("연령대 = "+u_age);
+		
+		String u_lat = mr.getParameter("u_lat").toString();
+		System.out.println("위도 = "+u_lat);
+		
+		String u_lng = mr.getParameter("u_lng").toString();
+		System.out.println("경도 = "+u_lng);
+		
+		String u_addr = mr.getParameter("u_addr").toString();
+		System.out.println("주소 = "+u_addr);
+		
+		String u_ph = mr.getParameter("u_ph").toString();
+		System.out.println("연락처 = "+u_ph);
+		
+		String u_tend = mr.getParameter("menu_tend").toString();
+		System.out.println("성향 = "+u_tend);
+		
+		map.put("username", username);
+		map.put("password", password);
+		map.put("u_nick", u_nick);
+		map.put("u_age", u_age);
+		map.put("u_lat", u_lat);
+		map.put("u_lng", u_lng);
+		map.put("u_addr", u_addr);
+		map.put("u_ph", u_ph);
+		map.put("u_tend", u_tend);
+		map.put("authority","ROLE_USER");
+		map.put("enabled", 1);
+		String u_img = mr.getFilesystemName("u_img");
+		if(u_img!=null) {
+			System.out.println("프로필사진 있음 / 경로 세팅 직전 찍어봄 = "+u_img);
+			u_img = uploadDir +"/" + u_img;
+			System.out.println("디비 최종 입력 직전 찍어봄 = "+u_img);
+			map.put("u_img",u_img);
+		}
+		else {
+			u_img = uploadDir +"/"+"null";
+			map.put("u_img", u_img);
+			
+		}
 		signService.signup(map);
 		return "/index.tiles";
 	}///////////
 	
 	// 스토어 회원가입 처리]
-		@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.POST)
-		public String StoreSignUp(@RequestParam Map map) {
-
-			if(signService.storesignup(map)==1) {
-				signService.foodmenu(map);
+	@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.POST)
+	public String StoreSignUp(@RequestParam Map map,
+							  HttpServletRequest req) {
+		String storePath = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
+		String uploadDir ="/resources/storeIMG";
+		
+		System.out.println("경로 찍어보기 = "+storePath);
+	    File dir = new File(storePath);
+	    if(!dir.exists()) {
+	    	dir.mkdirs();
+	    	System.out.println("경로 만듦 / ");
+	    }
+		MultipartRequest mr = FileUtility.upLoad(req, storePath);
+		
+		// 디비에 넣을 입력 받은 정보들 빼서 맵에 넣기
+		String username = mr.getParameter("username").toString();
+		map.put("username", username);
+		map.put("password", mr.getParameter("password").toString());
+		map.put("store_name", mr.getParameter("store_name").toString());
+		map.put("store_reginum", mr.getParameter("store_reginum").toString());
+		map.put("store_phnum", mr.getParameter("store_phnum").toString());
+		map.put("store_email", mr.getParameter("store_email").toString());
+		String store_intro = mr.getParameter("store_intro").toString();
+		store_intro = store_intro.replace("<p>", "").replace("</p>", "").trim();
+		System.out.println("store_intro 찍어봄 = "+store_intro);
+		map.put("store_intro", store_intro);
+		String store_time = mr.getParameter("store_time").toString();
+		store_time = store_time.replace("<p>", "").replace("</p>", "").trim();
+		System.out.println("store_time 찍어봄 = "+store_time);
+		map.put("store_time", store_time);
+		map.put("store_lat", mr.getParameter("store_lat").toString());
+		map.put("store_lng", mr.getParameter("store_lng").toString());
+		// 상세 주소까지 넣기용
+		String store_addr = mr.getParameter("store_addr").toString();
+		store_addr = store_addr+"/"+mr.getParameter("store_addrDetail").toString();
+		System.out.println(store_addr + "디비에 들어갈 최종 주소값 정보 출력");
+		map.put("store_addr", store_addr);
+		int result = 0;
+		// 회원가입 정보 및 가게 사진 파일 입력용
+		if(signService.storesignup(map)==1) {
+			for(int i=0;i<3;i++) {
+				String sf_path = mr.getFilesystemName("sf_path"+i);
+				if(sf_path!=null) {
+					System.out.println("가게 회원가입 사진 인설트하기 직전 파일 경로? = "+sf_path);
+					map.put("sf_path", uploadDir+"/"+sf_path);
+					result = signService.insertStoreImg22(map);
+				}
 			}
-			return "/index.tiles";
+		}// 회원 가입 끝
+		
+		// 음식 메뉴 / 메뉴 사진 입력 시작
+		// 메뉴용 파일 경로 설정
+		String foodPath = req.getSession().getServletContext().getRealPath("/resources/foodIMG");
+		dir = new File(foodPath);
+		if(!dir.exists()) {
+	    	dir.mkdirs();
+	    	System.out.println("경로 만듦 / ");
+	    }
+		
+		System.out.println("유저네임 찍어봄"+username);
+		map.put("username", username);
+		System.out.println();
+		int k=0;
+		boolean j = true;
+		System.out.println("메뉴성향 추가 옴?"+mr.getParameter("menu_tend1").toString());
+		while(j) {
+			System.out.println("음식 메뉴 및 음식 사진 넣는 while문 안까지 왔음 ");
+			if(mr.getParameter("menu_name"+k)!=null) {
+				
+			String menu_name = mr.getParameter("menu_name"+k);
+			System.out.println("메뉴이름 찍어봄 = "+menu_name);
+			map.put("menu_name", menu_name);
+			
+			String menu_tend = mr.getParameter("menu_tend"+k);
+			System.out.println(menu_tend);
+			String o = Integer.toString(k);
+			System.out.println(o + "  o 변수 찍음");
+			menu_tend = menu_tend.replace(o, "");
+			System.out.println("바꾼 tend 찍어봄 = "+menu_tend);
+			map.put("menu_tend",menu_tend);
+			
+			String menu_info = mr.getParameter("menu_info"+k);
+			map.put("menu_info", menu_info);
+			String menu_price = mr.getParameter("menu_price"+k);
+			System.out.println("메뉴 가격 찍어봄 = "+menu_price);
+			map.put("menu_price", menu_price);
+			String fm_path = mr.getFilesystemName("fm_path"+k);
+			if(fm_path==null) {
+				fm_path = "null";
+			}
+			map.put("fm_path", uploadDir+"/"+fm_path);		
+			System.out.println("파일 패스 찍어봄 "+fm_path);
+			result = signService.foodmenu(map);
+			
+			FoodMenuDTO dto = signService.getMenuNo(map);
+			map.put("menu_no", dto.getMenu_no().toString());
+			System.out.println(dto.getMenu_no().toString());
+			result = signService.insertFoodImg(map);
+			k++;
+			System.out.println(k +"  k 찍어봄");
+			}
+			else {
+				j=false;
+			}		
+		}
+		if(result==1) {
+			map.put("username",username);
+			signService.insertStoreNewTable(map);
+		}// 굳이 조건 안 걸어도 됨.
+		
+		return "/index.tiles";
+	}///////////
+	
+		@ResponseBody
+		@RequestMapping(value = "/storeIdCheck.bbs", method = RequestMethod.GET)
+		public int storeIdCheck(@RequestParam Map map) {
+			System.out.println(map);
+			return signService.storeIdCheck(map);
 		}///////////
 		
 		@ResponseBody
-		@RequestMapping(value = "/idCheck.bbs", method = RequestMethod.GET)
+		@RequestMapping(value = "/userIdCheck.bbs", method = RequestMethod.GET)
 		public int IdCheck(@RequestParam Map map) {
 			System.out.println(map);
-			return signService.idCheck(map);
+			return signService.userIdCheck(map);
 		}///////////
 	
 		

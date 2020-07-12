@@ -195,4 +195,16 @@ public class AdminServiceImpl implements AdminService{
 		return dao.updateStSign(map);
 	}
 
+	@Override
+	public int getStSignRecord(Map map) {
+		// TODO Auto-generated method stub
+		return dao.getStSignRecord(map);
+	}
+
+	@Override
+	public int UsRpCount(Map map) {
+		// TODO Auto-generated method stub
+		return dao.UsRpCount(map);
+	}
+
 }

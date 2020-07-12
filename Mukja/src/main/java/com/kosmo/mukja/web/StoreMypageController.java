@@ -40,8 +40,18 @@ public class StoreMypageController {
 		
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
-	
+		
 		List<StoreDTO> list = service.getStoreInfo(map);
+		System.out.println("StoreDetail 이동 / 가게 주소 찍어봄 = "+list.get(0).getStore_addr().toString());
+		String store_addr = list.get(0).getStore_addr().toString();
+		if(store_addr.contains("/")) {
+			System.out.println("상세 주소 존재해서 분리하는 작업으로 들어옴");
+			String store_addr1 = store_addr.substring(store_addr.lastIndexOf("/")+1);
+			store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
+			list.get(0).setStore_addr(store_addr);
+			list.get(0).setStore_addr1(store_addr1);
+		}
+		
 		model.addAttribute("list",list);
 		
 		int reviewCount= service.getReviewCount(map);
@@ -135,14 +145,34 @@ public class StoreMypageController {
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
+	
+	// 가게 수정 // 왜 내가 ajax처리함? ajax 의미없게 함
 	@ResponseBody
 	@RequestMapping("/StoreMypage/editStoreInfo.do")
 	public String editStoreInfo(@RequestParam Map map, Model model, Authentication authentication) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
+		String store_addr ="";
+		if(map.get("store_addr1")!=null) {
+			// 상세 주소 적은 경우
+			System.out.println("상세 주소 있어서 가게 상세 주소 찍어봄(addr1)  = "+map.get("store_addr1"));
+			store_addr = map.get("store_addr").toString() +"/"+ map.get("store_addr1").toString();
+			
+			System.out.println("합친 주소 찍어봄  =  "+store_addr);
+			map.put("store_addr", store_addr);
+		}
+		else {
+			store_addr = map.get("store_addr").toString();
+			System.out.println("상세 주소 없는 경우  = " + store_addr);
+		}
+		System.out.println(map.get("store_intro")!=null?"가게 소개 수정 값 넘어옴 ":" 가게 소개 수정 값  안 넘어옴");
+		System.out.println("소개값 넘어와서 찍어봄 = "+map.get("store_intro").toString().trim());
+		String store_intro = map.get("store_intro").toString().trim();
+		if(store_intro.contains("<p>")&& store_intro.contains("</p>")){
+			store_intro = store_intro.replace("<p>", "").replace("</p>", "");
+			map.put("store_intro", store_intro);
+		}
 		
-		System.out.println("비번 찍어봄  " + map.get("password").toString());
-		System.out.println("가게 주소 찍어봄  " + map.get("store_addr").toString());
 		int result;
 		result = service.updateStoreInfo(map);
 		JSONObject jsonObject = new JSONObject();
@@ -276,11 +306,14 @@ public class StoreMypageController {
 								// if 안에 들어오면 올린 이미지가 존재
 								map.put("sf_no", oriSf_no);
 								
-								sf_path = uploadDir+sf_path;
+								sf_path = uploadDir+"/"+sf_path;
 								map.put("sf_path",sf_path);
 								System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
 								result = service.updateStoreImg(map);
-								FileUtility.deleteFile(req, uploadDir, oriSf_path);
+								if(result==1) {
+									System.out.println(" 수정하고 파일 삭제 1");
+									FileUtility.deleteFile(req, uploadDir, oriSf_path);
+								}
 								System.out.println(result==1?"수정했음":"수정 오류남 ");
 						} // for문 안 if
 						else {
@@ -303,10 +336,13 @@ public class StoreMypageController {
 							// if 안에 들어오면 올린 이미지가 존재
 									map.put("sf_no", oriSf_no);
 									System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
-									sf_path = uploadDir+sf_path;
+									sf_path = uploadDir+"/"+sf_path;
 									map.put("sf_path",sf_path);
 									result = service.updateStoreImg(map);
-									FileUtility.deleteFile(req, uploadDir, oriSf_path);
+									if(result==1) {
+										System.out.println(" 수정하고 파일 삭제 2");
+										FileUtility.deleteFile(req, uploadDir, oriSf_path);
+									}
 									System.out.println(result==1?"수정했음":"수정 오류남 ");
 							} // for문 안 if
 							else {
@@ -316,12 +352,14 @@ public class StoreMypageController {
 							} // for문 안 else
 					}// for문
 					if(mr.getFilesystemName("sf_path2")!=null) {
+						System.out.println("기존 이미지 2개 있고 / 사진 신규 등록");
 						// 기존 가게 이미지 2개 있는 경우 중, 신규 이미지  등록
-						
-						sf_path = uploadDir+sf_path;
+						sf_path = mr.getFilesystemName("sf_path2");
+						sf_path = uploadDir+"/"+sf_path;
 						map.put("sf_path",sf_path);
 						service.insertStoreImg(map);
 					}
+				
 				}// 기존 이미지 2개인 경우 끝
 				else {
 				// 기존 가게 이미지가 1개 있는 경우
@@ -330,17 +368,20 @@ public class StoreMypageController {
 						oriSf_no = mr.getParameter("oriNo0");
 						oriSf_path = mr.getParameter("oriImg0");
 						map.put("sf_no", oriSf_no);
-						sf_path = uploadDir+sf_path;
+						sf_path = uploadDir+"/"+sf_path;
 						map.put("sf_path",sf_path);
-						service.updateStoreImg(map);
-						FileUtility.deleteFile(req, uploadDir, oriSf_path);
+						result = service.updateStoreImg(map);
+						if(result==1) {
+							System.out.println(" 수정하고 파일 삭제31");
+							FileUtility.deleteFile(req, uploadDir, oriSf_path);
+						}
 					}// 기존 이미지 수정하는 경우 끝
 					else {
 						// 기존이미지 수정 X
 						for(int i=1;i<3;i++) {
 							sf_path = mr.getFilesystemName("sf_path"+i);
 							if(sf_path!=null) {
-								sf_path = uploadDir+sf_path;
+								sf_path = uploadDir+"/"+sf_path;
 								map.put("sf_path",sf_path);
 								service.insertStoreImg(map);
 							}
@@ -361,8 +402,56 @@ public class StoreMypageController {
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
-	
+	// 이미지 수정페이지 이동
+	@RequestMapping(value = "/StoreMypage/ImgPop2.do")
+	public String menuImgPop(@RequestParam Map map, Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		map.put("username", userDetails.getUsername());
 
+		model.addAttribute("msg", userDetails.getUsername()); 
+
+
+		List<StoreDTO> stDto = service.selectFoodImg(map);
+
+		model.addAttribute("editFoodMenu",stDto);
+
+
+		return "Store/StoreMyPage/menuEditImg.tiles";
+	}
+
+	
+	
+	// 메뉴 및 메뉴 이미지 수정
+		@RequestMapping(value = "/StoreMypage/editImgPop2.do",method = RequestMethod.POST)
+		public String menuImgPopEdit(Map map, Model model, Authentication authentication, HttpServletRequest req) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			map.put("username", userDetails.getUsername());
+
+			String dbPath = "/resources/storeIMG";
+			String path = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
+
+			MultipartRequest mr = FileUtility.upLoad(req, path);
+			List<StoreDTO> stDto = service.selectFoodImg(map);
+
+			for(int i=0; i<stDto.size();i++) {
+				String editMenu_tend = mr.getParameter("menu_tend"+i).toString();
+				String editFm_path = mr.getFilesystemName("fm_path"+i).toString();
+				String editMenu_info = mr.getParameter("menu_info"+i).toString();
+				String editMenu_name = mr.getParameter("menu_name"+i).toString();
+				String editMenu_price = mr.getParameter("menu_price"+i).toString();
+				String editMenu_no = mr.getParameter("menu_no"+i).toString();
+				editFm_path = dbPath + "/" + editFm_path;
+				map.put("editMenu_no",editMenu_no);
+				map.put("editMenu_tend",editMenu_tend);
+				map.put("editFm_path", editFm_path);
+				map.put("editMenu_info",editMenu_info);
+				map.put("editMenu_name",editMenu_name);
+				map.put("editMenu_price",editMenu_price);
+				service.updateFoodMenu(map);
+				service.updateFoodImg(map);
+			}
+			return "forward:/StoreMypage/ImgPop2.do";
+		}
 	
 	
 }

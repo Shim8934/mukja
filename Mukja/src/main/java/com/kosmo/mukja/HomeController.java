@@ -64,20 +64,25 @@ public class HomeController {
       
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank1 = mainService.selectRank1List(map);
-      List<MainDTO> rank1Img = mainService.selectRank1Img(map);
-      rank1.get(0).setStore_intro(temp.getStore_intro());      
+      List<MainDTO> rank1storeImg = mainService.selectRank1Img(map);
+      List<MainDTO> rank1FoodImg = mainService.selectFoodMenuForMain(map);
+      
+      rank1.get(0).setStore_intro(temp.getStore_intro().trim());      
+      System.out.println(rank1storeImg.get(0).getSf_path().toString());
       
       map.put("username", dto.get(1).getUsername());
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank2 = mainService.selectRank2List(map);
-      List<MainDTO> rank2Img = mainService.selectRank2Img(map);
-      rank2.get(0).setStore_intro(temp.getStore_intro());
+      List<MainDTO> rank2storeImg = mainService.selectRank2Img(map);
+      List<MainDTO> rank2FoodImg = mainService.selectFoodMenuForMain(map);
+      rank2.get(0).setStore_intro(temp.getStore_intro().trim());
       
       map.put("username", dto.get(2).getUsername());
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank3 = mainService.selectRank3List(map);
-      List<MainDTO> rank3Img = mainService.selectRank3Img(map);
-      rank3.get(0).setStore_intro(temp.getStore_intro());
+      List<MainDTO> rank3storeImg = mainService.selectRank3Img(map);
+      List<MainDTO> rank3FoodImg = mainService.selectFoodMenuForMain(map);
+      rank3.get(0).setStore_intro(temp.getStore_intro().trim());
       // 1) 랭킹 추천수에 따른 가게 뿌리기 끝
       
       // 2) 리뷰 추천수에 따른 뿌리기
@@ -88,6 +93,7 @@ public class HomeController {
       review.get(0).setRv_content(content1.getRv_content().toString());
       map.put("username", review.get(0).getStore_name());
       content1 = mainService.selectStore_Name(map);
+      review.get(0).setUsername(content1.getUsername().toString());
       review.get(0).setStore_name(content1.getStore_name().toString());
       
       map.put("rv_no", review.get(1).getRv_no());
@@ -95,6 +101,7 @@ public class HomeController {
       review.get(1).setRv_content(content2.getRv_content().toString());
       map.put("username", review.get(1).getStore_name());
       content2 = mainService.selectStore_Name(map);
+      review.get(1).setUsername(content2.getUsername().toString());
       review.get(1).setStore_name(content2.getStore_name().toString());
       
       map.put("rv_no", review.get(2).getRv_no());
@@ -102,6 +109,7 @@ public class HomeController {
       review.get(2).setRv_content(content3.getRv_content().toString());
       map.put("username", review.get(2).getStore_name());
       content3 = mainService.selectStore_Name(map);
+      review.get(2).setUsername(content3.getUsername().toString());
       review.get(2).setStore_name(content3.getStore_name().toString());
       
       map.put("rv_no", review.get(3).getRv_no());
@@ -109,9 +117,26 @@ public class HomeController {
       review.get(3).setRv_content(content4.getRv_content().toString());
       map.put("username", review.get(3).getStore_name());
       content4 = mainService.selectStore_Name(map);
+      review.get(3).setUsername(content4.getUsername().toString());
       review.get(3).setStore_name(content4.getStore_name().toString());
+      /*
+      map.put("rv_no", review.get(4).getRv_no());
+      MainDTO content5 = mainService.selectContent(map);
+      review.get(4).setRv_content(content5.getRv_content().toString());
+      map.put("username", review.get(4).getStore_name());
+      content4 = mainService.selectStore_Name(map);
+      review.get(4).setUsername(content5.getUsername().toString());
+      review.get(4).setStore_name(content5.getStore_name().toString());
       
       
+      map.put("rv_no", review.get(5).getRv_no());
+      MainDTO content6 = mainService.selectContent(map);
+      review.get(5).setRv_content(content6.getRv_content().toString());
+      map.put("username", review.get(5).getStore_name());
+      content4 = mainService.selectStore_Name(map);
+      review.get(5).setUsername(content6.getUsername().toString());
+      review.get(5).setStore_name(content6.getStore_name().toString());
+      */
       // 3) 공지사항 뿌리기
 	  String searchColumn = "";
 	  String searchWord = "";
@@ -139,13 +164,16 @@ public class HomeController {
 		
 	  // 1) 가게 랭킹
       model.addAttribute("rank1",rank1);
-      model.addAttribute("rank1Img",rank1Img);
+      model.addAttribute("rank1storeImg",rank1storeImg);
+      model.addAttribute("rank1FoodImg",rank1FoodImg);
       
       model.addAttribute("rank2",rank2);
-      model.addAttribute("rank2Img",rank2Img);
+      model.addAttribute("rank2storeImg",rank2storeImg);
+      model.addAttribute("rank2FoodImg",rank2FoodImg);
       
       model.addAttribute("rank3",rank3);
-      model.addAttribute("rank3Img",rank3Img);
+      model.addAttribute("rank3storeImg",rank3storeImg);
+      model.addAttribute("rank3FoodImg",rank3FoodImg);
       
       // 2) 리뷰 랭킹
       model.addAttribute("reviewList",review);

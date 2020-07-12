@@ -51,9 +51,15 @@
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 					<li class="nav-item"><a href="<c:url value="/MyPage.bbs"/>"class="nav-link">마이먹자</a></li>
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 				</sec:authorize>
 				<!-- Admin 페이지 테스트용 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">

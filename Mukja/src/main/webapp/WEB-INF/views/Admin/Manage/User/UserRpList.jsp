@@ -4,7 +4,7 @@
 <style>
 thead tr th{
 	text-align:center;
-}
+}ㅌ
 tbody tr td{
 	text-align:center;
 }
@@ -19,7 +19,7 @@ tbody tr td{
 			<div class="card-body">
 		<h3 class="card-title">공지사항</h3>
 					<div class="table-responsive">
-						<table class="table table-hover" style="font-family: baedal;">
+						<table class="table table-hover text-center" style="font-family: baedal;">
 							<thead>
 								<tr>
 									<th >신고 번호</th>									
@@ -46,7 +46,12 @@ tbody tr td{
 										<a href='<c:url value="/UserReportView.bbs?UR_NO=${item.UR_NO}"/>'>${item.UR_TITLE}</a>
 										</td>
 									<td >${item.UR_REGIDATE}</td>
-									<td >${item.UR_TYPE}</td>
+								<c:if test="${item.UR_TYPE eq 0}" var="confirm">
+									<td style="color:red">미처리</td>
+								</c:if>
+								<c:if test="${not confirm}">
+									<td></td>
+								</c:if>
 								</tr>
 							</tbody>
 							</c:forEach>

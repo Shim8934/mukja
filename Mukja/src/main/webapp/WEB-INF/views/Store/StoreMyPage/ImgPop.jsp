@@ -71,7 +71,7 @@
             reader.onload = function(e) {
                $("#preview0")
                      .html(
-                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction()\" id=\"img_id0\"><img class='d-block w-100' src="
+                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction()\" id=\"img_id0\"><img class='d-block w-100 img-thumbnail' src="
                                  + e.target.result
                                  + " style='width:100%;margin-left:5px;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
             }
@@ -89,7 +89,7 @@
             reader.onload = function(e) {
                $("#preview1")
                      .html(
-                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction1()\" id=\"img_id1\"><img class='d-block w-100' src="
+                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction1()\" id=\"img_id1\"><img class='d-block w-100 img-thumbnail' src="
                                  + e.target.result
                                  + " style='border-bottom: 1px solid gray;width:100%;margin-left:5px;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
             }
@@ -109,7 +109,7 @@
             reader.onload = function(e) {
                $("#preview2")
                      .html(
-                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction2()\" id=\"img_id2\"><img class='d-block w-100' src="
+                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction2()\" id=\"img_id2\"><img class='d-block w-100 img-thumbnail' src="
                                  + e.target.result
                                  + " style='border-bottom: 1px solid gray;width:100%;margin-left:5px;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
             }
@@ -219,7 +219,7 @@
 						<c:if test="${stImgList.first}" var="listIf">
 							<div class="carousel-item active">
 								<!--가로-->
-								<img class="d-block w-100" style="height: 600px;"
+								<img class="d-block w-100 img-thumbnail" style="height: 600px;"
 									src="<c:url value="${storeImg.sf_path}"/>"
 									alt="${stImgList.index} slide" title="${stImgList.index+1}번 사진">
 							</div>
@@ -227,7 +227,7 @@
 						<c:if test="${not listIf}">
 							<div class="carousel-item">
 								<!--가로-->
-								<img class="d-block w-100" style="height: 600px;"
+								<img class="d-block w-100 img-thumbnail" style="height: 600px;"
 									src="<c:url value="${storeImg.sf_path}"/>"
 									alt="${stImgList.index} slide" title="${stImgList.index+1}번 사진">
 							</div>
@@ -267,11 +267,12 @@
 		<c:if test="${fn:length(storeImg) eq 3}" var="stImgLength">
 		<form enctype="multipart/form-data" id="stImageEdit" action="<c:url value='/StoreMypage/editImgPop.do'/>" method="POST">
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
-					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;border-bottom: 1px solid gray; ">
-						<div class="col-md-12 text-left"><span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
+					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
+						<div class="col-md-12 text-left">
+						<span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
-								<img class="d-block w-100" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
+								<img class="d-block w-100 img-thumbnail" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
 							</div>
 							<div class="col-md-6 text-right">
 								<div id="preview${loopNo.index}"></div>
@@ -291,7 +292,9 @@
 				<br/>
 					</div>
 			</c:forEach>
-			<button style="margin-top: 5px;" id="strImgSubmit" type="submit" class="form-control btn btn-default">제출</button>
+			<div class="col-md-4 col-md-offset-4 justify-content-center">
+				<button style="margin-top: 5px;" id="strImgSubmit" type="submit" class="form-control btn btn-default">제출</button>
+			</div>
 		</form>
 		</c:if>
 		
@@ -301,11 +304,11 @@
 			<div id="forInput">
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 				
-					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;border-bottom: 1px solid gray; ">
+					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
 						<div class="col-md-12 text-left"><span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
-								<img class="d-block w-100" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
+								<img class="d-block w-100 img-thumbnail" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
 							</div>
 							<div class="col-md-6 text-right">
 								<div id="preview${loopNo.index}"></div>
@@ -331,7 +334,9 @@
 					</div>
 			</c:forEach>
 			</div>
-			<button style="margin-top: 5px;" id="strImgSubmit" type="submit" class="form-control btn btn-default">제출</button>
+			<div class="col-md-4 col-md-offset-4 justify-content-center">
+				<button style="margin-top: 5px;" id="strImgSubmit" type="submit" class="form-control btn btn-default">제출</button>
+			</div>
 		</form>
 		</c:if>
 		
@@ -341,18 +346,17 @@
 			<div id="forInput">
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 				
-					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;border-bottom: 1px solid gray; ">
+					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
 						<div class="col-md-12 text-left"><span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
-								<img class="d-block w-100" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
+								<img class="d-block w-100 img-thumbnail" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
 							</div>
 							<div class="col-md-6 text-right">
 								<div id="preview${loopNo.index}"></div>
 							</div>
 						</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
-							
 								<label for="sf_path" class="col-sm-2 col-form-label">사진등록</label>
 								<div id="fileList" class="col-sm-10">									
 									<small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small>
@@ -374,7 +378,9 @@
 				
 			</c:forEach>
 			</div>
-			<button style="margin-top: 5px;" id="strImgSubmit" type="submit" class="form-control btn btn-default">제출</button>
+			<div class="col-md-4 col-md-offset-4 justify-content-center">
+				<button style="margin-top: 5px;" id="strImgSubmit" type="submit" class="form-control btn btn-default">제출</button>
+			</div>
 		</form>
 		</c:if>
 		
@@ -388,8 +394,7 @@
       
       
 </script>
-
-<!-- 음식 메뉴쪽 수정 -->
+<!--  음식 메뉴쪽 수정
 <section class="ftco-section ftco-counter img" id="section-counter"
 	style="margin-top:30px; background-image: url(<c:url value="/resources/bootstrap/images/bg_4.jpg"/>);"
 	data-stellar-background-ratio="0.5">
@@ -401,8 +406,7 @@
 						class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<h1 style="font-size: 3.0em; color: white; font-weight: bold;">음식
-									사진 수정</h1>
+								<h1 style="font-size: 3.0em; color: white; font-weight: bold;">음식 사진 수정</h1>
 							</div>
 						</div>
 					</div>
@@ -425,41 +429,30 @@
 				<div class="row" style="margin-bottom: 10px;">
 					<div class="col-md-12 ftco-animate fadeInUp ftco-animated">
 						<div class="col-md-6">
-							<!-- 이미지 다이브 -->
-							<label for="#beforeEdit" class="col-md-2 col-form-label">수정
-								전</label> <img src="<c:url value='${item.fm_path}'/>" id="beforeEdit"
-								style="width: 100%; vertical-align: center">
+							<label for="#beforeEdit" class="col-md-2 col-form-label">수정 전</label>
+							<img src="<c:url value='${item.fm_path}'/>" id="beforeEdit" style="width: 100%; vertical-align: center">
 						</div>
 						<div id="foodPreview${loop.index}" class="col-md-6">
-							<label for="#afterEdit" class="col-md-2 col-form-label">수정
-								후</label>
+							<label for="#afterEdit" class="col-md-2 col-form-label">수정 후</label>
 						</div>
-						<div
-							style="text-align: center; height: auto; margin-top: 30px; border: 1px solid gray;"
-							class="col-md-12">
+						<div style="text-align: center; height: auto; margin-top: 30px;" class="col-md-12">
 							<label for="#fm_path_${loop.index}"
 								class="col-md-2 col-form-label">사진 등록</label>
-							<div id="fileList${loop.index}" class="col-md-6"
-								style="background-color: fffff0;">
-								<small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small> <input
-									name="fm_path_${loop.index}" id="fm_path_${loop.index}"
-									type="file" accept=".jpg,.jpeg,.png,.gif,.bmp"
-									class="form-control-file inp-img">
+							<div id="fileList${loop.index}" class="col-md-6" style="background-color: fffff0;">
+								<small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small>
+								<input name="fm_path_${loop.index}" id="fm_path_${loop.index}" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control-file inp-img">
 							</div>
 						</div>
 					</div>
-					<!-- 이미지 다이브 끝 -->
 				</div>
-				<!-- row 끝 -->
 			</c:forEach>
 			<div class="text-center">
 				<button type="submit" class="btn btn-default">수정</button>
 			</div>
 		</form>
 	</div>
-	<!-- container 끝 -->
 </section>
-
+  
 <script>
    $(function() {
       $('#foomImgEdit').submit(function(data) {
@@ -536,4 +529,4 @@
       console.log("지운 사진 preview?  " + $preview)
       resetInputFile($input, $preview);
    }
-</script>
+</script>-->

@@ -111,4 +111,10 @@ public class MainServiceImpl implements MainService{
 		return dao.selectRankContent(map);
 	}
 
+	@Override
+	public List<MainDTO> selectFoodMenuForMain(Map map) {
+		// TODO Auto-generated method stub
+		return dao.selectFoodMenuForMain(map);
+	}
+
 }
