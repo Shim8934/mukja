@@ -541,7 +541,6 @@ var passwordCheck;
                		메뉴 관리<br/>
            		</h2>
            		<a style="margin-bottom: 10px;" href="<c:url value='/StoreMypage/ImgPop2.do'/>" target="_blank" id="editMenuImg" class="btn btn-info">메뉴 정보 수정</a>
-           		
             </div>
             <div class="row">
                <c:forEach items="${foodMenuList}" var="foodMenuDto">

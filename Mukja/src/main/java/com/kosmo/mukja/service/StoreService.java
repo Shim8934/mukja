@@ -54,4 +54,9 @@ public interface StoreService {
 	int deleteOneReview(Map map);
 	int deleteOneReviewPic(Map map);
 	int deleteOneReviewThumb(Map map);
+	
+	/* 메뉴 수정 */
+	public int updateFoodMenu(Map map);
+	public int updateFoodImg(Map map);
+	
 }
