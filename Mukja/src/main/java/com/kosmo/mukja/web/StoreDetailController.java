@@ -1,6 +1,7 @@
 package com.kosmo.mukja.web;
 
 import java.security.Principal;
+import java.security.Security;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,7 +45,7 @@ public class StoreDetailController {
 	
 
 	private String store_id;
-	
+	private String user_id;
 	
 	@RequestMapping("/Store/DetailView.do")
 	public String StoreDetail(
@@ -51,7 +53,7 @@ public class StoreDetailController {
 			Authentication authentication,
 			@RequestParam(required = false,defaultValue = "1") int nowPage, 
 			HttpServletRequest req ) {
-		
+		System.out.println("여기 왔다1");
 		System.out.println("username : "+map.get("username"));
 		store_id=map.get("username").toString();
 		System.out.println("store_id : "+store_id);
@@ -60,6 +62,9 @@ public class StoreDetailController {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 			map.put("user_id", userDetails.getUsername());
 			System.out.println("user_id:"+map.get("user_id"));
+			
+			model.addAttribute("IDmeme",userDetails.getUsername());
+			
 			int is_Thumb =service.isThumb(map);
 			System.out.println("is_Thumb:"+is_Thumb);
 			model.addAttribute("is_Thumb",is_Thumb);
@@ -202,6 +207,7 @@ public class StoreDetailController {
 	@RequestMapping(value="/insertSTReview.do",method=RequestMethod.POST)
 	public String insertSTReviewOk(Authentication auth, Model model, @RequestParam Map map) {	
 		System.out.println("---------------------------리뷰쓰기폼-----------------------------");
+
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		map.put("user_id", userDetails.getUsername());
 		
@@ -219,6 +225,90 @@ public class StoreDetailController {
 		return json.toJSONString();
 	}
 	
+	
+	//review 수정 폼으로 이동]
+	@RequestMapping(value = "/updateSTReview.bbs", method = RequestMethod.GET)
+	public String updateMyReview(Authentication auth, Model model, @RequestParam Map map) {			
+		System.out.println("스토어 단 리뷰 수정폼으로 이동 완료!");
+		
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		System.out.println("스토어 단 회원정보 수정폼 user_id: "+map.get("user_id"));
+		
+		//서비스 호출]
+		MyPageDTO stRV4up = service.getOneReviewForUpdate(map);
+		System.out.println(stRV4up.getRv_content());
+		stRV4up.setRv_title(stRV4up.getRv_title().trim());
+		stRV4up.setRv_content(stRV4up.getRv_content().trim());			
+		model.addAttribute("stRV4up",stRV4up);
+		
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rv_no : "+stRV4up.getRv_no());
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());	
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Store_name2 : "+stRV4up.getStore_name2());		
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_name : "+stRV4up.getMenu_name());		
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());		
+		
+		MyPageDTO stRVupImg = service.getOneReviewPicForUpdate(map);
+		model.addAttribute("stRVupImg", stRVupImg);
+		System.out.println("스토어 단 리뷰 수정폼 stRVupImg : " + stRVupImg);	
+		
+		map.put("store_id",stRV4up.getStore_name());
+		List<FoodMenuDTO> menuSTs = service.getMenu4up(map);
+		model.addAttribute("menuSTs",menuSTs);
+		for(int i=0; i<menuSTs.size(); i++) {
+			System.out.println("스토어 단 리뷰 수정폼 menus.menu_no : "+menuSTs.get(i).getMenu_no());
+		}	
+		return "Store/Review/UpdateSTReview.tiles";
+	}
+	//리뷰 수정 처리]
+	@RequestMapping(value = "/updateSTReviewOk.bbs", method = RequestMethod.POST)
+	public String updateMyReview(Authentication auth, @RequestParam Map map) {
+		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
+		System.out.println(map.get("user_id"));
+		System.out.println("rv_no");
+
+		MyPageDTO stRV4up = service.getOneReviewForUpdate(map);
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rv_no : "+stRV4up.getRv_no());
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());	
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Store_name2 : "+stRV4up.getStore_name2());		
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_name : "+stRV4up.getMenu_name());		
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());		
+		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rf_path : "+stRV4up.getRf_path());			
+	
+		int updateRV = service.updateReview(map);
+		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
+		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");		
+		return "forward:/Store/DetailView.do?username="+map.get("store_id")+"";
+	}
+	
+	//리뷰 삭제 처리]
+	@RequestMapping(value="/deleteSTReview.bbs")
+	public String deleteMyReview(@RequestParam Map map) {		
+		
+		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");								
+		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
+		
+		
+		
+//		if(.rf_path != null) {
+		int deleteRVpic = service.deleteOneReviewPic(map);
+		System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
+//			}
+		
+//		if(  != null) {
+		int deleteRVth = service.deleteOneReviewThumb(map);
+		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
+//		}
+		
+		
+		int deleteRV = service.deleteOneReview(map);
+		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
+		
+		return "forward:/Store/DetailView.do"+store_id+"";
+		}///////////
+		
+		
 	
 //	@ResponseBody
 //	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)

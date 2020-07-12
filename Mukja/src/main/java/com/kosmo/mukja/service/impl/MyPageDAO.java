@@ -85,6 +85,14 @@ public class MyPageDAO implements MyPageService {
 	public int deleteMyReview(Map map) {
 		return sqlMapper.delete("deleteMyReview",map);
 	}
+	@Override
+	public int deleteMyReviewPic(Map map) {
+		return sqlMapper.delete("deleteMyReviewPic",map);
+	}
+	@Override
+	public int deleteMyReviewThumb(Map map) {
+		return sqlMapper.delete("deleteMyReviewThumb",map);
+	}
 	
 	
 	 

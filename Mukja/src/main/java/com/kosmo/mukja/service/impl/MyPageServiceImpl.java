@@ -66,6 +66,14 @@ public class MyPageServiceImpl implements MyPageService{
 	public int deleteMyReview(Map map) {
 		return dao.deleteMyReview(map);
 	}
+	@Override
+	public int deleteMyReviewPic(Map map) {
+		return dao.deleteMyReviewPic(map);
+	}
+	@Override
+	public int deleteMyReviewThumb(Map map) {
+		return dao.deleteMyReviewThumb(map);
+	}
 	
 	@Override
 	public MyPageDTO getMyReviewForUpdate(Map map) {

@@ -116,7 +116,7 @@
 						<div class="col-md-6">
 							<div class="col-md-12">
 								<div class="form-group">
-									<label for="">닉네임  :  ${rvcnt4up.user_email}</label> 
+									<label for="">닉네임  :  ${rvcnt4up.u_nick}</label> 
 								 </div>
 							</div>
 							
@@ -136,11 +136,11 @@
 							<div class="col-md-12">
 								<div class="form-group" id="input">
 									<label for="">메뉴</label> 
-									<select id="menu_no" id="menu_no" class="form-control">
-										<option value="${rvcnt4up.menu_no}">메뉴 선택</option>
+									<select id="menu_no" name="menu_no" class="form-control">
+										<option value="${rvcnt4up.menu_no}">${rvcnt4up.menu_name}</option>
 										<c:forEach items="${menus}" var="menus" varStatus="loop">
 											<c:if test="${rvcnt4up.store_name == menus.username}">
-												<option>${menus.menu_name}</option>
+												<option value="${menus.menu_no}">${menus.menu_name}</option>
 											</c:if>											<
 										</c:forEach>
 									</select>
@@ -164,12 +164,12 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="rf_path">리뷰 이미지</label>
-									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지">
+									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvcnt4up.rf_path}">
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12 text-center">
-								<input type="hidden" name="rv_no" value="${rvimgs4up.rv_no}">
+							<input type="hidden" name="rv_no" value="${rvcnt4up.rv_no}">	
 								<div class="form-group">
 									<input type="submit" value="리뷰 수정" class="btn btn-primary py-3 px-5">
 								</div>

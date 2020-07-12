@@ -18,7 +18,8 @@ public class MainDTO {
 	private String rownum;
 	private String menu_name;
 	private String u_nick;
-	
+
+	private String store_name2;
 	private String store_name;
 	private String store_intro;
 	private String store_time;

@@ -177,18 +177,40 @@ public class StoreServiceImpl implements StoreService{
 	public int deleteRVThumb(Map map) {
 		return dao.deleteRVThumb(map);
 	}
-
-	@Override
-	public int updateFoodMenu(Map map) {
-		// TODO Auto-generated method stub
-		return dao.updateFoodMenu(map);
-	}
-
-	@Override
-	public int updateFoodImg(Map map) {
-		// TODO Auto-generated method stub
-		return dao.updateFoodImg(map);
-	}
 	
+	
+
+	@Override
+	public MyPageDTO getOneReviewForUpdate(Map map) {
+		return dao.getOneReviewForUpdate(map);
+	}
+
+	@Override
+	public MyPageDTO getOneReviewPicForUpdate(Map map) {
+		return dao.getOneReviewPicForUpdate(map);
+	}
+
+	
+
+	@Override
+	public List<FoodMenuDTO> getMenu4up(Map map) {
+		return dao.getMenu4up(map);
+	}
+
+	@Override
+	public int deleteOneReview(Map map) {		
+		return dao.deleteOneReview(map);
+	}
+
+	@Override
+	public int deleteOneReviewPic(Map map) {	
+		return dao.deleteOneReviewPic(map);
+	}
+
+	@Override
+	public int deleteOneReviewThumb(Map map) {	
+		return dao.deleteOneReviewThumb(map);
+	}
+
 
 }

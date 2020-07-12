@@ -40,7 +40,12 @@
 	
 	<!-- 리뷰 수정 용 -->
 	<select id="getMyReviewForUpdate" parameterType="java.util.Map" resultType="MyPageDTO">
-		SELECT sr.*,s.store_name store_name2 FROM storereview sr join stores s on sr.store_name = s.username WHERE rv_no=${rv_no}
+		SELECT u.u_nick,sr.*,f.menu_name,s.store_name store_name2 FROM storereview sr  
+		left outer join review_file rf on sr.rv_no = rf.rv_no 
+		join stores s on sr.store_name = s.username 
+		join foodmenu f on sr.menu_no = f.menu_no
+        join users u on sr.user_email = u.username
+        WHERE sr.rv_no=#{rv_no}
 	</select>	
 	<select id="getMyReviewPicForUpdate" parameterType="java.util.Map" resultType="MyPageDTO">
 		SELECT * FROM review_file WHERE rv_no=#{rv_no}
@@ -48,11 +53,20 @@
 	<select id="getMenu" parameterType="java.util.Map" resultType="StoreDTO">
 		select menu_no, menu_name, username from foodmenu
 	</select>
+	
 	<update id="updateMyReview" parameterType="java.util.Map">
-     	UPDATE storereview SET rv_title=#{rv_title},rv_content=#{rv_content} WHERE rv_no=#{rv_no}
+     	UPDATE storereview SET menu_no=#{menu_no},rv_title=#{rv_title},rv_content=#{rv_content} WHERE rv_no=#{rv_no}
     </update>
+    
+    <!-- 리뷰 삭제 용 -->
 	<delete id="deleteMyReview" parameterType="java.util.Map">    	 
-		delete storereview where rv_no {rv_no}
+		delete from storereview where rv_no =#{rv_no}
+	</delete>
+	<delete id="deleteMyReviewPic" parameterType="java.util.Map">    	 
+		delete from review_file where rv_no =#{rv_no}
+	</delete>
+	<delete id="deleteMyReviewThumb" parameterType="java.util.Map">    	 
+		delete from review_thumb where rv_no =#{rv_no}
 	</delete>
 	
 	

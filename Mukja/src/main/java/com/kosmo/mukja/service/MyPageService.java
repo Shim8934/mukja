@@ -26,6 +26,8 @@ public interface MyPageService {
 	public List<MyPageDTO> getMyReviewPics (Map map);
 	int updateMyReview(Map map);
 	int deleteMyReview(Map map);
+	int deleteMyReviewPic(Map map);
+	int deleteMyReviewThumb(Map map);
 	
 	public MyPageDTO getMyReviewForUpdate(Map map);	
 	public MyPageDTO getMyReviewPicForUpdate(Map map);
@@ -48,6 +50,11 @@ public interface MyPageService {
 	int getMyETApplTotal(Map map);
 	int getMyETHistTotal(Map map);
 
+	
+	//상세보기용]
+//	MyPageDTO selectOne(Map map);
+//	MyPageDTO selectPrev(Map map);
+//	MyPageDTO selectNext(Map map);
 	
 	//상세보기용]
 //	MyPageDTO selectOne(Map map);

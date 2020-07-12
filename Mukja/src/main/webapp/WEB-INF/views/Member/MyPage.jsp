@@ -9,6 +9,11 @@
          <div class="col-md-9 ftco-animate text-center">
             <h1 class="mb-2 bread">My Page</h1>
             <p class="breadcrumbs">
+               <span class="mr-2"><a href="index.html">Home <i
+                     class="ion-ios-arrow-forward"></i></a></span> <span class="mr-2"><a
+                  href="blog.html">Blog <i class="ion-ios-arrow-forward"></i></a></span> <span>Blog
+                  Single <i class="ion-ios-arrow-forward"></i>
+               </span>
             </p>
          </div>
       </div>
@@ -42,6 +47,7 @@
 						<div class="sub-title">
 							<h4 class="title col-md-offset-1 col-md-10 ">
 								${myInfo.u_nick}님의 MyType 성향</h4>
+								<input type="hidden" name="u_nick" id="u_nick" value="${myInfo.u_nick}">		
 
 							<div>
 								<a href="<c:url value='/UpdateMyInfo.bbs'/>"
@@ -181,7 +187,7 @@
 										<th style="width: 8%">별점</th>
 										<th style="width: 35%">내용</th>
 										<th style="width: 12%">사진</th>
-										<th style="width: 15%">수정,삭제</th>
+											<th style="width: 15%">수정,삭제</th>
 									</tr>
 									<c:if test="${empty rvcnt}" var="EmptyRVC">
 										<tr>
@@ -208,30 +214,29 @@
 														<td>4.0</td>
 														<td>${rvcnt.rv_content}</td>
 														<td>
-														<c:if test="${empty rvimgs}">
-															<img class="rv_pics" />
-														</c:if>
-														<c:if test="${not empty rvimgs}">
-															<% int count = 0; %>
-															<c:forEach items="${rvimgs}" var="rvimgs"
-																varStatus="loop">
-																<c:if test="${rvcnt.rv_no == rvimgs.rv_no}">
-																	<c:forTokens var="myrvpic" items="${rvimgs.rf_path}"
-																		delims=",">
-																		<% if(count == 0) {%>
-																		<img class="rv_pics"
-																			src='<c:url value="${myrvpic}"/>' />
-																		<% }count = count + 1; %>
-																	</c:forTokens>
-																</c:if>
-															</c:forEach>
-														</c:if>
+															<c:if test="${empty rvimgs}">
+																<img class="rv_pics" />
+															</c:if>
+															<c:if test="${not empty rvimgs}">
+																<% int count = 0; %>
+																<c:forEach items="${rvimgs}" var="rvimgs"
+																	varStatus="loop">
+																	<c:if test="${rvcnt.rv_no == rvimgs.rv_no}">
+																		<c:forTokens var="myrvpic" items="${rvimgs.rf_path}"
+																			delims=",">
+																			<% if(count == 0) {%>
+																			<img class="rv_pics"
+																				src='<c:url value="${myrvpic}"/>' />
+																			<% }count = count + 1; %>
+																		</c:forTokens>
+																	</c:if>
+																</c:forEach>
+															</c:if>
+														</td>
 														<td>
-															<input type="hidden" name="rv_no" value="${rvcnt.rv_no}">														 	
+															<input type="hidden" name="rv_no" id="rv_no" value="${rvcnt.rv_no}">												 	
 															<a href="<c:url value='/updateMyReview.bbs?rv_no=${rvcnt.rv_no}'/>" class="btn btn-warning" style="font-size: 12px; padding: 3px 6px;">수정</a>	
-																								 	
-															<a href="<c:url value='/deletMyReview.bbs?rv_no=${rvcnt.rv_no}'/>" class="btn btn-danger" style="font-size: 12px; padding: 3px 6px;">삭제</a>	
-															
+															<a href="#" id="forRvdel" class="btn btn-success" style="font-size: 12px; padding: 3px 6px;">삭제</a>	
 														</td>
 													</tr>
 												</c:if>
@@ -285,8 +290,9 @@
 												<c:if test="${ET0.username == storetxt.username}">
 													<tr>
 														<td>
-														<input type="hidden" name="er_no" value="${ET0.er_no}" id="er_no">
-															<button type="button" class="btn mr-2 mb-2 btn-primary" id="erjoin_role" value="${ET0.erjoin_role}" data-toggle="modal" data-target="#etAccept">
+															<input type="hidden" name="er_no" value="${ET0.er_no}" id="er_no">
+															<button type="button" class="btn mr-2 mb-2 btn-primary" id="erjoin_role" 
+															value="${ET0.erjoin_role}" data-toggle="modal" data-target="#etAccept">
 																수락
 															</button>
 														</td>
@@ -337,22 +343,7 @@
 						</div>
 					</div>
 					
-					<script>
-						function getValue(){
-							
-							var checks = Document.getElementsByClassName('checks');
-							
-							var str = '';
-							for(int i=0; i< ; i++){
-								if(.checks[i].checked === true){
-									str += checks[i].vales + " ";
-								}
-								
-							}
-							alert(str);
-						}
 					
-					</script>
 					<!-- ET 신청 끝 -->
 
 					<!-- ET 기록 보기  -->
@@ -447,8 +438,7 @@
 								</c:forEach>
 							</c:if>
 						</div>
-					</div>
-					<script>
+						<script>
 						$(document).ready(
 							function() {
 								$('.owl-carousel').owlCarousel(
@@ -456,7 +446,10 @@
 									loop : true
 								});
 						});
-					</script>					
+					</script>
+						
+					</div>
+										
 				</div>
 			</div>
 		</div>
@@ -467,14 +460,14 @@
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-exclamation icon-gradient bg-deep-blue"></i>&nbsp;&nbsp;주의</h5>
+                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-exclamation icon-gradient bg-deep-blue"></i>삭제 알림</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
             	<P>${ET0.er_no}</P>
-				<p>해당 같이먹기를 수락하시겠습니까? DSF</p>
+				<p>해당 같이먹기를 수락하시겠습니까?</p>
 			</div>
             <div class="modal-footer">
                <a class="btn btn-primary" style="cursor:pointer;" id="signCheck" href="javascript:click()">확인</a>
@@ -484,4 +477,18 @@
     </div>
 </div>
 
+<script>
+$(document).on("click","#forRvdel",function(){
+	var rv_no = $("#rv_no").val();
+	var isDelete = function(){
+		if(confirm("정말로 이 리뷰를 삭제 하시겠습니까?"))
+			location.replace("<c:url value='/deleteMyReview.bbs?rv_no="+rv_no+"'/>");	
+	}
+	
+	isDelete();
+})
+
+
+	
+</script>
 

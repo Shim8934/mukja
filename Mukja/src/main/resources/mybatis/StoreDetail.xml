@@ -70,7 +70,18 @@
     <insert id="insertStoreImg" parameterType="java.util.Map">
     	insert into store_file values(SEQ_SF.nextval,#{username},#{sf_path})
     </insert> 
- 
+    
+    
+	<!-- 메뉴 수정 -->
+	<update id="updateFoodMenu" parameterType="java.util.Map">
+		update foodmenu set menu_name = #{editMenu_name}, menu_tend=#{editMenu_tend}, menu_info = #{editMenu_info}, menu_price=#{editMenu_price} where menu_no=#{editMenu_no}
+	</update>
+	<update id="updateFoodImg" parameterType="java.util.Map">
+		update fm_file set fm_path = #{editFm_path} where menu_no=#{editMenu_no}
+	</update>
+
+
+ <!--///////////////////////////////////////////////////리뷰//////////////////////////////////////////////////////-->
     <!-- 리뷰 가져오기-->
 	<select id="getStRvTotal" parameterType="java.util.Map" resultType="int">
 		SELECT count(*) FROM storereview WHERE store_name = #{username}
@@ -88,37 +99,61 @@
 	
   
 
-	<!-- 리뷰 삽입,수정,삭제 용 -->
+	<!-- 리뷰 삽입 용 -->
 	<insert id="insertReview" parameterType="java.util.Map">
 		insert into storereview (rv_no, rv_title, rv_content, user_email, store_name, menu_no)
 		values (SEQ_STOREREVIEW.nextval,#{rv_title},#{rv_content},#{user_id},#{store_id},#{menu_no})
 	</insert>
 	
+	<!-- 리뷰 수정 용 -->
+	<select id="getOneReviewForUpdate" parameterType="java.util.Map" resultType="MyPageDTO">
+		SELECT u.u_nick,m.menu_name,rf.*,s.store_name store_name2 FROM 
+		(select rf.rf_path,sr.* from (select * from storereview where store_name=#{store_id}) sr left outer join review_file rf on sr.rv_no = rf.rv_no) rf 
+		join stores s on rf.store_name = s.username 
+		join users u on rf.user_email = u.username
+		join foodmenu m on rf.menu_no = m.menu_no
+		WHERE rv_no=#{rv_no}
+	</select>	
+	<!--
+		<select id="getOneReviewPicForUpdate" parameterType="java.util.Map" resultType="MyPageDTO">
+			SELECT * FROM review_file WHERE rv_no=#{rv_no}
+		</select>	
+	 -->	
+	<update id="updateReview" parameterType="java.util.Map">
+     	UPDATE storereview SET menu_no=#{menu_no},rv_title=#{rv_title},rv_content=#{rv_content} WHERE rv_no=#{rv_no}
+    </update>	
+ 	 <select id="getMenu4up" parameterType="java.util.Map" resultType="FoodMenuDTO">
+		select menu_no, menu_name from foodmenu where username=#{store_id}
+	</select>
 	
 	
-	
-<!-- 리뷰 좋아요 -->
-<select id="getRVThumb" parameterType="java.util.Map" resultType="MyPageDTO" >
-	select * from 
-	(select rv_no,count (rv_no) as count from review_thumb group by rv_no) rt
-	join storereview sr on rt.rv_no = sr.rv_no where  sr.store_name =#{username} order by count desc
-</select>
+	 <!-- 리뷰 삭제 용 -->
+	<delete id="deleteOneReview" parameterType="java.util.Map">    	 
+		delete from storereview where rv_no =#{rv_no}
+	</delete>
+	<delete id="deleteOneReviewPic" parameterType="java.util.Map">    	 
+		delete from review_file where rv_no =#{rv_no}
+	</delete>
+	<delete id="deleteOneReviewThumb" parameterType="java.util.Map">    	 
+		delete from review_thumb where rv_no =#{rv_no}
+	</delete>    
+	    		
+	<!-- 리뷰 좋아요 -->
+	<select id="getRVThumb" parameterType="java.util.Map" resultType="MyPageDTO" >
+		select * from 
+		(select rv_no,count (rv_no) as count from review_thumb group by rv_no) rt
+		join storereview sr on rt.rv_no = sr.rv_no where  sr.store_name =#{username} order by count desc
+	</select>
+	<insert parameterType="java.util.Map" id="insertRVThumb">	
+	    INSERT INTO review_thumb VALUES (SEQ_revthumb.nextval,#{rv_no},#{user_id}) 
+	</insert>
+	<delete parameterType="java.util.Map" id="deleteRVThumb">
+		DELETE review_thumb WHERE rt_no=#{rt_no} 
+	</delete>
 
-<insert parameterType="java.util.Map" id="insertRVThumb">	
-    INSERT INTO review_thumb VALUES (SEQ_revthumb.nextval,#{rv_no},#{user_id}) 
-</insert>
 
-<delete parameterType="java.util.Map" id="deleteRVThumb">
-	DELETE review_thumb WHERE rt_no=#{rt_no} 
-</delete>
+<!--///////////////////////////////////////////////////리뷰//////////////////////////////////////////////////////-->
 
 
-<!-- 메뉴 수정 -->
-<update id="updateFoodMenu" parameterType="java.util.Map">
-	update foodmenu set menu_name = #{editMenu_name}, menu_tend=#{editMenu_tend}, menu_info = #{editMenu_info}, menu_price=#{editMenu_price} where menu_no=#{editMenu_no}
-</update>
-<update id="updateFoodImg" parameterType="java.util.Map">
-	update fm_file set fm_path = #{editFm_path} where menu_no=#{editMenu_no}
-</update>
 
 </mapper>

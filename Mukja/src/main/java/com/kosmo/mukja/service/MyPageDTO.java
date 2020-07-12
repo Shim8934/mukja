@@ -10,6 +10,7 @@ public class MyPageDTO {
 	private String user_id;
 	private int count;
 	private String store_name2;
+	
 
 
 	//찜스토어

@@ -211,18 +211,40 @@ public class StoreDAO  implements StoreService{
 	public int deleteRVThumb(Map map) {
 		 return sqlMapper.selectOne("deleteRVThumb",map);
 	}
+	
+	
+	
+	
 
 	@Override
-	public int updateFoodMenu(Map map) {
-		// TODO Auto-generated method stub
-		return sqlMapper.update("updateFoodMenu",map);
+	public MyPageDTO getOneReviewForUpdate(Map map) {
+		return sqlMapper.selectOne("getMyReviewForUpdate",map);
 	}
 
 	@Override
-	public int updateFoodImg(Map map) {
-		// TODO Auto-generated method stub
-		return sqlMapper.update("updateFoodImg",map);
+	public MyPageDTO getOneReviewPicForUpdate(Map map) {
+		return sqlMapper.selectOne("getMyReviewPicForUpdate", map);
 	}
+	@Override
+	public List<FoodMenuDTO> getMenu4up(Map map) {
+		return sqlMapper.selectList("getMenu4up",map);
+	}
+
+	@Override
+	public int deleteOneReview(Map map) {
+		return sqlMapper.selectOne("deleteOneReview", map);
+	}
+
+	@Override
+	public int deleteOneReviewPic(Map map) {
+		return sqlMapper.selectOne("deleteOneReviewPic", map);
+	}
+
+	@Override
+	public int deleteOneReviewThumb(Map map) {
+		return sqlMapper.selectOne("deleteOneReviewThumb", map);
+	}
+
 
 	
 }

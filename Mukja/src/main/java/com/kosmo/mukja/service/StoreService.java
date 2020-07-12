@@ -45,8 +45,13 @@ public interface StoreService {
 	public int insertRVThumb(Map map) ;
 	public int deleteRVThumb(Map map) ;
 	
-	/* 메뉴 수정 */
-	public int updateFoodMenu(Map map);
-	public int updateFoodImg(Map map);
-	
+
+	/*리뷰 수정,삭제*/
+	public MyPageDTO getOneReviewForUpdate(Map map);	
+	public MyPageDTO getOneReviewPicForUpdate(Map map);
+	public List<FoodMenuDTO> getMenu4up(Map map);
+
+	int deleteOneReview(Map map);
+	int deleteOneReviewPic(Map map);
+	int deleteOneReviewThumb(Map map);
 }

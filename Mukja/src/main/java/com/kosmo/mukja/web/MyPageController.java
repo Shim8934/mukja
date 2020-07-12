@@ -76,9 +76,6 @@ public class MyPageController{
 				myInfo.setU_tend(myInfo.getU_tend().replaceAll(tend_codes[j], tend_text[j]));
 			}
 		}//리스트에서 뽑은 성향의 포문
-		System.out.println("myInfo username : "+myInfo.getUsername());
-		System.out.println("myInfo username : "+myInfo.getU_nick());
-		System.out.println("myInfo username : "+myInfo.getU_tend());
 		model.addAttribute("myInfo",myInfo);
 		
 		
@@ -163,17 +160,9 @@ public class MyPageController{
 		
 		List<MyPageDTO> Nicks = service.getNicks(map);
 		System.out.println("닉네임얻기");
-		for(int i=0; i<Nicks.size(); i++) {	
-			System.out.println("Nicks : "+Nicks.get(i).getEr_no());	
-			System.out.println("Nicks : "+Nicks.get(i).getUsername());
-		}		
 		model.addAttribute("Nicks",Nicks);
 		
 		List<MyPageDTO> etInCount = service.getInCount(map);
-		for(int i=0; i<etInCount.size(); i++) {	
-			System.out.println("IC.er_no : "+etInCount.get(i).getEr_no()+", IC.count : "+etInCount.get(i).getCount());	
-			System.out.println("Nicks : "+Nicks.get(i).getUsername());
-		}
 		model.addAttribute("etInCount",etInCount);
 		
 		
@@ -218,14 +207,6 @@ public class MyPageController{
 		model.addAttribute("myET0",myET0);
 		model.addAttribute("applPagingString", applPagingString);
 		
-		for(int i=0; i<myET0.size();i++) {
-			System.out.println("myET0 username : " + myET0.get(i).getUsername());
-			System.out.println("myET0 ertend : " + myET0.get(i).getEr_tend());
-			System.out.println("myET0 user_id : " + myET0.get(i).getUser_id());
-			System.out.println("myET0 ertime : " + myET0.get(i).getEr_time());
-			System.out.println("myET0 er_no  :" + myET0.get(i).getEr_no());
-		}
-		
 		
 		
 		
@@ -260,11 +241,6 @@ public class MyPageController{
 		model.addAttribute("myET1",myET1);
 		List<StoreDTO> menus = service.getMenu(map);
 		model.addAttribute("menus",menus);
-		for(int i=0; i<menus.size(); i++) {
-			System.out.println("리뷰 수정폼 menus.menu_no : "+menus.get(i).getMenu_no());
-		}
-		
-		
 		
 		return "Member/MyPage.tiles";
 	}
@@ -283,11 +259,8 @@ public class MyPageController{
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
-		System.out.println("user_id in 회원정보 수정폼 : "+map.get("user_id"));
-						
 		UsersDTO userInfo = service.getMyInfo(map);
 		model.addAttribute("userInfo",userInfo);
-		System.out.println("userInfo : "+userInfo.getU_nick());
 		return "/User/UpdateMyInfo.tiles";
 	}
 	
@@ -304,10 +277,11 @@ public class MyPageController{
 	
 	
 	
-	//회원정보 수정 폼으로 이동]
+	//리뷰 수정 폼으로 이동]
 	@RequestMapping(value = "/updateMyReview.bbs", method = RequestMethod.GET)
 	public String updateMyReview(Authentication auth, Model model, @RequestParam Map map) {			
 		System.out.println("리뷰 수정폼으로 이동 완료!");
+		
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
@@ -317,9 +291,9 @@ public class MyPageController{
 		MyPageDTO rvcnt4up = service.getMyReviewForUpdate(map);
 		System.out.println(rvcnt4up.getRv_content());
 		rvcnt4up.setRv_title(rvcnt4up.getRv_title().trim());
-		rvcnt4up.setRv_content(rvcnt4up.getRv_content().trim());
-		
+		rvcnt4up.setRv_content(rvcnt4up.getRv_content().trim());		
 		model.addAttribute("rvcnt4up",rvcnt4up);
+		
 		System.out.println("리뷰 수정폼 rvcnt4up의 rv_no : "+rvcnt4up.getRv_no());
 		System.out.println("리뷰 수정폼 rvcnt4up의 Menu_no : "+rvcnt4up.getMenu_no());	
 		System.out.println("리뷰 수정폼 rvcnt4up의 Store_name2 : "+rvcnt4up.getStore_name2());		
@@ -332,33 +306,53 @@ public class MyPageController{
 		model.addAttribute("menus",menus);
 		for(int i=0; i<menus.size(); i++) {
 			System.out.println("리뷰 수정폼 menus.menu_no : "+menus.get(i).getMenu_no());
-		}
+		}		
+			
 		return "/User/UpdateMyReview.tiles";
 	}
 	//리뷰 수정 처리]
 	@RequestMapping(value = "/updateMyReviewOk.bbs", method = RequestMethod.POST)
 	public String updateMyReview(Authentication auth, @RequestParam Map map) {
-		System.out.println(map.get("user_id"));
-		System.out.println(map.get("rv_no"));
 		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
+		System.out.println("user_id : "+user_id);
+		System.out.println("rv_no : "+map.get("rv_no"));
+
+		MyPageDTO stRV4up = service.getMyReviewForUpdate(map);
+		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 rv_no : "+stRV4up.getRv_no());
+		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());	
+		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Store_name2 : "+stRV4up.getStore_name2());		
+		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Menu_name : "+stRV4up.getMenu_name());		
+		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());		
+		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 rf_path : "+stRV4up.getRf_path());			
+	
 		int updateRV = service.updateMyReview(map);
 		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
 		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");
+		
 		return "forward:/MyPage.bbs";
 	}
-		
-	
-	
-	
 	
 	//리뷰 삭제 처리]
-	@RequestMapping(value = "/deleteMyReview.do", method = RequestMethod.POST)
-	public String deleteMyReview( Authentication auth, Model model,@RequestParam Map map) {		
-
-		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");
+	@RequestMapping(value="/deleteMyReview.bbs")
+	public String deleteMyReview(@RequestParam Map map) {		
+		
+		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");								
+		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
+		
+		
+//		if(.rf_path != null) {
+			int deleteRVpic = service.deleteMyReviewPic(map);
+			System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
+//		}
+//		if(  != null) {
+			int deleteRVth = service.deleteMyReviewThumb(map);
+			System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
+//		}
+		
+		
 		int deleteRV = service.deleteMyReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
-		System.out.println("리뷰 삭제 완료 !!!!!!!!!!!!!");
+		
 		return "forward:/MyPage.bbs";
 	}///////////
 	

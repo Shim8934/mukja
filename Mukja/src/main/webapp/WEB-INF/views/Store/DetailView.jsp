@@ -9,8 +9,9 @@
 		<div class="row">
 			<div class="col-lg-9 ftco-animate"> -->
 
-<!-- INFROMATION -->
+<!-- INFROMATION -->${IDmeme}
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
+
 	<div class="container" style="width: 1400px;">
 		<div class="row no-gutters" style="margin-top: -50px;">
 		<!-- left-side picture -->
@@ -499,58 +500,66 @@
 					<c:forEach items="${strvcnts}" var="strvcnt" varStatus="loop">		
 						<li class="comment">
 							<div class="comment-body col-md-12 justify-content-center" style="margin-top:10px; padding:20px 0 30px 0;border-bottom: 1px solid #d7d7d7; ">
-
-								<div class="col-md-2" style="display: top; text-align: center; align-content: center;" >
-									<c:forEach items="${usersnks}" var="usersnks" varStatus="loop">
-										<c:if test="${strvcnt.user_email == usersnks.username}">	
-											<h3 style="margin-top:10px;" class="overflow">${usersnks.u_nick}</h3>		
-											<c:if test="${empty usersnks.u_img}">
-												<img src='<c:url value="/resources/user_IMG/default.gif"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Default Image">
-											</c:if>		
-											<c:if test="${not empty usersnks.u_img}">						
-												<img src='<c:url value="${usersnks.u_img}"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Image">										
+								<div class="col-md-12">
+									<div class="col-md-2" style="display: top; text-align: center; align-content: center;" >
+										<c:forEach items="${usersnks}" var="usersnks" varStatus="loop">
+											<c:if test="${strvcnt.user_email == usersnks.username}">	
+												<h3 style="margin-top:10px;" class="overflow">${usersnks.u_nick}</h3>		
+												<c:if test="${empty usersnks.u_img}">
+													<img src='<c:url value="/resources/user_IMG/default.gif"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Default Image">
+												</c:if>		
+												<c:if test="${not empty usersnks.u_img}">						
+													<img src='<c:url value="${usersnks.u_img}"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Image">										
+												</c:if>
 											</c:if>
-										</c:if>
-									</c:forEach>
-								</div>
-								<div class="col-md-9">
-									<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${strvcnt.rv_postdate}</div>
-									<p style="color: black;">${strvcnt.rv_content}</p>								
-									<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
-										<c:if test="${strvcnt.rv_no == strvimg.rv_no}" var="norvimg">											
-											<c:if test="${empty norvimg}">
-												<span>리뷰 이미지가 없어요</span>
+										</c:forEach>
+									</div>
+									<div class="col-md-9">
+										<c:forEach items="${foodMenuList}" var="menuList" varStatus="loop">
+											<c:if test="${menuList.menu_no == strvcnt.menu_no }">
+												<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${menuList.menu_name}  /  ${strvcnt.rv_postdate}</div>
 											</c:if>
-											<c:if test="${not empty norvimg}">
-												<div class="vcard bio">												
-                           							<c:forTokens  var="rf_path" items="${strvimg.rf_path}" delims=",">
-														<img src='<c:url value="${rf_path}"/>' style="height:180px; width:180px;" alt="Image placeholder">
-													</c:forTokens>
-												</div>								
+										</c:forEach>
+										<p style="color: black;">${strvcnt.rv_content}</p>								
+										<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
+											<c:if test="${strvcnt.rv_no == strvimg.rv_no}" var="norvimg">											
+												<c:if test="${empty norvimg}">
+													<span>리뷰 이미지가 없어요</span>
+												</c:if>
+												<c:if test="${not empty norvimg}">
+													<div class="vcard bio">												
+	                           							<c:forTokens  var="rf_path" items="${strvimg.rf_path}" delims=",">
+															<img src='<c:url value="${rf_path}"/>' style="height:180px; width:180px;" alt="Image placeholder">
+														</c:forTokens>
+													</div>								
+												</c:if>
+			                           		</c:if>
+										</c:forEach>
+									</div>
+									<!-- 수정 삭제 -->
+									<div class="col-md-1" style="text-align: center; ">
+										<a href="<c:url value='/Store/UpdateRVThumb.do?rv_no=${strvcnt.rv_no}'/>" class="glyphicon glyphicon-thumbs-up"> 
+											<br/>
+											좋아요 
+											</a>
+										<div>
+										
+										<c:set value="" var="ID"></c:set>
+											<c:if test="${IDmeme == strvcnt.user_email}">
+												<input type="hidden" name="rv_no" value="${strvcnt.rv_no}">	
+												<input type="hidden" name="store_id" id="store_id" value="${list[0].username}"/> 
+												<a href="<c:url value='/updateSTReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-warning" style="margin-top:40px;font-size: 12px; padding: 3px 6px;">수정</a>																				 	
+												<a href="<c:url value='/deleteSTReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-danger" style="margin-top:5px;font-size: 12px; padding: 3px 6px;">삭제</a>
 											</c:if>
-		                           		</c:if>
-									</c:forEach>
+										
+										</div>
+										
+									</div>
+																			
 								</div>
-								<!-- 수정 삭제 -->
-								<div class="col-md-1" style="text-align: center; ">
-									<a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="glyphicon glyphicon-thumbs-up"> 
-										<br/>
-										좋아요
-									</a>
-									
-								</div>
-																		
-							</div>
-							<!-- 좋아요 -->
-							<div class="col-md-12">
-								<c:if test="${user_id == strvcnt.user_email}">
-									<ul style="list-style: none;">
-										<input type="hidden" name="rv_no" value="${strvcnt.rv_no}">	
-										<li><a href="<c:url value='/updateMyReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
-										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
-									</ul>
-								</c:if>			
-							</div>
+								<div class="col-md-offset-10 col-md-2" style="float: right;">
+										</div>
+							</div>						
 										
 						</li>
 					</c:forEach>
@@ -599,8 +608,7 @@
 					<div class="col-md-12">
 						<label class="col-md-2" style="text-align:right;">리뷰 이미지</label> 
 						<div class="col-md-9">
-							<small>이미지를 등록해 주세요.</small>
-							<input type="file" class="form-control" id="rf_path" name="rf_path" style="margin-bottom: 10px;">
+							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
 						</div>
 					</div>
 					
@@ -678,25 +686,6 @@
 		</div>
 	</div>
 	<script>
-	/* function btnInsert(){
-	 var param = jQuery("#reviewWriteForm").serialize();click(funtion(){	      
-         $.ajax({
-            url:"<c:url value='/insertSTReview.do'/>",
-            data: param,             
-            dataType: 'json',
-            success : function(data){
-	              console.log('성공..?:',data);
-	              alert('처리 완료!');
-	              window.location = "<c:url value='/UserReportList.bbs'/>";
-	          },
-              error:function(request,status,error){
-                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
-                       request.status,request.responseText,error,status);
-              }
-         });
-         
-	   };
-	    */
 	        
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
@@ -713,40 +702,8 @@
 	              error:function(request,status,error){
 	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
 	                       request.status,request.responseText,error,status);
-	              }
-	        	 
+	              }	        	 
 	        	 
         	});
 	    });
-/* 
-	   
-	$(function(){
-	   // Get the modal
-	    var modal = document.getElementById('myModal');
-	
-	    // Get the button that opens the modal
-	    var btn = document.getElementById("myBtn");
-	
-	    // Get the <span> element that closes the modal
-	    var span = document.getElementsByClassName("close")[0];                                      
-	
-	    // When the user clicks on the button, open the modal 
-	    btn.onclick = function() {
-	        modal.style.display = "block";
-	    }
-	
-	    // When the user clicks on <span> (x), close the modal
-	    span.onclick = function() {
-	        modal.style.display = "none";
-	    }
-	
-	    // When the user clicks anywhere outside of the modal, close it
-	    window.onclick = function(event) {
-	        if (event.target == modal) {
-	            modal.style.display = "none";
-	        }
-	    }
-	}); */
-	</script>	
-
-	
+    </script>
