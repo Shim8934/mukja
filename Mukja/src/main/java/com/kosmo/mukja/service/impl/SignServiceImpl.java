@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.SignService;
 import com.kosmo.mukja.service.UsersDTO;
 @Service("signService")
@@ -34,8 +35,48 @@ public class SignServiceImpl implements SignService {
 			return dao.foodmenu(map);
 		}
 		@Override
-		public int idCheck(Map map) {
-			return dao.idCheck(map);
+		public int storeIdCheck(Map map) {
+			return dao.storeIdCheck(map);
+		}
+
+		@Override
+		public int updateMyInfo(Map map) {
+			return 0;
+		}
+
+		@Override
+		public UsersDTO getOneInfo(Map map) {
+			return null;
+		}
+
+		@Override
+		public int insertStoreImg22(Map map) {
+			// TODO Auto-generated method stub
+			return dao.insertStoreImg22(map);
+		}
+
+		@Override
+		public int insertFoodImg(Map map) {
+			// TODO Auto-generated method stub
+			return dao.insertFoodImg(map);
+		}
+
+		@Override
+		public FoodMenuDTO getMenuNo(Map map) {
+			// TODO Auto-generated method stub
+			return dao.getMenuNo(map);
+		}
+
+		@Override
+		public int insertStoreNewTable(Map map) {
+			// TODO Auto-generated method stub
+			return dao.insertStoreNewTable(map);
+		}
+
+		@Override
+		public int userIdCheck(Map map) {
+			// TODO Auto-generated method stub
+			return dao.userIdCheck(map);
 		}
 
 		@Override

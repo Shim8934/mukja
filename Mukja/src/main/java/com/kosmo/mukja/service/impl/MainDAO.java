@@ -30,7 +30,7 @@ public class MainDAO implements MainService{
 	@Override
 	public List<MainDTO> selectRank1Img(Map map) {
 		// TODO Auto-generated method stub
-		return sqlMapper.selectList("selectImg",map);
+		return sqlMapper.selectList("selectMainStoreImg",map);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class MainDAO implements MainService{
 	@Override
 	public List<MainDTO> selectRank2Img(Map map) {
 		// TODO Auto-generated method stub
-		return sqlMapper.selectList("selectImg",map);
+		return sqlMapper.selectList("selectMainStoreImg",map);
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class MainDAO implements MainService{
 	@Override
 	public List<MainDTO> selectRank3Img(Map map) {
 		// TODO Auto-generated method stub
-		return sqlMapper.selectList("selectImg",map);
+		return sqlMapper.selectList("selectMainStoreImg",map);
 	}
 
 	
@@ -111,6 +111,13 @@ public class MainDAO implements MainService{
 	public MainDTO selectRankContent(Map map) {
 		// TODO Auto-generated method stub
 		return sqlMapper.selectOne("selectRankContent",map);
+	}
+
+
+	@Override
+	public List<MainDTO> selectFoodMenuForMain(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectList("forMainFmNo",map);
 	}
 	
 	

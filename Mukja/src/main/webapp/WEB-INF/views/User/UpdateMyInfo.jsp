@@ -159,7 +159,7 @@ section {
 								<div class="form-group" id="input">
 									<label for="">아이디</label> <input type="text"
 										class="form-control" id="username" name="username"
-										placeholder="이메일" value="${userInfo.username}" />
+										placeholder="이메일" value="${userInfo.username}" readonly="readonly"/>
 									<div></div>
 								</div>
 							</div>
@@ -294,8 +294,7 @@ section {
                               </div>
                               <div>
                                  <!-- 각갑류-->
-                                 <img id='T_SF'
-                                    src="<c:url value="/resources/tend_IMG/sutend/shrimp_o.png"/>"
+                                 <img id='T_SF' src="<c:url value="/resources/tend_IMG/sutend/shrimp_o.png"/>"
                                     alt="SF" class="img-circle img_size">
                                  <div class="lb_size">갑각류</div>
                               </div>
@@ -378,38 +377,40 @@ section {
 	    });
     }
 </script>
-	<script><!--첨가된 음식종류 js-->
-var ertend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
-ertend_codes.forEach(function(ele,index){
-		$('#T_'+ele).click(function() {
-			var eles = document.getElementById('menu_tend').value
-			if($('#T_'+ele).attr('src').includes('_o')){
-				console.log('여기')
-				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_o","_x"));
+
+
+<script><!--첨가된 음식종류 js-->
+	var ertend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
+	ertend_codes.forEach(function(ele,index){
+			$('#T_'+ele).click(function() {
+				var eles = document.getElementById('menu_tend').value
+				if($('#T_'+ele).attr('src').includes('_o')){
+					console.log('여기')
+					$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_o","_x"));
+						
+						if(eles.indexOf(ele)==-1){
+							eles+=ele;
+						    $('#menu_tend').attr('value',eles+',');
+						}
+						else{
+							eles+='';
+							$('#menu_tend').attr('value',eles);
+						}
+				}
+				else {
+					$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
 					
 					if(eles.indexOf(ele)==-1){
-						eles+=ele;
-					    $('#menu_tend').attr('value',eles+',');
+						console.log('여기1')
 					}
 					else{
-						eles+='';
-						$('#menu_tend').attr('value',eles);
+						console.log('여기2')
+						var a=eles.replace(ele+',','')
+						$('#menu_tend').attr('value',a);
 					}
-			}
-			else {
-				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
-				
-				if(eles.indexOf(ele)==-1){
-					console.log('여기1')
 				}
-				else{
-					console.log('여기2')
-					var a=eles.replace(ele+',','')
-					$('#menu_tend').attr('value',a);
-				}
-			}
-		})
-});
+			})
+	});
 </script>
 
 	<script><!--유효성 검사 하기-->

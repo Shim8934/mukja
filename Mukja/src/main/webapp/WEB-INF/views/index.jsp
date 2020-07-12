@@ -340,6 +340,7 @@
 <!-- 커스텀모달 (같이먹자)-->
 <div id="mask">
 </div>
+
 <div class="container-fluid" id="tgModal" style=' overflow-y:auto; display: none; ' class="lb_size" >
 	<div class="container" style="margin-top: 20px;width: 800px;">
 		<div class="row"style="margin-bottom:20px;"> 
@@ -1223,10 +1224,13 @@ function request_ERList_Ajax(store_id){
 			     */
 			     
 			   all_erjoin.forEach(function(ele,i){
-				   var er_no={"er_no":ele.getAttribute('id').slice(-2)}
+				   var er_no={"er_no":ele.getAttribute('id').substring(10,ele.getAttribute('id').length)}
+				   
 				   Object.assign(er_no, store_id);
 				   console.log("[ele]");
 				   console.log(er_no);
+				   console.log("[index]");
+				   console.log(i);
 					console.log(ele.getAttribute('id'));
 					var id="#"+ele.getAttribute('id');
 					
@@ -1598,7 +1602,7 @@ function requets_maker_Ajax(){
 								 } 
 								
 								//모임시간 유효성검사 끝
-											
+								
 								//같이먹자 모임 만들기
 								 $.ajax({
 										url:"<c:url value='/submitER.do'/>",
@@ -1618,11 +1622,15 @@ function requets_maker_Ajax(){
 											 console.log("같이먹자 방생성결과"+data.result);
 											 
 											 if(data.result==1){
+												 
 												 alert("같이먹자 방이 생성되었어요!");
-												 return;
+											
+												
 											 }else{
-												 alert("이미 생성한 방이 있어요ㅠㅠ");
-												 return;
+												 f=-1;
+												 if(f!=-1) alert("이미 생성한 방이 있어요ㅠㅠ");
+												
+												 
 											 }
 									 
 										},
@@ -1672,7 +1680,9 @@ function requets_maker_Ajax(){
 						console.log(data[i] );
 						//마커를 생성하교 맵에 표시하며 동시에 마커배열에 해당마커를 추가함
 						addMarker(new kakao.maps.LatLng(data[i].store_lat, data[i].store_lng));
+						var f=0;
 						addOverlay(data[i],markers[i]);
+						
 				   }//for
 				   console.log('data.length');
 					console.log(data.length);

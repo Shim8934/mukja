@@ -155,11 +155,18 @@ public class AndroidServiceImpl implements AndroidService {
 		public List<AndroidMyERDTO> getMyRequestERList(Map map) {
 			return dao.getMyRequestERList(map);
 		}
-		//범삼
 		
 
-		
-		
+		@Override
+		public int androidDeleteERMembers(Map map) {
+			return dao.androidDeleteERMembers(map);
+		}
+
+		@Override
+		public int boomMyER(Map map) {
+			return dao.boomMyER(map);
+		}
+		//범삼
 
 
 		

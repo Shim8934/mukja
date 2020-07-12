@@ -64,6 +64,7 @@
 	
 	
 	 
+	 
   
   <script>
   jQuery( document ).ready(function( $ ) {
@@ -132,7 +133,10 @@
  	background-color: #FCFCFC;
  	border: 3px #E8E8E8 solid; 
  	border-radius:10px;  
- 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
+ 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px;
+ 	 overflow-y:auto; 
+ 	  overflow-x: hidden; 
+
  }
   .messenger_content{
 	margin-left:10px;
@@ -144,12 +148,12 @@
  	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
  }
  .chat_board{
- 	position:relative;
+ 	position:absolute;
  	z-index:9999999;
  	top:50%;
  	left:50%;
-	margin-left:-850px;
-	margin-top:-800px;
+	margin-left:-200px;
+	margin-top:50px;
 	width:500px;
 	height:800px;
  	background-color: #FCFCFC;
@@ -587,14 +591,17 @@
 					</div>
 				</div>
 			</div>
-				
+		
 			
 		</div>
 		<!-- 시큐리티에서 값 받기 -->
 		<sec:authentication var="principal" property="principal" />
 
+		
+	</div>
+</sec:authorize> 
 		 <!-- ---------------------------------채팅방 다이브--------------------------- -->
-		<div id="ERCwindow" class="chat_board ui-widget-content" style ='background-color: #B2C7D9; '>
+		<div id="ERCwindow" class="chat_board ui-widget-content" style =' background-color: #B2C7D9; '>
 			<div class='row' style="margin: 0;padding: 0;height: 100%;">
 			<div class="col-sm-12" > 
 						<span class="hideERC glyphicon glyphicon-remove" style="float: right; clear: both;"></span>
@@ -613,7 +620,8 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-10">
-							<textarea id="message" class="form-control" rows="3"></textarea>
+							<input type='text' id="message" class="form-control"/>
+							<input type='text' style="display: none;"/>
 						</div>
 						<div class="col-sm-2">
 							<input class="btn btn-default " type="button" id="sendBtn" value="보내기">
@@ -624,9 +632,6 @@
 			</div>
 		</div> 
 		  <!-- ---------------------------------채팅방 다이브끝--------------------------- -->
-	</div>
-</sec:authorize> 
-
 <!-- 메신저끝-->
 <script type="text/javascript">
 
@@ -916,6 +921,13 @@ $(function (){
 		var position = $(window).scrollTop(); 
 		$("#messenger").stop().animate({
 			"top":position+currentPosition+"px"}
+		,500); 
+		});
+	var currentPositionERCwindow = parseInt($("#ERCwindow").css("top")); 
+	$(window).scroll(function() { 
+		var position = $(window).scrollTop(); 
+		$("#ERCwindow").stop().animate({
+			"top":position+currentPositionERCwindow+"px"}
 		,500); 
 		});
 		var f=0;

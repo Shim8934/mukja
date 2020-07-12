@@ -1,5 +1,6 @@
 package com.kosmo.mukja.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,13 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateStoreAvg(Map map) {
+		map.put("store_id", map.get("store_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("별점키 : %s 별점값 : %s", key,val));
+			}
 		int selectResult = sqlMapper.selectOne("selectAvg",map);
 		System.out.println("평점을 준적이 있다:");
 		System.out.println(selectResult==1?"있음":"없음");
@@ -73,7 +81,16 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateStoreRecommand(Map map) {
+		map.put("store_id", map.get("store_id").toString().replace("\"",""));
 		System.out.println("떰브 dao");
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("떰브키 : %s 떰브값 : %s", key,val));
+			}
+		
 		int result=0;
 		int selectResult = sqlMapper.selectOne("selectThumb",map);
 		if(selectResult!=0) {
@@ -142,33 +159,13 @@ public class StoreDAO  implements StoreService{
 	@Override
 	public int insertStoreImg(Map map) {
 		// TODO Auto-generated method stub
-		return sqlMapper.update("insertStoreImg",map);
+		return sqlMapper.insert("insertStoreImg",map);
 	}
 	
 	
 	
 	
-	
-	
-	
-	
-	
 
-	@Override
-	public int insertReview(Map map) {
-		return sqlMapper.insert("insertReview", map);
-	}
-
-	@Override
-	public int updateReview(Map map) {
-		return sqlMapper.update("updateReview", map);
-	}
-
-
-	@Override
-	public int deleteReview(Map map) {
-		return sqlMapper.delete("deleteReview", map);
-	}
 
 	
 	
@@ -195,21 +192,86 @@ public class StoreDAO  implements StoreService{
 	
 	
 	
+
+	@Override
+	public int insertReview(Map map) {
+		return sqlMapper.insert("insertReview", map);
+	}
+
+	@Override
+	public int updateReview(Map map) {
+		return sqlMapper.update("updateReview", map);
+	}
+
+
+	@Override
+	public int deleteReview(Map map) {
+		return sqlMapper.delete("deleteReview", map);
+	}
+	
+	
+	
+	
 	
 
 	@Override
-	public List<StoreDTO> getRVThumb(Map map) {
+	public List<MyPageDTO> getRVThumb(Map map) {
 		return sqlMapper.selectList("getRVThumb", map);
 	}
 	
 	@Override
 	public int insertRVThumb(Map map) {
-		 return sqlMapper.selectOne("List<MyPageDTO> ",map);
+		 return sqlMapper.insert("insertRVThumb",map);
 	}
 
 	@Override
 	public int deleteRVThumb(Map map) {
-		 return sqlMapper.selectOne("deleteRVThumb",map);
+		 return sqlMapper.delete("deleteRVThumb",map);
+	}
+	
+	
+	
+	
+
+	@Override
+	public MyPageDTO getOneReviewForUpdate(Map map) {
+		return sqlMapper.selectOne("getMyReviewForUpdate",map);
+	}
+
+	@Override
+	public MyPageDTO getOneReviewPicForUpdate(Map map) {
+		return sqlMapper.selectOne("getMyReviewPicForUpdate", map);
+	}
+	@Override
+	public List<FoodMenuDTO> getMenu4up(Map map) {
+		return sqlMapper.selectList("getMenu4up",map);
+	}
+
+	@Override
+	public int deleteOneReview(Map map) {
+		return sqlMapper.delete("deleteOneReview", map);
+	}
+
+	@Override
+	public int deleteOneReviewPic(Map map) {
+		return sqlMapper.delete("deleteOneReviewPic", map);
+	}
+
+	@Override
+	public int deleteOneReviewThumb(Map map) {
+		return sqlMapper.delete("deleteOneReviewThumb", map);
+	}
+
+	@Override
+	public int updateFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateFoodMenu",map);
+	}
+
+	@Override
+	public int updateFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateFoodImg",map);
 	}
 
 	

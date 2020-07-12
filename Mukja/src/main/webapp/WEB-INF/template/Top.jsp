@@ -45,7 +45,6 @@
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item"><a href="<c:url value="/"/>" class="nav-link">먹자홈</a></li>
-			
 				<!-- Admin 페이지 테스트용 -->
 				<sec:authorize access="hasRole('ROLE_ADMIN')">
 				<li class="nav-item"><a href="<c:url value="/AdminMain.bbs"/>"class="nav-link">Admin</a></li>

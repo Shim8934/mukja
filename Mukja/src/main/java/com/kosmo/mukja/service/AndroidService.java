@@ -40,5 +40,8 @@ public interface AndroidService {
 	
 	
 	
+	int boomMyER(Map map);
+	int androidDeleteERMembers(Map map);
+	
 }
 

@@ -11,10 +11,10 @@
 
 <!-- INFROMATION -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
+
 	<div class="container" style="width: 1400px;">
 		<div class="row no-gutters" style="margin-top: -50px;">
-
-			<!-- left-side picture -->
+		<!-- left-side picture -->
 			<!-- 카라셀 -->
 			<div id="carousel-example-generic" class="carousel slide casize"
 				data-ride="carousel" style="margin-top: 100px;">
@@ -88,8 +88,10 @@
 							</div>
 							<div style="margin-bottom: 5px;">
 								<div class="row">
-									<div class="col-xs-3" style="text-align: right;">주소 :</div>
+									<div class="col-xs-3" style="text-align: right;">주소 : </div>
 									<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_addr}</div>
+									<div class="col-xs-3" style="text-align: right;">상세 주소 :</div>
+									<div class="col-xs-9" style="margin-left: -20xp;">${list[0].store_addr1}</div>
 								</div>
 							</div>
 							<div style="margin-bottom: 5px;">
@@ -272,7 +274,6 @@
 							</div>
 						</div>
 					</div>
-				
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
@@ -280,6 +281,7 @@
 							</div>
 						</div>
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -420,57 +422,62 @@
 		</div>
 
 		<!-- BEST REVIEW -->
-		<div class="row ftco-animate justify-content-center">
-			<!-- <div class=" col-md-7"> <div class="carousel-testimony owl-carousel ftco-owl">CAROUSEL 적용 -->
-			
-			<!-- 
+		<div class="owl-carousel ftco-animate justify-content-center">
 			<c:if test="${empty rvThumb}">
-				<div class="item col-md-2">	
+				<div class="item col-md-12">	
 					<span>베스트 리뷰가 없습니다.</span>
 				</div>
 			</c:if>
 			<c:if test="${not empty rvThumb}">
-				<c:forEach items="${rvThumb}" var="BestRV" varStatus="loop">
-					<c:forEach items="${strvcnts}" var="rvCnt" varStatus="loop">
-						<c:if test="${BestRV.rv_no == rvCnt.rv_no}">
-						
-							<div class="item col-md-3">
-								<div class="testimony-wrap text-center py-4 pb-5">	
-																			
-									<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
-										<c:if test="${BestRV.rv_no == rvImg.rv_no}">
-											<c:if test=" ${empty rvImg.rf_path}" var="noRvImg">
-												<div class="user-img mb-4">
-													
-												</div>
+				<c:forEach items="${rvThumb}" var="BestRV" end="3">						
+					<div class="row col-md-11" style="background-color:white; margin:0px; padding: 20px;" >
+						<div class="img" style="width:auto; " >
+							<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
+								<c:if test="${BestRV.rv_no == rvImg.rv_no}">
+									<c:if test=" ${empty rvImg.rf_path}">
+										<div style="height: 100px; background-color:  black">
+										                                                     
+										</div>
+									</c:if>
+									<c:if test="${not empty rvImg.rf_path}">
+										<img src='<c:url value="${rvImg.rf_path}"/>' style="border-radius: 50%"> 
+											<span class="quote d-flex align-items-center justify-content-center" 
+											>
+										<i class="glyphicon glyphicon-heart-empty" style="font-size: 20px;"></i>
+								</span>
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</div>
+						<div class="text overflow">
+							<c:forEach items="${usersnks}" var="usernk" varStatus="loop">
+								<c:if test="${BestRV.user_email == usernk.username}">									
+									<p class="name" style="text-align: center; font-weight: bold;">${usernk.u_nick}</p>
+									<span class="food-type">
+										<c:forEach items="${foodMenuList}" var="MenuDto" varStatus="loop">
+											<c:if test="${BestRV.menu_no == MenuDto.menu_no}">
+											${MenuDto.menu_name}  
 											</c:if>
-											<c:if test=" ${not noRvImg}">
-												<div class="user-img mb-4" style="background-image: url(<c:url value="${rvImg.rf_path}"/>);">
-													<span class="quote d-flex align-items-center justify-content-center">
-														<i class="icon-quote-left"></i>
-													</span>
-												</div>
-											</c:if>
-										</c:if>
-									</c:forEach>
-									<c:forEach items="${usersnks}" var="usernk" varStatus="loop">
-										<c:if test="${rvCnt.user_email == usernk.username}">
-											<div class="text px-3 pt-3">
-												<p class="name overflow">${usernk.u_nick}</p>
-												<span class="food-type overflow">${rvCnt.rv_postdate}</span>
-												<p class="mb-4 overflow">${rvCnt.rv_content}</p>
-											</div>
-										</c:if>
-									</c:forEach>
-								</div>
-							</div>
-						</c:if>
-					</c:forEach>
+										</c:forEach>
+									/  ${BestRV.rv_postdate}</span>
+									<p class="mb-4">${BestRV.rv_content}</p>
+								</c:if>
+							</c:forEach>
+						</div>
+					</div>
 				</c:forEach>
-			</c:if>	
-			 -->
-						
-		</div>			
+			</c:if>						
+		</div>	
+		<script>
+		$(document).ready(
+			function() {
+				$('.owl-carousel').owlCarousel(
+					{
+					items : 3,
+					loop : true
+				});
+		});
+	</script>		
 	</div>
 	
 	<div class="container">
@@ -490,140 +497,152 @@
 					</li>
 				</c:if>
 				<c:if test="${not empty strvcnts}">
-					<c:forEach items="${strvcnts}" var="strvcnt" varStatus="loop">
+					<c:forEach items="${strvcnts}" var="strvcnt" varStatus="loop">		
 						<li class="comment">
 							<div class="comment-body col-md-12 justify-content-center" style="margin-top:10px; padding:20px 0 30px 0;border-bottom: 1px solid #d7d7d7; ">
-
-								<div class="col-md-2" style="display: top; text-align: center; align-content: center;" >
-									<c:forEach items="${usersnks}" var="usersnks" varStatus="loop">
-										<c:if test="${strvcnt.user_email == usersnks.username}">	
-											<h3 style="margin-top:10px;" class="overflow">${usersnks.u_nick}</h3>		
-											<c:if test="${empty usersnks.u_img}">
-												<img src='<c:url value="/resources/user_IMG/default.gif"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Default Image">
-											</c:if>		
-											<c:if test="${not empty usersnks.u_img}">						
-												<img src='<c:url value="${usersnks.u_img}"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Image">										
+								<div class="col-md-12">
+									<div class="col-md-2" style="display: top; text-align: center; align-content: center;" >
+										<c:forEach items="${usersnks}" var="usersnks" varStatus="loop">
+											<c:if test="${strvcnt.user_email == usersnks.username}">	
+												<h3 style="margin-top:10px;" class="overflow">${usersnks.u_nick}</h3>		
+												<c:if test="${empty usersnks.u_img}">
+													<img src='<c:url value="/resources/user_IMG/default.gif"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Default Image">
+												</c:if>		
+												<c:if test="${not empty usersnks.u_img}">						
+													<img src='<c:url value="${usersnks.u_img}"/>' style="height:80px;width:80px; border-radius: 50%" alt="Profile Image">										
+												</c:if>
 											</c:if>
-										</c:if>
-									</c:forEach>
-								</div>
-								<div class="col-md-8">
-									<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${strvcnt.rv_postdate}</div>
-									<p style="color: black;">${strvcnt.rv_content}</p>								
-									<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
-										<c:if test="${strvcnt.rv_no == strvimg.rv_no}" var="norvimg">											
-											<c:if test="${empty norvimg}">
-												<span>리뷰 이미지가 없어요</span>
+										</c:forEach>
+									</div>
+									<div class="col-md-9">
+										<c:forEach items="${foodMenuList}" var="menuList" varStatus="loop">
+											<c:if test="${menuList.menu_no == strvcnt.menu_no }">
+												<div style="color:gray; font-weight: bold; padding-bottom: 10px;">${menuList.menu_name}  /  ${strvcnt.rv_postdate}</div>
 											</c:if>
-											<c:if test="${not empty norvimg}">
-												<div class="vcard bio">												
-                           							<c:forTokens  var="rf_path" items="${strvimg.rf_path}" delims=",">
-														<img src='<c:url value="${rf_path}"/>' style="height:180px; width:180px;" alt="Image placeholder">
-													</c:forTokens>
-												</div>								
+										</c:forEach>
+										<p style="color: black;">${strvcnt.rv_content}</p>								
+										<c:forEach items="${strvimgs}" var="strvimg" varStatus="loop">
+											<c:if test="${strvcnt.rv_no == strvimg.rv_no}" var="norvimg">											
+												<c:if test="${empty norvimg}">
+													<span>리뷰 이미지가 없어요</span>
+												</c:if>
+												<c:if test="${not empty norvimg}">
+													<div class="vcard bio">												
+	                           							<c:forTokens  var="rf_path" items="${strvimg.rf_path}" delims=",">
+															<img src='<c:url value="${rf_path}"/>' style="height:180px; width:180px;" alt="Image placeholder">
+														</c:forTokens>
+													</div>								
+												</c:if>
+			                           		</c:if>
+										</c:forEach>
+									</div>
+									<!-- 수정 삭제 -->
+									<div class="col-md-1" style="text-align: center; ">
+										<a href="<c:url value='/Store/UpdateRVThumb.do?rv_no=${strvcnt.rv_no}'/>" class="glyphicon glyphicon-thumbs-up"> 
+											<br/>
+											좋아요 
+											</a>
+										<div>
+										
+										<c:set value="" var="ID"></c:set>
+											<c:if test="${IDmeme == strvcnt.user_email}">
+												<input type="hidden" name="rv_no" value="${strvcnt.rv_no}">	
+												<input type="hidden" name="store_id" id="store_id" value="${list[0].username}"/> 
+												<a href="<c:url value='/updateSTReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-warning" style="margin-top:40px;font-size: 12px; padding: 3px 6px;">수정</a>																				 	
+												<a href="<c:url value='/deleteSTReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-danger" style="margin-top:5px;font-size: 12px; padding: 3px 6px;">삭제</a>
 											</c:if>
-		                           		</c:if>
-									</c:forEach>
+										
+										</div>
+										
+									</div>
+																			
 								</div>
-								<!-- 수정 삭제 -->
-								<div class="col-md-1">
-									<!--<c:if test="${user_id == strvcnt.user_email}">-->
-									<ul style="list-style: none;">
-										<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
-										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
-									</ul>
-									<!--</c:if>			-->				
-								</div>
-								<!-- 좋아요 -->
-								<div class="col-md-1">
-									<!--<c:if test="${user_id == strvcnt.user_email}">-->
-									<ul style="list-style: none;">
-										<li><a href="<c:url value='/Store/UpdateReview.do?rv_no=${strvcnt.rv_no}'/>" class="btn btn-success">수정</a></li>
-										<li><a href="javascript:isDelete();" class="btn btn-success">삭제</a></li>
-									</ul>
-									<!--</c:if>			-->				
-								</div>
-																				
-							</div>
+								<div class="col-md-offset-10 col-md-2" style="float: right;">
+										</div>
+							</div>						
+										
 						</li>
 					</c:forEach>
 				</c:if>				
 			</ul>
 		</div>
 		
+		<div class="col-md-12 col-md-offset-5">
+			${strvPagingString}
+     	</div>
+		
+		
 		<sec:authorize access="hasRole('ROLE_USER')">
-		<div class="comment-form-wrap col-md-12"
-			style="background: orange; border-radius: 1%;">
-			<input name="username" id="username" value="${username}" type="hidden" class="form-control">
+		<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
 			<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
-			<form name="form1" method="post">
+			<form id="reviewWriteForm" name="reviewWriteForm" method="post" action="<c:url value="/insertSTReview.do"/>">
+				<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
 				<div class="form-group poor">
+				
 					<div class="col-md-12">
 						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
 						<div class="col-md-9" style="padding-bottom: 15px;">
-							<select id="menu_name">
-								<option>메뉴 이름</option>
-								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
-									<option>${foodMenuDto.menu_name}</option>
+							<select id="menu_no" name="menu_no" style="padding:10px; boder-radius:3%;">
+								<option>메뉴 이름 </option>
+								<c:forEach items="${foodMenuList}" var="Menu" varStatus="loop">
+									<option value="${Menu.menu_no}">${Menu.menu_name}</option>
 								</c:forEach>
 							</select>
 						</div>
 					</div>
+					
 					<div class="col-md-12">
-						<label class="col-md-2" for="message" style="text-align: right; padding-top: 15px;">title</label>
+						<label class="col-md-2" style="text-align:right;">리뷰 제목</label> 
 						<div class="col-md-9">
-							<input type="text" class="form-control" name="title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+							<input type="text" class="form-control" id="rv_title" name="rv_title" placeholder="제목"  style="margin-bottom: 10px;">
 						</div>
 					</div>
+					
 					<div class="col-md-12">
-						<label class="col-md-2" for="message"
-							style="text-align: right; padding-top: 15px;">Contents</label>
-						<div class="col-md-9 poor">
-							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요"
-								style="margin-bottom: 10px;"></textarea>
+						<label class="col-md-2" style="text-align:right;">내용</label>
+						<div class="col-md-9">
+							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
 						</div>
 					</div>
+					
 					<div class="col-md-12">
-						<label class="col-md-2" for="message"
-							style="text-align: right; padding-top: 15px;">Images</label>
-						<div class="col-md-9 poor">
-							<input name="rf_path" class="form-control" placeholder="파일업로드용"
-								style="margin-bottom: 30px;"></input>
+						<label class="col-md-2" style="text-align:right;">리뷰 이미지</label> 
+						<div class="col-md-9">
+							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
 						</div>
 					</div>
-
-				</div>
-				<div class="col-md-12">
-					<div class="form-group col-md-offset-5" style="align-content: center; align-items: center;">
-						<input type="submit" value="리뷰 작성" id="btnInsert" class="btn py-3 px-4 btn-primary gugi">
+					
+					<div class="col-md-12 mt-4 pb-3" >
+						<div class="form-group col-md-offset-5">
+							<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
+						</div>
 					</div>
 				</div>
-
-			</form>
+			</form>	
 		</div>
 	</sec:authorize> 
-     </div>
+	
      
      
-     <div class="row"  style="margin-right: 0px; margin-left: 0px;">
-		<div class="col-md-12 text-center">${strvPagingString}</div>
-	 </div>
-	 
-	 <!-- -------------------------------------------리뷰쓰기 -->
+     
+	</div>
+</section>	 
+
+
+
+
+<!-- -------------------------------------------리뷰쓰기 모달------------------------------------------- -->
 	
 
 
 	<div id="myModal" class="modal fade" style="opacity: 1; ">
 		<div class="modal-dialog modal-lg" style="padding: 0;border:none; margin-top:200px; ">
-			<!-- Modal content -->
 			<div class="modal-content" style=" background: orange;">
-				<!-- modal-header -->
 				<div>
 					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
 					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
 				</div>
-				<!-- modal-body -->
-				<form id="reviewWriteForm" action="/insertReview.bbs" >
+				<form id="reviewWriteForm" name="reviewWriteForm" action="/insertSTReview.do"  >
 					<div style="padding-top: 20px;">
 						<div class="col-md-12">
 							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
@@ -638,34 +657,26 @@
 							</div>
 						</div>
 						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">title</label>
+							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 제목</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" name="title"
-									placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
+								<input type="text" class="form-control" name="rv_title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
 							</div>
 						</div>
 						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">Contents</label>
+							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 내용</label>
 							<div class="col-md-9 poor">
-								<textarea name="rv_content" cols="30" rows="7"
-									class="form-control" placeholder="내용을 입력하세요"
-									style="margin-bottom: 10px;"></textarea>
+								<textarea name="rv_content" cols="30" rows="5" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
 							</div>
 						</div>
 						<div class="col-md-12">
-							<label class="col-md-2" for="message"
-								style="text-align: right; padding-top: 15px;">Images</label>
+							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 이미지</label>
 							<div class="col-md-9 poor">
-								<input name="rf_path" class="form-control" placeholder="파일업로드용"
-									style="margin-bottom: 30px;"></input>
+								<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
 							</div>
 						</div>
 					</div>
-					<!-- modal-footer -->
 					<div class="modal-footer col-md-12 text-center" style="background: orange;">
-						<input type="button" id="btnInsert" value="작성" class="btn py-3 px-4 btn-default" > 
+						<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert"> 
 						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
 							<span class="close" style="height: 28px; width:20; font-size: 14px; padding: 10px 15px; ">취소</span>
 						</button>					
@@ -674,59 +685,25 @@
 			</div>
 		</div>
 	</div>
-	
 	<script>
-	
-	$(function(){
-		$("#btnInsert").click(function(){
-			$("#reviewWriteForm").serialize();
-			$.ajax({
-				type:"post",
-				url:"<c:url value='/insertReview.bbs'/>",
-			    data: {rv_title:"rv_title",rv_content:"rv_content",user_email:"user_id",store_name:"store_id",menu_no:"menu_no"},		    
-		        dataType: 'json',
-		        success : function(data){
-					console.log('성공..?:',data);
-					alert('리뷰 작성 완료!');
-					window.location = "<c:url value='/Store/DetailView.tiles'/>";		
-				}
-			})
-		})
-	});
-	
-	$("#menu_name option:selected").val();
-	<%
-		
-	%>
-	$(function(){
-	   // Get the modal
-	    var modal = document.getElementById('myModal');
-	
-	    // Get the button that opens the modal
-	    var btn = document.getElementById("myBtn");
-	
-	    // Get the <span> element that closes the modal
-	    var span = document.getElementsByClassName("close")[0];                                      
-	
-	    // When the user clicks on the button, open the modal 
-	    btn.onclick = function() {
-	        modal.style.display = "block";
-	    }
-	
-	    // When the user clicks on <span> (x), close the modal
-	    span.onclick = function() {
-	        modal.style.display = "none";
-	    }
-	
-	    // When the user clicks anywhere outside of the modal, close it
-	    window.onclick = function(event) {
-	        if (event.target == modal) {
-	            modal.style.display = "none";
-	        }
-	    }
-	});
-	</script>	
-
-</section>
-
-	
+	        
+	    $("#btnInsert").click(function(){
+	    	var param = jQuery("#reviewWriteForm").serialize();     
+	         $.ajax({
+	        	 type:"POST",
+	        	 url:"<c:url value='/insertSTReview.do'/>",
+				data: param,             
+	            dataType: 'json',
+	            success : function(data){
+		              console.log('성공..?:',data);
+		              alert('처리 완료!');
+		              window.location = "<c:url value='/Store/DetailView.do?username="+${username} +"'/>";
+		          },
+	              error:function(request,status,error){
+	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
+	                       request.status,request.responseText,error,status);
+	              }	        	 
+	        	 
+        	});
+	    });
+    </script>
