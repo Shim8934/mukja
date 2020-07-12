@@ -64,7 +64,7 @@
 					<li class="nav-item"><a href="<c:url value="/SignUp.bbs"/>"  class="nav-link">회원가입</a></li>
 				</sec:authorize>
 				<sec:authorize access="hasRole('ROLE_USER')">
-					<li class="nav-item"><a href="<c:url value="/MyPage.bbs"/>"class="nav-link">내꺼먹자</a></li>
+					<li class="nav-item"><a href="<c:url value="/MyPage.bbs"/>"class="nav-link">마이먹자</a></li>
 					<li class="nav-item"><a href="javascript:logout();"  class="nav-link">로그아웃</a></li>
 				</sec:authorize>
 			</ul>
