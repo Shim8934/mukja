@@ -408,12 +408,7 @@ public class HomeController {
       return "index.tiles";
    }
    
-   @RequestMapping(value="/Mypage.bbs", method = RequestMethod.GET)
-   public String Mypage(String str) {
-      return "/Member/MyPage.tiles";
-   }
- 
-   
+
    
    /*----------------------------가게페이지------------------------------*/
    @RequestMapping(value="/Restaurants.bbs", method = RequestMethod.GET)

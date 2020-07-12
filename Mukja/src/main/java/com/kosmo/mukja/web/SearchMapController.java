@@ -421,6 +421,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 				}
 			}
 		}
+		
 		String er_tend = tendbutt.toString().substring(0, tendbutt.toString().length()-1);
 		map.put("ER_TEND",er_tend);
 		map.put("username",username);

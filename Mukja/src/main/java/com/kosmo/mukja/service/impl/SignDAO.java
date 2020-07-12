@@ -22,7 +22,10 @@ public class SignDAO implements SignService {
 	public boolean isLogin(Map map) {
 		return (Integer)sqlMapper.selectOne("isLogin",map)==0 ? false : true;
 	}
-	
+	@Override
+	public UsersDTO idPass(Map map) {
+		return sqlMapper.selectOne("idPass",map);
+	}
 	@Override
 	public int signup(Map map) {
 		return sqlMapper.insert("signup",map);
@@ -40,6 +43,12 @@ public class SignDAO implements SignService {
 	public int idCheck(Map map) {
 		return sqlMapper.selectOne("idCheck",map);
 	}
+	@Override
+	public int kakaoidCheck(Map map) {
+		return sqlMapper.selectOne("kakaoidCheck",map);
+	}
+
+	
 	
 
 	

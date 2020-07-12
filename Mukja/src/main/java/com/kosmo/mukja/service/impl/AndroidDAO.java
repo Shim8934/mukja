@@ -11,8 +11,10 @@ import com.kosmo.mukja.service.AndroidMyERDTO;
 import com.kosmo.mukja.service.AndroidReviewDTO;
 import com.kosmo.mukja.service.AndroidReviewImgDTO;
 import com.kosmo.mukja.service.AndroidService;
+import com.kosmo.mukja.service.ErcDTO;
 import com.kosmo.mukja.service.FallowDTO;
 import com.kosmo.mukja.service.SignService;
+import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.UsersDTO;
 
 
@@ -28,6 +30,75 @@ public class AndroidDAO implements AndroidService {
 		return sqlMapper.selectOne("anIsLogin",dto);
 	}
 
+	//웅
+	@Override
+	public int createEroom(Map map) {
+		return sqlMapper.insert("createEroom",map);
+	}
+	
+	@Override
+	public int getRoomNo(Map map) {
+		return sqlMapper.selectOne("getRoomNo",map);
+	}
+	
+	@Override
+	public String getRoomMaster(Map map) {
+		return sqlMapper.selectOne("getRoomMaster",map);
+	}
+
+	@Override
+	public int creatERC(Map map) {
+		return sqlMapper.insert("creatERC",map);
+	}
+
+	@Override
+	public int getERoomCno(Map map) {
+		return sqlMapper.selectOne("getERoomCno",map);
+	}
+
+	@Override
+	public int joinERoom(Map map) {
+		return sqlMapper.insert("joinERoom",map);
+	}
+
+	@Override
+	public int setupER_role(Map map) {
+		return sqlMapper.update("setupER_role",map);
+	}
+	
+	@Override
+	public int selectrool(Map map) {
+		return sqlMapper.selectOne("selectrool",map);
+	}
+
+	
+	@Override
+	public List<ErcDTO> myERoomCList(Map map) {
+		return sqlMapper.selectList("myERoomCList",map);
+	}
+	@Override
+	public String getMasterimg(Map map) {
+		return sqlMapper.selectOne("getMasterimg",map);
+	}
+	
+	@Override
+	public String getMasterNick(Map map) {
+		return sqlMapper.selectOne("getMasterNick",map);
+	}
+
+	@Override
+	public StoreDTO getStoreInfos(Map map) {
+		return sqlMapper.selectOne("getStoreInfos",map);
+	}
+	@Override
+	public String ERoomold(Map map) {
+		return sqlMapper.selectOne("eRoomold",map);
+	}
+	
+	
+	
+	
+	//범
 	@Override
 	public List<AndroidReviewDTO> getAndroidReviewList(Map map) {
 		return sqlMapper.selectList("getAndroidReviewList",map);
@@ -80,6 +151,11 @@ public class AndroidDAO implements AndroidService {
 		return sqlMapper.selectList("getMyRequestERList",map);
 	}
 
+	
+
+	
+
+	
 	
 
 	

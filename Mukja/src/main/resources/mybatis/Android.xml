@@ -40,8 +40,12 @@
             SELECT SEQ_ERMEMBERS.nextval,#{er_no},#{username},sysdate,0,#{erc_no} FROM DUAL
             WHERE NOT EXISTS 
             (SELECT * FROM er_members em join eattogether_room er on er.er_no=em.er_no            
-            WHERE em.USERNAME = #{username} and er.USERNAME=#{store_id})
+            WHERE em.USERNAME = #{username} and er.er_no=#{er_no})
 	</insert> 
+	
+	<select id="selectrool" parameterType="java.util.Map" resultType="int">
+		select erjoin_role from er_members where username=#{username} and er_no=#{er_no}
+	</select>
 	
 	<update id="setupER_role" parameterType="java.util.Map" >
 		update er_members set ERJOIN_ROLE = 1 where username = #{username}
@@ -135,6 +139,33 @@
 		join users u on er.er_master= u.username
 		join stores s on er.username = s.username
 		where erm.username = #{user_id} and erm.erjoin_role=1 and er.er_master != #{user_id}
+	</select>
+	
+	
+	<select id="myERoomCList" parameterType="java.util.Map" resultType="ercDTO">
+		 select em.er_no, em.username,em.erc_no,
+          er.er_master,er.username as store_id,
+          er.er_title,er.er_content,er.er_time,er.er_tend,
+          er.er_max
+          from er_members em join eattogether_room er 
+          on em.er_no = er.er_no 
+          where em.username=#{username} and em.erjoin_role=1 ORDER BY erc_no DESC
+	</select>
+	
+	<select id="getMasterNick" parameterType="java.util.Map" resultType="java.lang.String">
+		select u_nick from users where username = #{er_master}
+	</select>
+	<select id="getMasterimg" parameterType="java.util.Map" resultType="java.lang.String">
+		select u_img from users where username = #{er_master}
+	</select>
+	
+	
+	<select id="getStoreInfos" parameterType="java.util.Map" resultType="storeDTO">
+		select * from stores where username = #{store_id}
+	</select>
+	
+	<select id="eRoomold" parameterType="java.util.Map" resultType="java.lang.String">
+		select ERC_CONTENT from er_chat where erc_no = #{erc_no} and er_no = #{er_no}
 	</select>
 	
 </mapper>

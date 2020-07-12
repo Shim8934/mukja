@@ -126,8 +126,10 @@ section {
 
 </head>
 <body>
-	<!-- 인증되지 않은 모든 사용자인 경우:로그인 폼 보여주기 -->
 
+
+	<!-- 인증되지 않은 모든 사용자인 경우:로그인 폼 보여주기 -->
+	
 	<section class="hero-wrap hero-wrap-2"
 		style="background-image: url('images/bg_4.jpg'); height: 200px"
 		id='signup' data-stellar-background-ratio="0.5">
@@ -154,8 +156,14 @@ section {
 						<div class="row">
 							<div class="col-md-offset-3 col-md-5">
 								<div class="form-group" id="input">
-									<label for="username">아이디</label> 
-									<input type="text" class="form-control" id="username" name="username" placeholder="이메일">
+									<label for="username">아이디</label>
+								<c:if test="${map==null}"> 
+									<input type="text" class="form-control" id="username" value="" placeholder="이메일">
+								</c:if>	
+								<c:if test="${map!=null}">
+									<input type="text" class="form-control" id="username" value="${map.email }" placeholder="이메일">
+								</c:if>
+								
 								</div>
 							</div>
 							<div style="display: inline-block;">
@@ -188,7 +196,12 @@ section {
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<label for="u_nick">닉네임</label>
+									<c:if test="${map==null}"> 
 									<input type="text" class="form-control" id="u_nick" name="u_nick" placeholder="닉네임">
+									</c:if>
+									<c:if test="${map!=null}">
+									<input type="text" class="form-control" id="u_nick" name="u_nick" value="${map.nick}" placeholder="닉네임">
+									</c:if>
 									<div class="check_font" id="nick_check"></div>
 								</div>
 							</div>
@@ -196,7 +209,10 @@ section {
 								<div class="form-group">
 									<label for="u_img">프로필사진</label>
 									<div id="preview"></div><span class="btn-danger">삭제</span>
+									<c:if test="${map==null}"> 
 									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
+									</c:if>
+									<input type="file" class="form-control inp-img" id="u_img" name="u_img"  accept=".gif, .jpg, .png">								
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">

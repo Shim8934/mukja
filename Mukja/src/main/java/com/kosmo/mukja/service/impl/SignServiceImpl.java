@@ -38,6 +38,16 @@ public class SignServiceImpl implements SignService {
 			return dao.idCheck(map);
 		}
 
+		@Override
+		public UsersDTO idPass(Map map) {
+			return dao.idPass(map);
+		}
+
+		@Override
+		public int kakaoidCheck(Map map) {
+			return dao.kakaoidCheck(map);
+		}
+
 		
 	
 
