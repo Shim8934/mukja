@@ -296,8 +296,8 @@
 															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 3px 6px;">수락</a>	
 															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 3px 6px;">거절</a>
 														</td>
-														<td style="font-weight: bold;"><a
-															href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
+														<td style="font-weight: bold;">
+														<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
 														</td>
 														<td>
 															<div style="padding-bottom: 0px;">
@@ -444,27 +444,6 @@
 	</div>
 </section>
 
-<div class="modal fade bd-example-modal-lg" id="etAccept" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-exclamation icon-gradient bg-deep-blue"></i>삭제 알림</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            	<P>${ET0.er_no}</P>
-				<p>해당 같이먹기를 수락하시겠습니까?</p>
-			</div>
-            <div class="modal-footer">
-               <a class="btn btn-primary" style="cursor:pointer;" id="signCheck" href="javascript:click()">확인</a>
-       		   <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
 $(document).on("click","#forRvdel",function(){
 	var rv_no = $("#rv_no").val();
@@ -489,7 +468,7 @@ $(document).on("click","#etAccept",function(){
 $(document).on("click","#etReject",function(){
 	var rv_no = $("#rv_no").val();
 	var user_id = $("#user_id").val();
-	var isReject = funtion(){
+	var isReject = function(){
 		if(confirm("같이 먹기를 거절하시겠습니까?"))
 			location.replace("<c:url value='/User/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
 	};

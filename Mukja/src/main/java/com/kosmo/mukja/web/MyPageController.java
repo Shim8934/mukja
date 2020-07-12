@@ -353,9 +353,15 @@ public class MyPageController{
 	
 	@ResponseBody
 	@RequestMapping(value = "/er_Accept.bbs")
-	public String er_Accept(@RequestParam Map map) {
+	public String er_Accept(Authentication auth,@RequestParam Map map) {
 		System.out.println("수락 승인 IN !!!!!!!!!!!!!");
-		System.out.println("수락 승인 속 user_id"+map.get("user_id").toString());
+
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		
+		System.out.println("user_id : "+user_id);
+		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
 		System.out.println("수락 승인 속 er_no"+map.get("er_no").toString());
 		System.out.println("수락 승인 속 nowPage"+map.get("nowPage").toString());
       
