@@ -88,6 +88,16 @@ public class AndroidServiceImpl implements AndroidService {
 			return dao.getMyRequestERList(map);
 		}
 
+		@Override
+		public int androidDeleteERMembers(Map map) {
+			return dao.androidDeleteERMembers(map);
+		}
+
+		@Override
+		public int boomMyER(Map map) {
+			return dao.boomMyER(map);
+		}
+
 	
 
 	

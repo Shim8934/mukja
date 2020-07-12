@@ -10,6 +10,7 @@ public class MyPageDTO {
 	private String user_id;
 	private int count;
 	private String store_name2;
+	private String sf_path;
 	
 
 
@@ -59,60 +60,158 @@ public class MyPageDTO {
 	public MyPageDTO() {
 	}
 
-
 	
 	
-	public String getUser_id() {
-		return user_id;
-	}
+	
+	
+	
 
-	public void setUser_id(String user_id) {
+	public MyPageDTO(String username, String password, String u_nick, String user_id, int count, String store_name2,
+			String sf_path, int er_no, String er_master, String er_title, String er_content, String er_time,
+			String er_tend, int er_max, Date er_postdate, Date erjoin_date, int erjoin_num, int erjoin_role, int erc_no,
+			String fl_send, String fl_recv, Date fl_regidate, int fl_status, int fl_no, String store_name,
+			Date ms_postdate, String ms_comment, String user_email, int ms_no, String menu_name, int rv_no,
+			String rv_title, String rv_content, Date rv_postdate, int menu_no, String rf_path, int rf_no) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.u_nick = u_nick;
 		this.user_id = user_id;
+		this.count = count;
+		this.store_name2 = store_name2;
+		this.sf_path = sf_path;
+		this.er_no = er_no;
+		this.er_master = er_master;
+		this.er_title = er_title;
+		this.er_content = er_content;
+		this.er_time = er_time;
+		this.er_tend = er_tend;
+		this.er_max = er_max;
+		this.er_postdate = er_postdate;
+		this.erjoin_date = erjoin_date;
+		this.erjoin_num = erjoin_num;
+		this.erjoin_role = erjoin_role;
+		this.erc_no = erc_no;
+		this.fl_send = fl_send;
+		this.fl_recv = fl_recv;
+		this.fl_regidate = fl_regidate;
+		this.fl_status = fl_status;
+		this.fl_no = fl_no;
+		this.store_name = store_name;
+		this.ms_postdate = ms_postdate;
+		this.ms_comment = ms_comment;
+		this.user_email = user_email;
+		this.ms_no = ms_no;
+		this.menu_name = menu_name;
+		this.rv_no = rv_no;
+		this.rv_title = rv_title;
+		this.rv_content = rv_content;
+		this.rv_postdate = rv_postdate;
+		this.menu_no = menu_no;
+		this.rf_path = rf_path;
+		this.rf_no = rf_no;
 	}
+
+
+
+
+
+
 
 	public String getUsername() {
 		return username;
 	}
 
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 
 	public String getPassword() {
 		return password;
 	}
 
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 
 	public String getU_nick() {
 		return u_nick;
 	}
 
+
 	public void setU_nick(String u_nick) {
 		this.u_nick = u_nick;
 	}
 
-	public Number getEr_no() {
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+
+	public int getCount() {
+		return count;
+	}
+
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+
+	public String getStore_name2() {
+		return store_name2;
+	}
+
+
+	public void setStore_name2(String store_name2) {
+		this.store_name2 = store_name2;
+	}
+
+
+	public String getSf_path() {
+		return sf_path;
+	}
+
+
+	public void setSf_path(String sf_path) {
+		this.sf_path = sf_path;
+	}
+
+
+	public int getEr_no() {
 		return er_no;
 	}
+
 
 	public void setEr_no(int er_no) {
 		this.er_no = er_no;
 	}
 
+
 	public String getEr_master() {
 		return er_master;
 	}
+
 
 	public void setEr_master(String er_master) {
 		this.er_master = er_master;
 	}
 
+
 	public String getEr_title() {
 		return er_title;
 	}
+
 
 	public void setEr_title(String er_title) {
 		this.er_title = er_title;
@@ -309,6 +408,16 @@ public class MyPageDTO {
 	}
 
 
+	public String getMenu_name() {
+		return menu_name;
+	}
+
+
+	public void setMenu_name(String menu_name) {
+		this.menu_name = menu_name;
+	}
+
+
 	public int getRv_no() {
 		return rv_no;
 	}
@@ -379,88 +488,7 @@ public class MyPageDTO {
 	}
 
 
-	public int getCount() {
-		return count;
-	}
-
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
-
-
-	public String getMenu_name() {
-		return menu_name;
-	}
-
-
-
-	public void setMenu_name(String menu_name) {
-		this.menu_name = menu_name;
-	}
-
-
-
-
-	public MyPageDTO(String username, String password, String u_nick, String user_id, int er_no, String er_master, String er_title,
-			String er_content, String er_time, String er_tend, int er_max, Date er_postdate, Date erjoin_date,
-			int erjoin_num, int erjoin_role, int erc_no, String fl_send, String fl_recv, Date fl_regidate,
-			int fl_status, int fl_no, String store_name, Date ms_postdate, String ms_comment, String user_email,
-			int ms_no, int rv_no, String rv_title, String rv_content, Date rv_postdate, int menu_no, String rf_path,
-			int rf_no, int count, String menu_name, String store_name2) {
-		super();
-		this.username = username;
-		this.password = password;
-		this.u_nick = u_nick;
-		this.user_id = user_id;
-		this.er_no = er_no;
-		this.er_master = er_master;
-		this.er_title = er_title;
-		this.er_content = er_content;
-		this.er_time = er_time;
-		this.er_tend = er_tend;
-		this.er_max = er_max;
-		this.er_postdate = er_postdate;
-		this.erjoin_date = erjoin_date;
-		this.erjoin_num = erjoin_num;
-		this.erjoin_role = erjoin_role;
-		this.erc_no = erc_no;
-		this.fl_send = fl_send;
-		this.fl_recv = fl_recv;
-		this.fl_regidate = fl_regidate;
-		this.fl_status = fl_status;
-		this.fl_no = fl_no;
-		this.store_name = store_name;
-		this.ms_postdate = ms_postdate;
-		this.ms_comment = ms_comment;
-		this.user_email = user_email;
-		this.ms_no = ms_no;
-		this.rv_no = rv_no;
-		this.rv_title = rv_title;
-		this.rv_content = rv_content;
-		this.rv_postdate = rv_postdate;
-		this.menu_no = menu_no;
-		this.rf_path = rf_path;
-		this.rf_no = rf_no;
-		this.count = count;
-		this.menu_name = menu_name;
-		this.store_name2 = store_name2;
-	}
-
-
-
-
-	public String getStore_name2() {
-		return store_name2;
-	}
-
-
-
-
-	public void setStore_name2(String store_name2) {
-		this.store_name2 = store_name2;
-	}
-
+	
+	
 
 }	

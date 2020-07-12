@@ -12,6 +12,7 @@ public class AndroidMyERDTO {
 	    private String u_tend;
 	   private String u_age;
 	   private String u_img;
+	   private String u_id;
 
 	   public AndroidMyERDTO() {
 	   }
@@ -32,7 +33,15 @@ public class AndroidMyERDTO {
 	      this.u_img = u_img;
 	   }
 
-	   public String getEr_no() {
+	   public String getU_id() {
+		return u_id;
+	}
+
+	public void setU_id(String u_id) {
+		this.u_id = u_id;
+	}
+
+	public String getEr_no() {
 	      return er_no;
 	   }
 

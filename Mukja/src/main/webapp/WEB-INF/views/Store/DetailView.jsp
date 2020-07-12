@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-lg-9 ftco-animate"> -->
 
-<!-- INFROMATION -->${IDmeme}
+<!-- INFROMATION -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
 
 	<div class="container" style="width: 1400px;">
@@ -582,10 +582,10 @@
 					<div class="col-md-12">
 						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
 						<div class="col-md-9" style="padding-bottom: 15px;">
-							<select name="menu_no" style="padding:10px; boder-radius:3%;">
-								<option>메뉴 이름</option>
-								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
-									<option value="${foodMenuDto.menu_no}">${foodMenuDto.menu_name}</option>
+							<select id="menu_no" name="menu_no" style="padding:10px; boder-radius:3%;">
+								<option>메뉴 이름 </option>
+								<c:forEach items="${foodMenuList}" var="Menu" varStatus="loop">
+									<option value="${Menu.menu_no}">${Menu.menu_name}</option>
 								</c:forEach>
 							</select>
 						</div>
