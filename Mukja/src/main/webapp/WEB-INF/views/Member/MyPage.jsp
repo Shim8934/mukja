@@ -109,7 +109,12 @@
 										<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
 											<c:if test="${myJjim.store_name == storetxt.username}">
 												<div class="mpjjim item-align-center bd2bc"
-													style="padding: 10px; border-radius: 5%;"">
+													style="padding: 10px; border-radius: 5%;">
+													<div style="background-color: white; border-radius: 50%">
+														<a href='<c:url value="/deleteMyJjim.bbs"/>'>
+															<span class="glyphicon glyphicon-heart" style="font-size:20px; color: red; border-radius: 70%; float:right; margin:10px;" ></span>
+														</a>
+													</div>
 													<c:if test="${empty storeimgs}" var="EmptySP">
 														<div class="img">
 															<span>이미지 준비 중입니다.</span>
@@ -125,8 +130,11 @@
 																	style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>
 																<% }count = count + 1; %>
 															</c:if>
+															
+																
 														</c:forEach>
-													</c:if>
+													</c:if>	
+													
 													<div class="text overflow"
 														style="padding-top: 0rem; display: inline-block;">
 														<div class="pt-3 text-center">
@@ -187,7 +195,7 @@
 										<th style="width: 8%">별점</th>
 										<th style="width: 35%">내용</th>
 										<th style="width: 12%">사진</th>
-											<th style="width: 15%">수정,삭제</th>
+										<th style="width: 15%">수정,삭제</th>
 									</tr>
 									<c:if test="${empty rvcnt}" var="EmptyRVC">
 										<tr>
@@ -292,9 +300,11 @@
 														<td>
 															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
 															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">							
-																									 	
-															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 3px 6px;">수락</a>	
-															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 3px 6px;">거절</a>
+															
+															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;">수락</a>	
+														
+															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
+								
 														</td>
 														<td style="font-weight: bold;">
 														<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>

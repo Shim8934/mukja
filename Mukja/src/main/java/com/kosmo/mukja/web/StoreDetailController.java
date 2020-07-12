@@ -293,22 +293,14 @@ public class StoreDetailController {
 		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
 		
 		
-		
-//		if(.rf_path != null) {
 		int deleteRVpic = service.deleteOneReviewPic(map);
 		System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
-//			}
-		
-//		if(  != null) {
 		int deleteRVth = service.deleteOneReviewThumb(map);
 		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
-//		}
-		
-		
 		int deleteRV = service.deleteOneReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
 		
-		return "forward:/Store/DetailView.do?username="+store_id+"";
+		return "redirect:/Store/DetailView.do?username="+store_id+"";
 		}///////////
 		
 		

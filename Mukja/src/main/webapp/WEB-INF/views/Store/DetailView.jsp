@@ -614,6 +614,7 @@
 					
 					<div class="col-md-12 mt-4 pb-3" >
 						<div class="form-group col-md-offset-5">
+							<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
 							<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 						</div>
 					</div>
@@ -691,6 +692,7 @@
 	
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
+	    	var store_id = $("#store_id").val();
 	         $.ajax({
 	        	 type:"POST",
 	        	 url:"<c:url value='/insertSTReview.do'/>",
@@ -699,7 +701,7 @@
 	            success : function(data){
 		              console.log('성공..?:',data);
 		              alert('처리 완료!');
-		              window.location = "<c:url value='/Store/DetailView.do?username="+${username} +"'/>";
+		              window.location = "<c:url value='/Store/DetailView.do?username="+${store_id} +"'/>";
 		          },
 	              error:function(request,status,error){
 	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
@@ -708,4 +710,6 @@
 	        	 
         	});
 	    });
+	    
+	    
     </script>
