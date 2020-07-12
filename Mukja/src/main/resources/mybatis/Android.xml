@@ -91,12 +91,27 @@
 		u.u_nick,
 		u.u_tend,
 		u.u_age,
-		u.u_img
+		u.u_img,
+		u.username "u_id"
 		from er_members erm 
 		join eattogether_room er on erm.er_no=er.er_no
 		join users u on er.er_master= u.username
 		join stores s on er.username = s.username
-		where erm.username = #{user_id} and erm.erjoin_role=1 and er.er_master != #{user_id}
+		where erm.username = #{user_id} and erm.erjoin_role=1
 	</select>
+	
+	<delete id="androidDeleteERMembers" parameterType="java.util.Map">
+		delete er_members where er_no=#{er_no} and username=#{user_id}
+	</delete>
+	
+	<delete id="boomERMember" parameterType="java.util.Map">
+		delete er_members where er_no=#{er_no}
+	</delete>
+	<delete id="boomERC" parameterType="java.util.Map">
+		delete er_chat where er_no=#{er_no}
+	</delete>
+	<delete id="boomER" parameterType="java.util.Map">
+		delete eattogether_room where er_no=#{er_no}
+	</delete>
 	
 </mapper>

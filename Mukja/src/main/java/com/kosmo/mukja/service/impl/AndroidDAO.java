@@ -82,6 +82,19 @@ public class AndroidDAO implements AndroidService {
 	public List<AndroidMyERDTO> getMyRequestERList(Map map) {
 		return sqlMapper.selectList("getMyRequestERList",map);
 	}
+	@Override
+	public int androidDeleteERMembers(Map map) {
+		return sqlMapper.delete("androidDeleteERMembers",map);
+	}
+	@Override
+	public int boomMyER(Map map) {
+		int result;
+		result=sqlMapper.delete("boomERMember",map);
+		result+=sqlMapper.delete("boomERC",map);
+		result+=sqlMapper.delete("boomER",map);
+		if(result==3)System.out.println("삭제성공");
+		return result;
+	}
 	
 
 	
