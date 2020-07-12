@@ -373,7 +373,6 @@ public class MyPageController{
 	
 	
 	
-	
 	@ResponseBody
 	@RequestMapping(value = "/er_Reject.bbs")
 	public String er_Reject(@RequestParam Map map) {
