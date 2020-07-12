@@ -402,8 +402,56 @@ public class StoreMypageController {
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
-	
+	// 이미지 수정페이지 이동
+	@RequestMapping(value = "/StoreMypage/ImgPop2.do")
+	public String menuImgPop(@RequestParam Map map, Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		map.put("username", userDetails.getUsername());
 
+		model.addAttribute("msg", userDetails.getUsername()); 
+
+
+		List<StoreDTO> stDto = service.selectFoodImg(map);
+
+		model.addAttribute("editFoodMenu",stDto);
+
+
+		return "Store/StoreMyPage/menuEditImg.tiles";
+	}
+
+	
+	
+	// 메뉴 및 메뉴 이미지 수정
+		@RequestMapping(value = "/StoreMypage/editImgPop2.do",method = RequestMethod.POST)
+		public String menuImgPopEdit(Map map, Model model, Authentication authentication, HttpServletRequest req) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			map.put("username", userDetails.getUsername());
+
+			String dbPath = "/resources/storeIMG";
+			String path = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
+
+			MultipartRequest mr = FileUtility.upLoad(req, path);
+			List<StoreDTO> stDto = service.selectFoodImg(map);
+
+			for(int i=0; i<stDto.size();i++) {
+				String editMenu_tend = mr.getParameter("menu_tend"+i).toString();
+				String editFm_path = mr.getFilesystemName("fm_path"+i).toString();
+				String editMenu_info = mr.getParameter("menu_info"+i).toString();
+				String editMenu_name = mr.getParameter("menu_name"+i).toString();
+				String editMenu_price = mr.getParameter("menu_price"+i).toString();
+				String editMenu_no = mr.getParameter("menu_no"+i).toString();
+				editFm_path = dbPath + "/" + editFm_path;
+				map.put("editMenu_no",editMenu_no);
+				map.put("editMenu_tend",editMenu_tend);
+				map.put("editFm_path", editFm_path);
+				map.put("editMenu_info",editMenu_info);
+				map.put("editMenu_name",editMenu_name);
+				map.put("editMenu_price",editMenu_price);
+				service.updateFoodMenu(map);
+				service.updateFoodImg(map);
+			}
+			return "forward:/StoreMypage/ImgPop2.do";
+		}
 	
 	
 }

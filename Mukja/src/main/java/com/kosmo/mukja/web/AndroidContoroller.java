@@ -1,21 +1,29 @@
 package com.kosmo.mukja.web;
 
+import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.kosmo.mukja.service.AndroidERDTO;
 import com.kosmo.mukja.service.AndroidMyERDTO;
@@ -30,15 +38,22 @@ import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 import com.kosmo.mukja.service.UsersDTO;
+import com.kosmo.mukja.service.impl.SearchMapServiceImpl;
+import com.kosmo.mukja.web.util.FileUtility;
+import com.kosmo.mukja.web.util.UploadPath;
+
 
 @Controller
 public class AndroidContoroller {
 	@Resource(name = "StoreInfoService")
 	private StoreService service;
 	@Resource(name = "androidService")
-	private AndroidService androidService;
+	private AndroidService androidService;	
+	@Resource(name = "serchService")
+	SearchMapServiceImpl serchService;
 	private String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
 	private String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
+	private final String UPLOAD_PATH="WEB-INF/uploads/andorid/";
 	@ResponseBody
 	@RequestMapping(value = "/Andorid/Store/DetailView.do" , produces = "application/json; charset=utf8")
 	public String StoreDetail(@RequestParam Map map) {
@@ -56,11 +71,16 @@ public class AndroidContoroller {
 		JSONObject storeInfoJson = new JSONObject();
 		storeInfoJson.put("store_name", list.get(0).getStore_name().toString());
 		storeInfoJson.put("store_addr", list.get(0).getStore_addr().toString());
-		storeInfoJson.put("store_intro", list.get(0).getStore_intro().toString());
+		storeInfoJson.put("store_intro", list.get(0).getStore_intro().toString()
+				.replaceAll("<p>","")
+				.replaceAll("</p>","")
+				.replaceAll("  ","")
+				.replace("\r\n"," ")
+				);
 		storeInfoJson.put("store_email", list.get(0).getStore_email().toString());
 		storeInfoJson.put("store_phnum", list.get(0).getStore_phnum().toString());
-		storeInfoJson.put("store_time", list.get(0).getStore_time().toString());
-	
+		storeInfoJson.put("store_time", list.get(0).getStore_time().toString().replaceAll("\\r\\n                           "," "));
+		System.out.println("수정된 시간 : "+list.get(0).getStore_time().toString().replaceAll("\\r\\n                           "," "));
 		
 		//가게이미지 파싱
 		List<StoreIMGDTO> imglist = service.getStoreIMG(map);
@@ -150,21 +170,25 @@ public class AndroidContoroller {
 		
 		
 		UsersDTO userInfo= androidService.getUserInfo(map);
-	
+		System.out.println(userInfo);
 		
-		
+		String oldTend=userInfo.getU_tend();
 		for(int j=0; j<tend_codes.length;j++) {
-		
-			userInfo.setU_tend(userInfo.getU_tend().replaceAll(tend_codes[j], tend_text[j]));
+			if(userInfo.getU_tend()!=null)userInfo.setU_tend(userInfo.getU_tend().replaceAll(tend_codes[j], tend_text[j]));
+			else userInfo.setU_tend("없음");
 			
 			
 		}//리스트에서 뽑은 성향의 포문
 		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("u_id", userInfo.getUsername());
+		jsonObject.put("u_pwd", userInfo.getPassword());
+		jsonObject.put("u_ph", userInfo.getU_ph());		
 		jsonObject.put("u_nick", userInfo.getU_nick());
 		jsonObject.put("u_tend", userInfo.getU_tend());
 		jsonObject.put("u_img", userInfo.getU_img());
 		jsonObject.put("u_addr", userInfo.getU_addr());
-		
+		jsonObject.put("u_age", userInfo.getU_age());
+		jsonObject.put("u_oldTend", oldTend);
 		return jsonObject.toJSONString();
 	}//StoreReview
 	
@@ -398,6 +422,7 @@ public class AndroidContoroller {
 	@RequestMapping(value = "/Andorid/Store/MyER_list.do" , produces = "application/json; charset=utf8")
 	public String getMyER_list(@RequestParam Map map) {
 		map.put("user_id", map.get("user_id").toString().replace("\"",""));
+
 		Iterator<String> iter = map.keySet().iterator();
 		while(iter.hasNext()){
 			String key = iter.next();
@@ -422,6 +447,8 @@ public class AndroidContoroller {
 			}
 		}//리스트에서 뽑은 성향의 포문
 		
+		
+		
 		for(AndroidMyERDTO dto:myer_list) {
 			JSONObject jsonObject = new  JSONObject();
 			jsonObject.put("er_no", dto.getEr_no());
@@ -430,15 +457,93 @@ public class AndroidContoroller {
 			jsonObject.put("er_title", dto.getEr_title());
 			jsonObject.put("er_tend", dto.getEr_tend());
 			jsonObject.put("er_max", dto.getEr_max());
-			jsonObject.put("er_time", dto.getEr_title());
-			
+			jsonObject.put("er_time", dto.getEr_time());
+			map.put("er_no", dto.getEr_no());
+			int currcount=serchService.currcount(map);
+			jsonObject.put("er_currcount", currcount);
 			jsonObject.put("u_nick", dto.getU_nick());
 			jsonObject.put("u_tend", dto.getU_tend());
 			jsonObject.put("u_age", dto.getU_age()+"대");
 			jsonObject.put("u_img", dto.getU_img());
+			jsonObject.put("u_id", dto.getU_id());
 			jsonArray.add(jsonObject);
 		}
 	
 		return jsonArray.toJSONString();
 	}//StoreReview
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/DeleteERMembers.do" , produces = "application/json; charset=utf8")
+	public String deleteERMembers(@RequestParam Map map) {
+		map.put("er_no", map.get("er_no").toString().replace("\"",""));
+		map.put("user_id", map.get("user_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		int result =  androidService.androidDeleteERMembers(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result_Reject", result);
+	
+		return jsonObject.toJSONString();
+	}//deleteERMembers
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/BoomMyER.do" , produces = "application/json; charset=utf8")
+	public String boomMyER(@RequestParam Map map) {
+		map.put("er_no", map.get("er_no").toString().replace("\"",""));
+		map.put("user_id", map.get("user_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		
+		int result =  androidService.boomMyER(map);
+		
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result_Reject", result);
+	
+		return jsonObject.toJSONString();
+	}//deleteERMembers
+	
+	
+	@ResponseBody
+	@RequestMapping(value = "/Android/insertReview.do" , produces = "application/json; charset=utf8")
+	public String insertReview(@RequestParam Map map, MultipartRequest mr,HttpServletRequest req) {
+
+		System.out.println("리뷰작성 컨트롤러 진입");
+
+		String path = req.getSession().getServletContext().getRealPath("/resources/review_IMG");
+	
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("키 : %s 값 : %s", key,val));
+			}
+		
+		System.out.println("파일명"+mr.getFile("uploadedfile").getOriginalFilename());
+		
+		
+		int result = 0;
+		if(mr.getFile("uploadedfile")!=null)result=1;
+	
+		JSONObject jsonObject = new  JSONObject();
+		jsonObject.put("result_Reject", result);
+	
+		return jsonObject.toJSONString();
+	}//deleteERMembers
+	
+	
 }

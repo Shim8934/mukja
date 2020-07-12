@@ -212,5 +212,17 @@ public class StoreServiceImpl implements StoreService{
 		return dao.deleteOneReviewThumb(map);
 	}
 
+	@Override
+	public int updateFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateFoodMenu(map);
+	}
+
+	@Override
+	public int updateFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return dao.updateFoodImg(map);
+	}
+	
 
 }

@@ -118,6 +118,14 @@ public class UsersDTO {
 	public void setAuthority(String authority) {
 		this.authority = authority;
 	}
+
+	@Override
+	public String toString() {
+		return "UsersDTO [username=" + username + ", password=" + password + ", u_nick=" + u_nick + ", u_regidate="
+				+ u_regidate + ", u_img=" + u_img + ", u_age=" + u_age + ", u_tend=" + u_tend + ", u_addr=" + u_addr
+				+ ", u_lat=" + u_lat + ", u_lng=" + u_lng + ", u_ph=" + u_ph + ", enabled=" + enabled + ", authority="
+				+ authority + "]";
+	}
 	
 	
 	

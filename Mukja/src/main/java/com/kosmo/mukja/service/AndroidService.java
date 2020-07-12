@@ -23,5 +23,8 @@ public interface AndroidService {
 	List<AndroidERDTO> getRequestERList(Map map);
 	List<AndroidMyERDTO> getMyRequestERList(Map map);
 	
+	int boomMyER(Map map);
+	int androidDeleteERMembers(Map map);
+	
 }
 
