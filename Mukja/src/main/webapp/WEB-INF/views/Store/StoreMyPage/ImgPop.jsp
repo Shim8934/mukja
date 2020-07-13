@@ -260,7 +260,13 @@
 			</div>
 		</div>
 		<!-- 캐러셀 row 끝 -->
-		
+		<script>
+		    var delFlag = [0,1,2];
+		    delFlag.foreach
+			$(document).on("click","#deleteStImg",function(){
+				
+			})
+		</script>
 		
 	<div class="row justify-content-center" id="strImgForm">
 		<!-- 기존 등록 이미지 3개인 경우 -->
@@ -268,8 +274,12 @@
 		<form enctype="multipart/form-data" id="stImageEdit" action="<c:url value='/StoreMypage/editImgPop.do'/>" method="POST">
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
-						<div class="col-md-12 text-left">
-						<span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
+						<div class="col-md-6 text-left">
+								<span>${loopNo.index+1}번 사진 수정 메뉴</span>
+							</div>
+							<div class="col-md-6 text-right">
+								<input type="button" value="사진 삭제" id="deleteStImg${loopNo.index}">
+							</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
 								<img class="d-block w-100 img-thumbnail" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
@@ -305,7 +315,11 @@
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 				
 					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
-						<div class="col-md-12 text-left"><span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
+						<div class="col-md-12 text-left">
+							<div class="col-md-12 text-left">
+								<span>${loopNo.index+1}번 사진 수정 메뉴</span>
+							</div>
+						</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
 								<img class="d-block w-100 img-thumbnail" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">
@@ -347,7 +361,12 @@
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 				
 					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
-						<div class="col-md-12 text-left"><span>${loopNo.index+1}번 사진 수정 메뉴</span></div>
+						<div class="col-md-6 text-left">
+								<span>${loopNo.index+1}번 사진 수정 메뉴</span>
+							</div>
+							<div class="col-md-6 text-right">
+								<input type="button" value="사진 삭제" id="deleteStImg">
+							</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
 								<img class="d-block w-100 img-thumbnail" title="${loopNo.index+1}번 사진" alt="title=${loopNo.index+1}번 사진" src="<c:url value='${storeImg.sf_path}'/>">

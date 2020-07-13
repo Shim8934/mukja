@@ -274,5 +274,23 @@ public class StoreDAO  implements StoreService{
 		return sqlMapper.update("updateFoodImg",map);
 	}
 
+	@Override
+	public int insertMoreFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertMoreFoodMenu",map);
+	}
+
+	@Override
+	public int insertMoreFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertMoreFoodImg",map);
+	}
+
+	@Override
+	public StoreDTO selectNewMenuNo(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("selectNewMenuNo",map);
+	}
+
 	
 }
