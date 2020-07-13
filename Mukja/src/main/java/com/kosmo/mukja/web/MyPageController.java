@@ -382,11 +382,10 @@ public class MyPageController{
 	    System.out.println("수락 거절 속 nowPage"+map.get("nowPage").toString());
 	      
 	    int result = service.er_Accept(map);
-		System.out.println(result==0?"수락 거절 실패":"수락 거절 성공");
+		System.out.println(result==0?"수락 failed":"수락 거절 성공");
 		
 		return "forward:/MyPage.bbs";
 	}//StoreReview
-	
 	
 	//리뷰 삭제 처리]
 	@RequestMapping(value="/deleteMyJjim.bbs")
