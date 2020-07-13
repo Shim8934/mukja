@@ -78,8 +78,6 @@ public class SignController {
 		return "/Member/SignUp.tiles";
 	}
 	
-	
-
 	// 판매자 회원가입 폼으로 이동]
 	@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.GET)
 	public String StoreSignUp(String str) {
@@ -112,14 +110,6 @@ public class SignController {
 			System.out.println(map.get("username"));
 			return signService.idPass(map);
 		}///////////
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	// 회원가입 처리]
 	@RequestMapping(value = "/isSignUp.bbs", method = RequestMethod.POST)
@@ -191,7 +181,7 @@ public class SignController {
 	        	 u_img = uploadDir +"/"+"null";
 		         map.put("u_img", u_img);
 			}	       
-	      }
+	    }
 		signService.signup(map);
 		return "/index.tiles";
 	}///////////
