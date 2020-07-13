@@ -97,7 +97,7 @@
 								style="margin-right: 0px; margin-left: 0px;">
 
 								<c:if test="${empty storetxt}" var="EmptyMS">
-									<div class="mpjjim col-md-12 bd2bc" style="float: none;">
+									<div class="mpjjim item-align-center bd2bc" style="padding: 10px; border-radius: 5%;">
 										<span style="font-weight: bold;">찜한 가게가 없어요.</span>
 									</div>
 								</c:if>
@@ -109,7 +109,8 @@
 												<div class="mpjjim item-align-center bd2bc"
 													style="padding: 10px; border-radius: 5%;">
 													<div style="background-color: white; border-radius: 50%">
-														<a href='<c:url value="/deleteMyJjim.bbs"/>'>
+														<input type="hidden" id="ms_no" value="${myJjim.ms_no}">
+														<a href='<c:url value="/deleteMyJjim.bbs?ms_no=${ms_no}"/>'>
 															<span class="glyphicon glyphicon-heart" style="font-size:20px; color: red; border-radius: 70%; float:right; margin:10px;" ></span>
 														</a>
 													</div>
@@ -128,8 +129,6 @@
 																	style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>
 																<% }count = count + 1; %>
 															</c:if>
-															
-																
 														</c:forEach>
 													</c:if>	
 													
@@ -138,8 +137,7 @@
 														<div class="pt-3 text-center">
 															<p class="mn_name overflow"
 																style="font-size: 14px; font-weight: bold;">
-																<a
-																	href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'
+																<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'
 																	style="text-decoration: none;">
 																	${storetxt.store_name} </a>
 															</p>
@@ -299,7 +297,7 @@
 															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
 															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">						
 															
-															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;">수락</a>	
+															<input type="button" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;" value="수락">	
 														
 															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
 								
@@ -427,7 +425,7 @@
 												</c:if>
 												<c:if test="${myET1.user_id != myET1.er_master}">
 													<div class="col-md-12 pt-3">
-														<input type="button" class="btn btn-danger" value="삭제" >	
+														<input type="button" class="btn btn-danger" value="나가기" >	
 													</div>
 												</c:if>
 											</div>
@@ -442,7 +440,7 @@
 						$(document).ready(
 							function() {
 								$('.owl-carousel').owlCarousel(
-									{items :4,
+									{items :2,
 									loop : true
 								});
 						});
@@ -468,20 +466,56 @@
 	}),
 	
 	$(document).on("click","#etAccept",function(){
-		var rv_no2 = $("#er_no2").val();
+		var er_no = $("#er_no").val();
+		
+		$.ajax({
+			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>",
+		    data: {"er_no":er_no},			    
+	        dataType: 'json',
+	        success : function(data){
+				console.log('성공..?:',data);
+				alert('수락 처리 완료!');
+				window.location = "<c:url value='/MyPage.bbs'/>";
+			},
+			error:function(request,status,error){
+				console.log('error:%s,status:%s',
+						error,status);
+			}
+		});
+		
+		/*
 		var isAccept = function(){
 			if(confirm("같이 먹기를 수락하시겠습니까?"))
-				location.replace("<c:url value='/er_Accept.bbs?er_no="+encodeURI(er_no)+"'/>");	
+				location.replace("<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>");	
 		}
 		isAccept();
+		*/
 	})
+	
 	$(document).on("click","#etReject",function(){
-		var rv_no = $("#er_no").val();
+		var er_no = $("#er_no").val();
+		console.log(er_no)
+			$.ajax({
+				url:"<c:url value='/er_Reject.bbs?er_no="+er_no+"'/>",
+			    data: {"er_no":er_no},			    
+		        dataType: 'json',
+		        success : function(data){
+					console.log('성공..?:',data);
+					alert('거부 처리 완료!');
+					window.location = "<c:url value='/MyPage.bbs'/>";
+				},
+				error:function(request,status,error){
+					console.log('error:%s,status:%s', error, status);
+				}
+			});
+		
+		/*
 		var isReject = function(){
 			if(confirm("같이 먹기를 거절하시겠습니까?"))
-				location.replace("<c:url value='/er_Accept.bbs?er_no="+encodeURI(er_no)+"'/>");	
+				location.replace("<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>");	
 		}
-		isReject();
+		*/
+		//isReject();
 	})
 </script>
 

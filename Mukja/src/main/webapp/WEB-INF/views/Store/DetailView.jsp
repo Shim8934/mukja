@@ -258,15 +258,16 @@
 							</div>
 						</div>
 					</div>
-					<!-- 	<div
-										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-										<div class="block-18">
-											<div class="text">
-												<strong class="number" data-number="750">0</strong> 
-												<span>가게 ♥ 수</span>
-											</div>
-										</div>
-									</div> -->
+					<!-- 	
+						<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+							<div class="block-18">
+								<div class="text">
+									<strong class="number" data-number="750">0</strong> 
+									<span>가게 ♥ 수</span>
+								</div>
+							</div>
+						</div> 
+					-->
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
