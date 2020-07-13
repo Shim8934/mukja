@@ -7,9 +7,10 @@ public interface SignService {
 	int signup(Map map);
 	int storesignup(Map map);
 	int foodmenu(Map map);
+	UsersDTO idPass(Map map);
+	int kakaoidCheck(Map map);
 	int storeIdCheck(Map map);
-	int userIdCheck(Map map);
-	
+	int userIdCheck(Map map);	
 	public FoodMenuDTO getMenuNo(Map map);
 	int insertFoodImg(Map map);
 	int insertStoreImg22(Map map);

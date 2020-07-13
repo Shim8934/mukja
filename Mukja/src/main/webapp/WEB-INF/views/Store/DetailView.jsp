@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-lg-9 ftco-animate"> -->
 
-<!-- INFROMATION -->${IDmeme}
+<!-- INFROMATION -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
 
 	<div class="container" style="width: 1400px;">
@@ -582,10 +582,10 @@
 					<div class="col-md-12">
 						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
 						<div class="col-md-9" style="padding-bottom: 15px;">
-							<select name="menu_no" style="padding:10px; boder-radius:3%;">
-								<option>메뉴 이름</option>
-								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
-									<option value="${foodMenuDto.menu_no}">${foodMenuDto.menu_name}</option>
+							<select id="menu_no" name="menu_no" style="padding:10px; boder-radius:3%;">
+								<option>메뉴 이름 </option>
+								<c:forEach items="${foodMenuList}" var="Menu" varStatus="loop">
+									<option value="${Menu.menu_no}">${Menu.menu_name}</option>
 								</c:forEach>
 							</select>
 						</div>
@@ -614,6 +614,7 @@
 					
 					<div class="col-md-12 mt-4 pb-3" >
 						<div class="form-group col-md-offset-5">
+							<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
 							<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 						</div>
 					</div>
@@ -687,8 +688,11 @@
 	</div>
 	<script>
 	        
+	
+	
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
+	    	var store_id = $("#store_id").val();
 	         $.ajax({
 	        	 type:"POST",
 	        	 url:"<c:url value='/insertSTReview.do'/>",
@@ -697,7 +701,7 @@
 	            success : function(data){
 		              console.log('성공..?:',data);
 		              alert('처리 완료!');
-		              window.location = "<c:url value='/Store/DetailView.do?username="+${username} +"'/>";
+		              window.location = "<c:url value='/Store/DetailView.do?username="+${store_id} +"'/>";
 		          },
 	              error:function(request,status,error){
 	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
@@ -706,4 +710,6 @@
 	        	 
         	});
 	    });
+	    
+	    
     </script>

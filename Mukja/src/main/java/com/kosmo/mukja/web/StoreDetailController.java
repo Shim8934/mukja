@@ -75,14 +75,16 @@ public class StoreDetailController {
 		List<StoreDTO> list = service.getStoreInfo(map);
 
 		// 상세 주소 쪼개기용
+		if(list.size()!=0) {
 		String store_addr = list.get(0).getStore_addr();
-		if(store_addr.contains("/")) {
-			store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
-			String store_addr1 = list.get(0).getStore_addr().substring(list.get(0).getStore_addr().lastIndexOf("/")+1);
-			list.get(0).setStore_addr(store_addr);
-			list.get(0).setStore_addr1(store_addr1);
-		} 		// 상세 주소 쪼개기용 끝
 		
+			if(store_addr.contains("/")) {
+				store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
+				String store_addr1 = list.get(0).getStore_addr().substring(list.get(0).getStore_addr().lastIndexOf("/")+1);
+				list.get(0).setStore_addr(store_addr);
+				list.get(0).setStore_addr1(store_addr1);
+			} 		// 상세 주소 쪼개기용 끝
+		};
 		
 		model.addAttribute("list",list);
 		
@@ -219,7 +221,8 @@ public class StoreDetailController {
 		System.out.println("store_id : " + map.get("store_id"));
 		System.out.println("menu_no : "+ map.get("menu_no"));
 
-		int insertrv = service.insertReview(map);		
+		int insertrv = service.insertReview(map);	
+		System.out.println("rv_no: " + map.get("rv_no"));		
 		//인서트		
 		System.out.println(insertrv==0?"실패":"리뷰 쓰기 성공!!!!");
 		return json.toJSONString();
@@ -290,22 +293,14 @@ public class StoreDetailController {
 		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
 		
 		
-		
-//		if(.rf_path != null) {
 		int deleteRVpic = service.deleteOneReviewPic(map);
 		System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
-//			}
-		
-//		if(  != null) {
 		int deleteRVth = service.deleteOneReviewThumb(map);
 		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
-//		}
-		
-		
 		int deleteRV = service.deleteOneReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
 		
-		return "forward:/Store/DetailView.do"+store_id+"";
+		return "redirect:/Store/DetailView.do?username="+store_id+"";
 		}///////////
 		
 		

@@ -43,8 +43,9 @@ public class MyPageController{
 	private int pageSize;
 	@Value("${BLOCK_PAGE_MP}")
 	private int blockPage;
-	
+
 	private String user_id;
+
 	
 	@RequestMapping(value = "/MyPage.bbs")
 	public String MyPage(
@@ -54,8 +55,6 @@ public class MyPageController{
 							HttpServletRequest req,
 							Authentication auth) {
 
-		
-		
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
@@ -167,7 +166,7 @@ public class MyPageController{
 		
 		
 		
-		/*리뷰*/
+		/*신청/거절*/
 		//페이징을 위한 로직 시작]
 		//전체 레코드수	
 		int applCount = service.getMyReviewTotal(map);
@@ -239,8 +238,11 @@ public class MyPageController{
 			System.out.println("myET1 ertime : " + myET1.get(i).getEr_time());
 		}					
 		model.addAttribute("myET1",myET1);
+		
 		List<StoreDTO> menus = service.getMenu(map);
 		model.addAttribute("menus",menus);
+		
+		System.out.println("아우뜨");
 		
 		return "Member/MyPage.tiles";
 	}
@@ -338,61 +340,65 @@ public class MyPageController{
 		
 		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");								
 		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
-		
-		
-//		if(.rf_path != null) {
-			int deleteRVpic = service.deleteMyReviewPic(map);
-			System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
-//		}
-//		if(  != null) {
-			int deleteRVth = service.deleteMyReviewThumb(map);
-			System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
-//		}
-		
-		
+		int deleteRVpic = service.deleteMyReviewPic(map);
+		System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
+		int deleteRVth = service.deleteMyReviewThumb(map);
+		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
 		int deleteRV = service.deleteMyReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
 		
 		return "forward:/MyPage.bbs";
 	}///////////
 	
-	
+	@ResponseBody
+	@RequestMapping(value = "/er_Accept.bbs")
+	public String er_Accept(Authentication auth,@RequestParam Map map) {
+		System.out.println("수락 승인 IN !!!!!!!!!!!!!");
 
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		
+		System.out.println("user_id : "+user_id);
+		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
+		System.out.println("수락 승인 속 er_no"+map.get("er_no").toString());
+		System.out.println("수락 승인 속 nowPage"+map.get("nowPage").toString());
+      
+      int result = service.er_Accept(map);
+		System.out.println(result==0?"수락 승인 실패":"수락 승인 성공");
+
+      
+      return "forward:/MyPage.bbs";
+   }
+	
 	
 	
 	@ResponseBody
-	@RequestMapping(value = "/User/er_Reject.do")
+	@RequestMapping(value = "/er_Reject.bbs")
 	public String er_Reject(@RequestParam Map map) {
+		System.out.println("수락 거절 IN !!!!!!!!!!!!!");
+	    System.out.println("수락 거절 속 user_id"+map.get("user_id").toString());
+	    System.out.println("수락 거절 속 er_no"+map.get("er_no").toString());
+	    System.out.println("수락 거절 속 nowPage"+map.get("nowPage").toString());
+	      
+	    int result = service.er_Accept(map);
+		System.out.println(result==0?"수락 거절 실패":"수락 거절 성공");
 		
-		Iterator<String> iter = map.keySet().iterator();
-		while(iter.hasNext()){
-			String key = iter.next();
-			String val = map.get(key).toString();
-			System.out.println(String.format("키 : %s 값 : %s", key,val));
-			}
-		map.put("erjoin_num", map.get("erjoin_num").toString().replace("\"",""));
-		
-		int result =  service.er_Reject(map);
-		
-	
-		JSONObject jsonObject = new  JSONObject();
-		jsonObject.put("result_Reject", result);
-	
-		return jsonObject.toJSONString();
+		return "forward:/MyPage.bbs";
 	}//StoreReview
 	
 	
-	@ResponseBody
-	@RequestMapping(value = "/User/er_Accept.do", method = RequestMethod.GET)
-	public String er_Accept(@RequestParam Map map) {
-      System.out.println(map.get("user_id").toString());
-      System.out.println(map.get("er_no").toString());
-      System.out.println(map.get("nowPage").toString());
-      int result = service.er_Accept(map);
-
-      JSONObject json = new JSONObject();
-      json.put("nowPage", map.get("nowPage").toString());
-      json.put("result",result==1?"성공":"실패");
-      return json.toJSONString();
-   }
+	//리뷰 삭제 처리]
+	@RequestMapping(value="/deleteMyJjim.bbs")
+	public String deleteMyJjim(@RequestParam Map map) {		
+		
+		System.out.println("찜 삭제 IN !!!!!!!!!!!!!");								
+		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
+		int deleteRVth = service.deleteMyReviewThumb(map);
+		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
+		int deleteJjim = service.deleteMyJjim(map);
+		System.out.println(deleteJjim==0?"리뷰 사진 실패":"리뷰 사진 성공");
+		return "forward:/MyPage.bbs";
+	}///////////
+	
 }

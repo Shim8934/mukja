@@ -19,8 +19,6 @@ public class UsersDTO {
 
 
 	public UsersDTO() {
-		super();
-	
 	}
 	
 	public UsersDTO(String username, String password, String u_nick, Date u_regidate, String u_img, String u_age,

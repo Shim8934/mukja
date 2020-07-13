@@ -25,8 +25,9 @@
 	<select id="getJjimImgs" parameterType="java.util.Map" resultType="StoreIMGDTO">    	 
 		select * from store_file 
 	</select>
-	
-	
+	<delete id="deleteMyJjim" parameterType="java.util.Map" >
+		 select * from my_storelist where user_email=#{user_id} and ms_no=#{ms_no}
+	</delete>
 	
 	<!-- 리뷰 -->
 	<select id="getMyReview" parameterType="java.util.Map" resultType="MyPageDTO">
@@ -78,10 +79,11 @@
 		where erjoin_role= 0) em join eattogether_room er on em.er_no = er.er_no order by er_postdate desc)E)where R between #{apstart} AND #{apend}
 	</select>
 	<select id="getETrecv1" parameterType="java.util.Map" resultType="MyPageDTO">    	 
-		SELECT er.er_no, er.username, er_time, er_tend, er_max, em.username user_id, em.erjoin_role , er_master FROM 
-		(SELECT * FROM 
-		(SELECT er_no,username,erjoin_role  FROM er_members where username= #{user_id}) 
-		where erjoin_role= 1) em join eattogether_room er on em.er_no = er.er_no order by er_postdate desc
+		SELECT sf.sf_path,er.er_no, er.username, er_time, er_tend, er_max, em.username user_id, em.erjoin_role , er_master FROM 
+		(SELECT * FROM (SELECT er_no,username,erjoin_role  FROM er_members where username= #{user_id}) where erjoin_role= 1) em 
+		join eattogether_room er on em.er_no = er.er_no
+		join (select * from store_file WHERE username=#{user_id} and rownum=1) sf on sf.username = er.username
+		order by er_postdate desc
 	</select>
 	<select id="getNicks" parameterType="java.util.Map" resultType="MyPageDTO">
 		select em.er_no, u.username, u.u_nick, em.erjoin_role from er_members em join users u on u.username = em.username where em.erjoin_role=1
@@ -91,12 +93,13 @@
 	</select>
 	
 	
+	
 	<update id="er_Accept" parameterType="java.util.Map">
-		update er_members set erjoin_role =1 where er_no=#{er_no}
+		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{user_id}
 	</update>	
-	<update id="er_Reject" parameterType="java.util.Map">
-		update er_members set erjoin_role =-1 where er_no=#{er_no}
-	</update>
+	<delete id="er_Reject" parameterType="java.util.Map">
+		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{user_id}
+	</delete>
 	
 	
 	 

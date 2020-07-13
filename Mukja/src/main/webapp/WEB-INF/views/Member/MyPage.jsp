@@ -1,7 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-
 <section class="hero-wrap hero-wrap-2 align-items-center" style="background-image: url('<c:url value='/resources/bootstrap/images/bg_4.jpg'/>');" data-stellar-background-ratio="0.5">
    <div class="overlay"></div>
    <div class="container">
@@ -109,7 +107,12 @@
 										<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
 											<c:if test="${myJjim.store_name == storetxt.username}">
 												<div class="mpjjim item-align-center bd2bc"
-													style="padding: 10px; border-radius: 5%;"">
+													style="padding: 10px; border-radius: 5%;">
+													<div style="background-color: white; border-radius: 50%">
+														<a href='<c:url value="/deleteMyJjim.bbs"/>'>
+															<span class="glyphicon glyphicon-heart" style="font-size:20px; color: red; border-radius: 70%; float:right; margin:10px;" ></span>
+														</a>
+													</div>
 													<c:if test="${empty storeimgs}" var="EmptySP">
 														<div class="img">
 															<span>이미지 준비 중입니다.</span>
@@ -125,8 +128,11 @@
 																	style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>
 																<% }count = count + 1; %>
 															</c:if>
+															
+																
 														</c:forEach>
-													</c:if>
+													</c:if>	
+													
 													<div class="text overflow"
 														style="padding-top: 0rem; display: inline-block;">
 														<div class="pt-3 text-center">
@@ -187,7 +193,7 @@
 										<th style="width: 8%">별점</th>
 										<th style="width: 35%">내용</th>
 										<th style="width: 12%">사진</th>
-											<th style="width: 15%">수정,삭제</th>
+										<th style="width: 15%">수정,삭제</th>
 									</tr>
 									<c:if test="${empty rvcnt}" var="EmptyRVC">
 										<tr>
@@ -290,14 +296,16 @@
 												<c:if test="${ET0.username == storetxt.username}">
 													<tr>
 														<td>
-															<input type="hidden" name="er_no" value="${ET0.er_no}" id="er_no">
-															<button type="button" class="btn mr-2 mb-2 btn-primary" id="erjoin_role" 
-															value="${ET0.erjoin_role}" data-toggle="modal" data-target="#etAccept">
-																수락
-															</button>
+															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
+															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">							
+															
+															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;">수락</a>	
+														
+															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
+								
 														</td>
-														<td style="font-weight: bold;"><a
-															href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
+														<td style="font-weight: bold;">
+														<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
 														</td>
 														<td>
 															<div style="padding-bottom: 0px;">
@@ -342,8 +350,7 @@
 							</div>
 						</div>
 					</div>
-					
-					
+									
 					<!-- ET 신청 끝 -->
 
 					<!-- ET 기록 보기  -->
@@ -365,26 +372,15 @@
 
 											<div class="mpjjim bd2bc pb-3 pt-3 col-md-11" style="float: none; background: lightblue; display: inline-block;">
 												<div class="img col-md-6" style=" display: inline-block; padding:5px; margin:0px; ">
+													<c:if test="${empty myET1.sf_path}">
+														<div class="img rv_list_img col-md-12" style="border: 1px solid red; float: left;">
+															<span>no Image</span>
+														</div>
+													</c:if>
 
-													<% int count = 0; %>
-													<c:forEach items="${storeimgs}" var="storeimgs"
-														varStatus="loop">
-
-														<c:if test="${storetxt.username == storeimgs.username}">
-
-															<c:if test="${empty storeimgs}">
-																<div class="img rv_list_img col-md-12" style="border: 1px solid red; float: left;">
-																	<span>no Image</span>
-																</div>
-															</c:if>
-
-															<c:if test="${not empty storeimgs}">
-																<% if(count == 0) {%>
-																<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"> </div>
-																<% }count = count + 1; %>
-															</c:if>
-														</c:if>
-													</c:forEach>
+													<c:if test="${not empty myET1.sf_path}">
+														<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${myET1.sf_path}"/>);"> </div>											
+													</c:if>
 												</div>
 												<div class="text col-md-6" style="display: inline-block; padding:5px; margin:0px; vertical-align: top; ">
 													<div>
@@ -420,12 +416,12 @@
 														</c:forTokens>
 													</div>
 												</div>
-												<c:if test="${myET1.user_id == myET1.er_master}" var="deleteHist">
+												<c:if test="${myET1.user_id == myET1.er_master}">
 													<div class="col-md-12 pt-3">
 														<input type="button" class="btn btn-danger" value="삭제" >	
 													</div>
 												</c:if>
-												<c:if test="${not deleteHist}">
+												<c:if test="${myET1.user_id != myET1.er_master}">
 													<div class="col-md-12 pt-3">
 														<input type="button" class="btn btn-danger" value="삭제" >	
 													</div>
@@ -456,27 +452,6 @@
 	</div>
 </section>
 
-<div class="modal fade bd-example-modal-lg" id="etAccept" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle"><i class="fa fa-exclamation icon-gradient bg-deep-blue"></i>삭제 알림</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-            	<P>${ET0.er_no}</P>
-				<p>해당 같이먹기를 수락하시겠습니까?</p>
-			</div>
-            <div class="modal-footer">
-               <a class="btn btn-primary" style="cursor:pointer;" id="signCheck" href="javascript:click()">확인</a>
-       		   <button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
-            </div>
-        </div>
-    </div>
-</div>
-
 <script>
 $(document).on("click","#forRvdel",function(){
 	var rv_no = $("#rv_no").val();
@@ -486,7 +461,32 @@ $(document).on("click","#forRvdel",function(){
 	}
 	
 	isDelete();
+}),
+
+$(document).on("click","#etAccept",function(){
+	var rv_no = $("#rv_no").val();
+	var user_id = $("#user_id").val();
+	var isAccept = function(){
+		if(confirm("같이 먹기를 수락하시겠습니까?"))
+			location.replace("<c:url value='/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
+	};
+	
+	isAccept();
+}),
+$(document).on("click","#etReject",function(){
+	var rv_no = $("#rv_no").val();
+	var user_id = $("#user_id").val();
+	var isReject = function(){
+		if(confirm("같이 먹기를 거절하시겠습니까?"))
+			location.replace("<c:url value='/User/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
+	};
+	
+	isReject();
 })
+
+
+
+
 
 
 	

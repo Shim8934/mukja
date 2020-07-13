@@ -4,10 +4,52 @@
 <!-- ※ ibatis와는 다르게 id값에 .(dot)을 사용 못한다 -->
 <mapper namespace="mybatis.Android">
 
-	
 	<select id="anIsLogin" parameterType="androidDTO" resultType="androidDTO">
 		SELECT * FROM users WHERE username=#{username} and password=#{password}
 	</select>
+
+	<select id="createEroom" parameterType="java.util.Map" resultType="int">
+		INSERT INTO eattogether_room (er_no,ER_MASTER,username,er_title,er_content,er_time,er_tend,er_max,er_postdate) 
+        SELECT SEQ_ERR.nextval,#{username},#{store_id},#{ERtitle},#{ERcontent},#{ERtime},#{ER_TEND},#{ERmax},SYSDATE FROM DUAL
+        WHERE NOT EXISTS 
+        (SELECT * FROM eattogether_room WHERE USERNAME = #{store_id} AND ER_MASTER=#{username})
+	</select>
+	
+	<select id="getRoomNo" parameterType="java.util.Map" resultType="int">
+		 select er_no from eattogether_room where er_master = #{username} and username = #{store_id}
+	</select>
+	
+	<select id="getRoomMaster" parameterType="java.util.Map" resultType="java.lang.String">
+		 select ER_MASTER from eattogether_room where er_no = #{er_no}
+	</select>
+	
+	<insert id="creatERC" parameterType="java.util.Map">
+		INSERT INTO er_chat(erc_no,er_no,erc_content) 
+        SELECT SEQ_ERC.nextval,#{er_no},'어서오세요 같이먹자 채팅방입니다.즐거운 시간되세요!' FROM DUAL
+        WHERE not EXISTS 
+        (SELECT * FROM er_chat ec join eattogether_room er on ec.er_no=er.er_no
+        WHERE USERNAME = #{store_id} AND ER_MASTER=#{er_master})
+	</insert>
+	
+	<select id="getERoomCno" parameterType="java.util.Map" resultType="int">
+		 select erc_no from er_chat where er_no = #{er_no}
+	</select>
+	
+	 <insert id="joinERoom" parameterType="java.util.Map">
+		   INSERT INTO er_members (erjoin_num,er_no,username,erjoin_date,erjoin_role,erc_no) 
+            SELECT SEQ_ERMEMBERS.nextval,#{er_no},#{username},sysdate,0,#{erc_no} FROM DUAL
+            WHERE NOT EXISTS 
+            (SELECT * FROM er_members em join eattogether_room er on er.er_no=em.er_no            
+            WHERE em.USERNAME = #{username} and er.er_no=#{er_no})
+	</insert> 
+	
+	<select id="selectrool" parameterType="java.util.Map" resultType="int">
+		select erjoin_role from er_members where username=#{username} and er_no=#{er_no}
+	</select>
+	
+	<update id="setupER_role" parameterType="java.util.Map" >
+		update er_members set ERJOIN_ROLE = 1 where username = #{username}
+	</update>
 	
 	<select id="getAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
 		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where store_name = #{username} ORDER by  rv_postdate desc
@@ -100,6 +142,32 @@
 		where erm.username = #{user_id} and erm.erjoin_role=1
 	</select>
 	
+	<select id="myERoomCList" parameterType="java.util.Map" resultType="ercDTO">
+		 select em.er_no, em.username,em.erc_no,
+          er.er_master,er.username as store_id,
+          er.er_title,er.er_content,er.er_time,er.er_tend,
+          er.er_max
+          from er_members em join eattogether_room er 
+          on em.er_no = er.er_no 
+          where em.username=#{username} and em.erjoin_role=1 ORDER BY erc_no DESC
+	</select>
+	
+	<select id="getMasterNick" parameterType="java.util.Map" resultType="java.lang.String">
+		select u_nick from users where username = #{er_master}
+	</select>
+	<select id="getMasterimg" parameterType="java.util.Map" resultType="java.lang.String">
+		select u_img from users where username = #{er_master}
+	</select>
+	
+	
+	<select id="getStoreInfos" parameterType="java.util.Map" resultType="storeDTO">
+		select * from stores where username = #{store_id}
+	</select>
+	
+	<select id="eRoomold" parameterType="java.util.Map" resultType="java.lang.String">
+		select ERC_CONTENT from er_chat where erc_no = #{erc_no} and er_no = #{er_no}
+	</select>
+
 	<delete id="androidDeleteERMembers" parameterType="java.util.Map">
 		delete er_members where er_no=#{er_no} and username=#{user_id}
 	</delete>
@@ -113,5 +181,4 @@
 	<delete id="boomER" parameterType="java.util.Map">
 		delete eattogether_room where er_no=#{er_no}
 	</delete>
-	
 </mapper>
