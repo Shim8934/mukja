@@ -146,7 +146,6 @@ public class StoreMypageController {
 	}
 	
 	
-	// 가게 수정 // 왜 내가 ajax처리함? ajax 의미없게 함
 	@ResponseBody
 	@RequestMapping("/StoreMypage/editStoreInfo.do")
 	public String editStoreInfo(@RequestParam Map map, Model model, Authentication authentication) {
@@ -440,7 +439,12 @@ public class StoreMypageController {
 		
 		
 		for(int i=0; i<sizeFlag;i++) {
-			String editMenu_tend = mr.getParameter("menu_tend"+i).toString();
+			String editMenu_tend;
+			if(mr.getParameter("menu_tend"+i)==null) {
+				editMenu_tend = mr.getParameter("orimenu_tend"+i).toString();
+			}else {
+				editMenu_tend = mr.getParameter("menu_tend"+i).toString();
+			}
 			String editFm_path;
 			if(mr.getFilesystemName("fm_path"+i)==null) {
 				System.out.println("뭐로 찍힘? = "+mr.getFilesystemName("fm_path"+i));
