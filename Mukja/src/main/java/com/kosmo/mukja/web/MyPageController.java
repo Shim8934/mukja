@@ -376,7 +376,7 @@ public class MyPageController{
 	
 	@ResponseBody
 	@RequestMapping(value = "/er_Accept.bbs")
-	public String er_Accept(Authentication auth,@RequestParam Map map, HttpServletRequest req) {
+	public String er_Accept(Authentication auth, @RequestParam Map map, HttpServletRequest req) {
 		System.out.println("수락 승인 IN !!!!!!!!!!!!!");
 
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
@@ -385,8 +385,6 @@ public class MyPageController{
 
 		er_no = req.getParameter("er_no");
 		System.out.println("er_no 찍음 = "+er_no);
-		//System.out.println("er_no"+map.get("er_no"));
-		//er_no = map.get("er_no").toString();
 		   
 		map.put("er_no",er_no);
 		JSONObject json = new JSONObject();
@@ -395,7 +393,7 @@ public class MyPageController{
 		System.out.println("수락 승인 속 er_no : "+map.get("er_no"));
 //		System.out.println("수락 승인 속 nowPage : "+map.get("nowPage"));
       
-      int result = service.er_Accept(map);
+		int result = service.er_Accept(map);
 		System.out.println(result==0?"수락 승인 실패":"수락 승인 성공");
 		json.put("result", result);
 		// String temp = "<script>location.replace(\"<c:url value='/MyPage.bbs?username="+user_id+"'/>\");</script>";
@@ -407,23 +405,25 @@ public class MyPageController{
 	
 	@ResponseBody
 	@RequestMapping(value = "/er_Reject.bbs")
-	public String er_Reject(@RequestParam Map map, HttpServletRequest req) {
-		System.out.println("수락 거절 IN !!!!!!!!!!!!!");
+	public String er_Reject(Authentication auth,@RequestParam Map map, HttpServletRequest req) {
+		System.out.println("수락 거절 IN !!!!!!!!!!!!!");		
+
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
 		
 		er_no = req.getParameter("er_no");
 		System.out.println("er_no 찍음 = "+er_no);
-	
+		
 		map.put("er_no",er_no);
 		JSONObject json = new JSONObject();
 		System.out.println("user_id : "+user_id);
 		System.out.println("수락 failed 속 user_id : "+map.get("user_id"));
 		System.out.println("수락 failed 속 er_no : "+map.get("er_no"));
-		
-		
-	    int result = service.er_Reject(map);
+	    
+		int result = service.er_Reject(map);
 		System.out.println(result==0?"수락 failed":"수락 거절 성공");
 		json.put("result", result);
-		
 		return json.toJSONString();
 	}//StoreReview
 	
@@ -434,6 +434,22 @@ public class MyPageController{
 		System.out.println("ms_no : "+map.get("ms_no"));
 		int deleteJjim = service.deleteMyJjim(map);
 		System.out.println(deleteJjim==0?"찜 삭제 실패":"찜 삭제 성공");
+		return "forward:/MyPage.bbs";
+	}///////////
+	//ET 삭제 처리]
+	@RequestMapping(value="/deleteMyETHist.bbs")
+	public String deleteMyETHist(Authentication auth,@RequestParam Map map) {
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);	
+		System.out.println("!!!!!!!!!!!!!!!!!ET 삭제 IN !!!!!!!!!!!!!");								
+		System.out.println("er_no : "+map.get("er_no"));
+		int deleteEMC = service.deleteMyERC(map);
+		System.out.println(deleteEMC==0?"emc 삭제 실패":"emc 삭제 성공");
+		int deleteEM = service.deleteMyEM(map);
+		System.out.println(deleteEM==0?"em 삭제 실패":"em 삭제 성공");
+		int deleteER = service.deleteMyEM(map);
+		System.out.println(deleteER==0?"er삭제 실패":"er 삭제 성공");
 		return "forward:/MyPage.bbs";
 	}///////////
 	

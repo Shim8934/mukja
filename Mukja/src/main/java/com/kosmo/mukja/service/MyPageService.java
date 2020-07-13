@@ -43,10 +43,14 @@ public interface MyPageService {
 
 	public List<MyPageDTO> getNicks(Map map);	
 	public List<MyPageDTO> getInCount(Map map);
+	
 
 	
 	int er_Accept(Map map);
 	int er_Reject(Map map);
+	int deleteMyEM(Map map);
+	int deleteMyER(Map map);
+	int deleteMyERC(Map map);
 
 	//전체 레코드 수]
 	int getMyJjimTotal(Map map);

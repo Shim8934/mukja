@@ -150,6 +150,19 @@ public class MyPageDAO implements MyPageService {
 		return sqlMapper.update("updateMyReviewPic",map);
 	}
 
+	@Override
+	public int deleteMyEM(Map map) {
+		return sqlMapper.delete("deleteMyEM",map);
+	}
+	@Override
+	public int deleteMyER(Map map) {
+		return sqlMapper.delete("deleteMyER",map);
+	}
+	@Override
+	public int deleteMyERC(Map map) {
+		return sqlMapper.delete("deleteMyERC",map);
+	}
+
 	
 	
 

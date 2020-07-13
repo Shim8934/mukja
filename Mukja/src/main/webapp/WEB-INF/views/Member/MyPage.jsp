@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <section class="hero-wrap hero-wrap-2 align-items-center" style="background-image: url('<c:url value='/resources/bootstrap/images/bg_4.jpg'/>');" data-stellar-background-ratio="0.5">
    <div class="overlay"></div>
    <div class="container">
@@ -169,7 +170,8 @@
 									function() {
 										$('.owl-carousel').owlCarousel(
 											{items : 2,
-											loop : true
+											loop : true,
+											itemsScaleUp : false
 										});
 								});
 							</script>
@@ -186,7 +188,7 @@
 								<table
 									class="mplist table table-bordered table-hover text-center">
 									<tr>
-										<th style="width: 13%">가게이름</th>
+										<th style="width: 13%">가게이름/메뉴</th>
 										<th style="width: 12%">날짜</th>
 										<th style="width: 8%">별점</th>
 										<th style="width: 35%">내용</th>
@@ -210,7 +212,11 @@
 															<br/>
 																<c:forEach items="${menus}" var="menus" varStatus="loop">
 																	<c:if test="${rvcnt.menu_no == menus.menu_no}">
-																		${menus.menu_name}
+																		<div class="menu_name">${menus.menu_name}
+																			<div class="price">
+																				<p>(${menus.menu_price})</p>
+																			</div>
+																		</div>
 																	</c:if>											
 																</c:forEach>
 														</td>
@@ -256,6 +262,7 @@
 						</div>
 					</div>
 				</div>
+				
 				
 				<!-- 삭제 알람 띄우기 -->				
 
@@ -323,7 +330,7 @@
 															<c:forEach items="${Nicks}" var="Nick" varStatus="loop">
 																<c:if test="${ET0.er_no == Nick.er_no}">
 																	<span class="overflow"> 
-																	<a href='<c:url value="/Member/MyPage.do?username=${Nick.username}"/>'>
+																	<a href='<c:url value="/MyPage.bbs?user_id=${Nick.username}"/>'>
 																		${Nick.u_nick} 
 																	</a>
 																	</span>
@@ -420,12 +427,13 @@
 												</div>
 												<c:if test="${myET1.user_id == myET1.er_master}">
 													<div class="col-md-12 pt-3">
-														<input type="button" class="btn btn-danger" value="삭제" >	
+														<input type="hidden" value="${myET1.er_no}" id="er_no2">	
+														<input type="button" class="btn btn-danger" value="삭제" id="deleteET">	
 													</div>
 												</c:if>
 												<c:if test="${myET1.user_id != myET1.er_master}">
 													<div class="col-md-12 pt-3">
-														<input type="button" class="btn btn-danger" value="나가기" >	
+														<input type="button" class="btn btn-danger" value="나가기" id="etReject">	
 													</div>
 												</c:if>
 											</div>
@@ -439,9 +447,14 @@
 						<script>
 						$(document).ready(
 							function() {
-								$('.owl-carousel').owlCarousel(
-									{items :2,
-									loop : true
+								$('.owl-carousel').owlCarousel({
+									itemsScaleUp:false,
+									autoPlay:4,
+									stopOnHover:false,
+									navigation:false,
+									navigationText : ["prev","next"],
+									items :4,
+									loop : true,
 								});
 						});
 					</script>
@@ -464,6 +477,15 @@
 		
 		isDelete();
 	}),
+	$(document).on("click","#deleteET",function(){
+		var er_no = $("#er_no2").val();
+		var isDelete = function(){
+			if(confirm("이 같이먹자 방을 삭제 하시겠습니까?"))
+				location.replace("<c:url value='/deleteMyETHist.bbs?er_no="+er_no+"'/>");	
+		}
+		
+		isDelete();
+	}),
 	
 	$(document).on("click","#etAccept",function(){
 		var er_no = $("#er_no").val();
@@ -478,8 +500,7 @@
 				window.location = "<c:url value='/MyPage.bbs'/>";
 			},
 			error:function(request,status,error){
-				console.log('error:%s,status:%s',
-						error,status);
+				console.log('error:%s,status:%s', error,status);
 			}
 		});
 		

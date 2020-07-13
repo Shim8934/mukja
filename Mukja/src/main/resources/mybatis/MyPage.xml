@@ -56,7 +56,7 @@
 		SELECT * FROM review_file WHERE rv_no=#{rv_no}
 	</select>	
 	<select id="getMenu" parameterType="java.util.Map" resultType="StoreDTO">
-		select menu_no, menu_name, username from foodmenu
+		select menu_no, menu_name, username,menu_price from foodmenu
 	</select>
 	
 	<update id="updateMyReview" parameterType="java.util.Map">
@@ -103,8 +103,17 @@
 	<update id="er_Accept" parameterType="java.util.Map">
 		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{user_id}
 	</update>	
-	<delete id="er_Reject" parameterType="java.util.Map">
+	<update id="er_Reject" parameterType="java.util.Map">
 		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{user_id}
+	</update>
+	<delete id="deleteMyERC" parameterType="java.util.Map">
+		DELETE FROM er_members where er_no=#{er_no} and username= #{user_id}
+	</delete>
+	<delete id="deleteMyEM" parameterType="java.util.Map">
+		DELETE FROM er_members where er_no=#{er_no}
+	</delete>
+	<delete id="deleteMyER" parameterType="java.util.Map">
+		DELETE FROM er_members where er_no=#{er_no}
 	</delete>
 	
 	

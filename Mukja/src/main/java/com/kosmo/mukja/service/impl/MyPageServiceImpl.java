@@ -151,6 +151,21 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.updateMyReviewPic(map);
 	}
 
+	@Override
+	public int deleteMyEM(Map map) {
+		return dao.deleteMyEM(map);
+	}
+	@Override
+	public int deleteMyER(Map map) {
+		return dao.deleteMyER(map);
+	}
+
+	@Override
+	public int deleteMyERC(Map map) {
+		// TODO Auto-generated method stub
+		return dao.deleteMyERC(map);
+	}
+
 
 	
 	
