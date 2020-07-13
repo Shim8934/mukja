@@ -610,39 +610,55 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	
 	
-	@ResponseBody
-	@RequestMapping(value = "/interLatLng.do",produces = "application/json; charset=utf8")
-	public String interLatLng(@RequestParam Map map,Principal p) {
-		System.out.println("-------------------관심지역 돌입------------------------");
-		//키값확인 디버그코드
-		Iterator<String> iter = map.keySet().iterator();
-		while(iter.hasNext()){
-			String key = iter.next();
-			String val = map.get(key).toString();
-			System.out.println(String.format("키 : %s 값 : %s", key,val));
-		}
-		//키값확인 디버그코드 끝
-		String user_id="";
-		if(p!=null) {
-			user_id= p.getName();
-			map.put("user_id", user_id);
-			System.out.println("interLatLng user_id:"+user_id);
-			UsersDTO dto= service.getUserInfo(map);
-			String u_lat = dto.getU_lat();
-			String u_lng = dto.getU_lng();
-			JSONObject jObject = new JSONObject();
-			jObject.put("u_lat", u_lat);
-			jObject.put("u_lng", u_lng);			
-			return jObject.toJSONString();
-			 
-		}else {
-			
-			JSONObject jObject = new JSONObject();
-			jObject.put("u_lat", "37.498825");
-			jObject.put("u_lng", "126.722265");			
-			return jObject.toJSONString();
-		}
-	
-	}//interLatLng
+	   @ResponseBody
+	   @RequestMapping(value = "/interLatLng.do",produces = "application/json; charset=utf8")
+	   public String interLatLng(@RequestParam Map map,Principal p,HttpSession session) {
+	      System.out.println("-------------------관심지역 돌입------------------------");
+	      //키값확인 디버그코드
+	      Iterator<String> iter = map.keySet().iterator();
+	      while(iter.hasNext()){
+	         String key = iter.next();
+	         String val = map.get(key).toString();
+	         System.out.println(String.format("키 : %s 값 : %s", key,val));
+	      }
+	      //키값확인 디버그코드 끝
+	      
+	      System.out.println("isStore"+session.getAttribute("isStore"));
+	      System.out.println("isAdmin"+session.getAttribute("isAdmin"));
+	      if(session.getAttribute("isStore")!=null) {
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", "37.498825");
+	         jObject.put("u_lng", "126.722265");         
+	         return jObject.toJSONString();
+	      }else if(session.getAttribute("isAdmin")!=null) {
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", "37.498825");
+	         jObject.put("u_lng", "126.722265");         
+	         return jObject.toJSONString();
+	      }
+	      
+	     
+	      String user_id="";
+	      if(p!=null) {
+	         user_id= p.getName();
+	         map.put("user_id", user_id);
+	         System.out.println("interLatLng user_id:"+user_id);
+	         UsersDTO dto= service.getUserInfo(map);
+	         String u_lat = dto.getU_lat();
+	         String u_lng = dto.getU_lng();
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", u_lat);
+	         jObject.put("u_lng", u_lng);         
+	         return jObject.toJSONString();
+	          
+	      }else {
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", "37.498825");
+	         jObject.put("u_lng", "126.722265");         
+	         return jObject.toJSONString();
+	         
+	      }
+	   
+	   }//interLatLng
 	
 }
