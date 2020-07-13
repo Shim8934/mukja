@@ -15,6 +15,10 @@ public class MyPageDTO {
 	
 
 
+	
+	
+	
+
 	//찜스토어
 	private int er_no;
 	private String er_master;
