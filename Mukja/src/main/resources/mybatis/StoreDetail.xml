@@ -80,9 +80,9 @@
 		update fm_file set fm_path = #{editFm_path} where menu_no=#{editMenu_no}
 	</update>
 	<insert id="insertMoreFoodMenu" parameterType="java.util.Map">
-		insert into foodmenu values(seq_foodmenu.nextval,#{menu_name},#{menu_tend},#{menu_info},#{menu_regitdate},#{username},#{menu_price})
+		insert into foodmenu values(seq_foodmenu.nextval,#{menu_name},#{menu_tend},#{menu_info},sysdate,#{username},#{menu_price})
 	</insert>
-	<select id="" parameterType="java.util.Map" resultType="storeDTO">
+	<select id="selectNewMenuNo" parameterType="java.util.Map" resultType="storeDTO">
 		select menu_no from foodmenu where menu_name = #{menu_name} and username = #{username}
 	</select>
 	<insert id="insertMoreFoodImg" parameterType="java.util.Map">

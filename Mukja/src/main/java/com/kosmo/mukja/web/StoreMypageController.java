@@ -324,8 +324,7 @@ public class StoreMypageController {
 				}// for문
 		}// 처음 if
 		else {
-			// 기존 가게 이미지가 1~2개인 경우
-			
+				// 기존 가게 이미지가 1~2개인 경우
 				if(mr.getParameter("flag1")==null) {
 				// 기존 가게 이미지가 2개있는 경우	
 					for(int i=0;i<2;i++) {
@@ -334,16 +333,16 @@ public class StoreMypageController {
 						oriSf_path = mr.getParameter("oriImg"+i);
 							if(sf_path != null) {
 							// if 안에 들어오면 올린 이미지가 존재
-									map.put("sf_no", oriSf_no);
-									System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
-									sf_path = uploadDir+"/"+sf_path;
-									map.put("sf_path",sf_path);
-									result = service.updateStoreImg(map);
-									if(result==1) {
-										System.out.println(" 수정하고 파일 삭제 2");
-										FileUtility.deleteFile(req, uploadDir, oriSf_path);
-									}
-									System.out.println(result==1?"수정했음":"수정 오류남 ");
+								map.put("sf_no", oriSf_no);
+								System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
+								sf_path = uploadDir+"/"+sf_path;
+								map.put("sf_path",sf_path);
+								result = service.updateStoreImg(map);
+								if(result==1) {
+									System.out.println(" 수정하고 파일 삭제 2");
+									FileUtility.deleteFile(req, uploadDir, oriSf_path);
+								}
+								System.out.println(result==1?"수정했음":"수정 오류남 ");
 							} // for문 안 if
 							else {
 							// else 안에 들어오면 올린 이미지 없음
@@ -422,80 +421,104 @@ public class StoreMypageController {
 	
 	
 	// 메뉴 및 메뉴 이미지 수정
-		@RequestMapping(value = "/StoreMypage/editImgPop2.do",method = RequestMethod.POST)
-		public String menuImgPopEdit(Map map, Model model, Authentication authentication, HttpServletRequest req) {
+	@RequestMapping(value = "/StoreMypage/editImgPop2.do",method = RequestMethod.POST)
+	public String menuImgPopEdit(Map map, Model model, Authentication authentication, HttpServletRequest req) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		System.out.println(req.getAttribute("fm_path")!=null?"존재":" 미존재");
+		System.out.println(req.getParameter("fm_path")!=null?"존재":" 미존재");
+		
+		
+		map.put("username", userDetails.getUsername());
+
+		String dbPath = "/resources/storeIMG";
+		String path = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
+
+		MultipartRequest mr = FileUtility.upLoad(req, path);
+		List<StoreDTO> stDto = service.selectFoodImg(map);
+
+		int sizeFlag = stDto.size();
+		
+		
+		for(int i=0; i<sizeFlag;i++) {
+			String editMenu_tend = mr.getParameter("menu_tend"+i).toString();
+			String editFm_path;
+			if(mr.getFilesystemName("fm_path"+i)==null) {
+				System.out.println("뭐로 찍힘? = "+mr.getFilesystemName("fm_path"+i));
+				System.out.println("그럼 이건 뭐로 나옴? "+mr.getParameter("originImg"+i));
+				editFm_path = mr.getParameter("originImg"+i).toString();
+				editFm_path = editFm_path.substring(editFm_path.lastIndexOf("/"));
+				editFm_path = dbPath + "/" + editFm_path;
+			}
+			else {
+				editFm_path = mr.getFilesystemName("fm_path"+i).toString();
+				editFm_path = dbPath + "/" + editFm_path;
+			}
+			String editMenu_info = mr.getParameter("menu_info"+i).toString();
+			String editMenu_name = mr.getParameter("menu_name"+i).toString();
+			String editMenu_price = mr.getParameter("menu_price"+i).toString();
+			String editMenu_no = mr.getParameter("menu_no"+i).toString();
+			
+			System.out.println("디비에 넣기 직전 파일 경로 찍어봄"+editFm_path);
+			map.put("editMenu_no",editMenu_no);
+			map.put("editMenu_tend",editMenu_tend);
+			map.put("editFm_path", editFm_path);
+			map.put("editMenu_info",editMenu_info);
+			map.put("editMenu_name",editMenu_name);
+			map.put("editMenu_price",editMenu_price);
+			service.updateFoodMenu(map);
+			service.updateFoodImg(map);
+		}
+		
+		return "forward:/StoreMypage/ImgPop2.do";
+	}
+	
+	// 메뉴 및 메뉴 이미지 수정
+		@RequestMapping(value = "/StoreMypage/addImgPop2.do",method = RequestMethod.POST)
+		public String menuImgPopInsert(Map map, Model model, Authentication authentication, HttpServletRequest req) {
 			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-			System.out.println(req.getAttribute("fm_path")!=null?"존재":" 미존재");
-			System.out.println(req.getParameter("fm_path")!=null?"존재":" 미존재");
-			
-			
 			map.put("username", userDetails.getUsername());
 
 			String dbPath = "/resources/storeIMG";
 			String path = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
 
 			MultipartRequest mr = FileUtility.upLoad(req, path);
-			List<StoreDTO> stDto = service.selectFoodImg(map);
-
-			int sizeFlag = stDto.size();
-			
-			
-			for(int i=0; i<sizeFlag;i++) {
-				String editMenu_tend = mr.getParameter("menu_tend"+i).toString();
-				String editFm_path = mr.getFilesystemName("fm_path"+i).toString();
-				String editMenu_info = mr.getParameter("menu_info"+i).toString();
-				String editMenu_name = mr.getParameter("menu_name"+i).toString();
-				String editMenu_price = mr.getParameter("menu_price"+i).toString();
-				String editMenu_no = mr.getParameter("menu_no"+i).toString();
-				editFm_path = dbPath + "/" + editFm_path;
-				map.put("editMenu_no",editMenu_no);
-				map.put("editMenu_tend",editMenu_tend);
-				map.put("editFm_path", editFm_path);
-				map.put("editMenu_info",editMenu_info);
-				map.put("editMenu_name",editMenu_name);
-				map.put("editMenu_price",editMenu_price);
-				service.updateFoodMenu(map);
-				service.updateFoodImg(map);
-			}
-			System.out.println("메뉴 에디트는 완료");
-			// 메뉴 수정 아닌 추가가 존재해서 인설트 시작
-			int insertFlag = sizeFlag+1;
-			System.out.println("인설트용플래그 = "+insertFlag);
+			int i= 0;
 			boolean exitFlag = true; 
-			System.out.println("메뉴 네임 추가 넘어옴? "+mr.getParameter("menu_name"+insertFlag));
-			if(mr.getParameter("menu_name"+insertFlag)!=null) {
-				System.out.println("인설트용 메뉴 네임 존재함");
-				while(exitFlag) {
-					if(mr.getParameter("menu_name"+insertFlag)!=null) {
-						String menu_tend = mr.getParameter("menu_tend"+insertFlag).toString();
-						String fm_path = mr.getFilesystemName("fm_path"+insertFlag).toString();
-						String menu_info = mr.getParameter("menu_info"+insertFlag).toString();
-						String menu_name = mr.getParameter("menu_name"+insertFlag).toString();
-						String menu_price = mr.getParameter("menu_price"+insertFlag).toString();
-						service.insertMoreFoodMenu(map);
-						map.put("username", userDetails.getUsername());
-						
-						// 추가한 메뉴번호 이미지 넣기용 번호 얻기
-						StoreDTO tempDto = service.selectNewMenuNo(map);
-						map.put("menu_no", tempDto.getMenu_no());
-						
-						// 이미지 삽입
-						service.insertMoreFoodImg(map);
-						insertFlag++;
-						System.out.println(insertFlag+"번 메뉴 추가 입력함");
-					}
-					else {
-						exitFlag = false;
-					}
+			while(exitFlag) {
+				System.out.println("등록 첫 메뉴 이름 찍어봄"+mr.getParameter("insmenu_name"+i));
+				if(mr.getParameter("insmenu_name"+i)!=null) {
+					String menu_tend = mr.getParameter("insmenu_tend"+i).toString();
+					String fm_path = mr.getFilesystemName("insfm_path"+i).toString();
+					String menu_info = mr.getParameter("insmenu_info"+i).toString();
+					String menu_name = mr.getParameter("insmenu_name"+i).toString();
+					String menu_price = mr.getParameter("insmenu_price"+i).toString();
 					
+					map.put("menu_name", menu_name.toString());
+					System.out.println("파일 fm_path 찍어봄 = "+fm_path);
+					fm_path = dbPath+"/"+fm_path;
+					map.put("fm_path", fm_path.toString());
+					map.put("menu_info", menu_info.toString());
+					map.put("menu_price", menu_price.toString());
+					map.put("menu_tend", menu_tend.toString());
+					
+					
+					service.insertMoreFoodMenu(map);
+					map.put("username", userDetails.getUsername());
+					
+					// 추가한 메뉴번호 이미지 넣기용 번호 얻기
+					StoreDTO tempDto = service.selectNewMenuNo(map);
+					map.put("menu_no", tempDto.getMenu_no());
+					
+					// 이미지 삽입
+					service.insertMoreFoodImg(map);
+					i++;
+					System.out.println(i+"번째 음식메뉴 인설트 실행함.");
+				}
+				else {
+					exitFlag = false;
 				}
 			}
-			
-			
-			System.out.println("메뉴 입력 수정 끝");
-			
 			return "forward:/StoreMypage/ImgPop2.do";
 		}
-	
 	
 }

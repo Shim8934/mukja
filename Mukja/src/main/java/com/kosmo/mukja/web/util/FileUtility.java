@@ -30,7 +30,7 @@ public class FileUtility {
 			}
 			mr = new MultipartRequest(req,
 									  saveDirectory,
-									  1024*2000,
+									  1024*10000,
 									  "UTF-8",
 									  new DefaultFileRenamePolicy());
 		} catch (IOException e) {e.printStackTrace();}

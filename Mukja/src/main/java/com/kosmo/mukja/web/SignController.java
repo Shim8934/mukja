@@ -225,7 +225,6 @@ public class SignController {
 		System.out.println();
 		int k=0;
 		boolean j = true;
-		System.out.println("메뉴성향 추가 옴?"+mr.getParameter("menu_tend1").toString());
 		while(j) {
 			System.out.println("음식 메뉴 및 음식 사진 넣는 while문 안까지 왔음 ");
 			if(mr.getParameter("menu_name"+k)!=null) {
