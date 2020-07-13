@@ -175,17 +175,23 @@ public class SignController {
 		map.put("authority","ROLE_USER");
 		map.put("enabled", 1);
 		String u_img = mr.getFilesystemName("u_img");
+		String kakao_img = mr.getParameter("kakao_img");
+		System.out.println(u_img);
+		System.out.println(kakao_img);
 		if(u_img!=null) {
 			System.out.println("프로필사진 있음 / 경로 세팅 직전 찍어봄 = "+u_img);
 			u_img = uploadDir +"/" + u_img;
 			System.out.println("디비 최종 입력 직전 찍어봄 = "+u_img);
 			map.put("u_img",u_img);
 		}
-		else {
-			u_img = uploadDir +"/"+"null";
-			map.put("u_img", u_img);
-			
-		}
+		 else {	         
+			 if(mr.getParameter("kakao_img")!=null) {
+	            map.put("u_img", mr.getParameter("kakao_img"));
+	         }else {
+	        	 u_img = uploadDir +"/"+"null";
+		         map.put("u_img", u_img);
+			}	       
+	      }
 		signService.signup(map);
 		return "/index.tiles";
 	}///////////
@@ -330,14 +336,23 @@ public class SignController {
 		System.out.println(tomail);
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
+
 				System.getProperty("line.separator") + // 한줄씩 줄간격을 두기위해 작성
+
 						System.getProperty("line.separator") +
+
 						"안녕하세요 회원님 저희 홈페이지를 찾아주셔서 감사합니다"
+
 						+ System.getProperty("line.separator") +
+
 						System.getProperty("line.separator") +
+
 						" 인증번호는 " + dice + " 입니다. "
+
 						+ System.getProperty("line.separator") +
+
 						System.getProperty("line.separator") +
+
 						"받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
 
 		try {
