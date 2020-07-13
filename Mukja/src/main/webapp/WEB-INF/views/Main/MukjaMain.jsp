@@ -26,8 +26,8 @@ tr td{
 	</div>
 </section>
 
-<!-- 좋아요 추천 수에 따른 음식점 띄워줄 캐러셀 시작   / 추천수 상위 랭킹 6개만 띄울 예정 -->
- 
+
+<!-- 좋아요 추천 수에 따른 음식점 띄워줄 캐러셀 시작   / 추천수 상위 랭킹 3개만 띄울 예정 -->
 <section class="home-slider js-fullheight owl-carousel bg-white">
 	<c:forEach items="${rank1}" var="item" varStatus="loop"> 
       <div class="slider-item js-fullheight">
@@ -123,7 +123,7 @@ tr td{
         </div>
       </div>
 	</c:forEach>
-	<div class="divider"></div>
+	
 </section>
 <!-- 랭킹수 수정 완료 -->
 <!-- 상단 이미지 및 텍스트 -->

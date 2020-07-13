@@ -166,7 +166,7 @@ public class MyPageController{
 		
 		
 		
-		/*리뷰*/
+		/*신청/거절*/
 		//페이징을 위한 로직 시작]
 		//전체 레코드수	
 		int applCount = service.getMyReviewTotal(map);
@@ -371,6 +371,8 @@ public class MyPageController{
       return "forward:/MyPage.bbs";
    }
 	
+	
+	
 	@ResponseBody
 	@RequestMapping(value = "/er_Reject.bbs")
 	public String er_Reject(@RequestParam Map map) {
@@ -381,14 +383,22 @@ public class MyPageController{
 	      
 	    int result = service.er_Accept(map);
 		System.out.println(result==0?"수락 거절 실패":"수락 거절 성공");
-
-	
-		
-		
 		
 		return "forward:/MyPage.bbs";
 	}//StoreReview
 	
 	
+	//리뷰 삭제 처리]
+	@RequestMapping(value="/deleteMyJjim.bbs")
+	public String deleteMyJjim(@RequestParam Map map) {		
+		
+		System.out.println("찜 삭제 IN !!!!!!!!!!!!!");								
+		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
+		int deleteRVth = service.deleteMyReviewThumb(map);
+		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
+		int deleteJjim = service.deleteMyJjim(map);
+		System.out.println(deleteJjim==0?"리뷰 사진 실패":"리뷰 사진 성공");
+		return "forward:/MyPage.bbs";
+	}///////////
 	
 }
