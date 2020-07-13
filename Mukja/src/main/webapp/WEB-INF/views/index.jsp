@@ -1046,12 +1046,13 @@ function request_ERList_Ajax(store_id){
 				     '</div>';
 			}
 			$('#modal_content').append(empty_div);
+			
+			console.log("방리스트크기:"+data.length);
 			for(var i=0;i<data.length;i++){
 				var tend_codes=['FS','EG','MK','BD','PK','CW','PE','SF','DP','FL','SB'];
-			    var user_tend = data[i].er_tend.split(',');	
-			    
-			   
-			    
+			    var user_tend = data[i].u_tend.split(',');	
+			    var er_tend = data[i].er_tend.split(',');	
+			  
 			    
 				$('#showuser'+i).remove();
 				 var together_list;
@@ -1059,13 +1060,13 @@ function request_ERList_Ajax(store_id){
 					 together_list = 
 						 '<div class="row" style="margin-bottom:50px" >'+
 					     '	<div class="col-md-4">'+
-					     '	<div class="myborder">'+
-					     '     <a id="prof'+i+'">'+
+					     '		<div class="myborder">'+
+					     '   	  <a id="prof'+i+'">'+
 					     '		<h4>모임 기피재료</h4>'+
 					     '     </a>'+
 					     '	</div>'+
-					     '   </div>'+
-					     '   <div class="myborder col-md-8 ">'+
+					     '</div>'+
+					     '<div class="myborder col-md-8 ">'+
 					     '     <h2>'+data[i].er_title+'</h2>'+
 					     '     <hr>'+
 					     '     <p>내용 : '+data[i].er_content+'</p>'+
@@ -1078,18 +1079,18 @@ function request_ERList_Ajax(store_id){
 					     '				참가신청하기'+
 					     '			</a>'+
 					     '	   </sec:authorize>'+
-					     ' </div>';
+					     '</div>';
 			    }else{
 			    	 together_list = 
 						 '<div class="row" style="margin-bottom:50px" >'+
 					     '	<div class="col-md-4">'+
-					     '	<div class="myborder">'+
-					     '     <a id="prof'+i+'">'+
-					     '		<h4>모임 기피재료</h4>'+
-					     '     </a>'+
-					     '	</div>'+
-					     '   </div>'+
-					     '   <div class="myborder col-md-8 ">'+
+					     '		<div class="myborder">'+
+					     '  	   <a id="prof'+i+'">'+
+					     '			 <h4>모임 기피재료</h4>'+
+					     ' 	   	   </a>'+
+					     '		</div>'+
+					     '  </div>'+
+					     '  <div class="myborder col-md-8 ">'+
 					     '     <h2>'+data[i].er_title+'</h2>'+
 					     '     <hr>'+
 					     '     <p>내용 : '+data[i].er_content+'</p>'+
@@ -1097,7 +1098,8 @@ function request_ERList_Ajax(store_id){
 					     '     <h4>모임날 : '+data[i].er_time+'</h4>'+
 					     '     <hr>'+
 					     '     <a id="btn_show'+i+'" class="btn btn-default" >모임장 정보보기</a>'+
-					     ' </div>';
+					     '  </div>'+
+					     '</div>';
 			    }
 				
 				 
@@ -1127,10 +1129,10 @@ function request_ERList_Ajax(store_id){
 				
 				 var tendIMG="";
 				    for(var ti=0; ti<tend_codes.length;ti++){
-				    	for(var ut=0; ut<user_tend.length;ut++){
-					    	if(tend_codes[ti]==user_tend[ut]){
-					    		console.log(data[i].u_nick+'의 성향이미지:'+user_tend[ut]);
-					    		 tendIMG='<img style="margin-bottom:20px; display:inline;" src="/mukja/resources/usertend_IMG/'+user_tend[ut]+'.jpg" alt="tend" class="img_user_tend">';
+				    	for(var ut=0; ut<er_tend.length;ut++){
+					    	if(tend_codes[ti]==er_tend[ut]){
+					    		console.log(data[i].u_nick+'의 성향이미지:'+er_tend[ut]);
+					    		 tendIMG='<img style="margin-bottom:20px; display:inline;" src="/mukja/resources/usertend_IMG/'+er_tend[ut]+'.jpg" alt="tend" class="img_user_tend">';
 					    		  $('#prof'+i).append(tendIMG);
 					    	}
 				    	}
@@ -1147,7 +1149,7 @@ function request_ERList_Ajax(store_id){
 			    for(var ti=0; ti<tend_codes.length;ti++){
 			    	for(var ut=0; ut<user_tend.length;ut++){
 				    	if(tend_codes[ti]==user_tend[ut]){
-				    		console.log(data[i].u_nick+'의 성향이미지:'+user_tend[ut]);
+				    		console.log(data[i].er_title+'의 성향이미지:'+user_tend[ut]);
 				    		 tendIMG='<img style="margin-bottom:20px; display:inline;" src="/mukja/resources/usertend_IMG/'+user_tend[ut]+'.jpg" alt="tend" class="img_size">';
 				    		  $('#tend'+i).append(tendIMG);
 				    	}
@@ -1195,16 +1197,7 @@ function request_ERList_Ajax(store_id){
 					  $("#masterModal").show() ;
 					  
 					  
-						$('#mask').click(function(){
-							$("#masterModal").fadeOut();
-						    $('#masterMask').fadeOut();    
-						  
-						});
-						$('.close').click(function(){
-							$("#masterModal").fadeOut();
-						    $('#mask').fadeOut();  
-						  
-						});
+						
 					
 					  
 				    
@@ -1215,55 +1208,14 @@ function request_ERList_Ajax(store_id){
 			}
 			
 			
-		    //모임 참여신청하기
-			   var all_erjoin = document.querySelectorAll('.all_erjoin'); 
+			
+			ERjoin()
 			    
-			 /*   $(document).on("click","#btn_erjoin0",function(){ 
-				   console.log("<<<참가 시도 >>>")
-				 });
-			     */
-			     
-			   all_erjoin.forEach(function(ele,i){
-				   var er_no={"er_no":ele.getAttribute('id').substring(10,ele.getAttribute('id').length)}
-				   
-				   Object.assign(er_no, store_id);
-				   console.log("[ele]");
-				   console.log(er_no);
-				   console.log("[index]");
-				   console.log(i);
-					console.log(ele.getAttribute('id'));
-					var id="#"+ele.getAttribute('id');
-					
-					$(document).on("click",id,function(){ 
-					   console.log("<<<참가 시도 >>>")
-					   console.log("id:"+id);
-					   $.ajax({
-					 		url:"<c:url value='/requestERjoin.do'/>",
-					 		data:er_no,
-					 		dataType:'json',
-					 		success:function(data){
-					 			console.log(data);
-					 			var joinERC_result = data.joinERC;
-					 			var joinER_result = data.joinER;
-					 			console.log("joinERC_result:",joinERC_result);
-					 			console.log("joinER_result:",joinER_result);
-					 			if(joinER_result==1){
-					 				alert("참가신청이 완료되었어요! 수락을 기다려주세요~");
-					 				return;
-					 			}else{
-					 				alert("방장이거나 이미 신청하였어요!");
-					 				return;
-					 			}
-					 			
-					 		},
-					 		error:function(){
-					 			console.log("<<<<<방참가 실패>>>>>")
-					 		}
-					 	});	
-					   
-				   });  
-			   })   
+			 
 			     //모임 참여신청하기 끝
+			     
+			     
+			     
 			     
 		},
 		error:function(request,status,error){
@@ -1278,6 +1230,61 @@ function request_ERList_Ajax(store_id){
 	
 }
 
+$('#mask').click(function(){
+	$("#masterModal").fadeOut();
+    $('#masterMask').fadeOut();    
+	$('#modal_content').html("");
+  
+});
+$('.close').click(function(){
+	$("#masterModal").fadeOut();
+    $('#mask').fadeOut();  
+	$('#modal_content').html("");
+});
+
+
+function ERjoin(){
+	//모임 참여신청하기
+	var all_erjoin = document.querySelectorAll('.all_erjoin'); 
+	console.log("all_erjoin.length:"+all_erjoin.length);
+	all_erjoin.forEach(function(ele,erjoin_i){
+			
+	   var er_no={"er_no":ele.getAttribute('id').substring(10,ele.getAttribute('id').length)}
+	   
+	   Object.assign(er_no, store_id);
+	   console.log("[ele]");
+	   console.log(er_no);
+	   console.log("[index]");
+	   console.log(erjoin_i);
+		console.log(ele.getAttribute('id'));
+		var id="#"+ele.getAttribute('id');
+	
+		$(id).on("click",function(){ 
+		   
+		   console.log("<<<참가 시도 >>>")
+		   console.log("id:"+id);
+		   $.ajax({
+		 		url:"<c:url value='/requestERjoin.do'/>",
+		 		data:er_no,
+		 		dataType:'json',
+		 		success:function(data){
+		 			console.log(data);
+		 			var joinER_result = data.joinER;
+		 			console.log("joinER_result:",joinER_result);
+		 			if(joinER_result==1){
+		 				ialert("참가신청이 완료되었어요! 수락을 기다려주세요~");
+		 			}else{
+		 				alert("방장이거나 이미 신청하였어요!");		
+		 			}
+		 		},
+		 		error:function(){
+		 			console.log("<<<<<방참가 실패>>>>>")
+		 		}
+		 	});	
+		   
+	   });  
+	}) 
+}
 
 function requets_maker_Ajax(){
 	  bounds = map.getBounds();  
@@ -1446,7 +1453,7 @@ function requets_maker_Ajax(){
 						 
 						 //---------------------실시간 좌석현황------------------------
 						
-						 	$(document).on("click","#btn_TBinfo"+data.store_id,function(){
+						 	$("#btn_TBinfo"+data.store_id).on("click",function(){
 						 		$("#tableDivWrap").fadeIn();
 						 		$("#tableDiv").empty();
 						 		$("#WatingTime").empty();
@@ -1514,7 +1521,7 @@ function requets_maker_Ajax(){
 						 //---------------------실시간 좌석현황 끝------------------------
 						 
 						//------------커스텀모달--------------------------------------
-							$(document).on("click","#btn_"+data.store_id,function(){
+						$("#btn_"+data.store_id).click(function(){
 								console.log('클릭');
 								console.log( $("#tgModal").html());
 								 //화면의 높이와 너비를 구한다.
@@ -1531,6 +1538,7 @@ function requets_maker_Ajax(){
 							
 							 $('#store_id').val(data.store_id);
 							 console.log('store_id'+ $('#store_id').val());
+							 $("#submitER").unbind("click");
 							 $("#submitER").click(function(){
 								 console.log('방만들기 재출');
 								 //유효성 
@@ -1605,44 +1613,40 @@ function requets_maker_Ajax(){
 								
 								//같이먹자 모임 만들기
 								 $.ajax({
-										url:"<c:url value='/submitER.do'/>",
-										data:$('#frmER').serialize(),
-										dataType:'json',
-										success: function (data){
-											console.log("성공");
-											console.log("data");
-											console.log(data);
-											console.log("store_id:"+store_id);
-											 console.log('같이먹자 작성하기 닫기')
-											 $('.note-editable').empty();
-											 $('#ERtitle').val("");
-											 $(':text').val("");
-											 $('#createERFORM').fadeOut();
-											 request_ERList_Ajax(store_id);
-											 console.log("같이먹자 방생성결과"+data.result);
+									url:"<c:url value='/submitER.do'/>",
+									data:$('#frmER').serialize(),
+									dataType:'json',
+									success: function (data){
+										console.log("방만들기 시도");
+										console.log("data");
+										console.log(data);
+										console.log("store_id:"+store_id);
+										 console.log('같이먹자 작성하기 닫기')
+										 $('.note-editable').empty();
+										 $('#ERtitle').val("");
+										 $(':text').val("");
+										 $('#createERFORM').fadeOut();
+										
+										 console.log("같이먹자 방생성결과"+data.result);
+										 
+										 if(data.result==1){												 
+											 alert("같이먹자 방이 생성되었어요!");
+										 }else{												
+											 alert("이미 생성한 방이 있어요ㅠㅠ");
+											
 											 
-											 if(data.result==1){
-												 
-												 alert("같이먹자 방이 생성되었어요!");
-											
-												
-											 }else{
-												 f=-1;
-												 if(f!=-1) alert("이미 생성한 방이 있어요ㅠㅠ");
-												
-												 
-											 }
-									 
-										},
-										error:function(){
-											console.log("애러");
-											 $('.note-editable').empty();
-											 $('#ERtitle').val("");
-											 $(':text').val("");
-											$('#createERFORM').fadeOut();
-											
-											 request_ERList_Ajax(store_id);
-										}
+										 }
+								 
+									},
+									error:function(){
+										console.log("애러");
+										 $('.note-editable').empty();
+										 $('#ERtitle').val("");
+										 $(':text').val("");
+										$('#createERFORM').fadeOut();
+										
+										
+									}
 							 	});
 							 });
 							 

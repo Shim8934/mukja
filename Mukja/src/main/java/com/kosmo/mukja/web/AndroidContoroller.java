@@ -1,12 +1,17 @@
 package com.kosmo.mukja.web;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONArray;
@@ -520,10 +525,11 @@ public class AndroidContoroller {
 	
 	@ResponseBody
 	@RequestMapping(value = "/Android/insertReview.do" , produces = "application/json; charset=utf8")
-	public String insertReview(@RequestParam Map map, MultipartRequest mr,HttpServletRequest req) {
+	public String insertReview(@RequestParam Map map, MultipartRequest mr, HttpServletRequest req) {
 
 		System.out.println("리뷰작성 컨트롤러 진입");
-
+		
+		String dbPath="/resources/review_IMG";
 		String path = req.getSession().getServletContext().getRealPath("/resources/review_IMG");
 	
 		Iterator<String> iter = map.keySet().iterator();
@@ -532,8 +538,40 @@ public class AndroidContoroller {
 			String val = map.get(key).toString();
 			System.out.println(String.format("키 : %s 값 : %s", key,val));
 			}
+		MultipartFile img = mr.getFile("uploadedfile");
+	
 		
-		System.out.println("파일명"+mr.getFile("uploadedfile").getOriginalFilename());
+		
+		
+		String originalFileName = img.getOriginalFilename();
+     
+        //fileuploadtest.doc
+        //lastIndexOf(".") = 14(index는 0번부터)
+        //substring(14) = .doc
+        
+        //업무에서 사용하는 리눅스, UNIX는 한글지원이 안 되는 운영체제 
+        //파일업로드시 파일명은 ASCII코드로 저장되므로, 한글명으로 저장 필요
+        //UUID클래스 - (특수문자를 포함한)문자를 랜덤으로 생성                    "-"라면 생략으로 대체
+        String storedFileName = UUID.randomUUID().toString().replaceAll("-", "") + originalFileName;
+        
+        //파일을 저장하기 위한 파일 객체 생성
+        File file = new File(path +"\\"+ storedFileName);
+        //파일 저장
+    	System.out.println("파일명"+file.getName());
+    	System.out.println("경로파일:"+path +"\\"+ storedFileName);
+        
+        try {
+			img.transferTo(file);			
+			
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
 		
 		
 		int result = 0;
@@ -544,6 +582,11 @@ public class AndroidContoroller {
 	
 		return jsonObject.toJSONString();
 	}//deleteERMembers
+
+	private ServletContext getServletContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 	
 }
