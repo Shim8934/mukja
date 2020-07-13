@@ -387,7 +387,7 @@ public class MyPageController{
 		System.out.println("er_no 찍음 = "+er_no);
 		//System.out.println("er_no"+map.get("er_no"));
 		//er_no = map.get("er_no").toString();
-		
+		   
 		map.put("er_no",er_no);
 		JSONObject json = new JSONObject();
 		System.out.println("user_id : "+user_id);
