@@ -146,6 +146,11 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getMyETHistTotal(map);
 	}
 
+	@Override
+	public int updateMyReviewPic(Map map) {
+		return dao.updateMyReviewPic(map);
+	}
+
 
 	
 	

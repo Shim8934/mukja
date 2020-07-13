@@ -26,7 +26,9 @@ import com.kosmo.mukja.service.MyPageService;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.UsersDTO;
+import com.kosmo.mukja.web.util.FileUtility;
 import com.kosmo.mukja.web.util.PagingUtil;
+import com.oreilly.servlet.MultipartRequest;
 import com.sun.security.auth.UserPrincipal;
 
 import sun.text.normalizer.ICUBinary.Authenticate;
@@ -44,7 +46,10 @@ public class MyPageController{
 	@Value("${BLOCK_PAGE_MP}")
 	private int blockPage;
 
+	private String store_id;
 	private String user_id;
+	private String rv_no;
+	private String er_no;
 
 	
 	@RequestMapping(value = "/MyPage.bbs")
@@ -58,7 +63,9 @@ public class MyPageController{
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		String user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
+		map.put("store_id",store_id);
 		System.out.println("user_id 출력! : "+user_id);
+		System.out.println("store_id 출력! : "+store_id);
 
 
 		
@@ -153,16 +160,17 @@ public class MyPageController{
 		
 		
 		
-		
-		
-		
-		
 		List<MyPageDTO> Nicks = service.getNicks(map);
 		System.out.println("닉네임얻기");
 		model.addAttribute("Nicks",Nicks);
+		System.out.println("Nicks"+Nicks);
+		
+		
 		
 		List<MyPageDTO> etInCount = service.getInCount(map);
 		model.addAttribute("etInCount",etInCount);
+		
+		
 		
 		
 		
@@ -205,6 +213,8 @@ public class MyPageController{
 		String applPagingString=PagingUtil.pagingBootStrapStyle(applCount, pageSize, blockPage, nowPage, req.getContextPath()+"/Member/MyPage.bbs?");
 		model.addAttribute("myET0",myET0);
 		model.addAttribute("applPagingString", applPagingString);
+		
+		System.out.println("myET0 "+myET0);
 		
 		
 		
@@ -314,24 +324,38 @@ public class MyPageController{
 	}
 	//리뷰 수정 처리]
 	@RequestMapping(value = "/updateMyReviewOk.bbs", method = RequestMethod.POST)
-	public String updateMyReview(Authentication auth, @RequestParam Map map) {
+	public String updateMyReview(Authentication auth, @RequestParam Map map, HttpServletRequest req) {
 		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
-		System.out.println("user_id : "+user_id);
-		System.out.println("rv_no : "+map.get("rv_no"));
-
-		MyPageDTO stRV4up = service.getMyReviewForUpdate(map);
-		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 rv_no : "+stRV4up.getRv_no());
-		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());	
-		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Store_name2 : "+stRV4up.getStore_name2());		
-		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Menu_name : "+stRV4up.getMenu_name());		
-		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());		
-		System.out.println("마이페이지 단 리뷰 수정폼 stRVup의 rf_path : "+stRV4up.getRf_path());			
-	
+		
+		String path = req.getSession().getServletContext().getRealPath("/resources/user_IMG");
+		MultipartRequest mr = FileUtility.upLoad(req, path);
+		
+		rv_no = mr.getParameter("rv_no");
+		String menu_no = mr.getParameter("menu_no");
+		String rv_title = mr.getParameter("rv_title");
+		String rv_content = mr.getParameter("rv_content");
+		String rf_path = mr.getFilesystemName("rf_path");
+		map.put("rv_no", rv_no);
+		map.put("menu_no", menu_no);
+		map.put("rv_title", rv_title);
+		map.put("rv_content", rv_content);
+		map.put("rf_path", rf_path);
+		System.out.println("rv_no : " + rv_no);
+		System.out.println("menu_no : " + menu_no);
+		System.out.println("rv_title : " + rv_title);
+		System.out.println("rv_content : " + rv_content);
+		System.out.println("rf_path : "+rf_path);
+		
 		int updateRV = service.updateMyReview(map);
 		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
+		if(rf_path!=null) {
+			int updateRVpic = service.updateMyReviewPic(map);
+			System.out.println(updateRV==0?"리뷰pics 수정 실패":"리뷰pics 수정 성공");
+		}
+		
 		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");
 		
-		return "forward:/MyPage.bbs";
+		return "redirect:/MyPage.bbs";
 	}
 	
 	//리뷰 삭제 처리]
@@ -358,11 +382,13 @@ public class MyPageController{
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
+		System.out.println("er_no"+map.get(er_no));
+		map.put("er_no",er_no);
 		
 		System.out.println("user_id : "+user_id);
 		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
-		System.out.println("수락 승인 속 er_no"+map.get("er_no").toString());
-		System.out.println("수락 승인 속 nowPage"+map.get("nowPage").toString());
+		System.out.println("수락 승인 속 er_no : "+map.get("er_no"));
+//		System.out.println("수락 승인 속 nowPage : "+map.get("nowPage"));
       
       int result = service.er_Accept(map);
 		System.out.println(result==0?"수락 승인 실패":"수락 승인 성공");
@@ -376,10 +402,11 @@ public class MyPageController{
 	@ResponseBody
 	@RequestMapping(value = "/er_Reject.bbs")
 	public String er_Reject(@RequestParam Map map) {
+		
 		System.out.println("수락 거절 IN !!!!!!!!!!!!!");
 	    System.out.println("수락 거절 속 user_id"+map.get("user_id").toString());
 	    System.out.println("수락 거절 속 er_no"+map.get("er_no").toString());
-	    System.out.println("수락 거절 속 nowPage"+map.get("nowPage").toString());
+//	    System.out.println("수락 거절 속 nowPage"+map.get("nowPage").toString());
 	      
 	    int result = service.er_Accept(map);
 		System.out.println(result==0?"수락 failed":"수락 거절 성공");

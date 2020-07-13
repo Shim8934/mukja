@@ -28,6 +28,7 @@ public interface MyPageService {
 	public List<MyPageDTO> getMyReview(Map map);	
 	public List<MyPageDTO> getMyReviewPics (Map map);
 	int updateMyReview(Map map);
+	int updateMyReviewPic(Map map);
 	int deleteMyReview(Map map);
 	int deleteMyReviewPic(Map map);
 	int deleteMyReviewThumb(Map map);

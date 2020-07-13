@@ -293,11 +293,11 @@
 									<c:if test="${not empty myET0}">
 										<c:forEach items="${myET0}" var="ET0" varStatus="loop">
 											<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
-												<c:if test="${ET0.username == storetxt.username}">
+												<c:if test="${ET0.store_id == storetxt.username}">
 													<tr>
 														<td>
 															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
-															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">							
+															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">						
 															
 															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;">수락</a>	
 														
@@ -372,15 +372,19 @@
 
 											<div class="mpjjim bd2bc pb-3 pt-3 col-md-11" style="float: none; background: lightblue; display: inline-block;">
 												<div class="img col-md-6" style=" display: inline-block; padding:5px; margin:0px; ">
-													<c:if test="${empty myET1.sf_path}">
-														<div class="img rv_list_img col-md-12" style="border: 1px solid red; float: left;">
-															<span>no Image</span>
-														</div>
-													</c:if>
-
-													<c:if test="${not empty myET1.sf_path}">
-														<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${myET1.sf_path}"/>);"> </div>											
-													</c:if>
+													<c:forEach items="${storeimgs}" var="storeimgs" varStatus="loop">
+														<c:if test="${storeimgs.username == myET1}">
+															<c:if test="${empty storeimgs.sf_path}">
+																<div class="img rv_list_img col-md-12" style="background:white;float: left;" >
+																	<span>no Image</span>
+																</div>
+															</c:if>
+		
+															<c:if test="${not empty storeimgs.sf_path}">
+																<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"> </div>											
+															</c:if>
+														</c:if>
+													</c:forEach>
 												</div>
 												<div class="text col-md-6" style="display: inline-block; padding:5px; margin:0px; vertical-align: top; ">
 													<div>
@@ -453,42 +457,31 @@
 </section>
 
 <script>
-$(document).on("click","#forRvdel",function(){
-	var rv_no = $("#rv_no").val();
-	var isDelete = function(){
-		if(confirm("정말로 이 리뷰를 삭제 하시겠습니까?"))
-			location.replace("<c:url value='/deleteMyReview.bbs?rv_no="+rv_no+"'/>");	
-	}
+	$(document).on("click","#forRvdel",function(){
+		var rv_no = $("#rv_no").val();
+		var isDelete = function(){
+			if(confirm("정말로 이 리뷰를 삭제 하시겠습니까?"))
+				location.replace("<c:url value='/deleteMyReview.bbs?rv_no="+rv_no+"'/>");	
+		}
+		
+		isDelete();
+	}),
 	
-	isDelete();
-}),
-
-$(document).on("click","#etAccept",function(){
-	var rv_no = $("#rv_no").val();
-	var user_id = $("#user_id").val();
-	var isAccept = function(){
-		if(confirm("같이 먹기를 수락하시겠습니까?"))
-			location.replace("<c:url value='/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
-	};
-	
-	isAccept();
-}),
-$(document).on("click","#etReject",function(){
-	var rv_no = $("#rv_no").val();
-	var user_id = $("#user_id").val();
-	var isReject = function(){
-		if(confirm("같이 먹기를 거절하시겠습니까?"))
-			location.replace("<c:url value='/User/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
-	};
-	
-	isReject();
-})
-
-
-
-
-
-
-	
+	$(document).on("click","#etAccept",function(){
+		var rv_no2 = $("#er_no2").val();
+		var isAccept = function(){
+			if(confirm("같이 먹기를 수락하시겠습니까?"))
+				location.replace("<c:url value='/er_Accept.bbs?er_no="+encodeURI(er_no)+"'/>");	
+		}
+		isAccept();
+	})
+	$(document).on("click","#etReject",function(){
+		var rv_no = $("#er_no").val();
+		var isReject = function(){
+			if(confirm("같이 먹기를 거절하시겠습니까?"))
+				location.replace("<c:url value='/er_Accept.bbs?er_no="+encodeURI(er_no)+"'/>");	
+		}
+		isReject();
+	})
 </script>
 
