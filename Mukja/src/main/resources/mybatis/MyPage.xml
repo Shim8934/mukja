@@ -25,8 +25,9 @@
 	<select id="getJjimImgs" parameterType="java.util.Map" resultType="StoreIMGDTO">    	 
 		select * from store_file 
 	</select>
-	
-	
+	<delete id="deleteMyJjim" parameterType="java.util.Map" >
+		 select * from my_storelist where user_email=#{user_id} and ms_no=#{ms_no}
+	</delete>
 	
 	<!-- 리뷰 -->
 	<select id="getMyReview" parameterType="java.util.Map" resultType="MyPageDTO">

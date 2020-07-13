@@ -47,6 +47,10 @@ public class MyPageDAO implements MyPageService {
 		 return sqlMapper.selectList("getJjimImgs",map); 
 	}
 
+	@Override
+	public int deleteMyJjim(Map map) {
+		return sqlMapper.delete("deleteMyJjim",map);
+	}
 	 
 	 
 	 
@@ -141,6 +145,9 @@ public class MyPageDAO implements MyPageService {
 	public int getMyETHistTotal(Map map) {
 		return sqlMapper.selectOne("getMyETHistTotal",map);
 	}
+
+	
+	
 
 	
 

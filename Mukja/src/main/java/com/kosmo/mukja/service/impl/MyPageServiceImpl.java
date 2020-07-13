@@ -48,6 +48,10 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getJjimImgs(map);
 	}
 
+	@Override
+	public int deleteMyJjim(Map map) {
+		return dao.deleteMyJjim(map);
+	}
 
 	
 	@Override
@@ -141,6 +145,7 @@ public class MyPageServiceImpl implements MyPageService{
 	public int getMyETHistTotal(Map map) {
 		return dao.getMyETHistTotal(map);
 	}
+
 
 	
 	

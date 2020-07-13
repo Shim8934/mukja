@@ -20,7 +20,10 @@ public interface MyPageService {
 	public List<MyPageDTO> getMyJjim(Map map);
 	public List<StoreDTO> getJjimInfo(Map map);
 	public List<StoreIMGDTO> getJjimImgs(Map map);
+	public int deleteMyJjim(Map map);
 
+	
+	
 	
 	public List<MyPageDTO> getMyReview(Map map);	
 	public List<MyPageDTO> getMyReviewPics (Map map);
