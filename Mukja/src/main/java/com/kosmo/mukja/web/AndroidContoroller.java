@@ -39,7 +39,6 @@ import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 import com.kosmo.mukja.service.UsersDTO;
 import com.kosmo.mukja.service.impl.SearchMapServiceImpl;
-import com.kosmo.mukja.web.util.FileUtility;
 import com.kosmo.mukja.web.util.UploadPath;
 
 
@@ -544,6 +543,8 @@ public class AndroidContoroller {
 	
 		return jsonObject.toJSONString();
 	}//deleteERMembers
+
+	
 	
 	
 }

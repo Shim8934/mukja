@@ -38,14 +38,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
 import com.kosmo.mukja.service.FileUploadService;
 import com.kosmo.mukja.web.util.PagingUtil;
-import com.oreilly.servlet.MultipartRequest;
-import com.kosmo.mukja.web.util.FileUtility;
 
 @Controller
 public class AdminController {
@@ -293,7 +292,8 @@ public class AdminController {
     
    // 공지사항 본격 등록
    @RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-   public String writeNotice(HttpServletRequest req,
+   public String writeNotice(MultipartRequest mr,
+		   				HttpServletRequest req,
                        Authentication auth,
                        Model model,
                        @RequestParam Map map) throws UnsupportedEncodingException{
@@ -306,7 +306,7 @@ public class AdminController {
     	  dir.mkdirs();
     	  System.out.println("경로 만듦 / ");
       }
-      MultipartRequest mr = FileUtility.upLoad(req, path);
+       
          
       String BF_PATH = mr.getFilesystemName("BF_PATH");
       if(BF_PATH==null) {
