@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <section class="hero-wrap hero-wrap-2 align-items-center" style="background-image: url('<c:url value='/resources/bootstrap/images/bg_4.jpg'/>');" data-stellar-background-ratio="0.5">
    <div class="overlay"></div>
    <div class="container">
@@ -97,7 +98,7 @@
 								style="margin-right: 0px; margin-left: 0px;">
 
 								<c:if test="${empty storetxt}" var="EmptyMS">
-									<div class="mpjjim col-md-12 bd2bc" style="float: none;">
+									<div class="mpjjim item-align-center bd2bc" style="padding: 10px; border-radius: 5%;">
 										<span style="font-weight: bold;">찜한 가게가 없어요.</span>
 									</div>
 								</c:if>
@@ -109,7 +110,8 @@
 												<div class="mpjjim item-align-center bd2bc"
 													style="padding: 10px; border-radius: 5%;">
 													<div style="background-color: white; border-radius: 50%">
-														<a href='<c:url value="/deleteMyJjim.bbs"/>'>
+														<input type="hidden" id="ms_no" value="${myJjim.ms_no}">
+														<a href='<c:url value="/deleteMyJjim.bbs?ms_no=${ms_no}"/>'>
 															<span class="glyphicon glyphicon-heart" style="font-size:20px; color: red; border-radius: 70%; float:right; margin:10px;" ></span>
 														</a>
 													</div>
@@ -128,8 +130,6 @@
 																	style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"></div>
 																<% }count = count + 1; %>
 															</c:if>
-															
-																
 														</c:forEach>
 													</c:if>	
 													
@@ -138,8 +138,7 @@
 														<div class="pt-3 text-center">
 															<p class="mn_name overflow"
 																style="font-size: 14px; font-weight: bold;">
-																<a
-																	href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'
+																<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'
 																	style="text-decoration: none;">
 																	${storetxt.store_name} </a>
 															</p>
@@ -171,7 +170,8 @@
 									function() {
 										$('.owl-carousel').owlCarousel(
 											{items : 2,
-											loop : true
+											loop : true,
+											itemsScaleUp : false
 										});
 								});
 							</script>
@@ -188,7 +188,7 @@
 								<table
 									class="mplist table table-bordered table-hover text-center">
 									<tr>
-										<th style="width: 13%">가게이름</th>
+										<th style="width: 13%">가게이름/메뉴</th>
 										<th style="width: 12%">날짜</th>
 										<th style="width: 8%">별점</th>
 										<th style="width: 35%">내용</th>
@@ -212,7 +212,11 @@
 															<br/>
 																<c:forEach items="${menus}" var="menus" varStatus="loop">
 																	<c:if test="${rvcnt.menu_no == menus.menu_no}">
-																		${menus.menu_name}
+																		<div class="menu_name">${menus.menu_name}
+																			<div class="price">
+																				<p>(${menus.menu_price})</p>
+																			</div>
+																		</div>
 																	</c:if>											
 																</c:forEach>
 														</td>
@@ -259,6 +263,7 @@
 					</div>
 				</div>
 				
+				
 				<!-- 삭제 알람 띄우기 -->				
 
 
@@ -293,13 +298,13 @@
 									<c:if test="${not empty myET0}">
 										<c:forEach items="${myET0}" var="ET0" varStatus="loop">
 											<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
-												<c:if test="${ET0.username == storetxt.username}">
+												<c:if test="${ET0.store_id == storetxt.username}">
 													<tr>
 														<td>
 															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
-															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">							
+															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">						
 															
-															<a href="#" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;">수락</a>	
+															<input type="button" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;" value="수락">	
 														
 															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
 								
@@ -325,7 +330,7 @@
 															<c:forEach items="${Nicks}" var="Nick" varStatus="loop">
 																<c:if test="${ET0.er_no == Nick.er_no}">
 																	<span class="overflow"> 
-																	<a href='<c:url value="/Member/MyPage.do?username=${Nick.username}"/>'>
+																	<a href='<c:url value="/MyPage.bbs?user_id=${Nick.username}"/>'>
 																		${Nick.u_nick} 
 																	</a>
 																	</span>
@@ -372,15 +377,19 @@
 
 											<div class="mpjjim bd2bc pb-3 pt-3 col-md-11" style="float: none; background: lightblue; display: inline-block;">
 												<div class="img col-md-6" style=" display: inline-block; padding:5px; margin:0px; ">
-													<c:if test="${empty myET1.sf_path}">
-														<div class="img rv_list_img col-md-12" style="border: 1px solid red; float: left;">
-															<span>no Image</span>
-														</div>
-													</c:if>
-
-													<c:if test="${not empty myET1.sf_path}">
-														<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${myET1.sf_path}"/>);"> </div>											
-													</c:if>
+													<c:forEach items="${storeimgs}" var="storeimgs" varStatus="loop">
+														<c:if test="${storeimgs.username == myET1}">
+															<c:if test="${empty storeimgs.sf_path}">
+																<div class="img rv_list_img col-md-12" style="background:white;float: left;" >
+																	<span>no Image</span>
+																</div>
+															</c:if>
+		
+															<c:if test="${not empty storeimgs.sf_path}">
+																<div class="img rv_list_img col-md-12" style="background-image: url(<c:url value="${storeimgs.sf_path}"/>);"> </div>											
+															</c:if>
+														</c:if>
+													</c:forEach>
 												</div>
 												<div class="text col-md-6" style="display: inline-block; padding:5px; margin:0px; vertical-align: top; ">
 													<div>
@@ -418,12 +427,13 @@
 												</div>
 												<c:if test="${myET1.user_id == myET1.er_master}">
 													<div class="col-md-12 pt-3">
-														<input type="button" class="btn btn-danger" value="삭제" >	
+														<input type="hidden" value="${myET1.er_no}" id="er_no2">	
+														<input type="button" class="btn btn-danger" value="삭제" id="deleteET">	
 													</div>
 												</c:if>
 												<c:if test="${myET1.user_id != myET1.er_master}">
 													<div class="col-md-12 pt-3">
-														<input type="button" class="btn btn-danger" value="삭제" >	
+														<input type="button" class="btn btn-danger" value="나가기" id="etReject">	
 													</div>
 												</c:if>
 											</div>
@@ -437,9 +447,14 @@
 						<script>
 						$(document).ready(
 							function() {
-								$('.owl-carousel').owlCarousel(
-									{items :4,
-									loop : true
+								$('.owl-carousel').owlCarousel({
+									itemsScaleUp:false,
+									autoPlay:4,
+									stopOnHover:false,
+									navigation:false,
+									navigationText : ["prev","next"],
+									items :4,
+									loop : true,
 								});
 						});
 					</script>
@@ -453,42 +468,75 @@
 </section>
 
 <script>
-$(document).on("click","#forRvdel",function(){
-	var rv_no = $("#rv_no").val();
-	var isDelete = function(){
-		if(confirm("정말로 이 리뷰를 삭제 하시겠습니까?"))
-			location.replace("<c:url value='/deleteMyReview.bbs?rv_no="+rv_no+"'/>");	
-	}
+	$(document).on("click","#forRvdel",function(){
+		var rv_no = $("#rv_no").val();
+		var isDelete = function(){
+			if(confirm("정말로 이 리뷰를 삭제 하시겠습니까?"))
+				location.replace("<c:url value='/deleteMyReview.bbs?rv_no="+rv_no+"'/>");	
+		}
+		
+		isDelete();
+	}),
+	$(document).on("click","#deleteET",function(){
+		var er_no = $("#er_no2").val();
+		var isDelete = function(){
+			if(confirm("이 같이먹자 방을 삭제 하시겠습니까?"))
+				location.replace("<c:url value='/deleteMyETHist.bbs?er_no="+er_no+"'/>");	
+		}
+		
+		isDelete();
+	}),
 	
-	isDelete();
-}),
-
-$(document).on("click","#etAccept",function(){
-	var rv_no = $("#rv_no").val();
-	var user_id = $("#user_id").val();
-	var isAccept = function(){
-		if(confirm("같이 먹기를 수락하시겠습니까?"))
-			location.replace("<c:url value='/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
-	};
+	$(document).on("click","#etAccept",function(){
+		var er_no = $("#er_no").val();
+		
+		$.ajax({
+			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>",
+		    data: {"er_no":er_no},			    
+	        dataType: 'json',
+	        success : function(data){
+				console.log('성공..?:',data);
+				alert('수락 처리 완료!');
+				window.location = "<c:url value='/MyPage.bbs'/>";
+			},
+			error:function(request,status,error){
+				console.log('error:%s,status:%s', error,status);
+			}
+		});
+		
+		/*
+		var isAccept = function(){
+			if(confirm("같이 먹기를 수락하시겠습니까?"))
+				location.replace("<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>");	
+		}
+		isAccept();
+		*/
+	})
 	
-	isAccept();
-}),
-$(document).on("click","#etReject",function(){
-	var rv_no = $("#rv_no").val();
-	var user_id = $("#user_id").val();
-	var isReject = function(){
-		if(confirm("같이 먹기를 거절하시겠습니까?"))
-			location.replace("<c:url value='/User/er_Accept.bbs?rv_no="+rv_no+"&username="+user_id+"'/>");	
-	};
-	
-	isReject();
-})
-
-
-
-
-
-
-	
+	$(document).on("click","#etReject",function(){
+		var er_no = $("#er_no").val();
+		console.log(er_no)
+			$.ajax({
+				url:"<c:url value='/er_Reject.bbs?er_no="+er_no+"'/>",
+			    data: {"er_no":er_no},			    
+		        dataType: 'json',
+		        success : function(data){
+					console.log('성공..?:',data);
+					alert('거부 처리 완료!');
+					window.location = "<c:url value='/MyPage.bbs'/>";
+				},
+				error:function(request,status,error){
+					console.log('error:%s,status:%s', error, status);
+				}
+			});
+		
+		/*
+		var isReject = function(){
+			if(confirm("같이 먹기를 거절하시겠습니까?"))
+				location.replace("<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>");	
+		}
+		*/
+		//isReject();
+	})
 </script>
 

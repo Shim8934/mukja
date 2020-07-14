@@ -167,7 +167,7 @@ section {
 									<input type="text" class="form-control" id="username" name="username" value="" placeholder="이메일">
 								</c:if>	
 								<c:if test="${map!=null}">
-									<input type="text" class="form-control" id="username" name="username" value="${map.email}" placeholder="이메일">
+									<input type="text" class="form-control" id="username" name="username" value="${map.email }" placeholder="이메일">
 								</c:if>
 								<div class="check_font" id="id_check"></div>
 
@@ -263,8 +263,8 @@ section {
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">골라먹자 필터 지정하기</label> <span
-										class="ion-ios-arrow-down" id="img"></span>
+									<label for="">골라먹자 필터 지정하기</label>
+									<span class="ion-ios-arrow-down" id="img"></span>
 
 								</div>
 								<div class="col-md-12 trs" style="display: none;">
