@@ -106,10 +106,10 @@ section {
 					<div class="row">
 						<div class="col-md-12 text-center" style="margin-top: 10px;">
 							<div class="form-group" style="width: 100%" >
-								<label style="margin-top: 20px;">${loop.index+1}번 메뉴 등록하기</label>
+								<label style="margin-top: 20px;">${loop.index+1}번 메뉴 수정하기</label>
 								<input type="hidden" id="menu_no${loop.index}" name="menu_no${loop.index }" value="${menuList.menu_no}">
 								<input type="hidden" id="orimenu_tend${loop.index}" class="tendMust" name="orimenu_tend${loop.index }" value="${menuList.menu_tend}">
-								<input type="hidden" id="menu_tend${loop.index}" class="tendMust" name="menu_tend${loop.index }" value="${menuList.menu_tend}">								
+								<input type="hidden" id="menu_tend${loop.index}" class="tendMust" name="menu_tend${loop.index }">								
 								<div>
 									<span>&nbsp;</span>
 								</div>
@@ -149,57 +149,57 @@ section {
 								<div class="col-xs-12">
 									<div class="col-xs-1">
 										<!-- 물고기 -->
-										<img id="T_FS${loop.index}" src="/mukja/resources/tend_IMG/sutend/pesco_x.png" alt="F" class="img-circle img_size">
+										<img id="T_FS${loop.index}" src="/mukja/resources/tend_IMG/sutend/pesco_o.png" alt="F" class="img-circle img_size">
 										<div class="lb_size">생선</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 달걀-->
-										<img id="T_EG${loop.index}" src="/mukja/resources/tend_IMG/sutend/ovo_x.png" alt="E" class="img-circle img_size">
+										<img id="T_EG${loop.index}" src="/mukja/resources/tend_IMG/sutend/ovo_o.png" alt="E" class="img-circle img_size">
 										<div class="lb_size">달걀</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 우유-->
-										<img id="T_MK${loop.index}" src="/mukja/resources/tend_IMG/sutend/dairy_x.png" alt="M" class="img-circle img_size">
+										<img id="T_MK${loop.index}" src="/mukja/resources/tend_IMG/sutend/dairy_o.png" alt="M" class="img-circle img_size">
 										<div class="lb_size">우유</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 가금류-->
-										<img id="T_BD${loop.index}" src="/mukja/resources/tend_IMG/sutend/chicken_x.png" alt="B" class="img-circle img_size">
+										<img id="T_BD${loop.index}" src="/mukja/resources/tend_IMG/sutend/chicken_o.png" alt="B" class="img-circle img_size">
 										<div class="lb_size">가금류</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 돼지고기-->
-										<img id="T_PK${loop.index}" src="/mukja/resources/tend_IMG/sutend/pig_x.png" alt="P" class="img-circle img_size">
+										<img id="T_PK${loop.index}" src="/mukja/resources/tend_IMG/sutend/pig_o.png" alt="P" class="img-circle img_size">
 										<div class="lb_size">돼지</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 소고기-->
-										<img id="T_CW${loop.index}" src="/mukja/resources/tend_IMG/sutend/cow_x.png" alt="C" class="img-circle img_size">
+										<img id="T_CW${loop.index}" src="/mukja/resources/tend_IMG/sutend/cow_o.png" alt="C" class="img-circle img_size">
 										<div class="lb_size">소</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 땅콩-->
-										<img id="T_PE${loop.index}" src="/mukja/resources/tend_IMG/sutend/nuts_x.png" alt="PE" class="img-circle img_size">
+										<img id="T_PE${loop.index}" src="/mukja/resources/tend_IMG/sutend/nuts_o.png" alt="PE" class="img-circle img_size">
 										<div class="lb_size">땅콩</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 각갑류-->
-										<img id="T_SF${loop.index}" src="/mukja/resources/tend_IMG/sutend/shrimp_x.png" alt="SF" class="img-circle img_size">
+										<img id="T_SF${loop.index}" src="/mukja/resources/tend_IMG/sutend/shrimp_o.png" alt="SF" class="img-circle img_size">
 										<div class="lb_size">갑각류</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 치즈-->
-										<img id="T_DP${loop.index}" src="/mukja/resources/tend_IMG/sutend/dairy_x.png" alt="DP" class="img-circle img_size">
+										<img id="T_DP${loop.index}" src="/mukja/resources/tend_IMG/sutend/dairy_o.png" alt="DP" class="img-circle img_size">
 										<div class="lb_size">유제품</div>
 									</div>
 									<div class="col-xs-1">
 										<!-- 콩-->
-										<img id="T_SB${loop.index}" src="/mukja/resources/tend_IMG/sutend/s_x.png" alt="SB" class="img-circle img_size">
+										<img id="T_SB${loop.index}" src="/mukja/resources/tend_IMG/sutend/s_o.png" alt="SB" class="img-circle img_size">
 										<div class="lb_size">대두</div>
 									</div>
 									<div class="col-xs-1" style="margin-bottom: 10px;">
 										<!-- 밀가루 -->
-										<img id="T_FL${loop.index}" src="/mukja/resources/tend_IMG/sutend/gluten_x.png" alt="FL" class="img-circle img_size">
+										<img id="T_FL${loop.index}" src="/mukja/resources/tend_IMG/sutend/gluten_o.png" alt="FL" class="img-circle img_size">
 										<div class="lb_size">글루텐</div>
 									</div>
 								</div>
@@ -468,26 +468,32 @@ $(document).on("click",".img-circle",function(){
 			if($('#T_'+ele).attr('src').includes('_x')){
 				console.log('여기')
 				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_x","_o"));
-					
 					if(eles.indexOf(ele)==-1){
-						eles+=ele;
-					    $('#menu_tend'+tendFlag).attr('value',eles+',');
+						console.log('여기2')
+						var a=eles.replace(ele+',','')
+						$('#menu_tend'+tendFlag).attr('value',a);
+					
 					}
 					else{
+						console.log('여기2')
+						var a=eles.replace(ele+',','')
+						$('#menu_tend'+tendFlag).attr('value',a);
+						/*
 						eles+='';
 						$('#menu_tend'+tendFlag).attr('value',eles);
+						*/
+						
 					}
 			}
 			else {
 				$('#T_'+ele).attr('src',$('#T_'+ele).attr('src').toString().replace("_o","_x"));
 				
 				if(eles.indexOf(ele)==-1){
-					console.log('여기1')
+					eles+=ele;
+				    $('#menu_tend'+tendFlag).attr('value',eles+',');
 				}
 				else{
-					console.log('여기2')
-					var a=eles.replace(ele+',','')
-					$('#menu_tend'+tendFlag).attr('value',a);
+					console.log('여기1')
 				}
 			}
 		})
