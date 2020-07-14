@@ -7,30 +7,27 @@
 	<select id="getStoreDetailInfo" parameterType="java.util.Map" resultType="storeDTO">
     	 select * from Stores s join foodmenu f on s.username = f.username where s.username = #{username}
     </select>
-    
  	 <select id="getReviewCount" parameterType="java.util.Map" resultType="int">
     	 select count(*) from storereview where store_name = #{username}
     </select>
  	 <select id="getFoodMenu" parameterType="java.util.Map" resultType="foodMenuDTO">
     	 select * from foodmenu where username = #{username}
     </select>
-    
      <select id="getStoreIMG" parameterType="java.util.Map" resultType="storeIMGDTO">
     	 select * from store_file where username = #{username}
     </select>
-    
      <select id="getFoodIMG" parameterType="java.lang.String" resultType="foodIMGDTO">
     	 select * from fm_file where menu_no = #{menu_no}
     </select>
     
+    
+    
     <update id="updateStoreAvg" parameterType="java.util.Map">
     	update store_avg set sa_avg=#{starCount} where store_id=#{store_id} and user_id=#{user_id}
     </update>
-    
     <insert id="insertStoreAvg"  parameterType="java.util.Map">
     	insert into store_avg values(SEQ_SA.nextval,#{store_id},#{starCount},#{user_id})
     </insert>
-    
     <select id="selectAvg" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_avg where store_id=#{store_id} and user_id=#{user_id}
     </select>
@@ -38,24 +35,45 @@
     	select avg(sa_avg) from store_avg where store_id=#{username}
     </select>
     
-     <select id="selectThumb" parameterType="java.util.Map" resultType="int">
-    	select count(*) from store_thumb where store_id=#{store_id} and user_id=#{user_id}
-    </select>
     
-	<delete id="deleteThumb" parameterType="java.util.Map">
-    	delete store_thumb where store_id=#{store_id} and user_id=#{user_id}
-    </delete>
     
-    <insert id="insertThumb"  parameterType="java.util.Map">
-    	insert into store_thumb values(SEQ_thumb.nextval,#{store_id},#{user_id})
-    </insert>
-    
+
+	
      <select id="getStoreThumb" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_thumb where store_id=#{username}
     </select>
     <select id="isThumb" parameterType="java.util.Map" resultType="int">
     	select count(*) from store_thumb where store_id=#{username} and user_id=#{user_id}
     </select>
+    <select id="selectThumb" resultType="int" parameterType="java.util.Map" > 
+		select count(*) from store_thumb where store_id=#{store_id} and user_id=#{user_id} 
+	</select>
+     <delete id="deleteThumb" parameterType="java.util.Map">
+    	delete store_thumb where store_id=#{store_id} and user_id=#{user_id}
+    </delete>
+    <insert id="insertThumb"  parameterType="java.util.Map">
+    	insert into store_thumb values(SEQ_thumb.nextval,#{store_id},#{user_id})
+    </insert>
+    
+    
+    
+    <select id="getJjimcount" parameterType="java.util.Map" resultType="int">
+    	select count(*) from my_storelist where store_name=#{username}
+    </select>    
+    <select id="isJjim" parameterType="java.util.Map" resultType="int">
+    	select count(*) from my_storelist where store_name=#{username} and user_email=#{user_id}
+    </select>
+    <select id="selectcount" parameterType="java.util.Map" resultType="int">
+    	select count(*) from my_storelist where store_name=#{store_id} and user_email=#{user_id}
+    </select> 
+    <insert id="insertJjim"  parameterType="java.util.Map">
+    	insert into my_storelist (store_name,user_email,ms_no) values (#{store_id},#{user_id},SEQ_mystore.nextval)
+    </insert>
+     <delete id="deleteJjim" parameterType="java.util.Map">
+    	delete my_storelist where store_name=#{store_id} and user_email=#{user_id}
+    </delete>
+    
+    
     
     <!-- 가게 정보 / 사진 수정용 -->
     <select id="selectFoodImg" parameterType="java.util.Map" resultType="storeDTO">
@@ -148,16 +166,27 @@
 		delete from review_thumb where rv_no =#{rv_no}
 	</delete>    
 	    		
-	<!-- 리뷰 좋아요 -->
-	<select id="getRVThumb" parameterType="java.util.Map" resultType="MyPageDTO" >
+	<!-- 리뷰 좋아요 -->	
+	
+	<!-- 베스트 리뷰 -->
+	<select id="getBestRV" parameterType="java.util.Map" resultType="MyPageDTO" >
 		select * from 
 		(select rv_no,count (rv_no) as count from review_thumb group by rv_no) rt
 		join storereview sr on rt.rv_no = sr.rv_no where  sr.store_name =#{username} order by count desc
 	</select>
-	<insert parameterType="java.util.Map" id="insertRVThumb">	
+	
+	<!-- 회원 리뷰 좋아요 유무 -->	
+	<insert id="isRVThumb" parameterType="java.util.Map" >	
+	    select count(*) from review_thumb where rv_no=#{rv_no} and uesr_email=#{user_id}
+	</insert>
+	<!-- 리뷰 당 좋아요 수 -->	
+	<insert id="selectRVThumb" parameterType="java.util.Map" >	
+	    select count(*) from review_thumb where rv_no=#{rv_no}
+	</insert>
+	<insert id="insertRVThumb" parameterType="java.util.Map" >	
 	    INSERT INTO review_thumb VALUES (SEQ_revthumb.nextval,#{rv_no},#{user_id}) 
 	</insert>
-	<delete parameterType="java.util.Map" id="deleteRVThumb">
+	<delete id="deleteRVThumb" parameterType="java.util.Map" >
 		DELETE review_thumb WHERE rt_no=#{rt_no} 
 	</delete>
 

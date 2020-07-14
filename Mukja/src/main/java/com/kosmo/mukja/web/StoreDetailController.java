@@ -70,8 +70,15 @@ public class StoreDetailController {
 			int is_Thumb =service.isThumb(map);
 			System.out.println("is_Thumb:"+is_Thumb);
 			model.addAttribute("is_Thumb",is_Thumb);
+			
+			int is_JJim = service.isJjim(map);
+			System.out.println("is_JJim:"+is_JJim);
+			model.addAttribute("is_JJim",is_JJim);			
+			
 		}else {
 			System.out.println("is_Thumb:"+0);
+			model.addAttribute("is_Thumb",0);
+			System.out.println("is_JJim:"+0);
 			model.addAttribute("is_Thumb",0);
 		}
 		List<StoreDTO> list = service.getStoreInfo(map);
@@ -95,7 +102,7 @@ public class StoreDetailController {
 		
 		List<FoodMenuDTO> foodMenuList = service.getFoodMenu(map);
 		String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
-		String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
+		String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","중식","일식","한식","분식","양식"};
 		
 		for(int j=0; j<tend_codes.length;j++) {
 			for(int i=0; i<foodMenuList.size();i++) {
@@ -140,6 +147,8 @@ public class StoreDetailController {
 		
 		int store_Thumb = service.getStoreThumb(map);
 		model.addAttribute("store_Thumb",store_Thumb);
+		int store_Jjim = service.getJjimcount(map);
+		model.addAttribute("store_Jjim",store_Jjim);
 		
 		
 		/*가게리뷰보기*/
@@ -174,12 +183,27 @@ public class StoreDetailController {
 		System.out.println("usersnks"+usersnks);
 		
 		
-		List<MyPageDTO> rvThumb = service.getRVThumb(map);
+		List<MyPageDTO> rvThumb = service.getBestRV(map);
 		model.addAttribute("rvThumb",rvThumb);
 		for(int k =0; k< rvThumb.size();k++) {
 		System.out.println("rvThumb.rv_no : "+rvThumb.get(k).getRv_no()
 				+" rvThumb.count : "+rvThumb.get(k).getCount());
 		}
+		
+//		if(authentication!=null) {
+//			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//			map.put("user_id", userDetails.getUsername());
+//			System.out.println("user_id:"+map.get("user_id"));
+//
+//			System.out.println("store_id : "+store_id);
+//			System.out.println("user_id : "+store_id);
+//			int isRVThumb = service.isRVThumb(map);
+//			System.out.println("isRVThumb:"+isRVThumb);
+//			model.addAttribute("isRVThumb",isRVThumb);			
+//		}else {
+//			System.out.println("isRVThumb:"+0);
+//			model.addAttribute("isRVThumb",0);
+//		}
 		//베스트리뷰 뽑기
 		return "/Store/DetailView.tiles";
 	}
@@ -205,6 +229,13 @@ public class StoreDetailController {
 	public String updateStoreRecommand(@RequestParam Map map) {
 		int result=service.updateStoreRecommand(map);
 		return "{'result':"+result+"}";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateStoreJjim.do") 
+	public String updateStoreJjim(@RequestParam Map map) { 
+		int result=service.updateStoreJjim(map); 
+		return "{'result':"+result+"}"; 
 	}
 
 	@ResponseBody
@@ -301,25 +332,25 @@ public class StoreDetailController {
 		
 		
 	
-//	@ResponseBody
-//	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
-//	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
-//		
-//		System.out.println("username3 : "+map.get("username"));	
-//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-//		String user_id = userDetails.getUsername();
-//		map.put("user_id",user_id);		
-//		
-//		int clickThumb = service.insertRVThumb(map);
-//		model.addAttribute("clickThumb",clickThumb);
-//		System.out.println(clickThumb==0?"실패":"성공");
+	@ResponseBody
+	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
+	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
+		
+		System.out.println("username3 : "+map.get("username"));	
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String user_id = userDetails.getUsername();
+		map.put("user_id",user_id);		
+		
+		int clickThumb = service.insertRVThumb(map);
+		model.addAttribute("clickThumb",clickThumb);
+		System.out.println(clickThumb==0?"실패":"성공");
+	
+	
+		return "/Store/DetailView.tiles";
+	}
+	
+//
 //	
-//	
-//		return "/Store/DetailView.tiles";
-//	}
-//	
-////
-////	
 //	/*리뷰 좋아요*/	
 //	@ResponseBody
 //	@RequestMapping(value="/disThumb.bbs",method=RequestMethod.GET)
