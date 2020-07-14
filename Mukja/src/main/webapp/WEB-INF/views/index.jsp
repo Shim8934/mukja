@@ -412,17 +412,14 @@
 						<div class="row">			 
 						  <div class="col-md-12">
 						    <div class="input-group" style="margin-bottom: 10px;margin-top: 10px;">
-						      <input id="dong" name ="dong" type="text" class="form-control" placeholder="원하는 동을 검색하세요."  >
+						      <input id="dong" name ="dong" type="text" class="form-control" placeholder="원하는 동을 검색하세요.">  
 						       <input type="text" style="display: none;" />
 						      <span class="input-group-btn">
-						       
-						        <button class="btn btn-default" type="button" id ="searchButton" >검색</button>
-						         
+						        <button class="btn btn-default" type="button" id ="searchButton" >검색</button>					         
 						      </span>
 						    </div><!-- /input-group -->
 						  </div><!-- /.col-lg-6 -->
-						</div><!-- /.row -->
-						
+						</div><!-- /.row -->						
 				 	  </form>	
                
                

@@ -675,7 +675,7 @@ function nullval() {
 	    }
 	}, true);
 </script>
-	<script>
+<script>
 var dice;
 var sss;
 var click=0;

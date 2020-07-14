@@ -41,7 +41,7 @@ public class SearchMapController {
 	@ResponseBody
 	@RequestMapping(value = "/Search/Place.do", produces="application/json; charset=utf8")
 	public String searchDong(@RequestParam Map map) {
-		System.out.println("searchDong 접근");
+		 System.out.println("searchDong 접근");
 		 System.out.println("dong : "+map.get("dong").toString());
 		 List<DongDTO> list = service.searchDong(map);
 		 if(list.size()==0)return null;
@@ -63,7 +63,8 @@ public class SearchMapController {
 			jsonArray.add(jsonDto);
 		 }
 		 System.out.println("toJSONString"+jsonArray.toJSONString());
-		return jsonArray.toJSONString(); 
+		return jsonArray.toJSONString();
+
 	}
 	/*
 	public int check_tend(List<String> array,Map map,int avoid_loop) {

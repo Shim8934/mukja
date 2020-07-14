@@ -209,7 +209,7 @@ public class SignController {
 		map.put("username", username);
 		map.put("password", mr.getParameter("password").toString());
 		map.put("store_name", mr.getParameter("store_name").toString());
-		map.put("store_reginum", mr.getParameter("store_reginum").toString());
+		map.put("store_reginum","1111111111");
 		map.put("store_phnum", mr.getParameter("store_phnum").toString());
 		map.put("store_email", mr.getParameter("store_email").toString());
 		String store_intro = mr.getParameter("store_intro").toString();
@@ -324,7 +324,7 @@ public class SignController {
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; // 이메일로 받는 인증코드 부분 (난수)
 		String setfrom = "wkdrns3213@gamil.com";
-		String tomail = map.get("username").toString(); // 받는 사람 이메일
+		String tomail = map.get("store_email").toString(); // 받는 사람 이메일
 		System.out.println(tomail);
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
