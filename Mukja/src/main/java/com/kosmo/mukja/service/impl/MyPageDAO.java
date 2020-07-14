@@ -67,7 +67,6 @@ public class MyPageDAO implements MyPageService {
 
 	@Override
 	public MyPageDTO getMyReviewForUpdate(Map map) {
-		System.out.println("리뷰dao");
 		return sqlMapper.selectOne("getMyReviewForUpdate",map);
 	}
 
@@ -144,6 +143,24 @@ public class MyPageDAO implements MyPageService {
 	@Override
 	public int getMyETHistTotal(Map map) {
 		return sqlMapper.selectOne("getMyETHistTotal",map);
+	}
+
+	@Override
+	public int updateMyReviewPic(Map map) {
+		return sqlMapper.update("updateMyReviewPic",map);
+	}
+
+	@Override
+	public int deleteMyEM(Map map) {
+		return sqlMapper.delete("deleteMyEM",map);
+	}
+	@Override
+	public int deleteMyER(Map map) {
+		return sqlMapper.delete("deleteMyER",map);
+	}
+	@Override
+	public int deleteMyERC(Map map) {
+		return sqlMapper.delete("deleteMyERC",map);
 	}
 
 	

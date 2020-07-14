@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -46,6 +47,7 @@ public class StoreDetailController {
 
 	private String store_id;
 	private String user_id;
+	private String rv_no;
 	
 	@RequestMapping("/Store/DetailView.do")
 	public String StoreDetail(
@@ -53,7 +55,7 @@ public class StoreDetailController {
 			Authentication authentication,
 			@RequestParam(required = false,defaultValue = "1") int nowPage, 
 			HttpServletRequest req ) {
-		System.out.println("여기 왔다1");
+		System.out.println("--------------------store---------------------------");
 		System.out.println("username : "+map.get("username"));
 		store_id=map.get("username").toString();
 		System.out.println("store_id : "+store_id);
@@ -212,7 +214,7 @@ public class StoreDetailController {
 
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		map.put("user_id", userDetails.getUsername());
-		
+		System.out.println("리뷰 작성 속 store_id : "+store_id);
 		JSONObject json= new JSONObject();		
 		System.out.println("rv_no: " + map.get("rv_no"));	
 		System.out.println("rv_title: "+map.get("rv_title"));	
@@ -220,7 +222,7 @@ public class StoreDetailController {
 		System.out.println("user_id : "+map.get("user_id"));	
 		System.out.println("store_id : " + map.get("store_id"));
 		System.out.println("menu_no : "+ map.get("menu_no"));
-
+		map.put("store_id",store_id);
 		int insertrv = service.insertReview(map);	
 		System.out.println("rv_no: " + map.get("rv_no"));		
 		//인서트		
@@ -269,16 +271,12 @@ public class StoreDetailController {
 	public String updateMyReview(Authentication auth, @RequestParam Map map) {
 		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
 		System.out.println(map.get("user_id"));
-		System.out.println("rv_no");
-
-		MyPageDTO stRV4up = service.getOneReviewForUpdate(map);
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rv_no : "+stRV4up.getRv_no());
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());	
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Store_name2 : "+stRV4up.getStore_name2());		
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_name : "+stRV4up.getMenu_name());		
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());		
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rf_path : "+stRV4up.getRf_path());			
-	
+		System.out.println("rv_no : "+rv_no);
+//		map.put("rv_no",rv_no);
+		System.out.println(store_id);
+		map.put("store_id",store_id);
+		
+		
 		int updateRV = service.updateReview(map);
 		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
 		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");		
@@ -287,18 +285,16 @@ public class StoreDetailController {
 	
 	//리뷰 삭제 처리]
 	@RequestMapping(value="/deleteSTReview.bbs")
-	public String deleteMyReview(@RequestParam Map map) {		
-		
+	public String deleteMyReview(@RequestParam Map map ) { 
 		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");								
 		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
-		
-		
 		int deleteRVpic = service.deleteOneReviewPic(map);
 		System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
 		int deleteRVth = service.deleteOneReviewThumb(map);
 		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
 		int deleteRV = service.deleteOneReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
+		
 		
 		return "redirect:/Store/DetailView.do?username="+store_id+"";
 		}///////////
