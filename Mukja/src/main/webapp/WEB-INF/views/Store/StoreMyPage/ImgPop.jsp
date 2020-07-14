@@ -26,12 +26,13 @@
      		 + "<div id='preview1'></div>"
      		 + "	</div></div>"
      		 + "<div class='col-md-6 ftco-animate fadeInUp ftco-animated'>"
+     		 + "<div class='form-group'>"
      		 + "<input type='hidden' id='flag1' name='flag1' value='flag1'/>"
      		 + "<label for='sf_path1' class='col-sm-2 col-form-label'>사진등록</label>"
      		 + "<div id='fileList' class='col-sm-10'>"
      		 + "<small class='form-text text-muted'>신규 이미지를 등록해 주세요.</small>"
      		 + "<input name='sf_path1' id='sf_path1' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-img'>"
-     		 + "</div><br/> "
+     		 + "</div></div><br/> "
      		 + "<div class='col-md-12 text-center' id='addBtn1'>"
      		 + "<span class='badge badge-pill badge-info addInput' id='1'>"
      		 + "사진 추가+</span></div></div><br/></div>"
@@ -47,12 +48,13 @@
      		 + "<div id='preview2'></div>"
      		 + "	</div></div>"
      		 + "<div class='col-md-6 ftco-animate fadeInUp ftco-animated'>"
+     		 + "<div class='form-group'>"
      		 + "<input type='hidden' id='flag2' name='flag2' value='flag2'/>"
      		 + "<label for='sf_path2' class='col-sm-2 col-form-label'>사진등록</label>"
      		 + "<div id='fileList' class='col-sm-10'>"
      		 + "<small class='form-text text-muted'>신규 이미지를 등록해 주세요.</small>"
      		 + "<input name='sf_path2' id='sf_path2' type='file' accept='.jpg,.jpeg,.png,.gif,.bmp' class='form-control-file inp-img'>"
-     		 + "	</div><br/> "
+     		 + "</div></div><br/> "
      		 $("#forInput").append(innerHtml);
      		$("#addBtn1").html("");
      	 }  
@@ -274,11 +276,8 @@
 		<form enctype="multipart/form-data" id="stImageEdit" action="<c:url value='/StoreMypage/editImgPop.do'/>" method="POST">
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
-						<div class="col-md-6 text-left">
+						<div class="col-md-12 text-left">
 								<span>${loopNo.index+1}번 사진 수정 메뉴</span>
-							</div>
-							<div class="col-md-6 text-right">
-								<input type="button" value="사진 삭제" id="deleteStImg${loopNo.index}">
 							</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
@@ -289,6 +288,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
+						<div class="form-group">
 							<input type="hidden" id="flag0" name="flag0" value="flag0"/>
 								<label for="sf_path" class="col-sm-2 col-form-label">사진등록</label>
 								<div id="fileList" class="col-sm-10">									
@@ -298,6 +298,7 @@
 								<br/> 
 								<input type="hidden" name="oriImg${loopNo.index}" value="${storeImg.sf_path}" id="oriImg${loopNo.index}" />
 								<input type="hidden" name="oriNo${loopNo.index}" value="${storeImg.sf_no}" id="oriNo${loopNo.index}" />
+							</div>
 						</div>
 				<br/>
 					</div>
@@ -329,7 +330,7 @@
 							</div>
 						</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
-							
+							<div class="form-group">
 								<label for="sf_path" class="col-sm-2 col-form-label">사진등록</label>
 								<div id="fileList" class="col-sm-10">									
 									<small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small>
@@ -338,6 +339,7 @@
 								<br/> 
 								<input type="hidden" name="oriImg${loopNo.index}" value="${storeImg.sf_path}" id="oriImg${loopNo.index}" />
 								<input type="hidden" name="oriNo${loopNo.index}" value="${storeImg.sf_no}" id="oriNo${loopNo.index}" />
+							</div>
 							<div class="col-md-12 text-center" id="addBtn">
 							<span class="badge badge-pill badge-info addInput" id="${loopNo.index}">
 								사진 추가+
@@ -361,11 +363,8 @@
 			<c:forEach items="${storeImg}" var="storeImg" varStatus="loopNo">
 				
 					<div class="col-md-12 ftco-animate fadeInUp ftco-animated text-center" style="margin-top: 5px;margin-bottop:5px;padding:5px;">
-						<div class="col-md-6 text-left">
+						<div class="col-md-12 text-left">
 								<span>${loopNo.index+1}번 사진 수정 메뉴</span>
-							</div>
-							<div class="col-md-6 text-right">
-								<input type="button" value="사진 삭제" id="deleteStImg">
 							</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
 							<div class="col-md-6 text-left">
@@ -376,14 +375,17 @@
 							</div>
 						</div>
 						<div class="col-md-6 ftco-animate fadeInUp ftco-animated">
+						<div class="form-group">
 								<label for="sf_path" class="col-sm-2 col-form-label">사진등록</label>
 								<div id="fileList" class="col-sm-10">									
 									<small class="form-text text-muted">수정할 이미지를 등록해 주세요.</small>
 									<input name="sf_path${loopNo.index}" id="sf_path${loopNo.index}" type="file" accept=".jpg,.jpeg,.png,.gif,.bmp" class="form-control-file inp-img">
 								</div>
+								
 								<br/> 
 								<input type="hidden" name="oriImg${loopNo.index}" value="${storeImg.sf_path}" id="oriImg${loopNo.index}" />
 								<input type="hidden" name="oriNo${loopNo.index}" value="${storeImg.sf_no}" id="oriNo${loopNo.index}" />
+						</div>
 							<div class="col-md-12 text-center" id="addBtn${loopNo.index}">
 							<c:if test="${not loopNo.first}">
 							<span class="badge badge-pill badge-info addInput" id="${loopNo.index}">

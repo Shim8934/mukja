@@ -49,15 +49,6 @@
 									<input type="submit" value="로그인" class="btn btn-primary btn-block py-5 px-4">
 								</div>
 							</div>
-							
-							<div class="col-md-12">
-								<span><input type="checkbox"> 로그인 상태 유지 </span>
-								<div style="display: inline-block; float: right;">
-									<a>비밀번호 찾기</a> <span>|</span>
-									<a href="<c:url value="/SignUp.bbs"/>" id="su">회 원 가 입</a>
-								</div>
-							</div>
-
 							<div class="col-md-12">
 								<div class="form-group" style="text-align: center">
 
