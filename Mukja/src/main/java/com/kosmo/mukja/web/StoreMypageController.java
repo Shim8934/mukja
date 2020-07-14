@@ -392,8 +392,8 @@ public class StoreMypageController {
 		int sizeFlag = stDto.size();
 		
 		for(int i=0; i<sizeFlag;i++) {
-			
-			if(map.get("menu_tend"+i).toString()!=null) {
+			if(!map.get("menu_tend"+i).toString().equals("")) {
+				System.out.println(i+"번째 메뉴 수정 때 필터 설정함");
 				editMenu_tend = map.get("menu_tend"+i).toString();
 				String o = Integer.toString(i);
 				editMenu_tend = editMenu_tend.replace(o, "");
@@ -401,6 +401,7 @@ public class StoreMypageController {
 				map.put("menu_tend", editMenu_tend);
 			}
 			else {
+				System.out.println(i+"번째 메뉴 수정 때 필터 설정 안함11");
 				editMenu_tend = map.get("orimenu_tend"+i).toString();
 				String o = Integer.toString(i);
 				editMenu_tend = editMenu_tend.replace(o, "");
@@ -482,12 +483,12 @@ public class StoreMypageController {
 					 String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
 				      
 				      File file = new File(realPath+"/"+fileName);
-				      System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+				      System.out.println(String.format("파일 이름 = %s\r\n 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
 				      try {
 				    	  img.transferTo(file);
 				      }
 				      catch(Exception e) {e.printStackTrace();}
-				      map.put("sf_path", path+"/"+fileName);
+				      map.put("fm_path", path+"/"+fileName);
 					
 					
 					service.insertMoreFoodMenu(map);
