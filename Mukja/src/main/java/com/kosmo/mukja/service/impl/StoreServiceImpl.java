@@ -166,8 +166,8 @@ public class StoreServiceImpl implements StoreService{
 	
 
 	@Override
-	public List<MyPageDTO> getRVThumb(Map map) {
-		return dao.getRVThumb(map);
+	public List<MyPageDTO> getBestRV(Map map) {
+		return dao.getBestRV(map);
 	}
 	@Override
 	public int insertRVThumb(Map map) {
@@ -240,6 +240,48 @@ public class StoreServiceImpl implements StoreService{
 	public StoreDTO selectNewMenuNo(Map map) {
 		// TODO Auto-generated method stub
 		return dao.selectNewMenuNo(map);
+	}
+
+	@Override
+	public int insertThumb(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertThumb(map);
+	}
+
+	@Override
+	public int deleteThumb(Map map) {
+		// TODO Auto-generated method stub
+		return dao.deleteThumb(map);
+	}
+
+	@Override
+	public int getJjimcount(Map map) {
+		return dao.getJjimcount(map);
+	}
+
+	@Override
+	public int isJjim(Map map) {
+		return dao.isJjim(map);
+	}
+
+	@Override
+	public int insertJjim(Map map) {
+		return dao.insertJjim(map);
+	}
+
+	@Override
+	public int deleteJjim(Map map) {
+		return dao.deleteJjim(map);
+	}
+
+	@Override
+	public int isRVThumb(Map map) {
+		return dao.isRVThumb(map);
+	}
+
+	@Override
+	public int updateStoreJjim(Map map) {
+		return dao.updateStoreJjim(map);
 	}
 	
 

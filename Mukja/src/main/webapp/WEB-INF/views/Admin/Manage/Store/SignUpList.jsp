@@ -92,16 +92,7 @@ $(function(){
 		    iwPosition = new kakao.maps.LatLng(lat, lng), //인포윈도우 표시 위치입니다
 		    iwRemoveable = true; // 닫기 버튼
 		
-		// 인포윈도우를 생성합니다
-		var infowindow = new kakao.maps.InfoWindow({
-			map: map, // 인포윈도우가 표시될 지도
-		    position : iwPosition, 
-		    content : iwContent,
-		    removable : iwRemoveable
-		});
-		  
-		// 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
-		infowindow.open(map, marker); 
+		
 		
 		
 		/*---------------------------------커스텀 오버레이 표시------------------------------------------

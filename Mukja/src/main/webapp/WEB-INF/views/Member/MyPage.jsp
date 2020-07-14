@@ -97,23 +97,25 @@
 							<div class="owl-carousel row justify-content-center"
 								style="margin-right: 0px; margin-left: 0px;">
 
-								<c:if test="${empty storetxt}" var="EmptyMS">
+								<c:if test="${empty storetxt}" >
 									<div class="mpjjim item-align-center bd2bc" style="padding: 10px; border-radius: 5%;">
 										<span style="font-weight: bold;">찜한 가게가 없어요.</span>
 									</div>
 								</c:if>
 
-								<c:if test="${not EmptyMS}">
+								<c:if test="${not empty storetxt}">
 									<c:forEach items="${myJjim}" var="myJjim" varStatus="loop">
 										<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
 											<c:if test="${myJjim.store_name == storetxt.username}">
 												<div class="mpjjim item-align-center bd2bc"
 													style="padding: 10px; border-radius: 5%;">
 													<div style="background-color: white; border-radius: 50%">
-														<input type="hidden" id="ms_no" value="${myJjim.ms_no}">
-														<a href='<c:url value="/deleteMyJjim.bbs?ms_no=${ms_no}"/>'>
-															<span class="glyphicon glyphicon-heart" style="font-size:20px; color: red; border-radius: 70%; float:right; margin:10px;" ></span>
+														<input type="hidden" id="ms_no" name="ms_no"value="${myJjim.ms_no}">
+														<a href='<c:url value="/deleteMyJjim.bbs?"/>'>
+															<span class="glyphicon glyphicon-heart" 
+															style="font-size:30px; color: red; border-radius: 70%; float:right; margin:10px;" ></span>
 														</a>
+													
 													</div>
 													<c:if test="${empty storeimgs}" var="EmptySP">
 														<div class="img">
@@ -228,7 +230,7 @@
 																<img class="rv_pics" />
 															</c:if>
 															<c:if test="${not empty rvimgs}">
-																<% int count = 0; %>
+			                    								<% int count = 0; %>
 																<c:forEach items="${rvimgs}" var="rvimgs"
 																	varStatus="loop">
 																	<c:if test="${rvcnt.rv_no == rvimgs.rv_no}">
@@ -458,7 +460,7 @@
 								});
 						});
 					</script>
-						
+					*아이디를 클릭하면 해당 아이디의 프로필 카드를 볼수 있습니.
 					</div>
 										
 				</div>
@@ -466,6 +468,7 @@
 		</div>
 	</div>
 </section>
+
 
 <script>
 	$(document).on("click","#forRvdel",function(){
@@ -538,5 +541,8 @@
 		*/
 		//isReject();
 	})
+	
+	
 </script>
+
 

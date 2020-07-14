@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -59,19 +60,21 @@ public class SignController {
 	}
 
 	// 로그인 처리별 화면 이동
-	@RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
-	public String role(Authentication auth, Map map) {
-		String list = auth.getAuthorities().toString();
+	   @RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
+	   public String role(Authentication auth, Map map,HttpSession session) {
+	      String list = auth.getAuthorities().toString();
 
-		if (list.contains("STORE")) {
-			return "forward:/StoreMypage/StoreMypageMain.do";
-		}
-		if (list.contains("ADMIN")) {
-			return "forward:/AdminMain.bbs";
-		}
-		return "index.tiles";
+	      if (list.contains("STORE")) {
+	         session.setAttribute("isStore", "isStore");
+	         return "forward:/StoreMypage/StoreMypageMain.do";      
+	      }
+	      if (list.contains("ADMIN")) {
+	         session.setAttribute("isAdmin", "isAdmin");
+	         return "forward:/AdminMain.bbs";
+	      }
+	      return "index.tiles";
 
-	}
+	   }
 
 	// 사용자 회원가입 폼으로 이동]
 	@RequestMapping(value = "/SignUp.bbs", method = RequestMethod.GET)
@@ -79,8 +82,6 @@ public class SignController {
 		return "/Member/SignUp.tiles";
 	}
 	
-	
-
 	// 판매자 회원가입 폼으로 이동]
 	@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.GET)
 	public String StoreSignUp(String str) {
@@ -113,9 +114,7 @@ public class SignController {
 			System.out.println(map.get("username"));
 			return signService.idPass(map);
 		}///////////
-	
-	
-	
+
 	// 회원가입 처리]
 	@RequestMapping(value = "/isSignUp.bbs", method = RequestMethod.POST)
 	public String SignUp(@RequestParam Map map,
@@ -168,8 +167,7 @@ public class SignController {
 		map.put("u_tend", u_tend);
 		map.put("authority","ROLE_USER");
 		map.put("enabled", 1);
-		
-		
+	
 	
 	  MultipartFile img = mr.getFile("u_img");
 	  if(img==null) {
@@ -191,6 +189,7 @@ public class SignController {
       
       signService.signup(map);
       return "/index.tiles";
+
 	}///////////
 
 	// 스토어 회원가입 처리]
@@ -349,18 +348,27 @@ public class SignController {
 		Random r = new Random();
 		int dice = r.nextInt(4589362) + 49311; // 이메일로 받는 인증코드 부분 (난수)
 		String setfrom = "wkdrns3213@gamil.com";
-		String tomail = map.get("username").toString(); // 받는 사람 이메일
+		String tomail = map.get("store_email").toString(); // 받는 사람 이메일
 		System.out.println(tomail);
 		String title = "회원가입 인증 이메일 입니다."; // 제목
 		String content =
+
 				System.getProperty("line.separator") + // 한줄씩 줄간격을 두기위해 작성
+
 						System.getProperty("line.separator") +
+
 						"안녕하세요 회원님 저희 홈페이지를 찾아주셔서 감사합니다"
+
 						+ System.getProperty("line.separator") +
+
 						System.getProperty("line.separator") +
+
 						" 인증번호는 " + dice + " 입니다. "
+
 						+ System.getProperty("line.separator") +
+
 						System.getProperty("line.separator") +
+
 						"받으신 인증번호를 홈페이지에 입력해 주시면 다음으로 넘어갑니다."; // 내용
 
 		try {
