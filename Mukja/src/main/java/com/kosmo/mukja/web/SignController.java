@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.inject.Inject;
@@ -25,12 +26,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.SignService;
 import com.kosmo.mukja.service.UsersDTO;
-import com.kosmo.mukja.web.util.FileUtility;
-import com.oreilly.servlet.MultipartRequest;
 
 /*
  * ※스프링 씨큐리티 사용시에는 
@@ -115,52 +116,45 @@ public class SignController {
 	
 	
 	
-	
-	
-	
-	
-	
-	
 	// 회원가입 처리]
 	@RequestMapping(value = "/isSignUp.bbs", method = RequestMethod.POST)
 	public String SignUp(@RequestParam Map map,
-						HttpServletRequest req) {
-		String userPath = req.getSession().getServletContext().getRealPath("/resources/user_IMG");
-		String uploadDir ="/resources/user_IMG";
+						HttpServletRequest req,
+						MultipartRequest mr) {
+		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+		String path ="/resources/userIMG";
 		
-		   File dir = new File(userPath);
-		    if(!dir.exists()) {
-		    	dir.mkdirs();
-		    	System.out.println("경로 만듦 / ");
-		    }
+	   File dir = new File(realPath);
+	    if(!dir.exists()) {
+	    	dir.mkdirs();
+	    	System.out.println("경로 만듦 / ");
+	    }
 		
-		MultipartRequest mr = FileUtility.upLoad(req, userPath);
-		
-		String username = mr.getParameter("username").toString();
+		String username = map.get("username").toString();
 		System.out.println("아이디 = "+username);
 		
-		String password = mr.getParameter("password").toString();
+		String password = map.get("password").toString();
 		System.out.println("비밀번호 = "+password);
 		
-		String u_nick = mr.getParameter("u_nick").toString();
+		String u_nick = map.get("u_nick").toString();
 		System.out.println("닉네임 = "+u_nick);
 		
-		String u_age = mr.getParameter("u_age").toString();
+		String u_age = map.get("u_age").toString();
 		System.out.println("연령대 = "+u_age);
 		
-		String u_lat = mr.getParameter("u_lat").toString();
+		String u_lat = map.get("u_lat").toString();
 		System.out.println("위도 = "+u_lat);
 		
-		String u_lng = mr.getParameter("u_lng").toString();
+		String u_lng = map.get("u_lng").toString();
 		System.out.println("경도 = "+u_lng);
 		
-		String u_addr = mr.getParameter("u_addr").toString();
+		String u_addr = map.get("u_addr").toString();
 		System.out.println("주소 = "+u_addr);
 		
-		String u_ph = mr.getParameter("u_ph").toString();
+		String u_ph = map.get("u_ph").toString();
 		System.out.println("연락처 = "+u_ph);
 		
-		String u_tend = mr.getParameter("menu_tend").toString();
+		String u_tend = map.get("menu_tend").toString();
 		System.out.println("성향 = "+u_tend);
 		
 		map.put("username", username);
@@ -174,81 +168,100 @@ public class SignController {
 		map.put("u_tend", u_tend);
 		map.put("authority","ROLE_USER");
 		map.put("enabled", 1);
-		String u_img = mr.getFilesystemName("u_img");
-		if(u_img!=null) {
-			System.out.println("프로필사진 있음 / 경로 세팅 직전 찍어봄 = "+u_img);
-			u_img = uploadDir +"/" + u_img;
-			System.out.println("디비 최종 입력 직전 찍어봄 = "+u_img);
-			map.put("u_img",u_img);
-		}
-		else {
-			u_img = uploadDir +"/"+"null";
-			map.put("u_img", u_img);
-			
-		}
-		signService.signup(map);
-		return "/index.tiles";
+		
+		
+	
+	  MultipartFile img = mr.getFile("u_img");
+	  if(img==null) {
+		  map.put("u_img", path+"/default.gif");
+	  }
+	  else {
+	      String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+	      
+	      File file = new File(realPath+"/"+fileName);
+	      System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),path+"/"+fileName));
+	      try {
+	    	  img.transferTo(file);
+	      }
+	      catch(Exception e) {e.printStackTrace();}
+      
+		map.put("u_img",path+"/"+fileName);
+	  }
+      
+      
+      signService.signup(map);
+      return "/index.tiles";
 	}///////////
 
 	// 스토어 회원가입 처리]
 	@RequestMapping(value = "/StoreSignUp.bbs", method = RequestMethod.POST)
 	public String StoreSignUp(@RequestParam Map map,
-							  HttpServletRequest req) {
-		String storePath = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
-		String uploadDir ="/resources/storeIMG";
+							  HttpServletRequest req,
+							  MultipartRequest mr) {
+		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+		String path ="/resources/IMG";
 		
-		System.out.println("경로 찍어보기 = "+storePath);
-	    File dir = new File(storePath);
+		System.out.println("경로 찍어보기 = "+realPath);
+	    File dir = new File(realPath);
 	    if(!dir.exists()) {
 	    	dir.mkdirs();
 	    	System.out.println("경로 만듦 / ");
 	    }
-		MultipartRequest mr = FileUtility.upLoad(req, storePath);
 		
 		// 디비에 넣을 입력 받은 정보들 빼서 맵에 넣기
-		String username = mr.getParameter("username").toString();
+		String username = map.get("username").toString();
 		map.put("username", username);
-		map.put("password", mr.getParameter("password").toString());
-		map.put("store_name", mr.getParameter("store_name").toString());
-		map.put("store_reginum", mr.getParameter("store_reginum").toString());
-		map.put("store_phnum", mr.getParameter("store_phnum").toString());
-		map.put("store_email", mr.getParameter("store_email").toString());
-		String store_intro = mr.getParameter("store_intro").toString();
+		map.put("password", map.get("password").toString());
+		map.put("store_name", map.get("store_name").toString());
+		map.put("store_reginum", map.get("store_reginum").toString());
+		map.put("store_phnum", map.get("store_phnum").toString());
+		map.put("store_email", map.get("store_email").toString());
+		String store_intro = map.get("store_intro").toString();
 		store_intro = store_intro.replace("<p>", "").replace("</p>", "").trim();
 		System.out.println("store_intro 찍어봄 = "+store_intro);
 		map.put("store_intro", store_intro);
-		String store_time = mr.getParameter("store_time").toString();
+		String store_time = map.get("store_time").toString();
 		store_time = store_time.replace("<p>", "").replace("</p>", "").trim();
 		System.out.println("store_time 찍어봄 = "+store_time);
 		map.put("store_time", store_time);
-		map.put("store_lat", mr.getParameter("store_lat").toString());
-		map.put("store_lng", mr.getParameter("store_lng").toString());
+		map.put("store_lat", map.get("store_lat").toString());
+		map.put("store_lng", map.get("store_lng").toString());
 		// 상세 주소까지 넣기용
-		String store_addr = mr.getParameter("store_addr").toString();
-		store_addr = store_addr+"/"+mr.getParameter("store_addrDetail").toString();
+		String store_addr = map.get("store_addr").toString();
+		store_addr = store_addr+"/"+map.get("store_addrDetail").toString();
 		System.out.println(store_addr + "디비에 들어갈 최종 주소값 정보 출력");
 		map.put("store_addr", store_addr);
+		
 		int result = 0;
 		// 회원가입 정보 및 가게 사진 파일 입력용
 		if(signService.storesignup(map)==1) {
 			for(int i=0;i<3;i++) {
-				String sf_path = mr.getFilesystemName("sf_path"+i);
-				if(sf_path!=null) {
-					System.out.println("가게 회원가입 사진 인설트하기 직전 파일 경로? = "+sf_path);
-					map.put("sf_path", uploadDir+"/"+sf_path);
-					result = signService.insertStoreImg22(map);
+				MultipartFile img = mr.getFile("sf_path"+i);
+				if(img==null) {
+					System.out.println("이미지 찍어봄"+img);
+					break;
+				}
+				else {
+					String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+				      
+				    File file = new File(realPath+"/"+fileName);
+				    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+				    try {
+				      img.transferTo(file);
+				    }
+				    catch(Exception e) {e.printStackTrace();}
+					String sf_path = path+"/"+fileName;
+					if(sf_path!=null) {
+						System.out.println("가게 회원가입 사진 인설트하기 직전 파일 경로? = "+sf_path);
+						map.put("sf_path", sf_path);
+						result = signService.insertStoreImg22(map);
+					}
 				}
 			}
 		}// 회원 가입 끝
 		
 		// 음식 메뉴 / 메뉴 사진 입력 시작
 		// 메뉴용 파일 경로 설정
-		String foodPath = req.getSession().getServletContext().getRealPath("/resources/foodIMG");
-		dir = new File(foodPath);
-		if(!dir.exists()) {
-	    	dir.mkdirs();
-	    	System.out.println("경로 만듦 / ");
-	    }
 		
 		System.out.println("유저네임 찍어봄"+username);
 		map.put("username", username);
@@ -257,13 +270,13 @@ public class SignController {
 		boolean j = true;
 		while(j) {
 			System.out.println("음식 메뉴 및 음식 사진 넣는 while문 안까지 왔음 ");
-			if(mr.getParameter("menu_name"+k)!=null) {
+			if(map.get("menu_name"+k)!=null) {
 				
-			String menu_name = mr.getParameter("menu_name"+k);
+			String menu_name = map.get("menu_name"+k).toString();
 			System.out.println("메뉴이름 찍어봄 = "+menu_name);
 			map.put("menu_name", menu_name);
 			
-			String menu_tend = mr.getParameter("menu_tend"+k);
+			String menu_tend = map.get("menu_tend"+k).toString();
 			System.out.println(menu_tend);
 			String o = Integer.toString(k);
 			System.out.println(o + "  o 변수 찍음");
@@ -271,16 +284,27 @@ public class SignController {
 			System.out.println("바꾼 tend 찍어봄 = "+menu_tend);
 			map.put("menu_tend",menu_tend);
 			
-			String menu_info = mr.getParameter("menu_info"+k);
+			String menu_info = map.get("menu_info"+k).toString();
 			map.put("menu_info", menu_info);
-			String menu_price = mr.getParameter("menu_price"+k);
+			String menu_price = map.get("menu_price"+k).toString();
 			System.out.println("메뉴 가격 찍어봄 = "+menu_price);
 			map.put("menu_price", menu_price);
-			String fm_path = mr.getFilesystemName("fm_path"+k);
+			
+			MultipartFile img = mr.getFile("fm_path"+k);
+			String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+		      
+			File file = new File(realPath+"/"+fileName);
+			System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+			try {
+	    	  img.transferTo(file);
+			}
+			catch(Exception e) {e.printStackTrace();}
+			
+			String fm_path = path+"/"+fileName;
 			if(fm_path==null) {
 				fm_path = "null";
 			}
-			map.put("fm_path", uploadDir+"/"+fm_path);		
+			map.put("fm_path", fm_path);		
 			System.out.println("파일 패스 찍어봄 "+fm_path);
 			result = signService.foodmenu(map);
 			

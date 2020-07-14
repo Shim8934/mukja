@@ -1,10 +1,12 @@
 package com.kosmo.mukja.web;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MyPageDTO;
@@ -26,9 +30,7 @@ import com.kosmo.mukja.service.MyPageService;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.UsersDTO;
-import com.kosmo.mukja.web.util.FileUtility;
 import com.kosmo.mukja.web.util.PagingUtil;
-import com.oreilly.servlet.MultipartRequest;
 import com.sun.security.auth.UserPrincipal;
 
 import sun.text.normalizer.ICUBinary.Authenticate;
@@ -324,17 +326,30 @@ public class MyPageController{
 	}
 	//리뷰 수정 처리]
 	@RequestMapping(value = "/updateMyReviewOk.bbs", method = RequestMethod.POST)
-	public String updateMyReview(Authentication auth, @RequestParam Map map, HttpServletRequest req) {
+	public String updateMyReview(Authentication auth, @RequestParam Map map, HttpServletRequest req, MultipartRequest mr) {
 		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
+		String path ="/resources/IMG";
+		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+				
+		rv_no = map.get("rv_no").toString();
+		String menu_no = map.get("menu_no").toString();
+		String rv_title = map.get("rv_title").toString();
+		String rv_content = map.get("rv_content").toString();
 		
-		String path = req.getSession().getServletContext().getRealPath("/resources/user_IMG");
-		MultipartRequest mr = FileUtility.upLoad(req, path);
+		MultipartFile img = mr.getFile("rf_path");
 		
-		rv_no = mr.getParameter("rv_no");
-		String menu_no = mr.getParameter("menu_no");
-		String rv_title = mr.getParameter("rv_title");
-		String rv_content = mr.getParameter("rv_content");
-		String rf_path = mr.getFilesystemName("rf_path");
+		String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+	      
+	    File file = new File(path+"\\"+fileName);
+	    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),path+"\\"+fileName));
+	    try {
+	      img.transferTo(file);
+	    }
+	    catch(Exception e) {e.printStackTrace();}
+		String rf_path = path+"\\"+fileName;
+		if(rf_path!=null) {			
+			map.put("rf_path", rf_path);			
+		}
 		map.put("rv_no", rv_no);
 		map.put("menu_no", menu_no);
 		map.put("rv_title", rv_title);

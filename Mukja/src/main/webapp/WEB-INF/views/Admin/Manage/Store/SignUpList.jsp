@@ -183,12 +183,8 @@ $(function(){
 			console.log(username);
 		})
 
-		$('#signCheck')
-				.click(
-						function() {
-							console.log(username + '   가게아이디 체크');
-							$
-									.ajax({
+		$('#signCheck').click(function() {console.log(username + '   가게아이디 체크');
+							$.ajax({
 										url : "<c:url value='/StSignUpdate.bbs'/>",
 										data : {
 											"username" : username,
