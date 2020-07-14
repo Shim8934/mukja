@@ -91,4 +91,17 @@
 	</select>
 	
 	<!-- 공지사항 끝 -->
+	
+	
+	<!-- 랜덤메뉴 추천하기 -->
+	<select id="getRandomRecommendMenu" parameterType="java.util.Map" resultType="mainDTO">
+		select *
+		from foodmenu f 
+		join (
+		SELECT * FROM fm_file 
+		WHERE  ROWID IN (SELECT MAX(ROWID) FROM fm_file GROUP BY fm_file.menu_no)
+		) sf on sf.menu_no=f.menu_no
+		WHERE menu_tend like LIKE '%' || #{tend} || '%'
+	</select>
+	
 </mapper>

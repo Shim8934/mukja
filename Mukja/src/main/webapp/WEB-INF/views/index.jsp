@@ -95,8 +95,9 @@
 	
 	display:none;
 	background-color: white; 
-	border: 1px #d6d6d6 solid; 
+	
 	border-radius:5px;  
+	border: 1px #d6d6d6 solid; 
 	box-shadow: rgb(191, 191, 191) 2px 5px 8px -6px; 
 	background-color: rgb(255, 255, 255);
    }
@@ -1272,7 +1273,7 @@ function ERjoin(){
 		 			var joinER_result = data.joinER;
 		 			console.log("joinER_result:",joinER_result);
 		 			if(joinER_result==1){
-		 				ialert("참가신청이 완료되었어요! 수락을 기다려주세요~");
+		 				alert("참가신청이 완료되었어요! 수락을 기다려주세요~");
 		 			}else{
 		 				alert("방장이거나 이미 신청하였어요!");		
 		 			}
@@ -1628,11 +1629,13 @@ function requets_maker_Ajax(){
 										 $('#createERFORM').fadeOut();
 										
 										 console.log("같이먹자 방생성결과"+data.result);
-										 
+										 request_ERList_Ajax(store_id);
 										 if(data.result==1){												 
 											 alert("같이먹자 방이 생성되었어요!");
+											
 										 }else{												
 											 alert("이미 생성한 방이 있어요ㅠㅠ");
+											 
 											
 											 
 										 }
@@ -1644,7 +1647,7 @@ function requets_maker_Ajax(){
 										 $('#ERtitle').val("");
 										 $(':text').val("");
 										$('#createERFORM').fadeOut();
-										
+										 request_ERList_Ajax(store_id);
 										
 									}
 							 	});

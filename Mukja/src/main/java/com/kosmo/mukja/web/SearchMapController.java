@@ -612,7 +612,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	@ResponseBody
 	@RequestMapping(value = "/interLatLng.do",produces = "application/json; charset=utf8")
-	public String interLatLng(@RequestParam Map map,Principal p) {
+	public String interLatLng(@RequestParam Map map,Principal p,HttpSession session) {
 		System.out.println("-------------------관심지역 돌입------------------------");
 		//키값확인 디버그코드
 		Iterator<String> iter = map.keySet().iterator();
@@ -622,6 +622,21 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			System.out.println(String.format("키 : %s 값 : %s", key,val));
 		}
 		//키값확인 디버그코드 끝
+		
+		
+		if(session.getAttribute("isStore")!=null) {
+			JSONObject jObject = new JSONObject();
+			jObject.put("u_lat", "37.498825");
+			jObject.put("u_lng", "126.722265");			
+			return jObject.toJSONString();
+		}else if(session.getAttribute("isStore")!=null) {
+			JSONObject jObject = new JSONObject();
+			jObject.put("u_lat", "37.498825");
+			jObject.put("u_lng", "126.722265");			
+			return jObject.toJSONString();
+		}
+		
+	
 		String user_id="";
 		if(p!=null) {
 			user_id= p.getName();
@@ -636,11 +651,11 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 			return jObject.toJSONString();
 			 
 		}else {
-			
 			JSONObject jObject = new JSONObject();
 			jObject.put("u_lat", "37.498825");
 			jObject.put("u_lng", "126.722265");			
 			return jObject.toJSONString();
+			
 		}
 	
 	}//interLatLng

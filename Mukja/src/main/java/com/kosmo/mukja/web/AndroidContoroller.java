@@ -147,6 +147,8 @@ public class AndroidContoroller {
 			jsonObject.put("u_nick", dto.getU_nick());			
 			jsonObject.put("u_img", dto.getU_img());			
 			jsonObject.put("u_id", dto.getUsername());
+			jsonObject.put("menu_name", dto.getMenu_name());
+			System.out.println("menuname:"+dto.getMenu_no());
 			map.put("rv_no",  dto.getRv_no());
 			List<AndroidReviewImgDTO> img_list =  androidService.getAndroidReviewImg(map);
 			for(AndroidReviewImgDTO imgdto: img_list) {
@@ -224,6 +226,8 @@ public class AndroidContoroller {
 			jsonObject.put("u_nick", dto.getU_nick());			
 			jsonObject.put("u_img", dto.getU_img());			
 			jsonObject.put("u_id", dto.getUsername());
+			jsonObject.put("menu_name", dto.getMenu_name());
+			System.out.println("menuname:"+dto.getMenu_no());
 			map.put("rv_no",  dto.getRv_no());
 			List<AndroidReviewImgDTO> img_list =  androidService.getAndroidReviewImg(map);
 			for(AndroidReviewImgDTO imgdto: img_list) {
@@ -529,8 +533,8 @@ public class AndroidContoroller {
 
 		System.out.println("리뷰작성 컨트롤러 진입");
 		
-		String dbPath="/resources/review_IMG";
-		String path = req.getSession().getServletContext().getRealPath("/resources/review_IMG");
+		String dbPath="/resources/IMG";
+		String path = req.getSession().getServletContext().getRealPath("/resources/IMG");
 	
 		Iterator<String> iter = map.keySet().iterator();
 		while(iter.hasNext()){
@@ -581,12 +585,9 @@ public class AndroidContoroller {
 		jsonObject.put("result_Reject", result);
 	
 		return jsonObject.toJSONString();
-	}//deleteERMembers
+	}//insertReview
 
-	private ServletContext getServletContext() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	
 	
 }

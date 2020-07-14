@@ -1,6 +1,7 @@
 package com.kosmo.mukja;
 
 import java.net.Socket;
+import java.security.Principal;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,8 +29,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MainDTO;
 import com.kosmo.mukja.service.MainService;
+import com.kosmo.mukja.service.MyPageService;
+import com.kosmo.mukja.service.UsersDTO;
 import com.kosmo.mukja.web.util.PagingUtil;
 
 /**
@@ -47,6 +51,9 @@ public class HomeController {
   
 	@Resource(name = "mainService")
 	private MainService mainService;
+	@Resource(name = "myPageService")
+	private MyPageService myPageService;
+	
    
    /**
     * Simply selects the home view to render by returning its name.
@@ -55,7 +62,9 @@ public class HomeController {
    public String home(Locale locale, Model model,
 		   			  Map map,
 		   			  @RequestParam(required = false,defaultValue = "1") int nowPage,
-		   			  HttpServletRequest req) {
+		   			  HttpServletRequest req,
+		   			  Principal user
+		   			  ) {
 	   
       logger.info("Welcome home! The client locale is {}.", locale);
 
@@ -121,24 +130,7 @@ public class HomeController {
       content4 = mainService.selectStore_Name(map);
       review.get(3).setUsername(content4.getUsername().toString());
       review.get(3).setStore_name(content4.getStore_name().toString());
-      /*
-      map.put("rv_no", review.get(4).getRv_no());
-      MainDTO content5 = mainService.selectContent(map);
-      review.get(4).setRv_content(content5.getRv_content().toString());
-      map.put("username", review.get(4).getStore_name());
-      content4 = mainService.selectStore_Name(map);
-      review.get(4).setUsername(content5.getUsername().toString());
-      review.get(4).setStore_name(content5.getStore_name().toString());
-      
-      
-      map.put("rv_no", review.get(5).getRv_no());
-      MainDTO content6 = mainService.selectContent(map);
-      review.get(5).setRv_content(content6.getRv_content().toString());
-      map.put("username", review.get(5).getStore_name());
-      content4 = mainService.selectStore_Name(map);
-      review.get(5).setUsername(content6.getUsername().toString());
-      review.get(5).setStore_name(content6.getStore_name().toString());
-      */
+   
       // 3) 공지사항 뿌리기
 	  String searchColumn = "";
 	  String searchWord = "";
@@ -185,6 +177,28 @@ public class HomeController {
 	  model.addAttribute("pageSize",pageSize);
 	  model.addAttribute("nowPage",nowPage);
 	  model.addAttribute("list", list);
+	  
+	  
+	  
+	  //....................회원님을 위한 추천
+	  /*
+	  String username = user.getName();
+	  if(username!=null) {
+			map.put("username",username);
+			System.out.println("username : "+username);
+			UsersDTO myInfo = myPageService.getMyInfo(map);
+			System.out.println("유저 성향 : "+myInfo.getU_tend());
+			String[] tends = myInfo.getU_tend().split(",");
+			List<FoodMenuDTO> menuList=null;
+			for(String tend:tends) {
+				map.put("tend", tend);
+				 menuList=mainService.getRandomRecommendMenu(map);
+			}
+			
+	  }
+	  */
+	  
+	  
       return "Main/MukjaMain.tiles";
    }
    

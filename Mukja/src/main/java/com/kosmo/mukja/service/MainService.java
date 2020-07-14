@@ -37,4 +37,9 @@ public interface MainService {
 	MainDTO selectPrev(Map map);
 	MainDTO selectNext(Map map);
 	
+	
+	//랜덤 매뉴추천
+	List<FoodMenuDTO> getRandomRecommendMenu(Map map);
+	
+	
 }

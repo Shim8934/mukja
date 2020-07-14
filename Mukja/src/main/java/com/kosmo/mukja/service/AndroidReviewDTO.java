@@ -12,8 +12,11 @@ public class AndroidReviewDTO {
 		private String u_nick;
 		private String u_img;
 		private String username;
+		private String menu_name;
+		
 		public AndroidReviewDTO() {
 		}
+		
 		public AndroidReviewDTO(int rv_no, String rv_title, String rv_content,String u_nick,String  u_img, Date rv_postdate, int menu_no,String username) {
 			this.rv_no = rv_no;
 			this.rv_title = rv_title;
@@ -25,6 +28,12 @@ public class AndroidReviewDTO {
 			this.username= username;
 		}
 		
+		public String getMenu_name() {
+			return menu_name;
+		}
+		public void setMenu_name(String menu_name) {
+			this.menu_name = menu_name;
+		}
 		public String getUsername() {
 			return username;
 		}

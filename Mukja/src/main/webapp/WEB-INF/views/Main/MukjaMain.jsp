@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <style>
 thead th{
 	text-align:center;
@@ -38,19 +39,24 @@ tr td{
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-	          	<div class="text mt-md-5">
-		            <h1 class="mb-4">추천 순위 1위 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
-		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br>
-		            				<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>">${item.store_name}</a></h1>
-		            <p>${item.store_intro}</p>
-		            <p>${item.store_addr}</p>
-		            <p>${item.store_time}</p>
+	          	<div class="text mt-md-5" style="text-align: center">
+		            <h1 class="mb-4" style="font-size: 2.5em;color:#5A5A5A;">추천 순위 1위 </h1>
+		             <h1 class="mb-4" style="font-size: 1.8em;color:#5A5A5A;">
+		             
+		           		 종합<c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>	
+		           		         
+			            <c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br>
+			            <a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>"  style="font-size: 4.0em;color:#2A2A2A;">${item.store_name}</a>
+		            </h1>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_intro}</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_addr}</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_time}</p>
 		            <br>
-		            <p>대표 메뉴</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A; margin-bottom: 40px;">대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
 		            	<c:forEach items="${rank1FoodImg}" var="imgPath1" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
-		            			<div class="img" style="background-image: url(<c:url value="${imgPath1.fm_path}"/>);"></div>
+		            			<div class="img" style=" background-image: url(<c:url value="${imgPath1.fm_path}"/>);"></div>
 		            		</a>
 		            	</c:forEach>
 		            </div>
@@ -70,15 +76,20 @@ tr td{
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-	          	<div class="text mt-md-5">
-		            <h1 class="mb-4">추천 순위 2위 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
-		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br> 
-		            							<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>">${item.store_name}</a></h1>
-		            <p>${item.store_intro}</p>
-		            <p>${item.store_addr}</p>
-		            <p>${item.store_time}</p>
+	          	<div class="text mt-md-5" style="text-align: center">
+		           <h1 class="mb-4" style="font-size: 2.5em;color:#5A5A5A;">
+		            	추천 순위 2위 		            	
+		            </h1> 
+		            <h1 class="mb-4" style="font-size: 1.8em;color:#5A5A5A;">
+		            	종합<c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
+		            	<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br> 
+		         	   <a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>" style="font-size: 4.0em;color:#2A2A2A;">${item.store_name}</a>
+		          </h1>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_intro}</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_addr}</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_time}</p>
 		            <br>
-		            <p>대표 메뉴</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A; margin-bottom: 40px;"> 대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
 		            	<c:forEach items="${rank2FoodImg}" var="imgPath2" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
@@ -101,15 +112,21 @@ tr td{
           		<div class="overlay"></div>
           	</div>
 	          <div class="one-forth d-flex js-fullheight align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-	          	<div class="text mt-md-5">
-		            <h1 class="mb-4">추천 순위 3위 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
-		            							<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br>
-		            							<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>">${item.store_name}</a></h1>
-		            <p>${item.store_intro}</p>
-		            <p>${item.store_addr}</p>
-		            <p>${item.store_time}</p>
+	          	<div class="text mt-md-5" style="text-align: center">
+		            <h1 class="mb-4" style="font-size: 2.5em;color:#5A5A5A;">
+		            	추천 순위 3위
+		            </h1>
+                    <h1 class="mb-4"  style="font-size: 1.8em;color:#5A5A5A;">
+		            	 종합 <c:if test="${item.good == 0}" var="ifZero">${item.sa_avg}점!</c:if>
+						<c:if test="${not ifZero }"> ${item.sa_avg*item.good}점! </c:if><br>
+    					<a href = "<c:url value="/Store/DetailView.do?username=${item.username}"/>" style="font-size: 3.0em;color:#2A2A2A;">${item.store_name}</a>
+    				</h1>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_intro}</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_addr}</p>
+		            <p style="font-size: 1.8em;color:#5A5A5A;">${item.store_time}</p>
 		            <br>
-		            <p>대표 메뉴</p>
+		            
+		            <p style="font-size: 1.8em;color:#5A5A5A; margin-bottom: 40px;">대표 메뉴</p>
 		            <div class="thumb mt-4 mb-3 d-flex">
 		            	<c:forEach items="${rank3FoodImg}" var="imgPath3" varStatus="loop">
 		            		<a href="#" class="thumb-menu pr-md-4 text-center">
@@ -142,39 +159,37 @@ tr td{
 </section>
 <section class="ftco-section">
 	<div class="container">
-		<div class="row justify-content-center mb-5 pb-2">
-			<div class="col-md-7 text-center heading-section ftco-animate">
-				<span class="subheading">Best Review</span>
-				<h2 class="mb-4">리 뷰</h2>
-			</div>
-		</div>
-		<div class="row">
+	
+		
 		<c:forEach items="${reviewList}" var="item">
-			<div class="col-md-6 col-lg-4 ftco-animate" style="margin-bottom: 10px;">
-				<div class="staff">
-					<div class="col-md-12" style="margin-bottom: 5px;">
-						<img alt="리뷰 사진" class="img-thumbnail rounded" style="width: inherit;max-width: 100%;height: auto;" src="<c:url value='${item.rf_path}'/>">
-					</div>
-					<div class="text px-4 pt-4" >
-						<h3><a href="<c:url value='/Store/DetailView.do?username=${item.username}'/>">${item.store_name}</a><br/><br/>
-						<label for="rvTitle">Title</label>
-						<span id="rvTitle">${item.rv_title}</span>
-						</h3>						
-						<div class="faded">
-							<label for="rvContent">내용</label>
-							<p id="rvContent">${item.rv_content}</p>
-						</div>
-						<label for="rvNick">제목</label>
-						<span id="rvNick" class="position mb-2"> ${item.u_nick}</span><br/>
-						<label for="rvGood">좋아요</label>
-						<span id="rvGood" class="position mb-2"> ${item.good}</span><br/>
-						<label for="rvMenu">메뉴</label>
-						<span id="rvMenu" class="position mb-2"> ${item.menu_name}</span>
-					</div>
+			<div class=" ftco-animate row" style="margin: 30px;">
+				
+				<div class="col-md-6" style=" display: inline-block;" >
+					<img alt="리뷰 사진" 
+					style="border-radius:50%;border: 1px #d6d6d6 solid; 
+					box-shadow: rgb(100, 100, 100) 5px 5px 8px -6px;  
+					width: inherit;width: 500px;height: 500px;" 
+					src="<c:url value='${item.rf_path}'/>">
+					
 				</div>
+				<div class="col-md-6" style ="display: inline-block;" >
+					<div style="margin-left:20px; margin-top: 20px;">					
+						<span id="rvMenu"  style="font-size: 3em;color:#5A5A5A; margin-right: 10px; "> ${item.menu_name}</span>
+						<span class="glyphicon glyphicon-heart" style="color: #FA5A2A;margin-top:10px;font-size: 2.5em;"></span>
+						<span id="rvGood"  style="font-size: 2.5em;color:#FA5A2A; margin-right: 10px;"> ${item.good}</span><br>
+						<a style="color:#FA5A2A; font-size: 2em;" href="<c:url value='/Store/DetailView.do?username=${item.username}'/>">${item.store_name}</a><br/>
+						<hr>
+						<span id="rvTitle" style=" margin-left:20px; margin-bottom: 30px; font-size: 1.7em;color:#5A5A5A;margin-right: 5px;">${item.rv_title}</span>
+						<span id="rvNick" style="margin-left:20px;font-size: 1.2em;color:#939393;"> ${item.u_nick}</span>
+						<div id="rvContent" style=" margin-left:40px;margin-top:10px; font-size: 1.5em;color:#5A5A5A;">${item.rv_content}</div>
+						
+					</div>					
+				</div>
+				
 			</div>
+			<hr style="margin-bottom: 100px;">
 		</c:forEach>
-		</div>
+		
 		<!-- row -->
 	</div>
 </section>
@@ -187,7 +202,7 @@ tr td{
 		<div
 			class="row no-gutters slider-text align-items-center justify-content-center">
 			<div class="col-md-9 ftco-animate text-center">
-				<h1 class="mb-2 bread" style="margin-bottom: 10px; margin-top: 5px;">새로운 소식은 여기에서!</h1>
+				<h1 class="mb-2 bread" style="margin-bottom: 10px; margin-top: 5px;">회원님을 위한 맞춤 매뉴</h1>
 			</div>
 		</div>
 	</div>
@@ -195,50 +210,7 @@ tr td{
 
 <section class="ftco-section">
 	<div class="container">
-		<div class="row justify-content-center mb-5 pb-2">
-			<div class="col-md-7 text-center heading-section ftco-animate">
-				<span class="subheading">Notify</span>
-				<h2 class="mb-4">공지</h2>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-12 table-responsive">
-				<table class="table table-hover table-bordered" >
-					<thead>
-						<th></th>
-						<th colspan="5">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								제 목
-								&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-								</th>
-						<th >작성일</th>
-					</thead>
-					<tbody>
-					
-						<c:if test="${empty list}" var="isEmpty">
-							<tr>
-								<td colspan="7">등록된 게시물이 없습니다.</td>
-							</tr>
-						</c:if>
-						<c:if test="${not isEmpty}">
-							<c:forEach items="${list}" var="item" varStatus="loop">
-							<tbody>
-								<tr>
-									<td >${totalRecordCount - (((nowPage-1)*pageSize)+loop.index)}</td>
-									<td colspan="5">
-										<a href='<c:url value="/MainNoticeList.bbs"/>' target="_blank">${item.NT_TITLE}</a></td>
-									<td >${item.NT_REGITDATE}</td>
-								</tr>
-							</tbody>
-							</c:forEach>
-						</c:if>			
-					</tbody>
-				</table>
-			</div>
-		</div>
-		<div class="row justify-content-center">
-			<div class="col-md-12 text-right heading-section ftco-animate">
-				<h4><a href="<c:url value='/MainNoticeList.bbs'/>" target="_blank">공지 더보기-></a></h4>
-			</div>
-		</div>
+		
+		
 	</div>
 </section>

@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.json.simple.JSONObject;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -59,13 +60,15 @@ public class SignController {
 
 	// 로그인 처리별 화면 이동
 	@RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
-	public String role(Authentication auth, Map map) {
+	public String role(Authentication auth, Map map,HttpSession session) {
 		String list = auth.getAuthorities().toString();
 
 		if (list.contains("STORE")) {
-			return "forward:/StoreMypage/StoreMypageMain.do";
+			session.setAttribute("isStore", "isStore");
+			return "forward:/StoreMypage/StoreMypageMain.do";		
 		}
 		if (list.contains("ADMIN")) {
+			session.setAttribute("isAdmin", "isAdmin");
 			return "forward:/AdminMain.bbs";
 		}
 		return "index.tiles";

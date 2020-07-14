@@ -9,6 +9,9 @@ public class FoodMenuDTO {
 	private String menu_regidate;
 	private String username;
 	private String menu_price;
+	private String fm_path;
+	public FoodMenuDTO() {
+	}
 	public FoodMenuDTO(String menu_no, String menu_name, String menu_tend, String menu_info, String menu_regidate,
 			String username, String menu_price) {
 		this.menu_no = menu_no;
@@ -19,8 +22,19 @@ public class FoodMenuDTO {
 		this.username = username;
 		this.menu_price = menu_price;
 	}
-	public FoodMenuDTO() {
+	
+	
+	public String getFm_path() {
+		return fm_path;
 	}
+
+
+	public void setFm_path(String fm_path) {
+		this.fm_path = fm_path;
+	}
+
+
+	
 	public String getMenu_no() {
 		return menu_no;
 	}

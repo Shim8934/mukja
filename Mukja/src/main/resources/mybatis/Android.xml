@@ -51,8 +51,12 @@
 		update er_members set ERJOIN_ROLE = 1 where username = #{username}
 	</update>
 	
-	<select id="getAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
-		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where store_name = #{username} ORDER by  rv_postdate desc
+	<select id="getAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">		
+		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username,fm.menu_name 
+		from storereview re 
+		join users u  on re.user_email = u.username 
+		join foodmenu fm on re.menu_no = fm.menu_no
+		where store_name = #{username} ORDER by  rv_postdate desc
 	</select>
 	
 	<select id="getAndroidReviewImg" parameterType="java.util.Map" resultType="androidReviewImgDTO">
@@ -65,7 +69,11 @@
 	
 	
 	<select id="getMyAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
-		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where u.username = #{username} ORDER by  rv_postdate desc
+		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username,fm.menu_name 
+		from storereview re 
+		join users u  on re.user_email = u.username 
+		join foodmenu fm on re.menu_no = fm.menu_no
+		where u.username = #{username} ORDER by  rv_postdate desc
 	</select>
 	
 	<delete id="deleteAndroidReview" parameterType="java.util.Map">

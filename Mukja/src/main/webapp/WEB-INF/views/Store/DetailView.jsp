@@ -174,8 +174,8 @@
 												url:"<c:url value='/updateStoreAvg.do'/>",
 												dataType:'json',
 												success:function(data){
-													console.log(data);
-													
+													console.log("data:"+data);
+													alert("누름");
 												},
 												error:function(){
 													
@@ -224,7 +224,7 @@
 											url:"<c:url value='/updateStoreRecommand.do'/>",
 											dataType:'json',
 											success:function(data){
-												console.log(data);
+												console.log("data:"+data);
 											},
 											error:function(){
 											}
