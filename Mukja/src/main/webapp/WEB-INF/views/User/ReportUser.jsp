@@ -42,6 +42,10 @@
 									</div>
 								</div>
 							</div>
+							
+							
+							
+							
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<label for="ur_title">신고 제목</label>
