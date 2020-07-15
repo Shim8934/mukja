@@ -30,7 +30,10 @@ public class MyPageServiceImpl implements MyPageService{
 	public int updateMyInfo(Map map) {
 		return dao.updateMyInfo(map);
 	}
-
+	@Override
+	   public UsersDTO modal(Map map) {
+	      return dao.modal(map);
+	   }
 	
    
    
@@ -48,6 +51,10 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getJjimImgs(map);
 	}
 
+	@Override
+	public int deleteMyJjim(Map map) {
+		return dao.deleteMyJjim(map);
+	}
 
 	
 	@Override
@@ -141,6 +148,42 @@ public class MyPageServiceImpl implements MyPageService{
 	public int getMyETHistTotal(Map map) {
 		return dao.getMyETHistTotal(map);
 	}
+
+	@Override
+	public int updateMyReviewPic(Map map) {
+		return dao.updateMyReviewPic(map);
+	}
+
+	@Override
+	public int deleteMyEM(Map map) {
+		return dao.deleteMyEM(map);
+	}
+	@Override
+	public int deleteMyER(Map map) {
+		return dao.deleteMyER(map);
+	}
+
+	@Override
+	public int deleteMyERC(Map map) {
+		// TODO Auto-generated method stub
+		return dao.deleteMyERC(map);
+	}
+
+	@Override
+	public int reportUser(Map map) {
+		return dao.reportUser(map);
+	}
+
+	@Override
+	public MyPageDTO get1et1(Map map) {
+		return dao.get1et1(map);
+	}
+
+	@Override
+	public List<UsersDTO> getURN(Map map) {
+		return dao.getURN(map);
+	}
+
 
 	
 	

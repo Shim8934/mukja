@@ -41,7 +41,7 @@ public class SearchMapController {
 	@ResponseBody
 	@RequestMapping(value = "/Search/Place.do", produces="application/json; charset=utf8")
 	public String searchDong(@RequestParam Map map) {
-		System.out.println("searchDong 접근");
+		 System.out.println("searchDong 접근");
 		 System.out.println("dong : "+map.get("dong").toString());
 		 List<DongDTO> list = service.searchDong(map);
 		 if(list.size()==0)return null;
@@ -63,7 +63,8 @@ public class SearchMapController {
 			jsonArray.add(jsonDto);
 		 }
 		 System.out.println("toJSONString"+jsonArray.toJSONString());
-		return jsonArray.toJSONString(); 
+		return jsonArray.toJSONString();
+
 	}
 	/*
 	public int check_tend(List<String> array,Map map,int avoid_loop) {
@@ -421,6 +422,7 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 				}
 			}
 		}
+		
 		String er_tend = tendbutt.toString().substring(0, tendbutt.toString().length()-1);
 		map.put("ER_TEND",er_tend);
 		map.put("username",username);
@@ -609,39 +611,55 @@ public JSONObject jsonParsing(JSONObject jsonDto,StoreDTO dto) {
 	
 	
 	
-	@ResponseBody
-	@RequestMapping(value = "/interLatLng.do",produces = "application/json; charset=utf8")
-	public String interLatLng(@RequestParam Map map,Principal p) {
-		System.out.println("-------------------관심지역 돌입------------------------");
-		//키값확인 디버그코드
-		Iterator<String> iter = map.keySet().iterator();
-		while(iter.hasNext()){
-			String key = iter.next();
-			String val = map.get(key).toString();
-			System.out.println(String.format("키 : %s 값 : %s", key,val));
-		}
-		//키값확인 디버그코드 끝
-		String user_id="";
-		if(p!=null) {
-			user_id= p.getName();
-			map.put("user_id", user_id);
-			System.out.println("interLatLng user_id:"+user_id);
-			UsersDTO dto= service.getUserInfo(map);
-			String u_lat = dto.getU_lat();
-			String u_lng = dto.getU_lng();
-			JSONObject jObject = new JSONObject();
-			jObject.put("u_lat", u_lat);
-			jObject.put("u_lng", u_lng);			
-			return jObject.toJSONString();
-			 
-		}else {
-			
-			JSONObject jObject = new JSONObject();
-			jObject.put("u_lat", "37.498825");
-			jObject.put("u_lng", "126.722265");			
-			return jObject.toJSONString();
-		}
-	
-	}//interLatLng
+	   @ResponseBody
+	   @RequestMapping(value = "/interLatLng.do",produces = "application/json; charset=utf8")
+	   public String interLatLng(@RequestParam Map map,Principal p,HttpSession session) {
+	      System.out.println("-------------------관심지역 돌입------------------------");
+	      //키값확인 디버그코드
+	      Iterator<String> iter = map.keySet().iterator();
+	      while(iter.hasNext()){
+	         String key = iter.next();
+	         String val = map.get(key).toString();
+	         System.out.println(String.format("키 : %s 값 : %s", key,val));
+	      }
+	      //키값확인 디버그코드 끝
+	      
+	      System.out.println("isStore"+session.getAttribute("isStore"));
+	      System.out.println("isAdmin"+session.getAttribute("isAdmin"));
+	      if(session.getAttribute("isStore")!=null) {
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", "37.498825");
+	         jObject.put("u_lng", "126.722265");         
+	         return jObject.toJSONString();
+	      }else if(session.getAttribute("isAdmin")!=null) {
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", "37.498825");
+	         jObject.put("u_lng", "126.722265");         
+	         return jObject.toJSONString();
+	      }
+	      
+	     
+	      String user_id="";
+	      if(p!=null) {
+	         user_id= p.getName();
+	         map.put("user_id", user_id);
+	         System.out.println("interLatLng user_id:"+user_id);
+	         UsersDTO dto= service.getUserInfo(map);
+	         String u_lat = dto.getU_lat();
+	         String u_lng = dto.getU_lng();
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", u_lat);
+	         jObject.put("u_lng", u_lng);         
+	         return jObject.toJSONString();
+	          
+	      }else {
+	         JSONObject jObject = new JSONObject();
+	         jObject.put("u_lat", "37.498825");
+	         jObject.put("u_lng", "126.722265");         
+	         return jObject.toJSONString();
+	         
+	      }
+	   
+	   }//interLatLng
 	
 }

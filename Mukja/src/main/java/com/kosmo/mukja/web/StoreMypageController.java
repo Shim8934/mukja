@@ -5,6 +5,7 @@ import java.security.Principal;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Vector;
 
 import javax.annotation.Resource;
@@ -20,14 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
-import com.kosmo.mukja.web.util.FileUtility;
-import com.oreilly.servlet.MultipartRequest;
 
 
 @Controller
@@ -114,39 +115,6 @@ public class StoreMypageController {
 		
 	}
 
-	@RequestMapping(value = "/StoreMypage/editStImg.do",method = RequestMethod.POST)
-	public String editStImg(@RequestParam Map map,
-							Model model,
-							Authentication authentication,
-							HttpServletRequest req) {
-		String path = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
-		System.out.println("경로 찍어보기 = "+path);
-	      File dir = new File(path);
-	      if(!dir.exists()) {
-	    	  dir.mkdirs();
-	    	  System.out.println("경로 만듦 / ");
-	      }
-		MultipartRequest mr = FileUtility.upLoad(req, path);
-		String sf_path = mr.getFilesystemName("sf_path");
-		String sf_path1 = mr.getFilesystemName("sf_path1");
-		String sf_path2 = mr.getFilesystemName("sf_path2");
-		
-		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-		System.out.println("유저이름 찍어봄 = " + userDetails.getUsername());
-		map.put("username", userDetails.getUsername());
-		// 스토어 이미지
-		List<StoreIMGDTO> strImgDto = service.getStoreIMG(map);
-		map.put("username",userDetails.getUsername());
-		List<StoreDTO> stDto = service.selectFoodImg(map);
-		
-		model.addAttribute("storeImg",strImgDto);
-		model.addAttribute("fmImg",stDto);
-
-		return "Store/StoreMyPage/ImgPop.tiles";
-	}
-	
-	
-	// 가게 수정 // 왜 내가 ajax처리함? ajax 의미없게 함
 	@ResponseBody
 	@RequestMapping("/StoreMypage/editStoreInfo.do")
 	public String editStoreInfo(@RequestParam Map map, Model model, Authentication authentication) {
@@ -267,128 +235,116 @@ public class StoreMypageController {
 	public String editImgPop(@RequestParam Map map, 
 							 Model model,
 							 Authentication authentication,
-							 HttpServletRequest req) {
+							 HttpServletRequest req,
+							 MultipartRequest mr) {
 		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 		map.put("username", userDetails.getUsername());
 		System.out.println("유저 이름 찍어봄(가게 아이디)  "+userDetails.getUsername());
-		String path = req.getSession().getServletContext().getRealPath("/resources/storeIMG");
+		
+		String path = "/resources/IMG";
+		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+		
 		System.out.println("경로 찍어보기 = "+path);
-	      File dir = new File(path);
-	      if(!dir.exists()) {
-	    	  dir.mkdirs();
-	    	  System.out.println("경로 만듦 / ");
-	      }
-		MultipartRequest mr = FileUtility.upLoad(req, path);
-		String uploadDir ="/resources/storeIMG";
-		
-		System.out.println("이미지 받아옴1? "+mr.getParameter("sf_path0"));
-		System.out.println("이미지 받아옴2? "+mr.getParameter("sf_path1"));
-		System.out.println("이미지 받아옴3? "+mr.getParameter("sf_path2"));
-		System.out.println("기존 경로 받아옴0 ? " + mr.getParameter("oriImg0"));
-		System.out.println("기존 경로 받아옴1 ? " + mr.getParameter("oriImg1"));
-		System.out.println("기존 경로 받아옴2 ? " + mr.getParameter("oriImg2"));
-		
-		System.out.println("플래그0 "+mr.getParameter("flag0"));
-		System.out.println("플래그 1 "+mr.getParameter("flag1"));
-		System.out.println("플래그 2 "+mr.getParameter("flag2"));
+		File dir = new File(path);
+		if(!dir.exists()) {
+    	  dir.mkdirs();
+    	  System.out.println("경로 만듦 / ");
+		}
 		
 		String sf_path="";
 		String oriSf_path = "";
 		String oriSf_no = "";
+		
 		int result=0;
-		if(mr.getParameter("flag0")!=null) {
-				// 가게 기존 이미지가 3개인 경우 / 즉, 수정만
-				for(int i=0;i<3;i++) {
-					sf_path = mr.getFilesystemName("sf_path"+i);
-					oriSf_no = mr.getParameter("oriNo"+i);
-					oriSf_path = mr.getParameter("oriImg"+i);
-						if(sf_path!=null) {
-								// if 안에 들어오면 올린 이미지가 존재
-								map.put("sf_no", oriSf_no);
-								
-								sf_path = uploadDir+"/"+sf_path;
-								map.put("sf_path",sf_path);
-								System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
-								result = service.updateStoreImg(map);
-								if(result==1) {
-									System.out.println(" 수정하고 파일 삭제 1");
-									FileUtility.deleteFile(req, uploadDir, oriSf_path);
-								}
-								System.out.println(result==1?"수정했음":"수정 오류남 ");
-						} // for문 안 if
-						else {
-						// else 안에 들어오면 올린 이미지 없음
-						// 그럼 수정만 안 되게 처리 즉, continue
-							continue;
-						} // for문 안 else
-				}// for문
-		}// 처음 if
-		else {
-			// 기존 가게 이미지가 1~2개인 경우
-			
-				if(mr.getParameter("flag1")==null) {
-				// 기존 가게 이미지가 2개있는 경우	
-					for(int i=0;i<2;i++) {
-						sf_path = mr.getFilesystemName("sf_path"+i);
-						oriSf_no = mr.getParameter("oriNo"+i);
-						oriSf_path = mr.getParameter("oriImg"+i);
-							if(sf_path != null) {
-							// if 안에 들어오면 올린 이미지가 존재
-									map.put("sf_no", oriSf_no);
-									System.out.println("파일 경로 찍어봄 가게 수정 페이지    "+sf_path);
-									sf_path = uploadDir+"/"+sf_path;
-									map.put("sf_path",sf_path);
-									result = service.updateStoreImg(map);
-									if(result==1) {
-										System.out.println(" 수정하고 파일 삭제 2");
-										FileUtility.deleteFile(req, uploadDir, oriSf_path);
-									}
-									System.out.println(result==1?"수정했음":"수정 오류남 ");
-							} // for문 안 if
-							else {
-							// else 안에 들어오면 올린 이미지 없음
-							// 그럼 수정만 안 되게 처리 즉, continue
-								continue;
-							} // for문 안 else
-					}// for문
-					if(mr.getFilesystemName("sf_path2")!=null) {
-						System.out.println("기존 이미지 2개 있고 / 사진 신규 등록");
-						// 기존 가게 이미지 2개 있는 경우 중, 신규 이미지  등록
-						sf_path = mr.getFilesystemName("sf_path2");
-						sf_path = uploadDir+"/"+sf_path;
-						map.put("sf_path",sf_path);
-						service.insertStoreImg(map);
-					}
+		int i= 0;
+		if(map.get("flag0")!=null) {
+			System.out.println("경우1");
+			for(int k=0;k<3;k++) {
 				
-				}// 기존 이미지 2개인 경우 끝
+				MultipartFile img = mr.getFile("sf_path"+k);
+				map.put("sf_no", map.get("oriNo"+k));
+				if(img.getOriginalFilename().equals("")) {
+					System.out.println("경우1-1");
+					map.put("sf_path", map.get("oriImg"+k).toString());
+					service.updateStoreImg(map);
+					continue;
+				}
 				else {
-				// 기존 가게 이미지가 1개 있는 경우
-					if(mr.getFilesystemName("sf_path0")!=null) {
-						// 기존 이미지 수정하는 경우
-						oriSf_no = mr.getParameter("oriNo0");
-						oriSf_path = mr.getParameter("oriImg0");
-						map.put("sf_no", oriSf_no);
-						sf_path = uploadDir+"/"+sf_path;
-						map.put("sf_path",sf_path);
-						result = service.updateStoreImg(map);
-						if(result==1) {
-							System.out.println(" 수정하고 파일 삭제31");
-							FileUtility.deleteFile(req, uploadDir, oriSf_path);
-						}
-					}// 기존 이미지 수정하는 경우 끝
-					else {
-						// 기존이미지 수정 X
-						for(int i=1;i<3;i++) {
-							sf_path = mr.getFilesystemName("sf_path"+i);
-							if(sf_path!=null) {
-								sf_path = uploadDir+"/"+sf_path;
-								map.put("sf_path",sf_path);
-								service.insertStoreImg(map);
-							}
-						}
-						
+					System.out.println("경우 1-2");
+					String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+				      
+				    File file = new File(realPath+"/"+fileName);
+				    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+				    try {
+				      img.transferTo(file);
+				    }
+				    catch(Exception e) {e.printStackTrace();}
+					sf_path = path+"/"+fileName;
+					if(sf_path!=null) {
+						System.out.println("가게 회원가입 사진 수정하기 직전 파일 경로? = "+sf_path);
+						map.put("sf_path", sf_path);
 					}
-				}// 기존 이미지 1개인 경우 끝
+					img=null;
+				}	
+				System.out.println("기존 이미지 3개인 경우 수정"+k+"번째");
+				service.updateStoreImg(map);
+			}
+		}
+		else {
+			for(int k=0;k<3;k++) {
+				if(map.get("oriImg"+k)!=null && mr.getFile("sf_path"+k)!=null) {
+					System.out.println("경우 2-1");
+					map.put("sf_no", map.get("oriNo"+k));
+					if(mr.getFile("sf_path"+k).getOriginalFilename().equals("")) {
+						System.out.println("기존 이미지 존재하지만 새로 파일 등록 안 한 경우");
+						map.put("sf_path", map.get("oriImg"+k));
+						service.updateStoreImg(map);
+						continue;
+					}
+					MultipartFile img = mr.getFile("sf_path"+k);
+					String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+				      
+				    File file = new File(realPath+"/"+fileName);
+				    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+				    try {
+				      img.transferTo(file);
+				    }
+				    catch(Exception e) {e.printStackTrace();}
+					sf_path = path+"/"+fileName;
+					if(sf_path!=null) {
+						System.out.println("가게 회원가입 사진 수정하기 직전 파일 경로0000? = "+sf_path);
+						map.put("sf_path", sf_path);
+						service.updateStoreImg(map);
+					}
+				}
+				else {
+					if(mr.getFile("sf_path"+k)==null) {
+						System.out.println("경우2-2");
+						break;
+					}
+					else {
+						System.out.println("경우2-3");
+						MultipartFile img = mr.getFile("sf_path"+k);
+						String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+					      
+					    File file = new File(realPath+"/"+fileName);
+					    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+					    try {
+					      img.transferTo(file);
+					    }
+					    catch(Exception e) {e.printStackTrace();}
+						sf_path = path+"/"+fileName;
+						if(sf_path!=null) {
+							System.out.println("가게 회원가입 사진 인설트하기 직전 파일 경로1111? = "+sf_path);
+							map.put("sf_path", sf_path);
+						}
+						service.insertStoreImg(map);
+						img=null;
+					}
+					
+					
+				}
+			}
 		}
 		
 		// 스토어 이미지
@@ -402,8 +358,156 @@ public class StoreMypageController {
 		return "Store/StoreMyPage/ImgPop.tiles";
 	}
 	
-	
+	// 이미지 수정페이지 이동
+	@RequestMapping(value = "/StoreMypage/ImgPop2.do")
+	public String menuImgPop(@RequestParam Map map, Model model, Authentication authentication) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		map.put("username", userDetails.getUsername());
+
+		model.addAttribute("msg", userDetails.getUsername()); 
+
+
+		List<StoreDTO> stDto = service.selectFoodImg(map);
+
+		model.addAttribute("editFoodMenu",stDto);
+
+
+		return "Store/StoreMyPage/menuEditImg.tiles";
+	}
 
 	
+	
+	// 메뉴 및 메뉴 이미지 수정
+	@RequestMapping(value = "/StoreMypage/editImgPop2.do",method = RequestMethod.POST)
+	public String menuImgPopEdit(@RequestParam Map map, Model model, Authentication authentication, HttpServletRequest req, MultipartRequest mr) {
+		UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+		
+		map.put("username", userDetails.getUsername());
+		String editMenu_tend;
+		String path = "/resources/IMG";
+		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+		
+		List<StoreDTO> stDto = service.selectFoodImg(map);
+
+		int sizeFlag = stDto.size();
+		
+		for(int i=0; i<sizeFlag;i++) {
+			if(!map.get("menu_tend"+i).toString().equals("")) {
+				System.out.println(i+"번째 메뉴 수정 때 필터 설정함");
+				editMenu_tend = map.get("menu_tend"+i).toString();
+				String o = Integer.toString(i);
+				editMenu_tend = editMenu_tend.replace(o, "");
+				System.out.println("바꾼 tend 찍어봄 = "+editMenu_tend);
+				map.put("menu_tend", editMenu_tend);
+			}
+			else {
+				System.out.println(i+"번째 메뉴 수정 때 필터 설정 안함11");
+				editMenu_tend = map.get("orimenu_tend"+i).toString();
+				String o = Integer.toString(i);
+				editMenu_tend = editMenu_tend.replace(o, "");
+				System.out.println("바꾼 tend 찍어봄 = "+editMenu_tend);
+				map.put("menu_tend", editMenu_tend);
+			}
+			
+			String editFm_path;
+			MultipartFile img = mr.getFile("fm_path"+i);
+			if(img.getOriginalFilename().equals("")) {
+				System.out.println("메뉴 사진 안 바꿈1");
+				editFm_path = map.get("originImg"+i).toString();
+				editFm_path = editFm_path.substring(editFm_path.lastIndexOf("/"));
+				editFm_path = path + editFm_path;
+			}
+			else {
+				System.out.println("메뉴 사진 바꿈2");
+				String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename();
+				File file = new File(realPath+"/"+fileName);
+				try {
+					img.transferTo(file);
+				} catch(Exception e) {e.printStackTrace();}
+				editFm_path = path+ "/" + fileName;
+			}
+			String editMenu_info = map.get("menu_info"+i).toString();
+			String editMenu_name = map.get("menu_name"+i).toString();
+			String editMenu_price = map.get("menu_price"+i).toString();
+			String editMenu_no = map.get("menu_no"+i).toString();
+			
+			System.out.println("디비에 넣기 직전 파일 경로 찍어봄"+editFm_path);
+			map.put("editMenu_no",editMenu_no);
+			map.put("editMenu_tend",editMenu_tend);
+			map.put("editFm_path", editFm_path);
+			map.put("editMenu_info",editMenu_info);
+			map.put("editMenu_name",editMenu_name);
+			map.put("editMenu_price",editMenu_price);
+			service.updateFoodMenu(map);
+			service.updateFoodImg(map);
+		}
+		
+		return "forward:/StoreMypage/ImgPop2.do";
+	}
+	
+	// 메뉴 및 메뉴 이미지 추가
+		@RequestMapping(value = "/StoreMypage/addImgPop2.do",method = RequestMethod.POST)
+		public String menuImgPopInsert(@RequestParam Map map, Model model, Authentication authentication, HttpServletRequest req, MultipartRequest mr) {
+			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+			map.put("username", userDetails.getUsername());
+
+			String path = "/resources/IMG";
+			String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+
+			 File dir = new File(path);
+		      if(!dir.exists()) {
+		    	  dir.mkdirs();
+		    	  System.out.println("경로 만듦 / ");
+		      }
+			
+			int i= 0;
+			boolean exitFlag = true; 
+			while(exitFlag) {
+				System.out.println("등록 첫 메뉴 이름 찍어봄"+map.get("insmenu_name"+i));
+				if(map.get("insmenu_name"+i)!=null) {
+					String menu_tend = map.get("insmenu_tend"+i).toString();
+					String o = Integer.toString(i);
+					menu_tend = menu_tend.replace(o, "");
+					System.out.println("바꾼 tend 찍어봄 = "+menu_tend);
+					
+					String menu_info = map.get("insmenu_info"+i).toString();
+					String menu_name = map.get("insmenu_name"+i).toString();
+					String menu_price = map.get("insmenu_price"+i).toString();
+					
+					map.put("menu_name", menu_name.toString());
+					map.put("menu_info", menu_info.toString());
+					map.put("menu_price", menu_price.toString());
+					map.put("menu_tend", menu_tend.toString());
+					
+					 MultipartFile img = mr.getFile("insfm_path"+i);
+					 String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+				      
+				      File file = new File(realPath+"/"+fileName);
+				      System.out.println(String.format("파일 이름 = %s\r\n 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+				      try {
+				    	  img.transferTo(file);
+				      }
+				      catch(Exception e) {e.printStackTrace();}
+				      map.put("fm_path", path+"/"+fileName);
+					
+					
+					service.insertMoreFoodMenu(map);
+					map.put("username", userDetails.getUsername());
+					
+					// 추가한 메뉴번호 이미지 넣기용 번호 얻기
+					StoreDTO tempDto = service.selectNewMenuNo(map);
+					map.put("menu_no", tempDto.getMenu_no());
+					
+					// 이미지 삽입
+					service.insertMoreFoodImg(map);
+					i++;
+					System.out.println(i+"번째 음식메뉴 인설트 실행함.");
+				}
+				else {
+					exitFlag = false;
+				}
+			}
+			return "forward:/StoreMypage/ImgPop2.do";
+		}
 	
 }

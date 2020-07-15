@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-lg-9 ftco-animate"> -->
 
-<!-- INFROMATION -->${IDmeme}
+<!-- INFROMATION -->
 <section class="ftco-section ftco-wrap-about ftco-no-pb ftco-no-pt">
 
 	<div class="container" style="width: 1400px;">
@@ -187,16 +187,18 @@
 								  </script>
 								
 							</div>
-							<div style="margin-bottom: 30px">
-								<div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">
+							<div class="col-md-4" style="margin-bottom: 30px">
+								<div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px; l">
 									추천하기 
 								</div>
-								<c:if test="${is_Thumb==0}" >
-									<span id="thumbs-up" style="font-size: 2em" class="glyphicon glyphicon-thumbs-up thumbNomal"></span>
-								</c:if>
-								<c:if test="${is_Thumb==1}" >
-									<span id="thumbs-up" style="font-size: 2em" class="glyphicon glyphicon-thumbs-up thumbClick"></span>
-								</c:if>
+								<div class="col-md-offset-1 col-md-2">
+									<c:if test="${is_Thumb==0}" >
+										<span id="thumbs-up" style="font-size: 2em" class="glyphicon glyphicon-thumbs-up thumbNomal"></span>
+									</c:if>
+									<c:if test="${is_Thumb==1}" >
+										<span id="thumbs-up" style="font-size: 2em" class="glyphicon glyphicon-thumbs-up thumbClick"></span>
+									</c:if>
+								</div>
 								
 							</div>
 							<script >
@@ -232,6 +234,54 @@
 							   		 }
 								});//좋아요클릭
 							</script>
+							<div  class="col-md-4" style="margin-bottom: 30px">
+								<div style="font-weight: bold; color: #404040; font-size: 1.5em; margin-bottom: 10px; margin-top: 30px;">
+									찜하기 
+								</div>
+								<div class="col-md-2">
+									<c:if test="${is_JJim==0}" >
+										<span id="is_JJim" style="font-size: 2em" class="glyphicon glyphicon-heart thumbNomal"></span>
+									</c:if>
+									<c:if test="${is_JJim==1}" >
+										<span id="is_JJim" style="font-size: 2em" class="glyphicon glyphicon-heart thumbClick"></span>
+									</c:if>
+								</div>
+								
+							</div>
+							<script >
+							    var user_id='${user}';
+								$('#is_JJim').click(function(){
+									if(user_id=='anonymousUser'){
+							   			 alert('로그인 후 이용하세요');
+							   			 return;
+							   		}
+									if($(this).attr('class')=='glyphicon glyphicon-heart thumbNomal'){
+										$(this).attr('class','glyphicon glyphicon-heart thumbClick');
+										console.log("찜찜");
+										console.log($(this).attr('class'));
+									}else{
+										console.log("찜찜");
+										console.log($(this).attr('class'));
+										$(this).attr('class','glyphicon glyphicon-heart thumbNomal');
+									}
+									
+								 	var store_id='${list[0].username}';
+									var thumbData={'store_id':store_id,'user_id':user_id};
+								    if(user_id!='anonymousUser'){
+								         $.ajax({
+											data:thumbData ,
+											url:"<c:url value='/updateStoreJjim.do'/>",
+											dataType:'json',
+											success:function(data){
+												console.log(data);
+											},
+											error:function(){
+											}
+										}); //ajax
+							   		 }
+								});//좋아요클릭
+							</script>
+							
 						</div>
 					</div>
 				</div>
@@ -253,31 +303,32 @@
 						class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<strong class="number" data-number="${store_Thumb}">0</strong>
+								<strong class="number" data-number="${store_Thumb}"> </strong>
 								<span>가게 추천 수</span>
 							</div>
 						</div>
-					</div>
-					<!-- 	<div
-										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-										<div class="block-18">
-											<div class="text">
-												<strong class="number" data-number="750">0</strong> 
-												<span>가게 ♥ 수</span>
-											</div>
-										</div>
-									</div> -->
+					</div>	
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<strong class="number" data-number="${reviewCount}">200</strong> <span>리뷰수</span>
+								<strong class="number" data-number="${store_Jjim}"> </strong> 
+								<span>가게  ♥ 수</span>
+							</div>
+						</div>
+					</div> 
+					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+						<div class="block-18">
+							<div class="text">
+								<strong class="number" data-number="${reviewCount}"> </strong> 
+								<span>리뷰수</span>
 							</div>
 						</div>
 					</div>
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
-								<strong class="number" data-number="${store_avg }">200</strong> <span>평점</span>
+								<strong class="number" data-number="${store_avg }"> </strong> 
+								<span>평점</span>
 							</div>
 						</div>
 					</div>
@@ -397,9 +448,6 @@
 				</div>
 			</div>
 		</div>
-		<div style="text-align: center;">
-			<a style="font-size: 1.2em; display: inline-block;" href="<c:url value='/MenuList.bbs'/>">+ 메뉴 더 보기</a>
-		</div>
 	</div>
 </section>
 
@@ -423,13 +471,13 @@
 
 		<!-- BEST REVIEW -->
 		<div class="owl-carousel ftco-animate justify-content-center">
-			<c:if test="${empty rvThumb}">
+			<c:if test="${empty bestRv}">
 				<div class="item col-md-12">	
 					<span>베스트 리뷰가 없습니다.</span>
 				</div>
 			</c:if>
-			<c:if test="${not empty rvThumb}">
-				<c:forEach items="${rvThumb}" var="BestRV" end="3">						
+			<c:if test="${not empty bestRv}">
+				<c:forEach items="${bestRv}" var="BestRV" end="3">						
 					<div class="row col-md-11" style="background-color:white; margin:0px; padding: 20px;" >
 						<div class="img" style="width:auto; " >
 							<c:forEach items="${strvimgs}" var="rvImg" varStatus="loop">
@@ -536,31 +584,32 @@
 			                           		</c:if>
 										</c:forEach>
 									</div>
-									<!-- 수정 삭제 -->
-									<div class="col-md-1" style="text-align: center; ">
-										<a href="<c:url value='/Store/UpdateRVThumb.do?rv_no=${strvcnt.rv_no}'/>" class="glyphicon glyphicon-thumbs-up"> 
-											<br/>
-											좋아요 
-											</a>
+									<!-- 리뷰 좋아요 -->
+									<div class="col-md-1" style="text-align: center;">
 										<div>
-										
-										<c:set value="" var="ID"></c:set>
+											<c:if test="${IDmeme != strvcnt.user_email}">
+												<p style="color: black;">좋아요</p>
+												<div>
+													<c:if test="${is_rvlike==0}" >
+														<span id="is_rvlike" class="glyphicon glyphicon-heart thumbNomal"></span>
+													</c:if>
+													<c:if test="${is_rvlike==1}" >
+														<span id="is_rvlike" class="glyphicon glyphicon-heart thumbClick"></span>
+													</c:if>
+												</div>
+											</c:if>
+										</div>				
+										<div>
 											<c:if test="${IDmeme == strvcnt.user_email}">
 												<input type="hidden" name="rv_no" value="${strvcnt.rv_no}">	
 												<input type="hidden" name="store_id" id="store_id" value="${list[0].username}"/> 
 												<a href="<c:url value='/updateSTReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-warning" style="margin-top:40px;font-size: 12px; padding: 3px 6px;">수정</a>																				 	
 												<a href="<c:url value='/deleteSTReview.bbs?rv_no=${strvcnt.rv_no}'/>" class="btn btn-danger" style="margin-top:5px;font-size: 12px; padding: 3px 6px;">삭제</a>
 											</c:if>
-										
 										</div>
-										
-									</div>
-																			
+									</div>										
 								</div>
-								<div class="col-md-offset-10 col-md-2" style="float: right;">
-										</div>
-							</div>						
-										
+							</div>	
 						</li>
 					</c:forEach>
 				</c:if>				
@@ -570,61 +619,72 @@
 		<div class="col-md-12 col-md-offset-5">
 			${strvPagingString}
      	</div>
-		
-		
+
+
 		<sec:authorize access="hasRole('ROLE_USER')">
-		<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
-			<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
-			<form id="reviewWriteForm" name="reviewWriteForm" method="post" action="<c:url value="/insertSTReview.do"/>">
-				<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
-				<div class="form-group poor">
-				
-					<div class="col-md-12">
-						<label class="col-md-2" for="message" style="text-align:right;">Menu</label>
-						<div class="col-md-9" style="padding-bottom: 15px;">
-							<select name="menu_no" style="padding:10px; boder-radius:3%;">
-								<option>메뉴 이름</option>
-								<c:forEach items="${foodMenuList}" var="foodMenuDto" varStatus="loop">
-									<option value="${foodMenuDto.menu_no}">${foodMenuDto.menu_name}</option>
-								</c:forEach>
-							</select>
+			<div class="comment-form-wrap col-md-12"
+				style="background: orange; border-radius: 1%;">
+				<h3 class="h4 font-weight-bold gugi pt-5 pb-5"
+					style="text-align: center;">리뷰 남기기</h3>
+				<form id="reviewWriteForm" name="reviewWriteForm" method="post"
+					action="<c:url value="/insertSTReview.do"/>">
+					<div class="form-group poor">
+
+						<div class="col-md-12">
+							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
+							<div class="col-md-9" style="padding-bottom: 15px;">
+								<select id="menu_no" name="menu_no"
+									style="padding: 10px; boder-radius: 3%;">
+									<option>메뉴 이름</option>
+									<c:forEach items="${foodMenuList}" var="Menu" varStatus="loop">
+										<option value="${Menu.menu_no}">${Menu.menu_name}</option>
+									</c:forEach>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<label class="col-md-2" style="text-align: right;">리뷰 제목</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" id="rv_title"
+									name="rv_title" placeholder="제목" style="margin-bottom: 10px;">
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<label class="col-md-2" style="text-align: right;">내용</label>
+							<div class="col-md-9">
+								<textarea name="rv_content" cols="30" rows="7"
+									class="form-control" placeholder="내용을 입력하세요"
+									style="margin-bottom: 10px;"></textarea>
+							</div>
+						</div>
+
+						<div class="col-md-12">
+							<label class="col-md-2" style="text-align: right;">리뷰 이미지</label>
+							<div class="col-md-9">
+								<input type="text" class="form-control" id="rf_path"
+									name="rf_path" placeholder="리뷰 이미지"
+									style="margin-bottom: 10px;">
+							</div>
+						</div>
+						<div class="col-md-12 mt-4 pb-3">
+							<div class="form-group col-md-offset-5">
+								<input type="hidden" name="store_id" id="store_id"
+									value="${list[0].username}" /> <input type="hidden"
+									name="store_id" id="store_id" value="${list[0].username}" /> <input
+									type="button" value="작성" class="btn py-3 px-4 btn-default"
+									id="btnInsert">
+							</div>
 						</div>
 					</div>
-					
-					<div class="col-md-12">
-						<label class="col-md-2" style="text-align:right;">리뷰 제목</label> 
-						<div class="col-md-9">
-							<input type="text" class="form-control" id="rv_title" name="rv_title" placeholder="제목"  style="margin-bottom: 10px;">
-						</div>
-					</div>
-					
-					<div class="col-md-12">
-						<label class="col-md-2" style="text-align:right;">내용</label>
-						<div class="col-md-9">
-							<textarea name="rv_content" cols="30" rows="7" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
-						</div>
-					</div>
-					
-					<div class="col-md-12">
-						<label class="col-md-2" style="text-align:right;">리뷰 이미지</label> 
-						<div class="col-md-9">
-							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
-						</div>
-					</div>
-					
-					<div class="col-md-12 mt-4 pb-3" >
-						<div class="form-group col-md-offset-5">
-							<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
-						</div>
-					</div>
-				</div>
-			</form>	
-		</div>
-	</sec:authorize> 
-	
-     
-     
-     
+				</form>
+			</div>
+		</sec:authorize>
+
+
+
+
 	</div>
 </section>	 
 
@@ -687,17 +747,20 @@
 	</div>
 	<script>
 	        
+	
+	
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
+	    	var store_id='${list[0].username}';
 	         $.ajax({
-	        	 type:"POST",
-	        	 url:"<c:url value='/insertSTReview.do'/>",
+	        	type:"POST",
+	        	url:"<c:url value='/insertSTReview.do'/>",
 				data: param,             
 	            dataType: 'json',
 	            success : function(data){
 		              console.log('성공..?:',data);
-		              alert('처리 완료!');
-		              window.location = "<c:url value='/Store/DetailView.do?username="+${username} +"'/>";
+		              alert('리뷰가 작성 되었습니다!');
+		              window.location = "<c:url value='/Store/DetailView.do?username="+store_id +"'/>";
 		          },
 	              error:function(request,status,error){
 	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',
@@ -706,4 +769,6 @@
 	        	 
         	});
 	    });
+	    
+	    
     </script>

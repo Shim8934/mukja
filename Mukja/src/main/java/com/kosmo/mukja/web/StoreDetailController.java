@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Vector;
 
 import javax.annotation.Resource;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
@@ -46,6 +47,7 @@ public class StoreDetailController {
 
 	private String store_id;
 	private String user_id;
+	private String rv_no;
 	
 	@RequestMapping("/Store/DetailView.do")
 	public String StoreDetail(
@@ -53,7 +55,7 @@ public class StoreDetailController {
 			Authentication authentication,
 			@RequestParam(required = false,defaultValue = "1") int nowPage, 
 			HttpServletRequest req ) {
-		System.out.println("여기 왔다1");
+		System.out.println("--------------------store---------------------------");
 		System.out.println("username : "+map.get("username"));
 		store_id=map.get("username").toString();
 		System.out.println("store_id : "+store_id);
@@ -68,21 +70,30 @@ public class StoreDetailController {
 			int is_Thumb =service.isThumb(map);
 			System.out.println("is_Thumb:"+is_Thumb);
 			model.addAttribute("is_Thumb",is_Thumb);
+			
+			int is_JJim = service.isJjim(map);
+			System.out.println("is_JJim:"+is_JJim);
+			model.addAttribute("is_JJim",is_JJim);			
+			
 		}else {
 			System.out.println("is_Thumb:"+0);
+			model.addAttribute("is_Thumb",0);
+			System.out.println("is_JJim:"+0);
 			model.addAttribute("is_Thumb",0);
 		}
 		List<StoreDTO> list = service.getStoreInfo(map);
 
 		// 상세 주소 쪼개기용
+		if(list.size()!=0) {
 		String store_addr = list.get(0).getStore_addr();
-		if(store_addr.contains("/")) {
-			store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
-			String store_addr1 = list.get(0).getStore_addr().substring(list.get(0).getStore_addr().lastIndexOf("/")+1);
-			list.get(0).setStore_addr(store_addr);
-			list.get(0).setStore_addr1(store_addr1);
-		} 		// 상세 주소 쪼개기용 끝
 		
+			if(store_addr.contains("/")) {
+				store_addr = store_addr.substring(0,store_addr.lastIndexOf("/"));
+				String store_addr1 = list.get(0).getStore_addr().substring(list.get(0).getStore_addr().lastIndexOf("/")+1);
+				list.get(0).setStore_addr(store_addr);
+				list.get(0).setStore_addr1(store_addr1);
+			} 		// 상세 주소 쪼개기용 끝
+		};
 		
 		model.addAttribute("list",list);
 		
@@ -91,7 +102,7 @@ public class StoreDetailController {
 		
 		List<FoodMenuDTO> foodMenuList = service.getFoodMenu(map);
 		String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
-		String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
+		String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","중식","일식","한식","분식","양식"};
 		
 		for(int j=0; j<tend_codes.length;j++) {
 			for(int i=0; i<foodMenuList.size();i++) {
@@ -136,6 +147,8 @@ public class StoreDetailController {
 		
 		int store_Thumb = service.getStoreThumb(map);
 		model.addAttribute("store_Thumb",store_Thumb);
+		int store_Jjim = service.getJjimcount(map);
+		model.addAttribute("store_Jjim",store_Jjim);
 		
 		
 		/*가게리뷰보기*/
@@ -170,12 +183,27 @@ public class StoreDetailController {
 		System.out.println("usersnks"+usersnks);
 		
 		
-		List<MyPageDTO> rvThumb = service.getRVThumb(map);
+		List<MyPageDTO> rvThumb = service.getBestRV(map);
 		model.addAttribute("rvThumb",rvThumb);
 		for(int k =0; k< rvThumb.size();k++) {
 		System.out.println("rvThumb.rv_no : "+rvThumb.get(k).getRv_no()
 				+" rvThumb.count : "+rvThumb.get(k).getCount());
 		}
+		
+//		if(authentication!=null) {
+//			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+//			map.put("user_id", userDetails.getUsername());
+//			System.out.println("user_id:"+map.get("user_id"));
+//
+//			System.out.println("store_id : "+store_id);
+//			System.out.println("user_id : "+store_id);
+//			int isRVThumb = service.isRVThumb(map);
+//			System.out.println("isRVThumb:"+isRVThumb);
+//			model.addAttribute("isRVThumb",isRVThumb);			
+//		}else {
+//			System.out.println("isRVThumb:"+0);
+//			model.addAttribute("isRVThumb",0);
+//		}
 		//베스트리뷰 뽑기
 		return "/Store/DetailView.tiles";
 	}
@@ -202,6 +230,13 @@ public class StoreDetailController {
 		int result=service.updateStoreRecommand(map);
 		return "{'result':"+result+"}";
 	}
+	
+	@ResponseBody
+	@RequestMapping("/updateStoreJjim.do") 
+	public String updateStoreJjim(@RequestParam Map map) { 
+		int result=service.updateStoreJjim(map); 
+		return "{'result':"+result+"}"; 
+	}
 
 	@ResponseBody
 	@RequestMapping(value="/insertSTReview.do",method=RequestMethod.POST)
@@ -210,7 +245,7 @@ public class StoreDetailController {
 
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		map.put("user_id", userDetails.getUsername());
-		
+		System.out.println("리뷰 작성 속 store_id : "+store_id);
 		JSONObject json= new JSONObject();		
 		System.out.println("rv_no: " + map.get("rv_no"));	
 		System.out.println("rv_title: "+map.get("rv_title"));	
@@ -218,8 +253,9 @@ public class StoreDetailController {
 		System.out.println("user_id : "+map.get("user_id"));	
 		System.out.println("store_id : " + map.get("store_id"));
 		System.out.println("menu_no : "+ map.get("menu_no"));
-
-		int insertrv = service.insertReview(map);		
+		map.put("store_id",store_id);
+		int insertrv = service.insertReview(map);	
+		System.out.println("rv_no: " + map.get("rv_no"));		
 		//인서트		
 		System.out.println(insertrv==0?"실패":"리뷰 쓰기 성공!!!!");
 		return json.toJSONString();
@@ -266,16 +302,12 @@ public class StoreDetailController {
 	public String updateMyReview(Authentication auth, @RequestParam Map map) {
 		System.out.println("리뷰 수정  IN!!!!!!!!!!!!!");
 		System.out.println(map.get("user_id"));
-		System.out.println("rv_no");
-
-		MyPageDTO stRV4up = service.getOneReviewForUpdate(map);
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rv_no : "+stRV4up.getRv_no());
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());	
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Store_name2 : "+stRV4up.getStore_name2());		
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_name : "+stRV4up.getMenu_name());		
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 Menu_no : "+stRV4up.getMenu_no());		
-		System.out.println("스토어 단 리뷰 수정폼 stRVup의 rf_path : "+stRV4up.getRf_path());			
-	
+		System.out.println("rv_no : "+rv_no);
+//		map.put("rv_no",rv_no);
+		System.out.println(store_id);
+		map.put("store_id",store_id);
+		
+		
 		int updateRV = service.updateReview(map);
 		System.out.println(updateRV==0?"리뷰 수정 실패":"리뷰 수정 성공");
 		System.out.println("리뷰 수정 완료 !!!!!!!!!!!!!");		
@@ -284,51 +316,41 @@ public class StoreDetailController {
 	
 	//리뷰 삭제 처리]
 	@RequestMapping(value="/deleteSTReview.bbs")
-	public String deleteMyReview(@RequestParam Map map) {		
-		
+	public String deleteMyReview(@RequestParam Map map ) { 
 		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");								
 		System.out.println(map.get("rv_no").toString()+ "   rv_no 넘어옴?");
-		
-		
-		
-//		if(.rf_path != null) {
 		int deleteRVpic = service.deleteOneReviewPic(map);
 		System.out.println(deleteRVpic==0?"리뷰 사진 실패":"리뷰 사진 성공");
-//			}
-		
-//		if(  != null) {
 		int deleteRVth = service.deleteOneReviewThumb(map);
 		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
-//		}
-		
-		
 		int deleteRV = service.deleteOneReview(map);
 		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
 		
-		return "forward:/Store/DetailView.do"+store_id+"";
+		
+		return "redirect:/Store/DetailView.do?username="+store_id+"";
 		}///////////
 		
 		
 	
-//	@ResponseBody
-//	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
-//	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
-//		
-//		System.out.println("username3 : "+map.get("username"));	
-//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-//		String user_id = userDetails.getUsername();
-//		map.put("user_id",user_id);		
-//		
-//		int clickThumb = service.insertRVThumb(map);
-//		model.addAttribute("clickThumb",clickThumb);
-//		System.out.println(clickThumb==0?"실패":"성공");
+	@ResponseBody
+	@RequestMapping(value="/insertRVThumb.do",method=RequestMethod.GET)
+	public String insertRVThumb(@RequestParam Map map, Authentication auth,Model model, HttpServletRequest req) {	
+		
+		System.out.println("username3 : "+map.get("username"));	
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		String user_id = userDetails.getUsername();
+		map.put("user_id",user_id);		
+		
+		int clickThumb = service.insertRVThumb(map);
+		model.addAttribute("clickThumb",clickThumb);
+		System.out.println(clickThumb==0?"실패":"성공");
+	
+	
+		return "/Store/DetailView.tiles";
+	}
+	
+//
 //	
-//	
-//		return "/Store/DetailView.tiles";
-//	}
-//	
-////
-////	
 //	/*리뷰 좋아요*/	
 //	@ResponseBody
 //	@RequestMapping(value="/disThumb.bbs",method=RequestMethod.GET)

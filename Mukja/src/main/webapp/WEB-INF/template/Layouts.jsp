@@ -64,6 +64,7 @@
 	
 	
 	 
+	 
   
   <script>
   jQuery( document ).ready(function( $ ) {
@@ -132,7 +133,10 @@
  	background-color: #FCFCFC;
  	border: 3px #E8E8E8 solid; 
  	border-radius:10px;  
- 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
+ 	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px;
+ 	 overflow-y:auto; 
+ 	  overflow-x: hidden; 
+
  }
   .messenger_content{
 	margin-left:10px;
@@ -144,12 +148,12 @@
  	box-shadow: rgb(84, 84, 84) 2px 5px 8px -6px; 
  }
  .chat_board{
- 	position:relative;
+ 	position:absolute;
  	z-index:9999999;
  	top:50%;
  	left:50%;
-	margin-left:-850px;
-	margin-top:-800px;
+	margin-left:-200px;
+	margin-top:50px;
 	width:500px;
 	height:800px;
  	background-color: #FCFCFC;
@@ -587,14 +591,17 @@
 					</div>
 				</div>
 			</div>
-				
+		
 			
 		</div>
 		<!-- 시큐리티에서 값 받기 -->
 		<sec:authentication var="principal" property="principal" />
 
+		
+	</div>
+</sec:authorize> 
 		 <!-- ---------------------------------채팅방 다이브--------------------------- -->
-		<div id="ERCwindow" class="chat_board ui-widget-content" style ='background-color: #B2C7D9; '>
+		<div id="ERCwindow" class="chat_board ui-widget-content" style =' background-color: #B2C7D9; '>
 			<div class='row' style="margin: 0;padding: 0;height: 100%;">
 			<div class="col-sm-12" > 
 						<span class="hideERC glyphicon glyphicon-remove" style="float: right; clear: both;"></span>
@@ -613,7 +620,8 @@
 					</div>
 					<div class="form-group">
 						<div class="col-sm-10">
-							<textarea id="message" class="form-control" rows="3"></textarea>
+							<input type='text' id="message" class="form-control"/>
+							<input type='text' style="display: none;"/>
 						</div>
 						<div class="col-sm-2">
 							<input class="btn btn-default " type="button" id="sendBtn" value="보내기">
@@ -624,9 +632,6 @@
 			</div>
 		</div> 
 		  <!-- ---------------------------------채팅방 다이브끝--------------------------- -->
-	</div>
-</sec:authorize> 
-
 <!-- 메신저끝-->
 <script type="text/javascript">
 
@@ -663,9 +668,9 @@ function divAlign(){
 
 $(function (){
 	
-		console.log("ws://192.168.0.6:8080<c:url value='/chat.do'/>");
+		console.log("ws://115.91.88.230:9998<c:url value='/chat.do'/>");
 		
-		wsocket = new WebSocket("ws://192.168.0.6:8080<c:url value='/chat.do'/>");
+		wsocket = new WebSocket("ws://115.91.88.230:9998<c:url value='/chat.do'/>");
 		console.log("erc_username:"+erc_username);
 		//서버와 연결된 소켓에 이벤트 등록
 		wsocket.onopen = open;
@@ -918,6 +923,13 @@ $(function (){
 			"top":position+currentPosition+"px"}
 		,500); 
 		});
+	var currentPositionERCwindow = parseInt($("#ERCwindow").css("top")); 
+	$(window).scroll(function() { 
+		var position = $(window).scrollTop(); 
+		$("#ERCwindow").stop().animate({
+			"top":position+currentPositionERCwindow+"px"}
+		,500); 
+		});
 		var f=0;
 		$('#btn_messenger').click(function(){
 			//모든 컨텐츠 다이브 클리어
@@ -991,40 +1003,12 @@ $('.hideERC').click(function(){
 });
 
 
-</script>
-	<!-- 메신저 스크립트 끝-->
-	<script type='text/javascript'>
-	function loginWithKakao() {
-		//<![CDATA[
-		// 사용할 앱의 JavaScript 키를 설정해 주세요.
-		Kakao.init('cab0340f505e3743996a8af7ba8a84ed'); //여기서 아까 발급받은 키 중 javascript키를 사용해준다.
-		// 카카오 로그인 버튼을 생성합니다.
-		Kakao.Auth.login({
-			success : function(authObj) {
-				Kakao.API.request({
-					url : '/v2/user/me',
-					success : function(res) {
-						console.log(res.id);//<-- 아이디
-						console.log(res.properties['nickname']);//<-- 서비스에서 쓰이는 사용자 닉네임						 
-						console.log(res.kakao_account.profile);//<--카카오계정의 프로필 소유 여부
-						console.log(res.properties.profile_image);//<--서비스에서 쓰이는 사용자 프로필 이미지 URL
-						console.log(res.properties.thumbnail_image);//<--서비스에서 쓰이는 사용자 썸네일 이미지 URL
-						console.log(res.kakao_account.email);//<-- 카카오계정의 이메일 소유 여부
-						console.log(res.kakao_account.age_range);//<--카카오계정의 연령대 소유 여부, 연령대 값
-						console.log(res.kakao_account.birthday);//<--카카오계정의 생일 소유 여부, 생일 값
-						console.log(res.kakao_account.gender);//<--카카오계정의 성별 소유 여부, 성별 값
-						console.log(authObj.access_token);//<-- 토큰
-					}
-				})
-			},
-			fail : function(error) {
-				alert(JSON.stringify(error));
-			}
-		});
-	} 
+
 </script>	
 	
-	
+	<!-- <form action="/Member/SignUP">
+	<input type="hidden" id="email" value=""/>
+	</form> -->
 	
 	
   </body>

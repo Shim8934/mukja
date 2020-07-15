@@ -1,5 +1,6 @@
 package com.kosmo.mukja.service.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,13 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateStoreAvg(Map map) {
+		map.put("store_id", map.get("store_id").toString().replace("\"",""));
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("별점키 : %s 별점값 : %s", key,val));
+			}
 		int selectResult = sqlMapper.selectOne("selectAvg",map);
 		System.out.println("평점을 준적이 있다:");
 		System.out.println(selectResult==1?"있음":"없음");
@@ -73,28 +81,75 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int updateStoreRecommand(Map map) {
+		map.put("store_id", map.get("store_id").toString().replace("\"",""));
 		System.out.println("떰브 dao");
-		int result=0;
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("떰브키 : %s 떰브값 : %s", key,val));
+
+			map.put(key, val);
+		}
+		
+		int result = 0;
 		int selectResult = sqlMapper.selectOne("selectThumb",map);
-		if(selectResult!=0) {
+		if(selectResult != 0) {
 			System.out.println("떰브 삭제");
 			result = sqlMapper.update("deleteThumb",map);
 		}else {
 			System.out.println("떰브 인설트");
 			result = sqlMapper.update("insertThumb",map);
 		}
-		
+		System.out.println("result 값 : "+result);
 		return result;
 	}
+	
+	@Override
+	public int updateStoreJjim(Map map) {
+		map.put("store_id", map.get("store_id").toString().replace("\"",""));
+		System.out.println("찜업 dao");
+		
+		Iterator<String> iter = map.keySet().iterator();
+		while(iter.hasNext()){
+			String key = iter.next();
+			String val = map.get(key).toString();
+			System.out.println(String.format("찜업키 : %s 찜업값 : %s", key,val));
+
+			map.put(key, val);
+			}
+		
+		int result=0;
+		int selectResult = sqlMapper.selectOne("selectcount",map);
+		if(selectResult != 0) {
+			System.out.println("찜업 삭제");
+			result = sqlMapper.update("deleteJjim",map);
+		}else {
+			System.out.println("찜업 인설트");
+			result = sqlMapper.update("insertJjim",map);
+		}		
+		return result;
+	}
+	
+	
+
+//	@Override
+//	public int getStoreThumb(Map map) {
+//		return (Integer) (sqlMapper.selectOne("getStoreThumb",map)==null?0:sqlMapper.selectOne("getStoreThumb",map)) ;
+//	}
+//	@Override
+//	public int isThumb(Map map) {
+//		return (Integer) (sqlMapper.selectOne("isThumb",map)==null?0:sqlMapper.selectOne("isThumb",map)) ;
+//	}
 
 	@Override
 	public int getStoreThumb(Map map) {
-		return (Integer) (sqlMapper.selectOne("getStoreThumb",map)==null?0:sqlMapper.selectOne("getStoreThumb",map)) ;
+		return sqlMapper.selectOne("getStoreThumb",map) ;
 	}
-
 	@Override
 	public int isThumb(Map map) {
-		return (Integer) (sqlMapper.selectOne("isThumb",map)==null?0:sqlMapper.selectOne("isThumb",map)) ;
+		return sqlMapper.selectOne("isThumb",map);
 	}
 
 	@Override
@@ -198,18 +253,18 @@ public class StoreDAO  implements StoreService{
 	
 
 	@Override
-	public List<MyPageDTO> getRVThumb(Map map) {
-		return sqlMapper.selectList("getRVThumb", map);
+	public List<MyPageDTO> getBestRV(Map map) {
+		return sqlMapper.selectList("getBestRV", map);
 	}
 	
 	@Override
 	public int insertRVThumb(Map map) {
-		 return sqlMapper.selectOne("insertRVThumb",map);
+		 return sqlMapper.insert("insertRVThumb",map);
 	}
 
 	@Override
 	public int deleteRVThumb(Map map) {
-		 return sqlMapper.selectOne("deleteRVThumb",map);
+		 return sqlMapper.delete("deleteRVThumb",map);
 	}
 	
 	
@@ -232,19 +287,83 @@ public class StoreDAO  implements StoreService{
 
 	@Override
 	public int deleteOneReview(Map map) {
-		return sqlMapper.selectOne("deleteOneReview", map);
+		return sqlMapper.delete("deleteOneReview", map);
 	}
 
 	@Override
 	public int deleteOneReviewPic(Map map) {
-		return sqlMapper.selectOne("deleteOneReviewPic", map);
+		return sqlMapper.delete("deleteOneReviewPic", map);
 	}
 
 	@Override
 	public int deleteOneReviewThumb(Map map) {
-		return sqlMapper.selectOne("deleteOneReviewThumb", map);
+		return sqlMapper.delete("deleteOneReviewThumb", map);
 	}
 
+	@Override
+	public int updateFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateFoodMenu",map);
+	}
+
+	@Override
+	public int updateFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.update("updateFoodImg",map);
+	}
+
+	@Override
+	public int insertMoreFoodMenu(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertMoreFoodMenu",map);
+	}
+
+	@Override
+	public int insertMoreFoodImg(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertMoreFoodImg",map);
+	}
+
+	@Override
+	public StoreDTO selectNewMenuNo(Map map) {
+		return sqlMapper.selectOne("selectNewMenuNo",map);
+	}
+
+	@Override
+	public int insertThumb(Map map) {
+		return sqlMapper.selectOne("insertThumb",map);
+	}
+
+	@Override
+	public int deleteThumb(Map map) {
+		// TODO Auto-generated method s
+		return sqlMapper.selectOne("deleteThumb",map);
+	}
+
+	@Override
+	public int getJjimcount(Map map) {
+		return sqlMapper.selectOne("getJjimcount",map);
+	}
+
+	@Override
+	public int isJjim(Map map) {
+		return sqlMapper.selectOne("isJjim",map);
+	}
+
+	@Override
+	public int insertJjim(Map map) {
+		return sqlMapper.selectOne("insertJjim",map);
+	}
+
+	@Override
+	public int deleteJjim(Map map) {
+		return sqlMapper.selectOne("deleteJjim",map);
+	}
+
+	@Override
+	public int isRVThumb(Map map) {
+		return sqlMapper.selectOne("isRVThumb",map);
+	}
 
 	
 }

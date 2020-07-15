@@ -11,8 +11,8 @@
          <div class="col-md-9 ftco-animate text-center">
             <h1 class="mb-2 bread">리뷰 수정하기</h1>
             <p class="breadcrumbs">
-               <span class="mr-2"><a href="index.html">My Page <i class="ion-ios-arrow-forward"></i></a></span> 
-               <span class="mr-2"><a href="blog.html">My Review <i class="ion-ios-arrow-forward"></i></a></span> 
+               <span class="mr-2"><a href="<c:url value='MyPage.bbs'/>">My Page <i class="ion-ios-arrow-forward"></i></a></span> 
+               
                <span>Update My Review <i class="ion-ios-arrow-forward"></i></span>
             </p>
          </div>
@@ -167,16 +167,17 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="rf_path">리뷰 이미지</label>
-									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvcnt4up.rf_path}">
+									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}">
 								</div>
 							</div>
 						</div>
 						<div class="col-md-12 text-center">
-							<input type="hidden" name="rv_no" value="${rvcnt4up.rv_no}">	
-								<div class="form-group">
-									<input type="submit" value="리뷰 수정" class="btn btn-primary py-3 px-5">
-								</div>
+							<div class="form-group">
+								<input type="hidden" name="rv_no" id="rv_no" value="${rvcnt4up.rv_no}">	
+								<input type="hidden" name="store_id" id="store_id" value="${rvcnt4up.rv_no}">	
+								<input type="submit" value="리뷰 수정" class="btn btn-primary py-3 px-5">
 							</div>
+						</div>
 					</div>
 				</form>
 			</div>

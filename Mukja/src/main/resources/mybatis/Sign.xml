@@ -12,18 +12,23 @@
 	<select id="storeIdCheck" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM stores WHERE USERNAME=#{username}
 	</select>
+	<select id="kakaoidCheck" parameterType="java.util.Map" resultType="int">
+		SELECT COUNT(*) FROM users WHERE USERNAME=#{username}
+	</select>
+	<select id="idPass" parameterType="java.util.Map" resultType="usersDTO">
+		SELECT password,username FROM users WHERE USERNAME=#{username}
+	</select>
 	<!-- 가게 기존 아이디 존재 여부 체크 -->
 	<select id="userIdCheck" parameterType="java.util.Map" resultType="int">
 		SELECT COUNT(*) FROM users WHERE USERNAME=#{username}
 	</select>
-	
 	<insert id="signup" parameterType="java.util.Map">
 		insert into users values (#{username},#{password},#{u_nick},sysdate,#{u_img},#{u_age},#{u_tend},#{u_lat},#{u_lng},#{u_ph},#{enabled},#{authority},#{u_addr})
 	</insert>
 	
 	<!-- 가게 회원 가입 -->
 	<insert id="storesignup" parameterType="java.util.Map">
-		INSERT INTO stores(username,enabled,password,store_name,STORE_REGINUM,STORE_PHNUM,STORE_EMAIL,STORE_INTRO,STORE_TIME,STORE_LAT,STORE_LNG,STORE_ADDR) VALUES(#{username},0,#{password},#{store_name},#{store_reginum},#{store_phnum},#{store_email},#{store_intro},#{store_time},#{store_lat},#{store_lng},#{store_addr})
+		INSERT INTO stores(username,enabled,password,store_name,STORE_REGINUM,STORE_PHNUM,STORE_EMAIL,STORE_INTRO,STORE_TIME,STORE_LAT,STORE_LNG,STORE_ADDR) VALUES(#{username},0,#{password},#{store_name},'1111111',#{store_phnum},#{store_email},#{store_intro},#{store_time},#{store_lat},#{store_lng},#{store_addr})
 	</insert>
 	<insert id="insertStoreImg22" parameterType="java.util.Map">
 		Insert into store_file values(seq_sf.nextval,#{username},#{sf_path})

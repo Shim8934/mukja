@@ -136,8 +136,10 @@ section {
 
 </head>
 <body>
-	<!-- 인증되지 않은 모든 사용자인 경우:로그인 폼 보여주기 -->
 
+
+	<!-- 인증되지 않은 모든 사용자인 경우:로그인 폼 보여주기 -->
+	
 	<section class="hero-wrap hero-wrap-2"
 		style="background-image: url('images/bg_4.jpg'); height: 200px"
 		id='signup' data-stellar-background-ratio="0.5">
@@ -161,8 +163,14 @@ section {
 							<div class="col-md-offset-3 col-md-5">
 								<div class="form-group" id="input">
 									<label for="username">아이디</label> 
-									<input type="text" class="form-control" id="username" name="username" placeholder="이메일">
-									<div class="check_font" id="id_check"></div>
+									<c:if test="${map==null}"> 
+									<input type="text" class="form-control" id="username" name="username" value="" placeholder="이메일">
+								</c:if>	
+								<c:if test="${map!=null}">
+									<input type="text" class="form-control" id="username" name="username" value="${map.email }" placeholder="이메일">
+								</c:if>
+								<div class="check_font" id="id_check"></div>
+
 								</div>
 							</div>
 							<div style="display: inline-block;">
@@ -195,16 +203,27 @@ section {
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
 									<label for="u_nick">닉네임</label>
+									<c:if test="${map==null}"> 
 									<input type="text" class="form-control" id="u_nick" name="u_nick" placeholder="닉네임">
+									</c:if>
+									<c:if test="${map!=null}">
+									<input type="text" class="form-control" id="u_nick" name="u_nick" value="${map.nick}" placeholder="닉네임">
+									</c:if>
 									<div class="check_font" id="nick_check"></div>
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6">
-								<div class="form-group">
-									<label for="u_img">프로필사진</label>
-									<div id="preview">
-									</div>
+								<div class="form-group" style="width: 100%; height: 70%">
+								<label for="u_img">프로필사진</label>
+									<c:if test="${map==null}"> 
+									<div id="preview"></div>
 									<input type="file" class="form-control inp-img" id="u_img" name="u_img" accept=".gif, .jpg, .png">
+									</c:if>
+									<c:if test="${map!=null}"> 
+									<div id="preview"><img alt="" src="${map.img}" style="width: 100%; height: 70%"></div>
+									<input type="hidden" class="form-control inp-img" id="kakao_img" name="kakao_img" value="${map.img}">
+									</c:if>
+									
 								</div>
 							</div>
 							<div class="col-md-offset-3 col-md-6" style="padding-top: 10px;">
@@ -220,12 +239,12 @@ section {
 									<div class="select-wrap one-third">
 										<select name="u_age" id="u_age" class="form-control">
 											<option value="">연령대를 선택하세요</option>
-											<option value="10">10~19세</option>
-											<option value="20">20~29세</option>
-											<option value="30">30~39세</option>
-											<option value="40">40~49세</option>
-											<option value="50">50~59세</option>
-											<option value="60">60~69세</option>
+											<option value="10"<c:if test='${map.age=="10~19"}'> selected </c:if>>10대</option>
+											<option value="20"<c:if test='${map.age=="20~29"}'> selected </c:if>>20대</option>
+											<option value="30"<c:if test='${map.age=="30~39"}'> selected </c:if>>30대</option>
+											<option value="40"<c:if test='${map.age=="40~49"}'> selected </c:if>>40대</option>
+											<option value="50"<c:if test='${map.age=="50~59"}'> selected </c:if>>50대</option>
+											<option value="60"<c:if test='${map.age=="60~69" or map.age=="70~79" }'> selected </c:if>>60대 이상</option>
 										</select>
 									</div>
 									
@@ -235,7 +254,7 @@ section {
 								<div class="form-group">
 									<label for="">관심지역</label>
 									<a onclick="addr();">
-										<input type="text" class="form-control" id="u_addr" name="u_addr" placeholder="관심지역을 선택하세요">
+										<input type="text" readonly="readonly" class="form-control" id="u_addr" name="u_addr" placeholder="관심지역을 선택하세요">
 									</a>
 									<input type="hidden" id="u_lat" name="u_lat" />
 									<input type="hidden" id="u_lng" name="u_lng" />
@@ -244,8 +263,8 @@ section {
 							</div>
 							<div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="">골라먹자 필터 지정하기</label> <span
-										class="ion-ios-arrow-down" id="img"></span>
+									<label for="">골라먹자 필터 지정하기</label>
+									<span class="ion-ios-arrow-down" id="img"></span>
 
 								</div>
 								<div class="col-md-12 trs" style="display: none;">
@@ -656,7 +675,7 @@ function nullval() {
 	    }
 	}, true);
 </script>
-	<script>
+<script>
 var dice;
 var sss;
 var click=0;
