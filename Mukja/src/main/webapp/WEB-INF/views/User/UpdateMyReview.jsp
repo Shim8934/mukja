@@ -169,7 +169,7 @@
 									<label for="rf_path">리뷰 이미지</label>
 									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}">
 								</div>
-							</div>${rvcnt4up.rv_no}
+							</div>
 						</div>
 						<div class="col-md-12 text-center">
 							<div class="form-group">
