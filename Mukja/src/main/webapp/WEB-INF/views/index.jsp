@@ -668,13 +668,8 @@
    
     
   
-
-
-
-
-
   
-  <!-- 섬머노트 다이브 -->
+<!-- 섬머노트 다이브 -->
 <div  id="createERFORM"  class="lb_size"  style="display: none;">
 	<div class="container" style="margin-top: 20px;width: 800px;">
 		<div class="row"style="margin-bottom:20px;"> 

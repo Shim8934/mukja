@@ -133,5 +133,18 @@
 	
 	
 	
+	<select id="modal" parameterType="java.util.Map" resultType="UsersDTO">   
+      select * from users where username = #{users}
+   </select>
+	<select id="get1et1" parameterType="java.util.Map" resultType="MyPageDTO">  
+	    SELECT * FROM (select er_no, username from er_members where username=#{user_id}) where er_no=#{er_no}
+   </select>
+   <select id="getURN" parameterType="java.util.Map" resultType="UsersDTO">
+   		select em.username, u.u_nick from er_members em join users u on em.username = u.username where em.er_no=#{er_no}
+   </select>
+   <insert id="reportUser" parameterType="java.util.Map">   
+      insert into user_report(ur_no,ur_title,ur_content,ur_target,ur_reporter) values (seq_userreport.nextval,#{ur_title},#{ur_content},#{ur_target},#{user_id})
+   </insert>
+	
 
 </mapper>

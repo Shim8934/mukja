@@ -13,10 +13,6 @@ public class MyPageDTO {
 	private String store_name2;
 	private String sf_path;
 	
-
-
-	
-	
 	
 
 	//찜스토어

@@ -30,7 +30,10 @@ public class MyPageServiceImpl implements MyPageService{
 	public int updateMyInfo(Map map) {
 		return dao.updateMyInfo(map);
 	}
-
+	@Override
+	   public UsersDTO modal(Map map) {
+	      return dao.modal(map);
+	   }
 	
    
    
@@ -164,6 +167,21 @@ public class MyPageServiceImpl implements MyPageService{
 	public int deleteMyERC(Map map) {
 		// TODO Auto-generated method stub
 		return dao.deleteMyERC(map);
+	}
+
+	@Override
+	public int reportUser(Map map) {
+		return dao.reportUser(map);
+	}
+
+	@Override
+	public MyPageDTO get1et1(Map map) {
+		return dao.get1et1(map);
+	}
+
+	@Override
+	public List<UsersDTO> getURN(Map map) {
+		return dao.getURN(map);
 	}
 
 

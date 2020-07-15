@@ -30,6 +30,10 @@ public class MyPageDAO implements MyPageService {
 		return sqlMapper.update("updateMyInfo",map);
 	}
 
+	@Override
+	public UsersDTO modal(Map map) {
+		return sqlMapper.selectOne("modal", map);
+	}
 	
 	
 	
@@ -161,6 +165,21 @@ public class MyPageDAO implements MyPageService {
 	@Override
 	public int deleteMyERC(Map map) {
 		return sqlMapper.delete("deleteMyERC",map);
+	}
+
+	@Override
+	public int reportUser(Map map) {
+		return sqlMapper.insert("reportUser",map);
+	}
+
+	@Override
+	public MyPageDTO get1et1(Map map) {
+		return sqlMapper.selectOne("get1et1",map);
+	}
+
+	@Override
+	public List<UsersDTO> getURN(Map map) {
+		return sqlMapper.selectList("getURN",map);
 	}
 
 	
