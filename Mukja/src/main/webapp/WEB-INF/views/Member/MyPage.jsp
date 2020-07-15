@@ -61,8 +61,7 @@
 								</div>
 								<c:if test="${empty myInfo.u_img}">
 									<div style="margin-top: 1rem;">
-										<div class="img"
-											style="height:200px; background-image: url(<c:url value=""/>);"></div>
+										<div class="col-md-10 col-offset-1" style="background-position: center; background-image: url(<c:url value=""/>);"></div>
 									</div>
 								</c:if>
 								<c:if test="${not empty myInfo.u_img}">
