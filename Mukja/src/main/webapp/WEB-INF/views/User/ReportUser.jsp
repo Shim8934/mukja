@@ -25,7 +25,7 @@
 
 							 <div class="col-md-offset-3 col-md-6">
 								<div class="form-group">
-									<label for="ur_title">신고자</label> ${user_id}
+									<label for="ur_title">신고자</label>
 									<input type="text" class="form-control" id="ur_reporter" name="ur_reporter" value="${user_id}" readonly="readonly">
 									<div class="check_font" id="password_check"></div>
 								</div>

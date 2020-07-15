@@ -143,7 +143,7 @@
    		select em.username, u.u_nick from er_members em join users u on em.username = u.username where em.er_no=#{er_no}
    </select>
    <insert id="reportUser" parameterType="java.util.Map">   
-      insert into user_report(ur_no,ur_title,ur_content,ur_target,ur_reporter) values (seq_userreport.nextval,#{ur_title},#{ur_content},#{ur_target},#{user_id})
+      insert into user_report(ur_no,ur_title,ur_content,ur_target,ur_reporter) values (seq_userreport.nextval,#{ur_title},#{ur_content},#{ur_target},#{ur_reporter})
    </insert>
 	
 

@@ -472,10 +472,11 @@
 													<div class="">
 														<c:forEach items="${Nicks}" var="Nick" varStatus="loop">
 															<c:if test="${myET1.er_no == Nick.er_no}">
-				                                                <span class="overflow"> <a onclick="addr(this)"
-				                                                   style="cursor: pointer; color: blue">${Nick.u_nick}</a>
-				                                                   <input type="hidden" id='${Nick.u_nick}'
-				                                                   value="${Nick.username}">
+				                                                <span class="overflow"> 
+				                                                	<c:if test="${myET1.user_id != Nick.username}">
+					                                               		<a onclick="addr(this)" style="cursor: pointer; color: blue">${Nick.u_nick}</a>
+					                                                    <input type="hidden" id='${Nick.u_nick}' value="${Nick.username}">
+				                                                    </c:if>
 				                                                </span>
 				                                                <div class="col-md-12" id="modal_content"></div>
 				                                             </c:if>

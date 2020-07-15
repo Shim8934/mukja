@@ -488,7 +488,7 @@ public class MyPageController{
 	
 	
 	@RequestMapping(value="/userReport.bbs")
-	public String userReport(Authentication auth,@RequestParam Map map, HttpServletRequest req) {
+	public String userReport(Authentication auth,@RequestParam Map map, HttpServletRequest req,Model model) {
 		System.out.println("==============================회원신고==============================");		
 		
 		if(req.getMethod().equals("GET")) {
@@ -497,24 +497,29 @@ public class MyPageController{
 			UserDetails userDetails = (UserDetails)auth.getPrincipal();
 			user_id = userDetails.getUsername();
 			map.put("user_id",user_id);	
-			
-			System.out.println("회원신고 er_no : "+map.get("er_no"));
 			map.put("er_no", map.get("er_no"));
-			System.out.println(map.get("user_id")+" , "+map.get("er_no"));
+			
+			System.out.println("맵쩜갯"+map.get("user_id")+" , "+map.get("er_no"));
 			MyPageDTO report = service.get1et1(map);
-			System.out.println(report.getUser_id()+ report.getEr_no());
+			System.out.println("리포터안의"+report.getUser_id()+" , "+ report.getEr_no());
+			model.addAttribute("user_id", user_id);
+			
 			List<UsersDTO> urns  = service.getURN(map);	
 			for(int i =0; i<urns.size(); i++) {
 				System.out.println(urns.get(i).getUsername()+" , "+urns.get(i).getU_nick());
 			}
-			 
+			model.addAttribute("urns",urns);
 			return "/User/ReportUser.tiles";
 			
 		}
 		
 		System.out.println("!!!!!!!!!!!!!!!!! 회원신고 OK !!!!!!!!!!!!!");	
+		System.out.println("ur_title"+map.get("ur_title"));
+		System.out.println("ur_content"+map.get("ur_content"));
+		System.out.println("ur_target"+map.get("ur_target"));
+		System.out.println("ur_reporter"+map.get("ur_reporter"));
 		int reportUser = service.reportUser(map);
-		System.out.println(reportUser==0?"회원 신고 실패":"회원 삭제 성공");
+		System.out.println(reportUser==0?"회원 신고 실패":"회원 신고 성공");
 		return "forward:/MyPage.bbs";
 	}///////////
 //	@RequestMapping(value="/userReport.bbs")
