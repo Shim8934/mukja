@@ -7,7 +7,7 @@
 			<div class="row mb-5">
 				<div class="col-md-6 col-lg-3">
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Gollamukja</h2>
+						<h2 class="ftco-heading-2" style="margin:10px;">Gollamukja</h2>
 						<p>'골라먹자'는 개인 맞춤 음식 추천 서비스입니다. 다양한 취향 어쩌구. 같이먹자를 시작하여 입맛 맞는 식친구들을 만들어보세요.</p>
 						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-3">
 							<li class="ftco-animate"><a href="#"><span
@@ -22,7 +22,7 @@
 			
 				<div class="col-md-6 col-lg-3">
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">협업신청</h2>
+						<h2 class="ftco-heading-2" style="margin:10px;">협업신청</h2>
 						<p>골라먹자 협업을 신청해 보세요</p>
 						<form action="<c:url value='/StoreSignUp.bbs'/>" class="subscribe-form">
 							<div class="form-group">
@@ -31,7 +31,7 @@
 						</form>
 					</div>
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading">공지사항</h2>
+						<h2 class="ftco-heading-2" style="margin:10px;">공지사항</h2>
 						<p>새로운 소식을 확인해 보세요</p>
 						<form action="<c:url value='/MainNoticeList.bbs'/>" class="subscribe-form">
 							<div class="form-group">
@@ -42,7 +42,7 @@
 				</div>
 				<div class="col-md-6 col-lg-3">
 					<div class="ftco-footer-widget mb-4">
-						<h2 class="ftco-heading-2">Instagram</h2>
+						<h2 class="ftco-heading-2" style="margin:10px;">Instagram</h2>
 						<div class="thumb d-sm-flex">
 							<a href="#" class="thumb-menu img" 
 								style="background-image: url(<c:url value='/resources/bootstrap/images/insta-1.jpg'/>);"> </a> <a
