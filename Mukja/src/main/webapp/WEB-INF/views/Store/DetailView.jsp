@@ -661,7 +661,7 @@
 						<div class="col-md-12">
 							<label class="col-md-2" style="text-align: right;">리뷰 이미지</label>
 							<div class="col-md-9">
-								<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" style="margin-bottom: 10px;">
+								<input type="file" accept='.jpg,.jpeg,.png,.gif,.bmp' class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" style="margin-bottom: 10px;">
 							</div>
 						</div>
 						<div class="col-md-12">

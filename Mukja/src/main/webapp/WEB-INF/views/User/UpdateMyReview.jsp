@@ -170,7 +170,7 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="rf_path">리뷰 이미지</label>
-									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}">
+									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}" accept='.jpg,.jpeg,.png,.gif,.bmp'>
 								</div>
 							</div>
 						</div>
