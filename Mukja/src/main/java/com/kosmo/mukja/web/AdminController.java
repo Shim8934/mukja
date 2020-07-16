@@ -38,14 +38,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.AdminDTO;
 import com.kosmo.mukja.service.AdminService;
 import com.kosmo.mukja.service.FileUploadService;
 import com.kosmo.mukja.web.util.PagingUtil;
-import com.oreilly.servlet.MultipartRequest;
-import com.kosmo.mukja.web.util.FileUtility;
 
 @Controller
 public class AdminController {
@@ -261,20 +260,8 @@ public class AdminController {
 
       AdminDTO next = adminService.selectNext(map);
 
-      StringTokenizer imageList=null;
       System.out.println(record.getBF_PATH());
       System.out.println(record.getBF_PATH()+" = Viewcontroller 파일 정보");
-      if(record.getBF_PATH()!=null) {
-         imageList = new StringTokenizer(record.getBF_PATH(),"/");
-         List<String> image = new ArrayList<String>();
-         while(imageList.hasMoreTokens()) {
-            image.add(imageList.nextToken());
-         }
-         model.addAttribute("image",image);
-      }
-      else {
-         model.addAttribute("image",null);
-      }
       model.addAttribute("record",record);
       model.addAttribute("prev",prev);
       model.addAttribute("next",next);
@@ -293,38 +280,46 @@ public class AdminController {
     
    // 공지사항 본격 등록
    @RequestMapping(value="/WriteNotice.bbs", method=RequestMethod.POST)
-   public String writeNotice(HttpServletRequest req,
+   public String writeNotice(MultipartRequest mr,
+		   				HttpServletRequest req,
                        Authentication auth,
                        Model model,
-                       @RequestParam Map map) throws UnsupportedEncodingException{
-      // 파일이 저장될 경로 지정 / 프젝 시작 경로 제외한 경로(정적메소드 안에서 절대경로 얻음)
-      String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
-//      String path = "/Mukja/src/main/webapp/resources/Upload/AdminNotice";
-      System.out.println("경로 찍어보기 = "+path);
+                       @RequestParam Map map) {
+	  UserDetails userDetails = (UserDetails) auth.getPrincipal();
+      String username = userDetails.getUsername();
+	   
+	  String path = "/resources/IMG";
+      String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+      System.out.println(mr.getFile("BF_PATH")==null? "관리자 글 쓰기파일 널이래":"관리자 글 쓰기 파일널아니래");
+      MultipartFile img = mr.getFile("BF_PATH");
       File dir = new File(path);
       if(!dir.exists()) {
     	  dir.mkdirs();
     	  System.out.println("경로 만듦 / ");
       }
-      MultipartRequest mr = FileUtility.upLoad(req, path);
-         
-      String BF_PATH = mr.getFilesystemName("BF_PATH");
-      if(BF_PATH==null) {
-         map.put("BF_PATH", null);
+      
+      if(img.getOriginalFilename().equals("")) {
+    	  map.put("BF_PATH",null);
       }
       else {
-         System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
-         map.put("BF_PATH",BF_PATH);
+	      String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
+	      
+	      File file = new File(realPath+"/"+fileName);
+	      System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),realPath+"/"+fileName));
+	      try {
+	    	  img.transferTo(file);
+	      }
+	      catch(Exception e) {e.printStackTrace();}
+	      map.put("BF_PATH", path+"/"+fileName);
       }
-         
-      System.out.println("제목?  "+mr.getParameter("NT_TITLE").toString()+"\n\r");
-      map.put("NT_TITLE", mr.getParameter("NT_TITLE").toString());
-      System.out.println("내용?  "+mr.getParameter("NT_CONTENT").toString()+"\n\r");
-      map.put("NT_CONTENT", mr.getParameter("NT_CONTENT").toString());
-      System.out.println("이름?  "+mr.getParameter("username").toString()+"\n\r");
-      map.put("NT_TITLE", mr.getParameter("NT_TITLE").toString());
-      map.put("NT_CONTENT", mr.getParameter("NT_CONTENT").toString());
-      map.put("username", mr.getParameter("username").toString());
+      System.out.println("제목?  "+map.get("NT_TITLE").toString()+"\n\r");
+      map.put("NT_TITLE", map.get("NT_TITLE").toString());
+      System.out.println("내용?  "+map.get("NT_CONTENT").toString()+"\n\r");
+      map.put("NT_CONTENT", map.get("NT_CONTENT").toString());
+      System.out.println("이름?  "+map.get("username").toString()+"\n\r");
+      map.put("NT_TITLE", map.get("NT_TITLE").toString());
+      map.put("NT_CONTENT", map.get("NT_CONTENT").toString());
+      map.put("username", username);
       
       System.out.println("글 입력 직전\n\r");
       adminService.noticeInsert(map);
@@ -333,7 +328,7 @@ public class AdminController {
       map.put("NT_TITLE", map.get("NT_TITLE"));
       AdminDTO forBf = adminService.selectForBf(map);
       System.out.println("NT_NO 얻어오기"+forBf.getNT_NO()+"\n\r");
-      
+     
       map.put("NT_NO", forBf.getNT_NO());
       System.out.println("파일 입력 직전\n\r");
       adminService.bfInsert(map);
@@ -347,7 +342,7 @@ public class AdminController {
       
       if(oneView.getBF_PATH()!=null) {
          String checkFile = "";
-         String uploadPath = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
+         String uploadPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
          
          int NT_NO = (Integer.parseInt(map.get("NT_NO").toString()));
          map.put("NT_NO", NT_NO);
@@ -356,7 +351,6 @@ public class AdminController {
          if(resultBf == 1) {
             String fileAttached = req.getParameter("fileAttached");
             System.out.println(fileAttached);
-            FileUtility.deleteFile(req, "/UploadFile", fileAttached);
             System.out.println("DeleteView에서 삭제 쿼리 성공 후, 파일도 삭제 완료");
          }
          System.out.println(resultBf==1?"파일 삭제 성공 " : "파일 삭제 실패");
@@ -380,63 +374,75 @@ public class AdminController {
    
    // 공지사항 글 수정 시, 최종 수정 반영
    @RequestMapping(value="/EditNotice.bbs", method=RequestMethod.POST)
-   public String editNotice(@RequestParam Map map,HttpServletRequest req, Model model) throws IOException {
+   public String editNotice(@RequestParam Map map,MultipartRequest mr,HttpServletRequest req, Model model){
       String fileName;
-      String path = req.getSession().getServletContext().getRealPath("/resources/Upload/AdminNotice");
-      MultipartRequest mr = FileUtility.upLoad(req, path);
-      System.out.println(mr.getParameter("BF_PATH"));
-      System.out.println(mr.getParameter("NT_TITLE"));
-      System.out.println("본격 수정에서 내용 출력   " +mr.getParameter("NT_CONTENT"));
-      String NT_CONTENT = mr.getParameter("NT_CONTENT").replace("<br>", "\r\n");
-      System.out.println(mr.getParameter("username"));
-      System.out.println(mr.getParameter("ori_PATH"));
+      String path = "/resources/IMG";
+      String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
+      System.out.println(map.get("BF_PATH"));
+      System.out.println(map.get("NT_TITLE"));
+      System.out.println("본격 수정에서 내용 출력   " +map.get("NT_CONTENT"));
+      String NT_CONTENT = map.get("NT_CONTENT").toString().replace("<br>", "\r\n");
+      System.out.println(map.get("username"));
+      System.out.println(map.get("ori_PATH"));
       // 기존에 파일 정보가 없는 경우
-      if(mr.getParameter("ori_PATH")==null) {
+      if(map.get("ori_PATH")==null) {
          fileName=null;
-         if(mr.getParameter("BF_PATH").toString()==null) {
+         if(map.get("BF_PATH").toString()==null) {
             System.out.println("기존에 파일 정보가 없는 경우 11");
-            map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
-            map.put("NT_CONTENT", mr.getParameter("NT_CONTENT"));
-            map.put("NT_NO", mr.getParameter("NT_NO"));
+            map.put("NT_TITLE", map.get("NT_TITLE"));
+            map.put("NT_CONTENT", map.get("NT_CONTENT"));
+            map.put("NT_NO", map.get("NT_NO"));
             adminService.update(map);
          }
          else {
             System.out.println("기존에 파일 정보가 없는 경우 2");
-            String BF_PATH = mr.getFilesystemName("BF_PATH");
+            MultipartFile img = mr.getFile("BF_PATH");
+            fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename();
+            File file = new File(realPath+"/"+fileName);
+            try {
+            	img.transferTo(file);
+            } catch(Exception e) {e.printStackTrace();}
+            String BF_PATH = path+"/"+fileName;
             System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
             map.put("BF_PATH",BF_PATH);
-            map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
-            map.put("NT_CONTENT", mr.getParameter("NT_CONTENT"));
-            map.put("NT_NO", mr.getParameter("NT_NO"));
+            map.put("NT_TITLE", map.get("NT_TITLE"));
+            map.put("NT_CONTENT", map.get("NT_CONTENT"));
+            map.put("NT_NO", map.get("NT_NO"));
             adminService.bfInsert(map);
             adminService.update(map);
          }
       }
       // 기존에 파일 정보가 있는 경우
       else {
-         if(mr.getFilesystemName("BF_PATH")==null) {
+         if(mr.getFile("BF_PATH")==null) {
             System.out.println("기존에 파일 정보가 있는 경우 11");
-            map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
-            map.put("NT_CONTENT", mr.getParameter("NT_CONTENT"));
-            map.put("NT_NO", mr.getParameter("NT_NO"));
+            map.put("NT_TITLE", map.get("NT_TITLE"));
+            map.put("NT_CONTENT", map.get("NT_CONTENT"));
+            map.put("NT_NO", map.get("NT_NO"));
             adminService.update(map);
          }
          else {
             System.out.println("기존에 파일 정보가 있는 경우 22");
-            fileName = mr.getParameter("ori_PATH").toString();
+            fileName = map.get("ori_PATH").toString();
             System.out.println(fileName);
-            FileUtility.deleteFile(req, "/resources/Upload/AdminNotice", fileName);
-            String BF_PATH = mr.getFilesystemName("BF_PATH");
+            MultipartFile img = mr.getFile("BF_PATH");
+            fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename();
+            File file = new File(realPath+"/"+fileName);
+            try {
+            	img.transferTo(file);
+            } catch(Exception e) {e.printStackTrace();}
+            String BF_PATH = path+"/"+fileName;
+            System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
             System.out.println("BF_PATH 값 출력 해 보기 = "+BF_PATH);
             map.put("BF_PATH",BF_PATH);
-            map.put("NT_TITLE", mr.getParameter("NT_TITLE"));
-            map.put("NT_CONTENT", mr.getParameter("NT_CONTENT"));
-            map.put("NT_NO", mr.getParameter("NT_NO"));
+            map.put("NT_TITLE", map.get("NT_TITLE"));
+            map.put("NT_CONTENT", map.get("NT_CONTENT"));
+            map.put("NT_NO", map.get("NT_NO"));
             adminService.bfUpdate(map);
             adminService.update(map);
          }
       }
-      return "forward:/OneNoticeView.bbs?NT_NO="+mr.getParameter("NT_NO");
+      return "forward:/OneNoticeView.bbs?NT_NO="+map.get("NT_NO");
    }
    
 }//////////class AdminController

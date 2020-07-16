@@ -117,7 +117,9 @@ public class AndroidDAO implements AndroidService {
 	}
 	@Override
 	public int deleteAndroidReview(Map map) {
-		return sqlMapper.delete("deleteAndroidReview",map);
+		int result = sqlMapper.delete("deleteAndroidReviewFile",map);
+		result +=sqlMapper.delete("deleteAndroidReview",map);
+		return result;
 	}
 	@Override
 	public int FallowAndroidReview(Map map) {
@@ -162,6 +164,18 @@ public class AndroidDAO implements AndroidService {
 		result+=sqlMapper.delete("boomERC",map);
 		result+=sqlMapper.delete("boomER",map);
 		if(result==3)System.out.println("삭제성공");
+		return result;
+	}
+
+	@Override
+	public int androidInsertReview(Map map) {
+		int result;
+		result=sqlMapper.insert("androidInsertReview",map);
+		System.out.println("username:"+map.get("username"));
+		int rv_no=sqlMapper.selectOne("getRv_no",map);
+		map.put("rv_no",rv_no);
+		
+		result=+sqlMapper.insert("androidInsertReviewIMG",map);
 		return result;
 	}
 }

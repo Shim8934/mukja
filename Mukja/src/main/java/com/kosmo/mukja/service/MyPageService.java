@@ -28,6 +28,7 @@ public interface MyPageService {
 	public List<MyPageDTO> getMyReview(Map map);	
 	public List<MyPageDTO> getMyReviewPics (Map map);
 	int updateMyReview(Map map);
+	int updateMyReviewPic(Map map);
 	int deleteMyReview(Map map);
 	int deleteMyReviewPic(Map map);
 	int deleteMyReviewThumb(Map map);
@@ -42,10 +43,14 @@ public interface MyPageService {
 
 	public List<MyPageDTO> getNicks(Map map);	
 	public List<MyPageDTO> getInCount(Map map);
+	
 
 	
 	int er_Accept(Map map);
 	int er_Reject(Map map);
+	int deleteMyEM(Map map);
+	int deleteMyER(Map map);
+	int deleteMyERC(Map map);
 
 	//전체 레코드 수]
 	int getMyJjimTotal(Map map);

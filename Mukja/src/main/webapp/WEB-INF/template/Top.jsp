@@ -36,7 +36,9 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light ftco-navbar-light-2" id="ftco-navbar">
 	<div class="container">
-		<a class="navbar-brand" href="<c:url value="/"/>">골라먹자</a>
+		<a style="color: black;" class="navbar-brand" href="<c:url value="/"/>">
+			골라먹자
+		</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse"
 			data-target="#ftco-nav" aria-controls="ftco-nav"
 			aria-expanded="false" aria-label="Toggle navigation">

@@ -123,4 +123,9 @@ public class MainServiceImpl implements MainService{
 		return dao.getRandomRecommendMenu(map);
 	}
 
+	@Override
+	public List<FoodMenuDTO> getRandomRecommendMenuAll(Map map) {
+		return dao.getRandomRecommendMenuAll(map);
+	}
+
 }

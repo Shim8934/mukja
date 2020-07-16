@@ -125,6 +125,11 @@ public class MainDAO implements MainService{
 	public List<FoodMenuDTO> getRandomRecommendMenu(Map map) {
 		return sqlMapper.selectList("getRandomRecommendMenu",map);
 	}
+
+	@Override
+	public List<FoodMenuDTO> getRandomRecommendMenuAll(Map map) {
+		return sqlMapper.selectList("getRandomRecommendMenuAll",map);
+	}
 	
 	
 	

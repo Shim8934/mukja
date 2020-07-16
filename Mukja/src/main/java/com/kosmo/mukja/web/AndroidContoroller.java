@@ -44,7 +44,6 @@ import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
 import com.kosmo.mukja.service.UsersDTO;
 import com.kosmo.mukja.service.impl.SearchMapServiceImpl;
-import com.kosmo.mukja.web.util.FileUtility;
 import com.kosmo.mukja.web.util.UploadPath;
 
 
@@ -56,9 +55,9 @@ public class AndroidContoroller {
 	private AndroidService androidService;	
 	@Resource(name = "serchService")
 	SearchMapServiceImpl serchService;
-	private String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS,","JS,","HS,","BS,","YS,"};
+	private String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS","JS,","HS","BS","YS"};
 	private String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
-	private final String UPLOAD_PATH="WEB-INF/uploads/andorid/";
+	private final String UPLOAD_PATH="/resources/IMG/";
 	@ResponseBody
 	@RequestMapping(value = "/Andorid/Store/DetailView.do" , produces = "application/json; charset=utf8")
 	public String StoreDetail(@RequestParam Map map) {
@@ -255,7 +254,7 @@ public class AndroidContoroller {
 		
 		
 		int result =  androidService.deleteAndroidReview(map);
-		
+		System.out.println("삭제결과 : "+result);
 	
 		JSONObject jsonObject = new  JSONObject();
 		jsonObject.put("result", result);
@@ -530,7 +529,8 @@ public class AndroidContoroller {
 	@ResponseBody
 	@RequestMapping(value = "/Android/insertReview.do" , produces = "application/json; charset=utf8")
 	public String insertReview(@RequestParam Map map, MultipartRequest mr, HttpServletRequest req) {
-
+		map.put("username",map.get("store_id").toString().replaceAll("\"", ""));
+		map.put("store_id",map.get("store_id").toString().replaceAll("\"", ""));
 		System.out.println("리뷰작성 컨트롤러 진입");
 		
 		String dbPath="/resources/IMG";
@@ -563,9 +563,13 @@ public class AndroidContoroller {
         //파일 저장
     	System.out.println("파일명"+file.getName());
     	System.out.println("경로파일:"+path +"\\"+ storedFileName);
-        
+    	String dbpath=UPLOAD_PATH+file.getName();
+    	map.put("img",dbpath);
+    	int result = 0;
         try {
 			img.transferTo(file);			
+			
+			result=androidService.androidInsertReview(map);
 			
 		} catch (IllegalStateException e) {
 			// TODO Auto-generated catch block
@@ -574,19 +578,49 @@ public class AndroidContoroller {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+        
 		
 		
 		
-		int result = 0;
-		if(mr.getFile("uploadedfile")!=null)result=1;
 	
 		JSONObject jsonObject = new  JSONObject();
-		jsonObject.put("result_Reject", result);
+		jsonObject.put("result", result);
 	
 		return jsonObject.toJSONString();
 	}//insertReview
 
+	@ResponseBody
+	@RequestMapping(value = "/Android/getreviewmenulist.do" , produces = "application/json; charset=utf8")
+	public String insertReview(@RequestParam Map map) {
+
+		System.out.println("매뉴블러오기 컨트롤러 진입");
+
+		map.put("username",map.get("store_id").toString().replaceAll("\"", ""));
+		map.put("store_id",map.get("store_id").toString().replaceAll("\"", ""));
+		System.out.println("store_id:"+map.get("store_id")+" / username:"+map.get("username"));
+		List<FoodMenuDTO> foodMenuList = service.getFoodMenu(map);
+		for(int j=0; j<tend_codes.length;j++) {
+			for(int i=0; i<foodMenuList.size();i++) {
+				foodMenuList.get(i).setMenu_tend(foodMenuList.get(i).getMenu_tend().replaceAll(tend_codes[j], tend_text[j]));
+			}
+		}//리스트에서 뽑은 성향의 포문
+		JSONArray menulistJson =new JSONArray();
+		for( FoodMenuDTO menuDTO :foodMenuList) {
+			JSONObject menu = new JSONObject();
+			menu.put("menuName",  menuDTO.getMenu_name()) ;
+			menu.put("menuCost",menuDTO.getMenu_price());
+			menu.put("menuInfo",menuDTO.getMenu_tend());
+			menu.put("menuIntro",menuDTO.getMenu_info());	
+			menu.put("menuNo",menuDTO.getMenu_no());	
+			menulistJson.add(menu);
+		}		
+	
+		
+		
+		JSONObject jsonObject = new  JSONObject();
+		System.out.println("result"+menulistJson.toJSONString());
+		return menulistJson.toJSONString();
+	}//insertReview
 
 	
 	

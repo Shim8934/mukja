@@ -258,15 +258,16 @@
 							</div>
 						</div>
 					</div>
-					<!-- 	<div
-										class="col-md d-flex justify-content-center counter-wrap ftco-animate">
-										<div class="block-18">
-											<div class="text">
-												<strong class="number" data-number="750">0</strong> 
-												<span>가게 ♥ 수</span>
-											</div>
-										</div>
-									</div> -->
+					<!-- 	
+						<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
+							<div class="block-18">
+								<div class="text">
+									<strong class="number" data-number="750">0</strong> 
+									<span>가게 ♥ 수</span>
+								</div>
+							</div>
+						</div> 
+					-->
 					<div class="col-md d-flex justify-content-center counter-wrap ftco-animate">
 						<div class="block-18">
 							<div class="text">
@@ -576,7 +577,6 @@
 		<div class="comment-form-wrap col-md-12" style="background: orange; border-radius: 1%;">
 			<h3 class="h4 font-weight-bold gugi pt-5 pb-5" style="text-align: center;">리뷰 남기기</h3>
 			<form id="reviewWriteForm" name="reviewWriteForm" method="post" action="<c:url value="/insertSTReview.do"/>">
-				<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
 				<div class="form-group poor">
 				
 					<div class="col-md-12">
@@ -611,10 +611,10 @@
 							<input type="text" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지"  style="margin-bottom: 10px;">
 						</div>
 					</div>
-					
 					<div class="col-md-12 mt-4 pb-3" >
 						<div class="form-group col-md-offset-5">
-							<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" /> 
+							<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
+							<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
 							<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 						</div>
 					</div>
@@ -692,16 +692,16 @@
 	
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
-	    	var store_id = $("#store_id").val();
+	    	var store_id='${list[0].username}';
 	         $.ajax({
-	        	 type:"POST",
-	        	 url:"<c:url value='/insertSTReview.do'/>",
+	        	type:"POST",
+	        	url:"<c:url value='/insertSTReview.do'/>",
 				data: param,             
 	            dataType: 'json',
 	            success : function(data){
 		              console.log('성공..?:',data);
-		              alert('처리 완료!');
-		              window.location = "<c:url value='/Store/DetailView.do?username="+${store_id} +"'/>";
+		              alert('리뷰가 작성 되었습니다!');
+		              window.location = "<c:url value='/Store/DetailView.do?username="+store_id +"'/>";
 		          },
 	              error:function(request,status,error){
 	                 console.log('응답코드:%s,에러메시지:%s,error:%s,status:%s',

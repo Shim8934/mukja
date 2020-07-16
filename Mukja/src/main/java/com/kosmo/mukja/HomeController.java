@@ -8,7 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 import java.util.StringTokenizer;
+import java.util.Vector;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,8 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +57,8 @@ public class HomeController {
 	private MainService mainService;
 	@Resource(name = "myPageService")
 	private MyPageService myPageService;
-	
+	private String[] tend_codes= {"FS","EG","MK","BD","PK","CW","PE","SF","DP","FL","SB","CS","JS","HS","BS","YS"};
+	private String[] tend_text= {"생선","계란","우유","가금류","돼지고기","소고기","땅콩","갑각류","유제품","밀가루","콩","","","","",""};
    
    /**
     * Simply selects the home view to render by returning its name.
@@ -63,7 +68,7 @@ public class HomeController {
 		   			  Map map,
 		   			  @RequestParam(required = false,defaultValue = "1") int nowPage,
 		   			  HttpServletRequest req,
-		   			  Principal user
+		   			  Authentication auth
 		   			  ) {
 	   
       logger.info("Welcome home! The client locale is {}.", locale);
@@ -181,24 +186,66 @@ public class HomeController {
 	  
 	  
 	  //....................회원님을 위한 추천
-	  /*
-	  String username = user.getName();
-	  if(username!=null) {
-			map.put("username",username);
-			System.out.println("username : "+username);
+	  
+	 
+	  if(auth!=null&&req.isUserInRole("ROLE_USER")) {
+			
+			UserDetails userDetails = (UserDetails)auth.getPrincipal();
+			String user_id = userDetails.getUsername();
+			map.put("user_id", user_id);
 			UsersDTO myInfo = myPageService.getMyInfo(map);
 			System.out.println("유저 성향 : "+myInfo.getU_tend());
 			String[] tends = myInfo.getU_tend().split(",");
-			List<FoodMenuDTO> menuList=null;
+			String u_nick= myInfo.getU_nick();
+			List<FoodMenuDTO> menuList= new Vector<FoodMenuDTO>();
+			List<FoodMenuDTO> resultList= new Vector<FoodMenuDTO>();
+			//성향 키워드 갯수만큼 반복하여 성향과 일치하는 모든 메뉴 담기
 			for(String tend:tends) {
 				map.put("tend", tend);
-				 menuList=mainService.getRandomRecommendMenu(map);
+				menuList.addAll(mainService.getRandomRecommendMenu(map));		
 			}
 			
+			
+			
+			//리스트의 전체 크기사이의 숫자에서 랜덤수로 dto를 얻어서 결과 list에 삽입
+			for(int i=0; i<5;i++) {
+				 Random random = new Random();
+				int randomInt = random.nextInt(menuList.size());
+				resultList.add(menuList.get(randomInt));
+			}
+			
+			//성향 코드를 단어로 변경
+			for(int i=0; i<resultList.size();i++) {
+				for(int j=0; j<tend_codes.length;j++) {
+					resultList.get(i).setMenu_tend(resultList.get(i).getMenu_tend().replaceAll(tend_codes[j], tend_text[j]).replaceAll(",", " "));
+					System.out.println(tend_codes[j]+"가  "+tend_text[j]+"로 변환");
+				}
+			}//리스트에서 뽑은 성향의 포문
+			System.out.println(resultList.toString());
+			System.out.println(u_nick);
+			model.addAttribute("u_nick", u_nick);
+			 model.addAttribute("recommend_menu", resultList);	
+	  }else {
+		
+			List<FoodMenuDTO> menuList= mainService.getRandomRecommendMenuAll(map);
+			List<FoodMenuDTO> resultList= new Vector<FoodMenuDTO>();
+		
+			//리스트의 전체 크기사이의 숫자에서 랜덤수로 dto를 얻어서 결과 list에 삽입
+			for(int i=0; i<5;i++) {
+				Random random = new Random();
+				int randomInt = random.nextInt(menuList.size());
+				resultList.add(menuList.get(randomInt));
+			}
+			//성향 코드를 단어로 변경
+			for(int i=0; i<resultList.size();i++) {
+				for(int j=0; j<tend_codes.length;j++) {
+					resultList.get(i).setMenu_tend(resultList.get(i).getMenu_tend().replaceAll(",", " ").replaceAll(tend_codes[j], tend_text[j]));
+					System.out.println(tend_codes[j]+"가  "+tend_text[j]+"로 변환");
+				}
+			}//리스트에서 뽑은 성향의 포문
+			System.out.println(resultList.toString());
+			model.addAttribute("recommend_menu", resultList);	
 	  }
-	  */
-	  
-	  
       return "Main/MukjaMain.tiles";
    }
    

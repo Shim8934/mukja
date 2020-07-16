@@ -40,6 +40,6 @@ public interface MainService {
 	
 	//랜덤 매뉴추천
 	List<FoodMenuDTO> getRandomRecommendMenu(Map map);
-	
+	List<FoodMenuDTO> getRandomRecommendMenuAll(Map map);
 	
 }
