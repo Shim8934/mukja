@@ -355,6 +355,7 @@
 										<tr>
 											<td colspan="7">신청 온 ET가 없습니다.</td>
 										</tr>
+										
 									</c:if>
 									<c:if test="${not empty myET0}">
 										<c:forEach items="${myET0}" var="ET0" varStatus="loop">
