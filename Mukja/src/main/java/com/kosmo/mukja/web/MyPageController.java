@@ -409,18 +409,23 @@ public class MyPageController{
 	@RequestMapping(value = "/er_Accept.bbs")
 	public String er_Accept(Authentication auth, @RequestParam Map map, HttpServletRequest req) {
 		System.out.println("수락 승인 IN !!!!!!!!!!!!!");
-
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		user_id = userDetails.getUsername();
-		map.put("user_id",user_id);
+//
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);
 
 		er_no = req.getParameter("er_no");
+		String applyer = req.getParameter("applyer");
+		
 		System.out.println("er_no 찍음 = "+er_no);
-		   
+		System.out.println("applyer 찍음 = "+applyer);
+		System.out.println("applyer 찍음 = "+map.get("applyer"));
+		map.put("applyer",map.get("applyer"));
 		map.put("er_no",er_no);
 		JSONObject json = new JSONObject();
 		System.out.println("user_id : "+user_id);
-		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
+//		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
+		System.out.println("수락 승인 속 applyer : "+map.get("applyer"));
 		System.out.println("수락 승인 속 er_no : "+map.get("er_no"));
 //		System.out.println("수락 승인 속 nowPage : "+map.get("nowPage"));
       
@@ -439,17 +444,21 @@ public class MyPageController{
 	public String er_Reject(Authentication auth,@RequestParam Map map, HttpServletRequest req) {
 		System.out.println("수락 거절 IN !!!!!!!!!!!!!");		
 
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		user_id = userDetails.getUsername();
-		map.put("user_id",user_id);
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);
 		
 		er_no = req.getParameter("er_no");
+		String applyer = req.getParameter("applyer");
+		
 		System.out.println("er_no 찍음 = "+er_no);
+		System.out.println("applyer 찍음 = "+map.get("applyer"));
 		
 		map.put("er_no",er_no);
+		map.put("applyer",map.get("applyer"));
+		
 		JSONObject json = new JSONObject();
-		System.out.println("user_id : "+user_id);
-		System.out.println("수락 failed 속 user_id : "+map.get("user_id"));
+		System.out.println("수락 승인 속 applyer : "+map.get("applyer"));
 		System.out.println("수락 failed 속 er_no : "+map.get("er_no"));
 	    
 		int result = service.er_Reject(map);

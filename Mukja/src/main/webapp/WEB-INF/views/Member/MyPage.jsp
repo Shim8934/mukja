@@ -364,8 +364,7 @@
 													<tr>
 														<td>
 															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
-															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">						
-															
+															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">
 															<input type="button" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;" value="수락">	
 														
 															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
@@ -374,6 +373,7 @@
 														<td style="font-weight: bold;">
 															<c:forEach items="${Nicks0}" var="Nick0" varStatus="loop">
 																<c:if test="${ET0.applyer == Nick0.username}">
+																	<input type="hidden" name="applyer" id="applyer" value="${Nick0.username}">
 																	${Nick0.u_nick}
 																</c:if>
 															</c:forEach>
@@ -585,10 +585,11 @@
 	
 	$(document).on("click","#etAccept",function(){
 		var er_no = $("#er_no").val();
+		var applyer = $("#applyer").val();
 		
 		$.ajax({
-			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>",
-		    data: {"er_no":er_no},			    
+			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"&applyer="+applyer+"'/>",
+		    data: {"er_no":er_no,"applyer":applyer},			    
 	        dataType: 'json',
 	        success : function(data){
 				console.log('성공..?:',data);
@@ -611,10 +612,11 @@
 	
 	$(document).on("click","#etReject",function(){
 		var er_no = $("#er_no").val();
+		var applyer = $("#applyer").val();
 		console.log(er_no)
 			$.ajax({
 				url:"<c:url value='/er_Reject.bbs?er_no="+er_no+"'/>",
-			    data: {"er_no":er_no},			    
+			    data: {"er_no":er_no,"applyer":applyer},		
 		        dataType: 'json',
 		        success : function(data){
 					console.log('성공..?:',data);
