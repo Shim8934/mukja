@@ -62,9 +62,16 @@ public class MyPageController{
 							HttpServletRequest req,
 							Authentication auth) {
 		System.out.println("-------------------------mypage IN----------------------");
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		String user_id = userDetails.getUsername();
-		map.put("user_id",user_id);
+		if(map.get("usercard")==null) {			
+			UserDetails userDetails = (UserDetails)auth.getPrincipal();
+			String user_id = userDetails.getUsername();
+			map.put("user_id",user_id);
+			
+		}
+		else {
+			String user_id = map.get("usercard").toString();
+			map.put("user_id",user_id);
+		}
 		map.put("store_id",store_id);
 		System.out.println("user_id 출력! : "+user_id);
 		System.out.println("store_id 출력! : "+store_id);
@@ -273,7 +280,10 @@ public class MyPageController{
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
+		
 		UsersDTO userInfo = service.getMyInfo(map);
+		System.out.println(userInfo.getU_tend());
+		
 		model.addAttribute("userInfo",userInfo);
 		return "/User/UpdateMyInfo.tiles";
 	}
@@ -301,6 +311,7 @@ public class MyPageController{
 		map.put("user_id",user_id);
 		System.out.println("회원정보 수정폼 user_id: "+map.get("user_id"));
 		
+		System.out.println(map.get("rv_no"));
 		//서비스 호출]
 		MyPageDTO rvcnt4up = service.getMyReviewForUpdate(map);
 		System.out.println(rvcnt4up.getRv_content());
@@ -421,11 +432,9 @@ public class MyPageController{
 	@RequestMapping(value = "/er_Reject.bbs")
 	public String er_Reject(Authentication auth,@RequestParam Map map, HttpServletRequest req) {
 		System.out.println("수락 거절 IN !!!!!!!!!!!!!");		
-
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
-		
 		er_no = req.getParameter("er_no");
 		System.out.println("er_no 찍음 = "+er_no);
 		
@@ -456,16 +465,97 @@ public class MyPageController{
 	public String deleteMyETHist(Authentication auth,@RequestParam Map map) {
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
-		map.put("user_id",user_id);	
+		map.put("user_id",user_id);
+		System.out.println("user_id : "+user_id);
 		System.out.println("!!!!!!!!!!!!!!!!!ET 삭제 IN !!!!!!!!!!!!!");								
 		System.out.println("er_no : "+map.get("er_no"));
-		int deleteEMC = service.deleteMyERC(map);
-		System.out.println(deleteEMC==0?"emc 삭제 실패":"emc 삭제 성공");
 		int deleteEM = service.deleteMyEM(map);
 		System.out.println(deleteEM==0?"em 삭제 실패":"em 삭제 성공");
-		int deleteER = service.deleteMyEM(map);
+		int deleteEMC = service.deleteMyERC(map);
+		System.out.println(deleteEMC==0?"emc 삭제 실패":"emc 삭제 성공");
+		int deleteER = service.deleteMyER(map);
 		System.out.println(deleteER==0?"er삭제 실패":"er 삭제 성공");
 		return "forward:/MyPage.bbs";
 	}///////////
+
+	@ResponseBody
+	@RequestMapping(value = "/modal.bbs", method = RequestMethod.GET)
+	public UsersDTO modal(@RequestParam Map map) {
+	   
+	   return service.modal(map);
+	}///////////
+	
+	
+	@RequestMapping(value="/userReport.bbs")
+	public String userReport(Authentication auth,@RequestParam Map map, HttpServletRequest req,Model model) {
+		System.out.println("==============================회원신고==============================");		
+		
+		if(req.getMethod().equals("GET")) {
+			System.out.println("!!!!!!!!!!!!!!!!! 회원신고 IN !!!!!!!!!!!!!");	
+			
+			UserDetails userDetails = (UserDetails)auth.getPrincipal();
+			user_id = userDetails.getUsername();
+			map.put("user_id",user_id);	
+			map.put("er_no", map.get("er_no"));
+			
+			System.out.println("맵쩜갯"+map.get("user_id")+" , "+map.get("er_no"));
+			MyPageDTO report = service.get1et1(map);
+			System.out.println("리포터안의"+report.getUser_id()+" , "+ report.getEr_no());
+			model.addAttribute("user_id", user_id);
+			
+			List<UsersDTO> urns  = service.getURN(map);	
+			for(int i =0; i<urns.size(); i++) {
+				System.out.println(urns.get(i).getUsername()+" , "+urns.get(i).getU_nick());
+			}
+			model.addAttribute("urns",urns);
+			return "/User/ReportUser.tiles";
+			
+		}
+		
+		System.out.println("!!!!!!!!!!!!!!!!! 회원신고 OK !!!!!!!!!!!!!");	
+		System.out.println("ur_title"+map.get("ur_title"));
+		System.out.println("ur_content"+map.get("ur_content"));
+		System.out.println("ur_target"+map.get("ur_target"));
+		System.out.println("ur_reporter"+map.get("ur_reporter"));
+		int reportUser = service.reportUser(map);
+		System.out.println(reportUser==0?"회원 신고 실패":"회원 신고 성공");
+		return "forward:/MyPage.bbs";
+	}///////////
+	
+	@RequestMapping(value="/erDelete.bbs")
+	public String erDelete(Authentication auth, @RequestParam Map map, HttpServletRequest req,Model model) {
+		System.out.println(map.get("er_no"));
+		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+		user_id = userDetails.getUsername();
+		map.put("user_id",user_id);
+		System.out.println(user_id);
+		service.erDelete(map);
+		return "forward:/MyPage.bbs";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+//	@RequestMapping(value="/userReport.bbs")
+//	public String userReportOK(Authentication auth,@RequestParam Map map) {
+//		System.out.println("!!!!!!!!!!!!!!!!! 회원신고in !!!!!!!!!!!!!");		
+//		
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);	
+//								
+//		System.out.println("er_no : "+map.get("er_no"));
+//		
+//		int deleteEMC = service.reportUser(map);
+//		System.out.println(deleteEMC==0?"emc 삭제 실패":"emc 삭제 성공");
+//
+//
+//		return "forward:/MyPage.bbs";
+//	}///////////
+	   
 	
 }

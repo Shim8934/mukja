@@ -211,6 +211,7 @@ public class SignController {
 		String username = map.get("username").toString();
 		map.put("username", username);
 		map.put("password", map.get("password").toString());
+		map.put("store_name", map.get("store_name").toString());
 		map.put("store_reginum", "1111111111");
 		map.put("store_phnum", map.get("store_phnum").toString());
 		map.put("store_email", map.get("store_email").toString());
