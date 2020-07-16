@@ -150,6 +150,11 @@ public class MyPageController{
 		System.out.println("닉네임얻기");
 		model.addAttribute("Nicks",Nicks);
 		System.out.println("Nicks"+Nicks);
+
+		List<MyPageDTO> Nicks0 = service.getNicks0(map);
+		System.out.println("닉네임얻기");
+		model.addAttribute("Nicks0",Nicks0);
+		System.out.println("Nicks0"+Nicks0);
 		
 		
 		

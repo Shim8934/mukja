@@ -370,10 +370,12 @@
                                              <a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
                         
                                           </td>
-                                          <td style="font-weight: bold;">
+                                          <td id="zzzz" style="font-weight: bold;">
                                              <%-- <c:forEach items="${Nicks}" var="Nick" varStatus="loop">
                                                 <c:if test="${ET0.applyer == Nick.username}"> --%>
-                                                   ${ET0.applyer}
+                                                <input type="hidden" id='z1' value="${ET0.applyer}">  
+												${ET0.applyer}
+                                                   
                                                 <%-- </c:if>
                                              </c:forEach> --%>
                                           </td>
@@ -437,7 +439,6 @@
 									<span>참가한 ET가 없습니다.</span>
 								</div>
 							</c:if>
-
 							<c:if test="${not empty myET1}">
 								<c:forEach items="${myET1}" var="myET1" varStatus="loop">
 									<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
@@ -515,11 +516,8 @@
 														</a> 	
 															
 													</div>
-												</c:if>	
-														
-											</div>
-											
-																				
+												</c:if>															
+											</div>																				
 										</c:if>
 									</c:forEach>
 								</c:forEach>
@@ -580,7 +578,7 @@
 	
 	$(document).on("click","#etAccept",function(){
 		var er_no = $("#er_no").val();
-		var zzzz = $('#zzzz').text();
+		var zzzz = document.getElementById('z1').value;
 		console.log(zzzz)
 // 		$.ajax({
 // 			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>",

@@ -108,6 +108,10 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getNicks(map);
 	}
 	@Override
+	public List<MyPageDTO> getNicks0(Map map) {
+		return dao.getNicks0(map);
+	}
+	@Override
 	public List<MyPageDTO> getETrecv1(Map map) {
 		return dao.getETrecv1(map);
 	}

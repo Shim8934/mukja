@@ -13,8 +13,6 @@ public class MyPageDTO {
 	private String store_name2;
 	private String sf_path;
 	private String applyer;
-	
-
 	//찜스토어
 	private int er_no;
 	private String er_master;
@@ -60,6 +58,7 @@ public class MyPageDTO {
 	
 	public MyPageDTO() {
 	}
+
 
 
 	public MyPageDTO(String username, String password, String u_nick, String user_id, int count, String store_id,
@@ -110,7 +109,6 @@ public class MyPageDTO {
 		this.rf_path = rf_path;
 		this.rf_no = rf_no;
 	}
-
 
 	public String getUsername() {
 		return username;
@@ -501,13 +499,7 @@ public class MyPageDTO {
 		this.rf_no = rf_no;
 	}
 
-	
-	
-	
-	
-	
 
-	
 
 	
 	

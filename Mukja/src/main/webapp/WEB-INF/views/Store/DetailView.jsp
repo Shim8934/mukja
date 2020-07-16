@@ -530,7 +530,7 @@
 	
 	<div class="container">
 		<h3 class="mb-5 h4 font-weight-bold p-4" style="text-align: center; font-family: 'Gugi', sans-serif;">모든 리뷰 보기</h3>
-		<div class="btn py-3 px-4 btn-black" id="myBtn" style="float:right" data-target="#layerpop" data-toggle="modal"> 후기 남기기 </div>
+		<div class="btn py-3 px-4 btn-black" style="float:right" class="btn mr-2 mb-2 btn-primary" id="moveScroll"> 후기 남기기 </div>
 	
 		<div class="comment-form-wrap pt-5">
 			<ul style="list-style: none;">
@@ -589,14 +589,16 @@
 										<div>
 											<c:if test="${IDmeme != strvcnt.user_email}">
 												<p style="color: black;">좋아요</p>
-												<div>
+												<span id="is_rvlike" class="glyphicon glyphicon-heart thumbNomal"></span>
+												<span id="rvlikeCount"></span>
+												<%-- <div>
 													<c:if test="${is_rvlike==0}" >
 														<span id="is_rvlike" class="glyphicon glyphicon-heart thumbNomal"></span>
 													</c:if>
 													<c:if test="${is_rvlike==1}" >
 														<span id="is_rvlike" class="glyphicon glyphicon-heart thumbClick"></span>
 													</c:if>
-												</div>
+												</div> --%>
 											</c:if>
 										</div>				
 										<div>
@@ -619,7 +621,22 @@
 		<div class="col-md-12 col-md-offset-5">
 			${strvPagingString}
      	</div>
+     	
+     	<script>
+     	$(document).ready(function(){
 
+    		$('#moveScroll').click(function(){
+
+    			var offset = $('#reviewWriteForm').offset(); //선택한 태그의 위치를 반환
+
+                    //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
+
+    	        $('html').animate({scrollTop : offset.top}, 400);
+
+    		});
+
+    	});
+     	</script>
 
 		<sec:authorize access="hasRole('ROLE_USER')">
 			<div class="comment-form-wrap col-md-12"
@@ -676,7 +693,6 @@
 						<div class="col-md-12 mt-4 pb-3">
 							<div class="form-group col-md-offset-5">
 								<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
-								<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
 								<input type="submit" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 							</div>
 						</div>
@@ -687,7 +703,6 @@
 
 
 
-
 	</div>
 </section>	 
 
@@ -695,63 +710,6 @@
 
 
 <!-- -------------------------------------------리뷰쓰기 모달------------------------------------------- -->
-	
-
-
-	<div id="myModal" class="modal fade" style="opacity: 1; ">
-		<div class="modal-dialog modal-lg" style="padding: 0;border:none; margin-top:200px; ">
-			<div class="modal-content" style=" background: orange;">
-				<div>
-					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
-					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
-				</div>
-				<form id="reviewWriteForm" name="reviewWriteForm" action="<c:url value='/insertSTReview.do'/>" >
-					<div style="padding-top: 20px;">
-						<div class="col-md-12">
-							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
-							<div class="col-md-9" style="padding-bottom: 15px;">
-								<select id="menu_name">
-									<option>메뉴 이름</option>
-									<c:forEach items="${foodMenuList}" var="foodMenuDto"
-										varStatus="loop">
-										<option>${foodMenuDto.menu_name}</option>
-									</c:forEach>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 제목</label>
-							<div class="col-md-9">
-								<input type="text" class="form-control" name="rv_title" placeholder="제목을 입력하세요" style="margin-bottom: 10px;">
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 내용</label>
-							<div class="col-md-9 poor">
-								<textarea name="rv_content" cols="30" rows="5" class="form-control" placeholder="내용을 입력하세요" style="margin-bottom: 10px;"></textarea>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 이미지</label>
-							<div class="col-md-9 poor">
-								<input name="rf_path" id="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
-							</div>
-						</div>
-						<!-- <div class="col-md-12">
-							<div id="preview">
-							</div>
-						</div> -->
-					</div>
-					<div class="modal-footer col-md-12 text-center" style="background: orange;">
-						<input type="submit" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert"> 
-						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
-							<span class="close" style="height: 28px; width:20; font-size: 14px; padding: 10px 15px; ">취소</span>
-						</button>					
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 	<script>
 	/*
 	    $("#btnInsert").click(function(){
