@@ -117,6 +117,10 @@ public class MyPageDAO implements MyPageService {
 		return sqlMapper.selectList("getNicks",map);
 	}
 	@Override
+	public List<MyPageDTO> getNicks0(Map map) {
+		return sqlMapper.selectList("getNicks0",map);
+	}
+	@Override
 	public List<MyPageDTO> getInCount(Map map) {
 		return sqlMapper.selectList("getInCount",map);
 	}

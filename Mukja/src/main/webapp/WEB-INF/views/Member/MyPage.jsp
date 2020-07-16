@@ -344,7 +344,8 @@
 								<table class="mplist table table-bordered table-hover text-center item-a">
 									<tr class="thead-light ">
 										<th style="width: 5%">수락</th>
-										<th style="width: 25%">가게이름</th>
+										<th style="width: 10%">신청자</th>
+										<th style="width: 15%">가게이름</th>
 										<th style="width: 20%">ET 성향</th>
 										<th style="width: 20%">시간</th>
 										<th style="width: 20%">참여자</th>
@@ -368,6 +369,13 @@
 														
 															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
 								
+														</td>
+														<td style="font-weight: bold;">
+															<c:forEach items="${Nicks0}" var="Nick0" varStatus="loop">
+																<c:if test="${ET0.applyer == Nick0.username}">
+																	${Nick0.u_nick}
+																</c:if>
+															</c:forEach>
 														</td>
 														<td style="font-weight: bold;">
 														<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>

@@ -12,6 +12,7 @@ public class MyPageDTO {
 	private String store_id;
 	private String store_name2;
 	private String sf_path;
+	private String applyer;
 	
 	
 
@@ -72,7 +73,7 @@ public class MyPageDTO {
 			String er_tend, int er_max, Date er_postdate, Date erjoin_date, int erjoin_num, int erjoin_role, int erc_no,
 			String fl_send, String fl_recv, Date fl_regidate, int fl_status, int fl_no, String store_name,
 			Date ms_postdate, String ms_comment, String user_email, int ms_no, String menu_name, int rv_no,
-			String rv_title, String rv_content, String store_id, Date rv_postdate, int menu_no, String rf_path, int rf_no) {
+			String rv_title, String rv_content, String store_id, Date rv_postdate, int menu_no, String rf_path, int rf_no, String applyer) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -112,6 +113,7 @@ public class MyPageDTO {
 		this.rf_path = rf_path;
 		this.rf_no = rf_no;
 		this.store_id = store_id;
+		this.applyer = applyer;
 	}
 
 
@@ -497,6 +499,26 @@ public class MyPageDTO {
 
 	public void setStore_id(String store_id) {
 		this.store_id = store_id;
+	}
+
+
+
+
+
+
+
+	public String getApplyer() {
+		return applyer;
+	}
+
+
+
+
+
+
+
+	public void setApplyer(String applyer) {
+		this.applyer = applyer;
 	}
 
 

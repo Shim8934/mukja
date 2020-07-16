@@ -589,14 +589,16 @@
 										<div>
 											<c:if test="${IDmeme != strvcnt.user_email}">
 												<p style="color: black;">좋아요</p>
-												<div>
+												<span id="is_rvlike" class="glyphicon glyphicon-heart thumbNomal"></span>
+												<span id="rvlikeCount"></span>
+												<%-- <div>
 													<c:if test="${is_rvlike==0}" >
 														<span id="is_rvlike" class="glyphicon glyphicon-heart thumbNomal"></span>
 													</c:if>
 													<c:if test="${is_rvlike==1}" >
 														<span id="is_rvlike" class="glyphicon glyphicon-heart thumbClick"></span>
 													</c:if>
-												</div>
+												</div> --%>
 											</c:if>
 										</div>				
 										<div>
@@ -675,7 +677,6 @@
 						</div>
 						<div class="col-md-12 mt-4 pb-3">
 							<div class="form-group col-md-offset-5">
-								<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
 								<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
 								<input type="submit" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 							</div>
