@@ -626,10 +626,8 @@
 				style="background: orange; border-radius: 1%;">
 				<h3 class="h4 font-weight-bold gugi pt-5 pb-5"
 					style="text-align: center;">리뷰 남기기</h3>
-				<form id="reviewWriteForm" name="reviewWriteForm" method="post"
-					action="<c:url value="/insertSTReview.do"/>">
+				<form id="reviewWriteForm" name="reviewWriteForm" method="post" action="<c:url value="/insertSTReview.do"/>" enctype="multipart/form-data">
 					<div class="form-group poor">
-
 						<div class="col-md-12">
 							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
 							<div class="col-md-9" style="padding-bottom: 15px;">
@@ -663,18 +661,23 @@
 						<div class="col-md-12">
 							<label class="col-md-2" style="text-align: right;">리뷰 이미지</label>
 							<div class="col-md-9">
-								<input type="text" class="form-control" id="rf_path"
-									name="rf_path" placeholder="리뷰 이미지"
-									style="margin-bottom: 10px;">
+								<input type="file" accept='.jpg,.jpeg,.png,.gif,.bmp' class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" style="margin-bottom: 10px;">
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="col-md-4">
+							</div>
+							<div class="col-md-4">
+								<div id="preview"></div>
+							</div>
+							<div class="col-md-4">
 							</div>
 						</div>
 						<div class="col-md-12 mt-4 pb-3">
 							<div class="form-group col-md-offset-5">
-								<input type="hidden" name="store_id" id="store_id"
-									value="${list[0].username}" /> <input type="hidden"
-									name="store_id" id="store_id" value="${list[0].username}" /> <input
-									type="button" value="작성" class="btn py-3 px-4 btn-default"
-									id="btnInsert">
+								<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
+								<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
+								<input type="submit" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
 							</div>
 						</div>
 					</div>
@@ -702,7 +705,7 @@
 					<h3 class="pb-4 pt-4 text-center gugi col-md-10 col-md-offset-1"> 내 리뷰 남기기</h3>
 					<span class="close" style="margin-right: 20px; margin-top:20px; color: black;">&times;</span>							
 				</div>
-				<form id="reviewWriteForm" name="reviewWriteForm" action="/insertSTReview.do"  >
+				<form id="reviewWriteForm" name="reviewWriteForm" action="<c:url value='/insertSTReview.do'/>" >
 					<div style="padding-top: 20px;">
 						<div class="col-md-12">
 							<label class="col-md-2" for="message" style="text-align: right;">Menu</label>
@@ -731,12 +734,16 @@
 						<div class="col-md-12">
 							<label class="col-md-2" for="form-control" style="text-align: right; padding-top: 15px;">리뷰 이미지</label>
 							<div class="col-md-9 poor">
-								<input name="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
+								<input name="rf_path" id="rf_path" class="form-control" placeholder="파일업로드용" style="margin-bottom: 30px;"></input>
 							</div>
 						</div>
+						<!-- <div class="col-md-12">
+							<div id="preview">
+							</div>
+						</div> -->
 					</div>
 					<div class="modal-footer col-md-12 text-center" style="background: orange;">
-						<input type="button" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert"> 
+						<input type="submit" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert"> 
 						<button class="btn py-2 px-1 btn-primary" data-dismiss="modal">
 							<span class="close" style="height: 28px; width:20; font-size: 14px; padding: 10px 15px; ">취소</span>
 						</button>					
@@ -746,16 +753,17 @@
 		</div>
 	</div>
 	<script>
-	        
-	
-	
+	/*
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
 	    	var store_id='${list[0].username}';
 	         $.ajax({
 	        	type:"POST",
 	        	url:"<c:url value='/insertSTReview.do'/>",
-				data: param,             
+				data: param,      
+				processData: false,  
+			    contentType: false,  
+			    enctype: 'multipart/form-data',
 	            dataType: 'json',
 	            success : function(data){
 		              console.log('성공..?:',data);
@@ -769,6 +777,55 @@
 	        	 
         	});
 	    });
+	    */
 	    
-	    
+	      
+	      // 등록 이미지 삭제 ( input file reset )
+	      var resetInputFile = function($input, $preview) {
+	         var agent = navigator.userAgent.toLowerCase();
+	         if ((navigator.appName == 'Netscape' && navigator.userAgent
+	               .search('Trident') != -1)
+	               || (agent.indexOf("msie") != -1)) {
+	            // ie 일때
+	            $input.replaceWith($input.clone(true));
+	            $preview.empty();
+	         } else {
+	            //other
+	            $input.val("");
+	            $preview.empty();
+	         }
+	      }
+
+	      var deleteImageAction = function() {
+	         var img_id = "#img_id";
+	         $(img_id).remove();
+	         var $input = $("#rf_path");
+	         var $preview = $('#preview');
+	         resetInputFile($input, $preview);
+	      }
+	    $(function(){
+	    	$("#rf_path").on('change', function() {
+		          console.log('this 찍어봄 0  ' + this)
+		          readInputFile(this);
+		       });
+	    	
+	    	  //등록 이미지 등록 미리보기
+		      function readInputFile(input) {
+		         console.log('readInputFile메소드 안에 들어옴  ')
+		         if (input.files && input.files[0]) {
+		            var reader = new FileReader();
+		            console.log('파일 배열 찍어봄[0]   ' + input.files[0]);
+		            console.log('id 찍어봄    ' + input.id);
+		            console.log('name 찌거봄    ' + input.name);
+		            reader.onload = function(e) {
+		               $("#preview")
+		                     .html(
+		                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction()\" id=\"img_id\"><img class='d-block w-100 img-thumbnail' src="
+		                                 + e.target.result
+		                                 + " style='width:100%;margin-left:5px;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
+		            }
+		            reader.readAsDataURL(input.files[0]);
+		         }
+		      }
+	    })
     </script>

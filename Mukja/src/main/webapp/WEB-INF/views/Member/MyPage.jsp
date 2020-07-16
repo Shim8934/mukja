@@ -684,5 +684,8 @@
          
       });   
    }
+<<<<<<< HEAD
 
+=======
+>>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 </script>

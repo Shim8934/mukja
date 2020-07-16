@@ -1,10 +1,12 @@
 package com.kosmo.mukja.web;
 
+import java.io.File;
 import java.security.Principal;
 import java.security.Security;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.Vector;
 
 import javax.annotation.Resource;
@@ -22,11 +24,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.MultipartRequest;
 
 import com.google.gson.JsonObject;
 import com.kosmo.mukja.service.FoodIMGDTO;
 import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MyPageDTO;
+import com.kosmo.mukja.service.MyPageService;
 import com.kosmo.mukja.service.StoreDTO;
 import com.kosmo.mukja.service.StoreIMGDTO;
 import com.kosmo.mukja.service.StoreService;
@@ -38,6 +44,8 @@ import com.kosmo.mukja.web.util.PagingUtil;
 public class StoreDetailController {
 	@Resource(name = "StoreInfoService")
 	private StoreService service;
+	@Resource(name = "myPageService")
+	private MyPageService myPageService;
 
 	@Value("${PAGE_SIZE}")
 	private int pageSize;
@@ -238,27 +246,53 @@ public class StoreDetailController {
 		return "{'result':"+result+"}"; 
 	}
 
-	@ResponseBody
+	// @ResponseBody
+	
 	@RequestMapping(value="/insertSTReview.do",method=RequestMethod.POST)
-	public String insertSTReviewOk(Authentication auth, Model model, @RequestParam Map map) {	
+	public String insertSTReviewOk(MultipartHttpServletRequest mr,Authentication auth, Model model, @RequestParam Map map) {	
 		System.out.println("---------------------------리뷰쓰기폼-----------------------------");
-
+		System.out.println("리얼패스 찍어보기 = "+mr.getSession().getServletContext().getRealPath("/resources/IMG"));
 		UserDetails userDetails = (UserDetails) auth.getPrincipal();
 		map.put("user_id", userDetails.getUsername());
 		System.out.println("리뷰 작성 속 store_id : "+store_id);
-		JSONObject json= new JSONObject();		
+		
+		// JSONObject json= new JSONObject();
+		
 		System.out.println("rv_no: " + map.get("rv_no"));	
 		System.out.println("rv_title: "+map.get("rv_title"));	
 		System.out.println("rv_content: " + map.get("rv_content"));
 		System.out.println("user_id : "+map.get("user_id"));	
 		System.out.println("store_id : " + map.get("store_id"));
 		System.out.println("menu_no : "+ map.get("menu_no"));
-		map.put("store_id",store_id);
 		int insertrv = service.insertReview(map);	
+		
+		MyPageDTO tempDto = myPageService.forInsertReview_file(map);
+		System.out.println("파일 삽입하기 위해 새 리뷰 번호 따옴 = "+tempDto.getRv_no());
+		map.put("rv_no", tempDto.getRv_no());
+		
 		System.out.println("rv_no: " + map.get("rv_no"));		
-		//인서트		
+		String rf_path;
+		// 파일 경로 및 서버 저장 세팅
+		String path = "/resources/IMG";
+		String realPath = mr.getSession().getServletContext().getRealPath("/resources/IMG");
+		MultipartFile img = mr.getFile("rf_path");
+		String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename();
+		File file = new File(realPath+"/"+fileName);
+		try {
+			img.transferTo(file);
+		} catch(Exception e) {e.printStackTrace();}
+			
+		rf_path = path+ "/" + fileName;
+		map.put("rf_path", rf_path);
+		
+		map.put("store_id",store_id);
+		
+		// 파일인서트
+		myPageService.insertNewReview_file(map);
+		
+				
 		System.out.println(insertrv==0?"실패":"리뷰 쓰기 성공!!!!");
-		return json.toJSONString();
+		return "forward:/Store/DetailView.do?username="+store_id;
 	}
 	
 	

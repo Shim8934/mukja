@@ -342,7 +342,8 @@ public class MyPageController{
 		String path ="/resources/IMG";
 		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
 				
-		rv_no = map.get("rv_no").toString();
+		String rv_no = map.get("rv_no").toString();
+		System.out.println(rv_no +" = 리뷰 번호 보자");
 		String menu_no = map.get("menu_no").toString();
 		String rv_title = map.get("rv_title").toString();
 		String rv_content = map.get("rv_content").toString();
@@ -351,13 +352,13 @@ public class MyPageController{
 		
 		String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
 	      
-	    File file = new File(path+"\\"+fileName);
-	    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),path+"\\"+fileName));
+	    File file = new File(realPath+"/"+fileName);
+	    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),path+"/"+fileName));
 	    try {
 	      img.transferTo(file);
 	    }
 	    catch(Exception e) {e.printStackTrace();}
-		String rf_path = path+"\\"+fileName;
+		String rf_path = path+"/"+fileName;
 		if(rf_path!=null) {			
 			map.put("rf_path", rf_path);			
 		}
@@ -484,8 +485,7 @@ public class MyPageController{
 	   
 	   return service.modal(map);
 	}///////////
-	
-	
+
 	@RequestMapping(value="/userReport.bbs")
 	public String userReport(Authentication auth,@RequestParam Map map, HttpServletRequest req,Model model) {
 		System.out.println("==============================회원신고==============================");		
@@ -532,30 +532,7 @@ public class MyPageController{
 		service.erDelete(map);
 		return "forward:/MyPage.bbs";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-//	@RequestMapping(value="/userReport.bbs")
-//	public String userReportOK(Authentication auth,@RequestParam Map map) {
-//		System.out.println("!!!!!!!!!!!!!!!!! 회원신고in !!!!!!!!!!!!!");		
-//		
-//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-//		user_id = userDetails.getUsername();
-//		map.put("user_id",user_id);	
-//								
-//		System.out.println("er_no : "+map.get("er_no"));
-//		
-//		int deleteEMC = service.reportUser(map);
-//		System.out.println(deleteEMC==0?"emc 삭제 실패":"emc 삭제 성공");
-//
-//
-//		return "forward:/MyPage.bbs";
-//	}///////////
 	   
 	
 }
+

@@ -186,6 +186,18 @@ public class MyPageDAO implements MyPageService {
 	public int erDelete(Map map) {
 		return sqlMapper.delete("erDelete",map);
 	}
+	
+	public MyPageDTO forInsertReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("forInsertReview_file",map);
+	}
+
+	@Override
+	public int insertNewReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertNewReview_file",map);
+
+	}
 
 	
 	

@@ -63,7 +63,7 @@
      	UPDATE storereview SET menu_no=#{menu_no},rv_title=#{rv_title},rv_content=#{rv_content} WHERE rv_no=#{rv_no}
     </update>
 	<update id="updateMyReviewPic" parameterType="java.util.Map">
-     	UPDATE store_file SET rf_path=#{rf_path} WHERE rv_no=#{rv_no}
+     	UPDATE review_file SET rf_path=#{rf_path} WHERE rv_no = #{rv_no}
     </update>
     
     <!-- 리뷰 삭제 용 -->
@@ -150,9 +150,11 @@
    <insert id="reportUser" parameterType="java.util.Map">   
       insert into user_report(ur_no,ur_title,ur_content,ur_target,ur_reporter) values (seq_userreport.nextval,#{ur_title},#{ur_content},#{ur_target},#{ur_reporter})
    </insert>
+
    <delete id="erDelete" parameterType="java.util.Map">
    		DELETE er_members WHERE username=#{user_id} and er_no = #{er_no}
    </delete>
+
 	
 
 </mapper>

@@ -8237,8 +8237,7 @@ h1, h2, h3, h4, h5,
     .owl-carousel .owl-item.active {
       opacity: 1; }
   .owl-carousel .owl-dots {
-    text-align: center;
-    margin-top: 30px; }
+    text-align: center;}
     .owl-carousel .owl-dots .owl-dot {
       width: 10px;
       height: 10px;

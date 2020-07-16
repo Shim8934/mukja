@@ -185,8 +185,19 @@ public class MyPageServiceImpl implements MyPageService{
 	}
 
 	@Override
+
 	public int erDelete(Map map) {
 		return dao.erDelete(map);
+	}
+	public MyPageDTO forInsertReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return dao.forInsertReview_file(map);
+	}
+
+	@Override
+	public int insertNewReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertNewReview_file(map);
 	}
 
 
