@@ -530,7 +530,7 @@
 	
 	<div class="container">
 		<h3 class="mb-5 h4 font-weight-bold p-4" style="text-align: center; font-family: 'Gugi', sans-serif;">모든 리뷰 보기</h3>
-		<div class="btn py-3 px-4 btn-black" style="float:right" class="btn mr-2 mb-2 btn-primary" id="moveScroll"> 후기 남기기 </div>
+		<div class="btn py-3 px-4 btn-black" style="float:right" class="btn mr-2 mb-2 btn-primary" id="myBtn"> 후기 남기기 </div>
 	
 		<div class="comment-form-wrap pt-5">
 			<ul style="list-style: none;">
@@ -621,23 +621,8 @@
 		<div class="col-md-12 col-md-offset-5">
 			${strvPagingString}
      	</div>
-     	
-     	<script>
-     	$(document).ready(function(){
-
-    		$('#moveScroll').click(function(){
-
-    			var offset = $('#reviewWriteForm').offset(); //선택한 태그의 위치를 반환
-
-                    //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
-
-    	        $('html').animate({scrollTop : offset.top}, 400);
-
-    		});
-
-    	});
-     	</script>
-
+ 
+    <!-- 
 		<sec:authorize access="hasRole('ROLE_USER')">
 			<div class="comment-form-wrap col-md-12"
 				style="background: orange; border-radius: 1%;">
@@ -700,17 +685,127 @@
 				</form>
 			</div>
 		</sec:authorize>
-
+ -->
 
 
 	</div>
 </section>	 
 
+    	<sec:authorize access="hasRole('ROLE_USER')">
+<!-- The Modal -->
+<div id="myModal" class="modal">
+   <div class="container">
+      <!-- Modal content -->
+         <div class="row">
+         <div class="modal-content">
+            <h3>리뷰 남기기<span class="close">&times;</span></h3>                                                               
+         <form id="reviewWriteForm" name="reviewWriteForm" method="post" action="<c:url value="/insertSTReview.do"/>" enctype="multipart/form-data">
+           <div class="form-group poor">
+			<div class="col-md-12">
+				<label class="col-md-2" for="menu_no" style="text-align: right;">Menu</label>
+				<div class="col-md-9" style="padding-bottom: 15px;">
+					<select id="menu_no" name="menu_no"
+						style="padding: 10px; boder-radius: 3%;">
+						<option>메뉴 이름</option>
+						<c:forEach items="${foodMenuList}" var="Menu" varStatus="loop">
+							<option value="${Menu.menu_no}">${Menu.menu_name}</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
 
+			<div class="col-md-12">
+				<label class="col-md-2" for="rv_title" style="text-align: right;">리뷰 제목</label>
+				<div class="col-md-9">
+					<input type="text" class="form-control" id="rv_title"
+						name="rv_title" placeholder="제목" style="margin-bottom: 10px;">
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<label class="col-md-2" for="rv_content" style="text-align: right;">내용</label>
+				<div class="col-md-9">
+					<textarea name="rv_content" cols="30" rows="7"
+						class="form-control" placeholder="내용을 입력하세요"
+						style="margin-bottom: 10px;"></textarea>
+				</div>
+			</div>
+
+			<div class="col-md-12">
+				<label class="col-md-2" for="rf_path" style="text-align: right;">리뷰 이미지</label>
+				<div class="col-md-9">
+					<input type="file" accept='.jpg,.jpeg,.png,.gif,.bmp' class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" style="margin-bottom: 10px;">
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="col-md-4">
+				</div>
+				<div class="col-md-4">
+					<div id="preview"></div>
+				</div>
+				<div class="col-md-4">
+				</div>
+			</div>
+			<div class="col-md-12 mt-4 pb-3">
+				<div class="form-group col-md-offset-5">
+					<input type="hidden" name="store_id" id="store_id" value="${list[0].username}" />
+					<input type="submit" value="작성" class="btn py-3 px-4 btn-default" id="btnInsert">
+				</div>
+			</div>
+		</div>
+         </form>
+        </div>
+      </div>
+ </div>
+    </div>
+    </sec:authorize>
 
 
 <!-- -------------------------------------------리뷰쓰기 모달------------------------------------------- -->
 	<script>
+	<!--
+	$(document).ready(function(){
+
+		$('#moveScroll').click(function(){
+
+			var offset = $('#reviewWriteForm').offset(); //선택한 태그의 위치를 반환
+
+                //animate()메서드를 이용해서 선택한 태그의 스크롤 위치를 지정해서 0.4초 동안 부드럽게 해당 위치로 이동함 
+
+	        $('html').animate({scrollTop : offset.top}, 400);
+
+		});
+
+	});
+	-->
+	$(function(){
+	   // Get the modal
+	    var modal = document.getElementById('myModal');
+
+	    // Get the button that opens the modal
+	    var btn = document.getElementById("myBtn");
+
+	    // Get the <span> element that closes the modal
+	    var span = document.getElementsByClassName("close")[0];                                          
+
+	    // When the user clicks on the button, open the modal 
+	    btn.onclick = function() {
+	        modal.style.display = "block";
+	    }
+
+	    // When the user clicks on <span> (x), close the modal
+	    span.onclick = function() {
+	        modal.style.display = "none";
+	    }
+
+	    // When the user clicks anywhere outside of the modal, close it
+	    window.onclick = function(event) {
+	        if (event.target == modal) {
+	            modal.style.display = "none";
+	        }
+	    }
+	})
+	
 	/*
 	    $("#btnInsert").click(function(){
 	    	var param = jQuery("#reviewWriteForm").serialize();     
