@@ -342,7 +342,8 @@ public class MyPageController{
 		String path ="/resources/IMG";
 		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
 				
-		rv_no = map.get("rv_no").toString();
+		String rv_no = map.get("rv_no").toString();
+		System.out.println(rv_no +" = 리뷰 번호 보자");
 		String menu_no = map.get("menu_no").toString();
 		String rv_title = map.get("rv_title").toString();
 		String rv_content = map.get("rv_content").toString();
@@ -351,13 +352,13 @@ public class MyPageController{
 		
 		String fileName = UUID.randomUUID().toString().replace("-", "") + img.getOriginalFilename(); 
 	      
-	    File file = new File(path+"\\"+fileName);
-	    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),path+"\\"+fileName));
+	    File file = new File(realPath+"/"+fileName);
+	    System.out.println(String.format("파일 이름 = %s, 파일 경로 = %s", file.getName(),path+"/"+fileName));
 	    try {
 	      img.transferTo(file);
 	    }
 	    catch(Exception e) {e.printStackTrace();}
-		String rf_path = path+"\\"+fileName;
+		String rf_path = path+"/"+fileName;
 		if(rf_path!=null) {			
 			map.put("rf_path", rf_path);			
 		}

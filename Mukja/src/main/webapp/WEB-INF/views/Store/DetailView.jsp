@@ -664,8 +664,13 @@
 								<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" style="margin-bottom: 10px;">
 							</div>
 						</div>
-							<div class="col-md-12">
-							<div id="preview">
+						<div class="col-md-12">
+							<div class="col-md-4">
+							</div>
+							<div class="col-md-4">
+								<div id="preview"></div>
+							</div>
+							<div class="col-md-4">
 							</div>
 						</div>
 						<div class="col-md-12 mt-4 pb-3">
@@ -773,10 +778,7 @@
         	});
 	    });
 	    */
-	    $("#rf_path").on('change', function() {
-	          console.log('this 찍어봄 0  ' + this)
-	          readInputFile(this);
-	       });
+	    
 	      
 	      // 등록 이미지 삭제 ( input file reset )
 	      var resetInputFile = function($input, $preview) {
@@ -802,6 +804,11 @@
 	         resetInputFile($input, $preview);
 	      }
 	    $(function(){
+	    	$("#rf_path").on('change', function() {
+		          console.log('this 찍어봄 0  ' + this)
+		          readInputFile(this);
+		       });
+	    	
 	    	  //등록 이미지 등록 미리보기
 		      function readInputFile(input) {
 		         console.log('readInputFile메소드 안에 들어옴  ')
@@ -813,7 +820,7 @@
 		            reader.onload = function(e) {
 		               $("#preview")
 		                     .html(
-		                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction()\" id=\"img_id\"><img class='img-thumbnail' src="
+		                           "<a href=\"javascript:void(0);\" onclick=\"deleteImageAction()\" id=\"img_id\"><img class='d-block w-100 img-thumbnail' src="
 		                                 + e.target.result
 		                                 + " style='width:100%;margin-left:5px;vertical-align:center' title='이미지를 클릭하시면 제거됩니다.'></a>");
 		            }
