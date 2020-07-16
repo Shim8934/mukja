@@ -72,7 +72,7 @@
          <div class="col-md-9 ftco-animate text-center">
             <h1 class="mb-2 bread">My Page</h1>
             <p class="breadcrumbs">
-               <span class="mr-2"><a href="index.html">My Page <i class="ion-ios-arrow-forward"></i></a></span> 
+               <span class="mr-2">My Page <i class="ion-ios-arrow-forward"></i></span> 
             </p>
          </div>
       </div>

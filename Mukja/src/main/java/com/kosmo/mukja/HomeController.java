@@ -284,20 +284,6 @@ public class HomeController {
 		  StringTokenizer imageList=null;
 			System.out.println(list.get(i).getBF_PATH());
 			System.out.println(list.get(i).getBF_PATH()+" = Homecontroller 파일 정보");
-			if(list.get(i).getBF_PATH()!=null) {
-				System.out.println(list.get(i).getBF_PATH().toString());
-				imageList = new StringTokenizer(list.get(i).getBF_PATH().toString(),"/");
-				List<String> image = new ArrayList<String>();
-				while(imageList.hasMoreTokens()) {
-					image.add(imageList.nextToken());
-				}
-				System.out.println("리스트 toString  "+image.toString());
-				list.get(i).setBF_PATH(image.toString().replace("[", "").replace("]", "").replace(", ", ",").trim());
-				System.out.println("이미지 경로 출력 홈컨트롤러    "+list.get(i).getBF_PATH().toString());
-			}
-			else {
-				list.get(i).setBF_PATH(null);
-			}
 			i++;
 		  }
 	   
@@ -452,21 +438,6 @@ public class HomeController {
 	   int i= 0;
 		  while(i<list.size()) {
 			  list.get(i).setNT_CONTENT(list.get(i).getNT_CONTENT().replace("\r\n", "<br/>"));
-		  StringTokenizer imageList=null;
-			System.out.println(list.get(i).getBF_PATH());
-			System.out.println(list.get(i).getBF_PATH()+" = Homecontroller 파일 정보");
-			if(list.get(i).getBF_PATH()!=null) {
-				System.out.println(list.get(i).getBF_PATH().toString());
-				imageList = new StringTokenizer(list.get(i).getBF_PATH().toString(),"/");
-				List<String> image = new ArrayList<String>();
-				while(imageList.hasMoreTokens()) {
-					image.add(imageList.nextToken());
-				}
-				list.get(i).setBF_PATH(image.toString().replace("[", "").replace("]", "").replace(", ", ",").trim());
-			}
-			else {
-				list.get(i).setBF_PATH(null);
-			}
 			i++;
 		  }
 		  
