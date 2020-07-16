@@ -46,7 +46,8 @@ public interface MyPageService {
 	public List<MyPageDTO> getETrecv0(Map map);
 	public List<MyPageDTO> getETrecv1(Map map);
 
-	public List<MyPageDTO> getNicks(Map map);	
+	public List<MyPageDTO> getNicks(Map map);
+	public List<MyPageDTO> getNicks0(Map map);	
 	public List<MyPageDTO> getInCount(Map map);
 	public MyPageDTO get1et1(Map map);	
 	public List<UsersDTO> getURN(Map map);	

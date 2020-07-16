@@ -198,20 +198,11 @@ public class StoreDetailController {
 				+" rvThumb.count : "+rvThumb.get(k).getCount());
 		}
 		
-//		if(authentication!=null) {
-//			UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//			map.put("user_id", userDetails.getUsername());
-//			System.out.println("user_id:"+map.get("user_id"));
-//
-//			System.out.println("store_id : "+store_id);
-//			System.out.println("user_id : "+store_id);
-//			int isRVThumb = service.isRVThumb(map);
-//			System.out.println("isRVThumb:"+isRVThumb);
-//			model.addAttribute("isRVThumb",isRVThumb);			
-//		}else {
-//			System.out.println("isRVThumb:"+0);
-//			model.addAttribute("isRVThumb",0);
-//		}
+		
+//		int isRVThumb = service.isRVThumb(map);
+//		System.out.println("isRVThumb:"+isRVThumb);
+//		model.addAttribute("isRVThumb",isRVThumb);
+		
 		//베스트리뷰 뽑기
 		return "/Store/DetailView.tiles";
 	}

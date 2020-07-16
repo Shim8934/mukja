@@ -183,7 +183,7 @@
 	
 	<!-- 회원 리뷰 좋아요 유무 -->	
 	<insert id="isRVThumb" parameterType="java.util.Map" >	
-	    select count(*) from review_thumb where rv_no=#{rv_no} and uesr_email=#{user_id}
+	    select count(*) from review_thumb where rv_no=#{rv_no} and user_email=#{user_id}
 	</insert>
 	<!-- 리뷰 당 좋아요 수 -->	
 	<insert id="selectRVThumb" parameterType="java.util.Map" >	
