@@ -184,6 +184,18 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getURN(map);
 	}
 
+	@Override
+	public MyPageDTO forInsertReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return dao.forInsertReview_file(map);
+	}
+
+	@Override
+	public int insertNewReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertNewReview_file(map);
+	}
+
 
 	
 	

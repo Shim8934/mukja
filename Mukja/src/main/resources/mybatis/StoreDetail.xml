@@ -132,6 +132,12 @@
 		insert into storereview (rv_no, rv_title, rv_content, user_email, store_name, menu_no)
 		values (SEQ_STOREREVIEW.nextval,#{rv_title},#{rv_content},#{user_id},#{store_id},#{menu_no})
 	</insert>
+	<select  id="forInsertReview_file" parameterType="java.util.Map" resultType="MyPageDTO">
+		select rv_no from storereview where user_email=#{user_id} and store_name = #{store_id} and rv_title = #{rv_title}
+	</select>
+	<insert id="insertNewReview_file" parameterType="java.util.Map">
+		insert into review_file values(#{rv_no},#{rf_path},seq_rf.nextval)
+	</insert>
 	
 	<!-- 리뷰 수정 용 -->
 	<select id="getOneReviewForUpdate" parameterType="java.util.Map" resultType="MyPageDTO">
