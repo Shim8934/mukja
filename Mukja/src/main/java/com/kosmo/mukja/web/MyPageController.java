@@ -368,6 +368,7 @@ public class MyPageController{
 	}
 	
 	//리뷰 삭제 처리]
+	@ResponseBody
 	@RequestMapping(value="/deleteMyReview.bbs")
 	public String deleteMyReview(@RequestParam Map map) {	
 		System.out.println("리뷰 삭제 IN !!!!!!!!!!!!!");								
@@ -377,9 +378,8 @@ public class MyPageController{
 		int deleteRVth = service.deleteMyReviewThumb(map);
 		System.out.println(deleteRVth==0?"리뷰 좋아요 실패":"리뷰 좋아요 성공");
 		int deleteRV = service.deleteMyReview(map);
-		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");
-		
-		return "redirect:/MyPage.bbs";
+		System.out.println(deleteRV==0?"리뷰 삭제 실패":"리뷰 삭제 성공");	
+		return "1";
 	}///////////
 	
 	@ResponseBody
@@ -387,15 +387,20 @@ public class MyPageController{
 	public String er_Accept(Authentication auth, @RequestParam Map map, HttpServletRequest req) {
 		System.out.println("수락 승인 IN !!!!!!!!!!!!!");
 
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		user_id = userDetails.getUsername();
-		map.put("user_id",user_id);
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);
 		er_no = req.getParameter("er_no");
+		String applyer = req.getParameter("applyer");	
 		System.out.println("er_no 찍음 = "+er_no);
+		System.out.println("applyer 찍음 = "+applyer);
+		System.out.println("applyer 찍음 = "+map.get("applyer"));
+		map.put("applyer",map.get("applyer"));
 		map.put("er_no",er_no);
 		JSONObject json = new JSONObject();
 		System.out.println("user_id : "+user_id);
-		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
+//		System.out.println("수락 승인 속 user_id : "+map.get("user_id"));
+		System.out.println("수락 승인 속 applyer : "+map.get("applyer"));
 		System.out.println("수락 승인 속 er_no : "+map.get("er_no"));
 //		System.out.println("수락 승인 속 nowPage : "+map.get("nowPage"));
       
@@ -411,16 +416,20 @@ public class MyPageController{
 	@RequestMapping(value = "/er_Reject.bbs")
 	public String er_Reject(Authentication auth,@RequestParam Map map, HttpServletRequest req) {
 		System.out.println("수락 거절 IN !!!!!!!!!!!!!");		
-		UserDetails userDetails = (UserDetails)auth.getPrincipal();
-		user_id = userDetails.getUsername();
-		map.put("user_id",user_id);
+//		UserDetails userDetails = (UserDetails)auth.getPrincipal();
+//		user_id = userDetails.getUsername();
+//		map.put("user_id",user_id);
 		er_no = req.getParameter("er_no");
+		String applyer = req.getParameter("applyer");
+		
 		System.out.println("er_no 찍음 = "+er_no);
+		System.out.println("applyer 찍음 = "+map.get("applyer"));
 		
 		map.put("er_no",er_no);
+		map.put("applyer",map.get("applyer"));
+		
 		JSONObject json = new JSONObject();
-		System.out.println("user_id : "+user_id);
-		System.out.println("수락 failed 속 user_id : "+map.get("user_id"));
+		System.out.println("수락 승인 속 applyer : "+map.get("applyer"));
 		System.out.println("수락 failed 속 er_no : "+map.get("er_no"));
 	    
 		int result = service.er_Reject(map);
@@ -429,7 +438,7 @@ public class MyPageController{
 		return json.toJSONString();
 	}//StoreReview
 	
-	//리뷰 삭제 처리]
+	//찜 삭제 처리]
 	@RequestMapping(value="/deleteMyJjim.bbs")
 	public String deleteMyJjim(@RequestParam Map map) {	
 		System.out.println("!!!!!!!!!!!!!!!!!찜 삭제 IN !!!!!!!!!!!!!");								
@@ -440,6 +449,7 @@ public class MyPageController{
 	}///////////
 	
 	//ET 삭제 처리]
+	@ResponseBody
 	@RequestMapping(value="/deleteMyETHist.bbs")
 	public String deleteMyETHist(Authentication auth,@RequestParam Map map) {
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
@@ -454,7 +464,7 @@ public class MyPageController{
 		System.out.println(deleteEMC==0?"emc 삭제 실패":"emc 삭제 성공");
 		int deleteER = service.deleteMyER(map);
 		System.out.println(deleteER==0?"er삭제 실패":"er 삭제 성공");
-		return "forward:/MyPage.bbs";
+		return "1";
 	}///////////
 
 	@ResponseBody
@@ -500,6 +510,7 @@ public class MyPageController{
 		return "forward:/MyPage.bbs";
 	}///////////
 	
+	//방 나가기
 	@RequestMapping(value="/erDelete.bbs")
 	public String erDelete(Authentication auth, @RequestParam Map map, HttpServletRequest req,Model model) {
 		System.out.println(map.get("er_no"));

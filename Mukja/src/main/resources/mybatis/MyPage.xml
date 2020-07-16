@@ -83,7 +83,7 @@
       SELECT * FROM (SELECT E.*,ROWNUM R FROM 
       (select * from (select er_no,username applyer,erjoin_date,erjoin_role from er_members where erjoin_role=0) em 
       join (SELECT er_no,er_master,username store_id,er_title,er_tend,er_max,er_time FROM eattogether_room where er_master=#{user_id}) er 
-      on em.er_no = er.er_no order by erjoin_date desc)E)where R between #{apstart} AND #{apend}   
+      on em.er_no = er.er_no order by erjoin_date desc)E) 
    </select>
 
 	<select id="getETrecv1" parameterType="java.util.Map" resultType="MyPageDTO">    	 
@@ -107,11 +107,13 @@
 	
 	
 	
+	
+	
 	<update id="er_Accept" parameterType="java.util.Map">
-		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{user_id}
+		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{applyer}
 	</update>	
 	<update id="er_Reject" parameterType="java.util.Map">
-		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{user_id}
+		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{applyer}
 	</update>
 	
 	<delete id="deleteMyEM" parameterType="java.util.Map">
