@@ -12,7 +12,7 @@ public class MyPageDTO {
 	private String store_id;
 	private String store_name2;
 	private String sf_path;
-	
+	private String applyer;
 	
 
 	//찜스토어
@@ -61,26 +61,24 @@ public class MyPageDTO {
 	public MyPageDTO() {
 	}
 
-	
-	
-	
-	
-	
 
-	public MyPageDTO(String username, String password, String u_nick, String user_id, int count, String store_name2,
-			String sf_path, int er_no, String er_master, String er_title, String er_content, String er_time,
-			String er_tend, int er_max, Date er_postdate, Date erjoin_date, int erjoin_num, int erjoin_role, int erc_no,
-			String fl_send, String fl_recv, Date fl_regidate, int fl_status, int fl_no, String store_name,
-			Date ms_postdate, String ms_comment, String user_email, int ms_no, String menu_name, int rv_no,
-			String rv_title, String rv_content, String store_id, Date rv_postdate, int menu_no, String rf_path, int rf_no) {
+	public MyPageDTO(String username, String password, String u_nick, String user_id, int count, String store_id,
+			String store_name2, String sf_path, String applyer, int er_no, String er_master, String er_title,
+			String er_content, String er_time, String er_tend, int er_max, Date er_postdate, Date erjoin_date,
+			int erjoin_num, int erjoin_role, int erc_no, String fl_send, String fl_recv, Date fl_regidate,
+			int fl_status, int fl_no, String store_name, Date ms_postdate, String ms_comment, String user_email,
+			int ms_no, String menu_name, int rv_no, String rv_title, String rv_content, Date rv_postdate, int menu_no,
+			String rf_path, int rf_no) {
 		super();
 		this.username = username;
 		this.password = password;
 		this.u_nick = u_nick;
 		this.user_id = user_id;
 		this.count = count;
+		this.store_id = store_id;
 		this.store_name2 = store_name2;
 		this.sf_path = sf_path;
+		this.applyer = applyer;
 		this.er_no = er_no;
 		this.er_master = er_master;
 		this.er_title = er_title;
@@ -111,13 +109,7 @@ public class MyPageDTO {
 		this.menu_no = menu_no;
 		this.rf_path = rf_path;
 		this.rf_no = rf_no;
-		this.store_id = store_id;
 	}
-
-
-
-
-
 
 
 	public String getUsername() {
@@ -170,6 +162,16 @@ public class MyPageDTO {
 	}
 
 
+	public String getStore_id() {
+		return store_id;
+	}
+
+
+	public void setStore_id(String store_id) {
+		this.store_id = store_id;
+	}
+
+
 	public String getStore_name2() {
 		return store_name2;
 	}
@@ -187,6 +189,16 @@ public class MyPageDTO {
 
 	public void setSf_path(String sf_path) {
 		this.sf_path = sf_path;
+	}
+
+
+	public String getApplyer() {
+		return applyer;
+	}
+
+
+	public void setApplyer(String applyer) {
+		this.applyer = applyer;
 	}
 
 
@@ -489,16 +501,13 @@ public class MyPageDTO {
 		this.rf_no = rf_no;
 	}
 
+	
+	
+	
+	
+	
 
-	public String getStore_id() {
-		return store_id;
-	}
-
-
-	public void setStore_id(String store_id) {
-		this.store_id = store_id;
-	}
-
+	
 
 	
 	

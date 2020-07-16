@@ -92,31 +92,8 @@ public class MyPageController{
 			}
 		}//리스트에서 뽑은 성향의 포문
 		model.addAttribute("myInfo",myInfo);
-		
-		
-		
-		
-		/*찜*/			
-		//페이징을 위한 로직 시작]
-		//전체 레코드수	
-//		int jjimCount = service.getMyJjimTotal(map);
-//		//전체 페이지수]
-//		int JjimPage = (int)Math.ceil((double)jjimCount/pageSize);			
-//		//시작 및 끝 ROWNUM구하기]
-//		int jjimstart = (nowPage-1)*pageSize+1;
-//		int jjimend   = nowPage*pageSize;	
-//		
-//		//페이징을 위한 로직 끝]	
-//		map.put("jjimstart", jjimstart);
-//		map.put("jjimend", jjimend);
-//		
 		List<MyPageDTO> myJjim = service.getMyJjim(map);
-		//데이타 저장]
-//		String jjimPagingString = PagingUtil.pagingBootStrapStyle(jjimCount, pageSize,blockPage, nowPage, req.getContextPath()+"/Mukja/Member/MyPage.bbs?");
-		
-		model.addAttribute("myJjim", myJjim);
-//		model.addAttribute("jjimPagingString", jjimPagingString);	
-		
+		model.addAttribute("myJjim", myJjim);	
 		List<StoreDTO> storetxt = service.getJjimInfo(map);
 		for(int i=0; i<storetxt.size();i++) {
 			System.out.println("storetxt username: "+storetxt.get(i).getUsername());
@@ -408,10 +385,8 @@ public class MyPageController{
 		UserDetails userDetails = (UserDetails)auth.getPrincipal();
 		user_id = userDetails.getUsername();
 		map.put("user_id",user_id);
-
 		er_no = req.getParameter("er_no");
 		System.out.println("er_no 찍음 = "+er_no);
-		   
 		map.put("er_no",er_no);
 		JSONObject json = new JSONObject();
 		System.out.println("user_id : "+user_id);
@@ -426,8 +401,6 @@ public class MyPageController{
 		// json.put("temp", temp);
       return json.toJSONString();
    }
-	
-	
 	
 	@ResponseBody
 	@RequestMapping(value = "/er_Reject.bbs")

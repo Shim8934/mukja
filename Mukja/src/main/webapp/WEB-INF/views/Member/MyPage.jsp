@@ -335,89 +335,94 @@
 					</div>
 					
 					<!-- ET 신청 목록보기 -->
-					<div class="row groups border3bc mplist" style="margin-right: 0px; margin-left: 0px;">
-						<div class="sub-title">
-							<h4 class="title">신청 온 ET 목록</h4>
-						</div>
-						<div class="container">
-							<div class="row" style="margin-right: 0px; margin-left: 0px;">
-								<table class="mplist table table-bordered table-hover text-center item-a">
-									<tr class="thead-light ">
-										<th style="width: 5%">수락</th>
-										<th style="width: 25%">가게이름</th>
-										<th style="width: 20%">ET 성향</th>
-										<th style="width: 20%">시간</th>
-										<th style="width: 20%">참여자</th>
-										<th style="width: 10%">인원</th>
-									</tr>
-									<c:if test="${empty myET0}">
-										<tr>
-											<td colspan="7">신청 온 ET가 없습니다.</td>
-										</tr>
-									</c:if>
-									<c:if test="${not empty myET0}">
-										<c:forEach items="${myET0}" var="ET0" varStatus="loop">
-											<c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
-												<c:if test="${ET0.store_id == storetxt.username}">
-													<tr>
-														<td>
-															<input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
-															<input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">						
-															
-															<input type="button" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;" value="수락">	
-														
-															<a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
-								
-														</td>
-														<td style="font-weight: bold;">
-														<a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
-														</td>
-														<td>
-															<div style="padding-bottom: 0px;">
-																<c:forTokens var="ertend" items="${ET0.er_tend}" delims=",">
-																	<div class="etlist-box"
-																		style="display: inline-block; padding-bottom: 0px;">
-																		<img class="etlist-img"
-																			src='<c:url value="${ertend}"/>'
-																			style="width: 30px; height: 30px;">
-																	</div>
-																</c:forTokens>
-															</div>
-														</td>
-														<td>${ET0.er_time}</td>
+               <div class="row groups border3bc mplist" style="margin-right: 0px; margin-left: 0px;">
+                  <div class="sub-title">
+                     <h4 class="title">신청 온 ET 목록</h4>
+                  </div>
+                  <div class="container">
+                     <div class="row" style="margin-right: 0px; margin-left: 0px;">
+                        <table class="mplist table table-bordered table-hover text-center item-a">
+                           <tr class="thead-light ">
+                              <th style="width: 5%">수락</th>
+                              <th style="width: 10%">신청자</th>
+                              <th style="width: 15%">가게이름</th>
+                              <th style="width: 20%">ET 성향</th>
+                              <th style="width: 20%">시간</th>
+                              <th style="width: 20%">참여자</th>
+                              <th style="width: 10%">인원</th>
+                           </tr>
+                           <c:if test="${empty myET0}">
+                              <tr>
+                                 <td colspan="7">신청 온 ET가 없습니다.</td>
+                              </tr>
+                           </c:if>
+                           <c:if test="${not empty myET0}">
+                              <c:forEach items="${myET0}" var="ET0" varStatus="loop">
+                                 <c:forEach items="${storetxt}" var="storetxt" varStatus="loop">
+                                    <c:if test="${ET0.store_id == storetxt.username}">
+                                       <tr>
+                                          <td>
+                                             <input type="hidden" name="er_no"  id="er_no" value="${ET0.er_no}" >
+                                             <input type="hidden" name="user_id" id="user_id" value="${ET0.user_id}">                  
+                                             
+                                             <input type="button" id="etAccept" class="btn btn-primary" style="font-size: 12px; padding: 2px 4px;" value="수락">   
+                                          
+                                             <a href="#" id="etReject" class="btn btn-warning" style="font-size: 12px; padding: 2px 4px;">거절</a>
+                        
+                                          </td>
+                                          <td style="font-weight: bold;">
+                                             <%-- <c:forEach items="${Nicks}" var="Nick" varStatus="loop">
+                                                <c:if test="${ET0.applyer == Nick.username}"> --%>
+                                                   ${ET0.applyer}
+                                                <%-- </c:if>
+                                             </c:forEach> --%>
+                                          </td>
+                                          <td style="font-weight: bold;">
+                                          <a href='<c:url value="/Store/DetailView.do?username=${storetxt.username}"/>'>${storetxt.store_name}</a>
+                                          </td>
+                                          <td>
+                                             <div style="padding-bottom: 0px;">
+                                                <c:forTokens var="ertend" items="${ET0.er_tend}" delims=",">
+                                                   <div class="etlist-box"
+                                                      style="display: inline-block; padding-bottom: 0px;">
+                                                      <img class="etlist-img"
+                                                         src='<c:url value="${ertend}"/>'
+                                                         style="width: 30px; height: 30px;">
+                                                   </div>
+                                                </c:forTokens>
+                                             </div>
+                                          </td>
+                                          <td>${ET0.er_time}</td>
 
-														<td style="font-size: 18px;">
-															<c:forEach items="${Nicks}" var="Nick" varStatus="loop">
-																<c:if test="${ET0.er_no == Nick.er_no}">
-																	<span class="overflow"> 
-																	
-																	<a href='<c:url value="/MyPage.bbs?user_id=${Nick.username}"/>'>
-																		${Nick.u_nick} 
-																	</a>
-																	</span>
-																</c:if>
-															</c:forEach>
-														</td>
-														<c:forEach items="${etInCount}" var="etcnt" varStatus="loop">
-															<c:if test="${ET0.er_no == etcnt.er_no}">
-																<td class="overflow"> ${etcnt.count} / ${ET0.er_max} 명 </td>
-															</c:if>
-														</c:forEach>
-													</tr>
-												</c:if>
-											</c:forEach>
-										</c:forEach>
-									</c:if>
-								</table>
-								<input type="hidden" id="nowPage" value="${nowPage}">
-							</div>
-							<div class="row" style="margin-right: 0px; margin-left: 0px;">
-								<div class="col-md-12 text-center">${applPagingString}</div>
-							</div>
-						</div>
-					</div>
-									
-					<!-- ET 신청 끝 -->
+                                          <td style="font-size: 18px;">
+                                             <c:forEach items="${Nicks}" var="Nick" varStatus="loop">
+                                                <c:if test="${ET0.er_no == Nick.er_no}">
+                                                   <span class="overflow"> 
+                                                   
+                                                   <a href='<c:url value="/MyPage.bbs?user_id=${Nick.username}"/>'>
+                                                      ${Nick.u_nick} 
+                                                   </a>
+                                                   </span>
+                                                </c:if>
+                                             </c:forEach>
+                                          </td>
+                                          <c:forEach items="${etInCount}" var="etcnt" varStatus="loop">
+                                             <c:if test="${ET0.er_no == etcnt.er_no}">
+                                                <td class="overflow"> ${etcnt.count} / ${ET0.er_max} 명 </td>
+                                             </c:if>
+                                          </c:forEach>
+                                       </tr>
+                                    </c:if>
+                                 </c:forEach>
+                              </c:forEach>
+                           </c:if>
+                        </table>
+                        <input type="hidden" id="nowPage" value="${nowPage}">
+                     </div>
+                  </div>
+               </div>
+                           
+               <!-- ET 신청 끝 -->
 
 					<!-- ET 기록 보기  -->
 					<div class="groups border3bc col-md-12">
@@ -575,20 +580,21 @@
 	
 	$(document).on("click","#etAccept",function(){
 		var er_no = $("#er_no").val();
-		
-		$.ajax({
-			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>",
-		    data: {"er_no":er_no},			    
-	        dataType: 'json',
-	        success : function(data){
-				console.log('성공..?:',data);
-				alert('수락 처리 완료!');
-				window.location = "<c:url value='/MyPage.bbs'/>";
-			},
-			error:function(request,status,error){
-				console.log('error:%s,status:%s', error,status);
-			}
-		});
+		var zzzz = $('#zzzz').text();
+		console.log(zzzz)
+// 		$.ajax({
+// 			url:"<c:url value='/er_Accept.bbs?er_no="+er_no+"'/>",
+// 		    data: {"er_no":er_no},			    
+// 	        dataType: 'json',
+// 	        success : function(data){
+// 				console.log('성공..?:',data);
+// 				alert('수락 처리 완료!');
+// 				window.location = "<c:url value='/MyPage.bbs'/>";
+// 			},
+// 			error:function(request,status,error){
+// 				console.log('error:%s,status:%s', error,status);
+// 			}
+// 		});
 		
 		/*
 		var isAccept = function(){
@@ -602,6 +608,7 @@
 	$(document).on("click","#etReject",function(){
 		var er_no = $("#er_no").val();
 		console.log(er_no)
+		
 			$.ajax({
 				url:"<c:url value='/er_Reject.bbs?er_no="+er_no+"'/>",
 			    data: {"er_no":er_no},			    
@@ -684,8 +691,4 @@
          
       });   
    }
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/Shim8934/mukja.git
 </script>
