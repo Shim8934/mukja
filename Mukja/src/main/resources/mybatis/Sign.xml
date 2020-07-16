@@ -28,7 +28,7 @@
 	
 	<!-- 가게 회원 가입 -->
 	<insert id="storesignup" parameterType="java.util.Map">
-		INSERT INTO stores(username,enabled,password,store_name,STORE_REGINUM,STORE_PHNUM,STORE_EMAIL,STORE_INTRO,STORE_TIME,STORE_LAT,STORE_LNG,STORE_ADDR) VALUES(#{username},0,#{password},#{store_name},#{store_reginum},#{store_phnum},#{store_email},#{store_intro},#{store_time},#{store_lat},#{store_lng},#{store_addr})
+		INSERT INTO stores(username,enabled,password,store_name,STORE_REGINUM,STORE_PHNUM,STORE_EMAIL,STORE_INTRO,STORE_TIME,STORE_LAT,STORE_LNG,STORE_ADDR) VALUES(#{username},0,#{password},#{store_name},'1111111',#{store_phnum},#{store_email},#{store_intro},#{store_time},#{store_lat},#{store_lng},#{store_addr})
 	</insert>
 	<insert id="insertStoreImg22" parameterType="java.util.Map">
 		Insert into store_file values(seq_sf.nextval,#{username},#{sf_path})

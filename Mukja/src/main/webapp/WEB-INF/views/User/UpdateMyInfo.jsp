@@ -242,6 +242,9 @@ grid-template-columns: 16% 16% 16% 16% 16% 16%;
 								</div>
 								<div class="col-md-12 trs" style="display: none;">
 									<div class="wrapper" style="text-align: center;">
+									<c:forTokens items="${userInfo.u_tend}" delims="," var="tend">
+										${tend}<br/>
+									</c:forTokens>
 										<div>
 											<!-- 물고기 -->
 											<img id='T_FS' src='<c:url value="/resources/tend_IMG/sutend/pesco_o.png"/>' alt="F" class="img-circle img_size">

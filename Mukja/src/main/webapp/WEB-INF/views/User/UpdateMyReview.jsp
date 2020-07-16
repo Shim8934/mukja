@@ -86,7 +86,6 @@
 
 <section class="ftco-section ftco-no-pt ftco-no-pb">
 	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" /> 
-	<input type="hidden" name="rv_no" value="${rvcnt.rv_no}">
 
 	<div class="container" id='signup'>
 		<div class="row d-flex">
@@ -97,19 +96,23 @@
 						<div class="col-md-6">
 							<div id="orinImg" class="d-inline-block w-100" style="width: 100%;height: 50%;">
 								<div class="col-md-12">
+									<div class="col-md-10">
 									<h4>기존 리뷰 이미지</h4>
 										<c:if test="${empty rvimgs4up.rf_path}" var="imgEmpty">
 											<p>기존 등록 이미지가 없습니다.</p>
 										</c:if>
 										<c:if test="${not imgEmpty}">
-											<img alt="" class="img-thumbnail" style="height:80%;"src="<c:url value="${rvimgs4up.rf_path}"/>">
+											<img alt="" class="w-100 d-block img-thumbnail" style="height:80%;"src="<c:url value="${rvimgs4up.rf_path}"/>">
 										</c:if>
+									</div>
 								</div>
 							</div>
 							<div id="preview" class="d-inline-block w-100" style="width: 100%;height: 50%;">
 								<div class="col-md-12" style="width: 100%;height: 50%;">
 									<h4>등록 이미지 미리보기</h4>
-									<img alt="등록된 이미지가 없습니다." src=""/>
+									<div class="col-md-10">
+										<img alt="등록된 이미지가 없습니다." src=""/>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -167,14 +170,13 @@
 							<div class="col-md-12">
 								<div class="form-group">
 									<label for="rf_path">리뷰 이미지</label>
-									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}">
+									<input type="file" class="form-control" id="rf_path" name="rf_path" placeholder="리뷰 이미지" value="${rvimgs4up.rf_path}" accept='.jpg,.jpeg,.png,.gif,.bmp'>
 								</div>
-							</div>${rvcnt4up.rv_no}
+							</div>
 						</div>
 						<div class="col-md-12 text-center">
 							<div class="form-group">
 								<input type="hidden" name="rv_no" id="rv_no" value="${rvcnt4up.rv_no}">	
-								<input type="hidden" name="store_id" id="store_id" value="${rvcnt4up.rv_no}">	
 								<input type="submit" value="리뷰 수정" class="btn btn-primary py-3 px-5">
 							</div>
 						</div>

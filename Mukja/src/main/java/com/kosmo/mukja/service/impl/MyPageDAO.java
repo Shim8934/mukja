@@ -30,6 +30,10 @@ public class MyPageDAO implements MyPageService {
 		return sqlMapper.update("updateMyInfo",map);
 	}
 
+	@Override
+	public UsersDTO modal(Map map) {
+		return sqlMapper.selectOne("modal", map);
+	}
 	
 	
 	
@@ -113,6 +117,10 @@ public class MyPageDAO implements MyPageService {
 		return sqlMapper.selectList("getNicks",map);
 	}
 	@Override
+	public List<MyPageDTO> getNicks0(Map map) {
+		return sqlMapper.selectList("getNicks0",map);
+	}
+	@Override
 	public List<MyPageDTO> getInCount(Map map) {
 		return sqlMapper.selectList("getInCount",map);
 	}
@@ -161,6 +169,33 @@ public class MyPageDAO implements MyPageService {
 	@Override
 	public int deleteMyERC(Map map) {
 		return sqlMapper.delete("deleteMyERC",map);
+	}
+
+	@Override
+	public int reportUser(Map map) {
+		return sqlMapper.insert("reportUser",map);
+	}
+
+	@Override
+	public MyPageDTO get1et1(Map map) {
+		return sqlMapper.selectOne("get1et1",map);
+	}
+
+	@Override
+	public List<UsersDTO> getURN(Map map) {
+		return sqlMapper.selectList("getURN",map);
+	}
+
+	@Override
+	public MyPageDTO forInsertReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.selectOne("forInsertReview_file",map);
+	}
+
+	@Override
+	public int insertNewReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return sqlMapper.insert("insertNewReview_file",map);
 	}
 
 	

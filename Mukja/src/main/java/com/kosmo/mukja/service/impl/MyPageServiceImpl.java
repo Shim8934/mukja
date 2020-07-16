@@ -30,7 +30,10 @@ public class MyPageServiceImpl implements MyPageService{
 	public int updateMyInfo(Map map) {
 		return dao.updateMyInfo(map);
 	}
-
+	@Override
+	   public UsersDTO modal(Map map) {
+	      return dao.modal(map);
+	   }
 	
    
    
@@ -105,6 +108,10 @@ public class MyPageServiceImpl implements MyPageService{
 		return dao.getNicks(map);
 	}
 	@Override
+	public List<MyPageDTO> getNicks0(Map map) {
+		return dao.getNicks0(map);
+	}
+	@Override
 	public List<MyPageDTO> getETrecv1(Map map) {
 		return dao.getETrecv1(map);
 	}
@@ -164,6 +171,33 @@ public class MyPageServiceImpl implements MyPageService{
 	public int deleteMyERC(Map map) {
 		// TODO Auto-generated method stub
 		return dao.deleteMyERC(map);
+	}
+
+	@Override
+	public int reportUser(Map map) {
+		return dao.reportUser(map);
+	}
+
+	@Override
+	public MyPageDTO get1et1(Map map) {
+		return dao.get1et1(map);
+	}
+
+	@Override
+	public List<UsersDTO> getURN(Map map) {
+		return dao.getURN(map);
+	}
+
+	@Override
+	public MyPageDTO forInsertReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return dao.forInsertReview_file(map);
+	}
+
+	@Override
+	public int insertNewReview_file(Map map) {
+		// TODO Auto-generated method stub
+		return dao.insertNewReview_file(map);
 	}
 
 

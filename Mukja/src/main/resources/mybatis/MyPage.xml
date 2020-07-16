@@ -63,7 +63,7 @@
      	UPDATE storereview SET menu_no=#{menu_no},rv_title=#{rv_title},rv_content=#{rv_content} WHERE rv_no=#{rv_no}
     </update>
 	<update id="updateMyReviewPic" parameterType="java.util.Map">
-     	UPDATE store_file SET rf_path=#{rf_path} WHERE rv_no=#{rv_no}
+     	UPDATE review_file SET rf_path=#{rf_path} WHERE rv_no = #{rv_no}
     </update>
     
     <!-- 리뷰 삭제 용 -->
@@ -81,10 +81,10 @@
 	
 	<select id="getETrecv0" parameterType="java.util.Map" resultType="MyPageDTO"> 
 		SELECT * FROM (SELECT E.*,ROWNUM R FROM 
-		(SELECT er.er_no,er.username store_id, er_time, er_tend, er_max, em.username user_id, em.erjoin_role , er_master FROM 
-		(SELECT * FROM 
-		(SELECT er_no,username,erjoin_role  FROM er_members where username=#{user_id}) 
-		where erjoin_role= 0) em join eattogether_room er on em.er_no = er.er_no order by er_postdate desc)E)where R between #{apstart} AND #{apend}	</select>
+		(select * from (select er_no,username applyer,erjoin_date,erjoin_role from er_members where erjoin_role=0) em 
+		join (SELECT er_no,er_master,username store_id,er_title,er_tend,er_max,er_time FROM eattogether_room where er_master=#{user_id}) er 
+		on em.er_no = er.er_no order by erjoin_date desc)E)where R between #{apstart} AND #{apend}	
+	</select>
 	<select id="getETrecv1" parameterType="java.util.Map" resultType="MyPageDTO">    	 
 		SELECT er.er_no, er.username, er_time, er_tend, er_max, em.username user_id, em.erjoin_role , er_master FROM 
 		(SELECT * FROM (SELECT er_no,username,erjoin_role  FROM er_members where username= #{user_id}) where erjoin_role= 1) em 
@@ -94,17 +94,25 @@
 		select em.er_no, u.username, u.u_nick, em.erjoin_role from er_members em 
 		join users u on u.username = em.username where em.erjoin_role=1
 	</select>
+	
+	<select id="getNicks0" parameterType="java.util.Map" resultType="MyPageDTO">
+		select em.er_no, u.username, u.u_nick, em.erjoin_role from er_members em 
+		join users u on u.username = em.username where em.erjoin_role=0
+	</select>
+	
 	<select id="getInCount" parameterType="java.util.Map" resultType="MyPageDTO">
 		select er_no,count (er_no) as count from (select * from er_members where erjoin_role=1) group by er_no
 	</select>
 	
 	
 	
+	
+	
 	<update id="er_Accept" parameterType="java.util.Map">
-		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{user_id}
+		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{applyer}
 	</update>	
 	<update id="er_Reject" parameterType="java.util.Map">
-		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{user_id}
+		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{applyer}
 	</update>
 	<delete id="deleteMyERC" parameterType="java.util.Map">
 		DELETE FROM er_members where er_no=#{er_no} and username= #{user_id}
@@ -132,6 +140,19 @@
 	</select>
 	
 	
+	
+	<select id="modal" parameterType="java.util.Map" resultType="UsersDTO">   
+      select * from users where username = #{users}
+   </select>
+	<select id="get1et1" parameterType="java.util.Map" resultType="MyPageDTO">  
+	    SELECT * FROM (select er_no, username from er_members where username=#{user_id}) where er_no=#{er_no}
+   </select>
+   <select id="getURN" parameterType="java.util.Map" resultType="UsersDTO">
+   		select em.username, u.u_nick from er_members em join users u on em.username = u.username where em.er_no=#{er_no}
+   </select>
+   <insert id="reportUser" parameterType="java.util.Map">   
+      insert into user_report(ur_no,ur_title,ur_content,ur_target,ur_reporter) values (seq_userreport.nextval,#{ur_title},#{ur_content},#{ur_target},#{ur_reporter})
+   </insert>
 	
 
 </mapper>
