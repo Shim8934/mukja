@@ -106,11 +106,13 @@
 	
 	
 	
+	
+	
 	<update id="er_Accept" parameterType="java.util.Map">
-		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{user_id}
+		UPDATE er_members SET erjoin_role = '1' where er_no = #{er_no} and username= #{applyer}
 	</update>	
 	<update id="er_Reject" parameterType="java.util.Map">
-		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{user_id}
+		UPDATE er_members set erjoin_role ='-1' where er_no=#{er_no} and username= #{applyer}
 	</update>
 	<delete id="deleteMyERC" parameterType="java.util.Map">
 		DELETE FROM er_members where er_no=#{er_no} and username= #{user_id}

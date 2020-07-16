@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MainDTO;
 import com.kosmo.mukja.service.MainService;
 @Service("mainService")
@@ -115,6 +116,16 @@ public class MainServiceImpl implements MainService{
 	public List<MainDTO> selectFoodMenuForMain(Map map) {
 		// TODO Auto-generated method stub
 		return dao.selectFoodMenuForMain(map);
+	}
+
+	@Override
+	public List<FoodMenuDTO> getRandomRecommendMenu(Map map) {
+		return dao.getRandomRecommendMenu(map);
+	}
+
+	@Override
+	public List<FoodMenuDTO> getRandomRecommendMenuAll(Map map) {
+		return dao.getRandomRecommendMenuAll(map);
 	}
 
 }

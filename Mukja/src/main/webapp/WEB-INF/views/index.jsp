@@ -95,8 +95,9 @@
 	
 	display:none;
 	background-color: white; 
-	border: 1px #d6d6d6 solid; 
+	
 	border-radius:5px;  
+	border: 1px #d6d6d6 solid; 
 	box-shadow: rgb(191, 191, 191) 2px 5px 8px -6px; 
 	background-color: rgb(255, 255, 255);
    }
@@ -412,14 +413,17 @@
 						<div class="row">			 
 						  <div class="col-md-12">
 						    <div class="input-group" style="margin-bottom: 10px;margin-top: 10px;">
-						      <input id="dong" name ="dong" type="text" class="form-control" placeholder="원하는 동을 검색하세요.">  
+						      <input id="dong" name ="dong" type="text" class="form-control" placeholder="원하는 동을 검색하세요."  >
 						       <input type="text" style="display: none;" />
 						      <span class="input-group-btn">
-						        <button class="btn btn-default" type="button" id ="searchButton" >검색</button>					         
+						       
+						        <button class="btn btn-default" type="button" id ="searchButton" >검색</button>
+						         
 						      </span>
 						    </div><!-- /input-group -->
 						  </div><!-- /.col-lg-6 -->
-						</div><!-- /.row -->						
+						</div><!-- /.row -->
+						
 				 	  </form>	
                
                
@@ -1620,11 +1624,13 @@ function requets_maker_Ajax(){
 										 $('#createERFORM').fadeOut();
 										
 										 console.log("같이먹자 방생성결과"+data.result);
-										 
+										 request_ERList_Ajax(store_id);
 										 if(data.result==1){												 
 											 alert("같이먹자 방이 생성되었어요!");
+											
 										 }else{												
 											 alert("이미 생성한 방이 있어요ㅠㅠ");
+											 
 											
 											 
 										 }
@@ -1636,7 +1642,7 @@ function requets_maker_Ajax(){
 										 $('#ERtitle').val("");
 										 $(':text').val("");
 										$('#createERFORM').fadeOut();
-										
+										 request_ERList_Ajax(store_id);
 										
 									}
 							 	});

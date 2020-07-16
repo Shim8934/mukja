@@ -21,9 +21,12 @@ public interface AndroidService {
 	StoreDTO getStoreInfos(Map map);
 
 	//범
+	
 	List<AndroidReviewDTO> getAndroidReviewList(Map map);
 	List<AndroidReviewImgDTO> getAndroidReviewImg(Map map);
 	List<AndroidReviewDTO> getMyAndroidReviewList(Map map);
+	int androidInsertReview(Map map);
+	
 	UsersDTO getUserInfo(Map map);
 	List<FallowDTO> getFallowList(Map map);	
 	int deleteAndroidFallow(Map map);
@@ -34,11 +37,6 @@ public interface AndroidService {
 	List<AndroidERDTO> getRequestERList(Map map);
 	List<AndroidMyERDTO> getMyRequestERList(Map map);
 	String ERoomold(Map map);
-
-	
-	
-	
-	
 	
 	int boomMyER(Map map);
 	int androidDeleteERMembers(Map map);

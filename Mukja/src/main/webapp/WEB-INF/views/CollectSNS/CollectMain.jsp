@@ -93,7 +93,7 @@ jQuery( document ).ready(function( $ ) {
       console.log("보내는:");
       console.log(searchText);
        $.ajax({
-            url:"http://192.168.0.13:9876/flask",
+            url:"http://192.168.0.6:9876/flask",
             dataType:'json',
             data: searchText,
             beforeSend:function(){

@@ -51,8 +51,12 @@
 		update er_members set ERJOIN_ROLE = 1 where username = #{username}
 	</update>
 	
-	<select id="getAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
-		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where store_name = #{username} ORDER by  rv_postdate desc
+	<select id="getAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">		
+		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username,fm.menu_name 
+		from storereview re 
+		join users u  on re.user_email = u.username 
+		join foodmenu fm on re.menu_no = fm.menu_no
+		where store_name = #{username} ORDER by  rv_postdate desc
 	</select>
 	
 	<select id="getAndroidReviewImg" parameterType="java.util.Map" resultType="androidReviewImgDTO">
@@ -65,11 +69,18 @@
 	
 	
 	<select id="getMyAndroidReviewList" parameterType="java.util.Map" resultType="androidReviewDTO">
-		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username from storereview re join users u  on re.user_email = u.username where u.username = #{username} ORDER by  rv_postdate desc
+		select rv_no,rv_title,rv_content,re.rv_postdate,u.u_nick,u.u_img,u.username,fm.menu_name 
+		from storereview re 
+		join users u  on re.user_email = u.username 
+		join foodmenu fm on re.menu_no = fm.menu_no
+		where u.username = #{username} ORDER by  rv_postdate desc
 	</select>
 	
 	<delete id="deleteAndroidReview" parameterType="java.util.Map">
 		delete storereview where rv_no = #{rv_no}
+	</delete>
+		<delete id="deleteAndroidReviewFile" parameterType="java.util.Map">
+		delete review_file where rv_no = #{rv_no}
 	</delete>
 	
 	<insert id="FallowAndroidReview" parameterType="java.util.Map">
@@ -175,10 +186,24 @@
 	<delete id="boomERMember" parameterType="java.util.Map">
 		delete er_members where er_no=#{er_no}
 	</delete>
+	
 	<delete id="boomERC" parameterType="java.util.Map">
 		delete er_chat where er_no=#{er_no}
 	</delete>
+	
 	<delete id="boomER" parameterType="java.util.Map">
 		delete eattogether_room where er_no=#{er_no}
 	</delete>
+	
+	<insert id="androidInsertReview" parameterType="java.util.Map">
+		insert into storereview values(SEQ_STOREREVIEW.nextval,#{title},#{content},sysdate,#{user_id},#{store_id},#{menu_no})
+	</insert>
+	
+	<select id="getRv_no" parameterType="java.util.Map" resultType="int">
+		select max(RV_NO) from storereview where store_name = #{username}
+	</select>
+	
+	<insert id="androidInsertReviewIMG" parameterType="java.util.Map">
+		insert into review_file values(#{rv_no},#{img},SEQ_RF.nextval)
+	</insert>
 </mapper>

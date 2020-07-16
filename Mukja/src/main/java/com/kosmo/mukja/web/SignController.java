@@ -63,7 +63,6 @@ public class SignController {
 	   @RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
 	   public String role(Authentication auth, Map map,HttpSession session) {
 	      String list = auth.getAuthorities().toString();
-
 	      if (list.contains("STORE")) {
 	         session.setAttribute("isStore", "isStore");
 	         return "forward:/StoreMypage/StoreMypageMain.do";      
@@ -212,6 +211,7 @@ public class SignController {
 		map.put("username", username);
 		map.put("password", map.get("password").toString());
 		map.put("store_name", map.get("store_name").toString());
+		map.put("store_reginum",1111111111);
 		map.put("store_phnum", map.get("store_phnum").toString());
 		map.put("store_email", map.get("store_email").toString());
 		String store_intro = map.get("store_intro").toString();
