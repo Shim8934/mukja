@@ -72,7 +72,7 @@ public class SignController {
 	         session.setAttribute("isAdmin", "isAdmin");
 	         return "forward:/AdminMain.bbs";
 	      }
-	      return "index.tiles";
+	      return "forward:/";
 
 	   }
 
