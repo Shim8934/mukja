@@ -63,7 +63,6 @@ public class SignController {
 	   @RequestMapping(value = "/LoginProcess.bbs", method = RequestMethod.GET)
 	   public String role(Authentication auth, Map map,HttpSession session) {
 	      String list = auth.getAuthorities().toString();
-
 	      if (list.contains("STORE")) {
 	         session.setAttribute("isStore", "isStore");
 	         return "forward:/StoreMypage/StoreMypageMain.do";      

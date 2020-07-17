@@ -51,7 +51,7 @@
 										<c:if test="${empty item.BF_PATH}" var="isEmpty"><span>등록된 이미지가 없습니다.</span></c:if>
 										<c:if test="${not isEmpty}">
 											<c:forEach items="${item.BF_PATH}" var="img" varStatus="loopSt">
-												<img alt="" src="<c:url value='/resources/Upload/AdminNotice/${img}'/>">   
+												<img alt="" src="<c:url value='${img}'/>">   
 											</c:forEach>
 										</c:if>
 											

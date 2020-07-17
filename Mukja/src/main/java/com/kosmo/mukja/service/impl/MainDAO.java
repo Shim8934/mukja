@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kosmo.mukja.service.FoodMenuDTO;
 import com.kosmo.mukja.service.MainDTO;
 import com.kosmo.mukja.service.MainService;
 
@@ -118,6 +119,16 @@ public class MainDAO implements MainService{
 	public List<MainDTO> selectFoodMenuForMain(Map map) {
 		// TODO Auto-generated method stub
 		return sqlMapper.selectList("forMainFmNo",map);
+	}
+
+	@Override
+	public List<FoodMenuDTO> getRandomRecommendMenu(Map map) {
+		return sqlMapper.selectList("getRandomRecommendMenu",map);
+	}
+
+	@Override
+	public List<FoodMenuDTO> getRandomRecommendMenuAll(Map map) {
+		return sqlMapper.selectList("getRandomRecommendMenuAll",map);
 	}
 	
 	

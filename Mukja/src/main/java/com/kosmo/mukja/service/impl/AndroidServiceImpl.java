@@ -167,6 +167,10 @@ public class AndroidServiceImpl implements AndroidService {
 			return dao.boomMyER(map);
 		}
 		//범삼
+		@Override
+		public int androidInsertReview(Map map) {
+			return dao.androidInsertReview(map);
+		}
 
 
 		
