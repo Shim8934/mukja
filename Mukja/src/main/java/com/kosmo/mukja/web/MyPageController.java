@@ -86,6 +86,9 @@ public class MyPageController{
 				"/resources/tend_IMG/chicken_c.png","/resources/tend_IMG/pig_c.png","/resources/tend_IMG/cow2_c.png",
 				"/resources/tend_IMG/nuts_c.png","/resources/tend_IMG/shrimp_c.png","/resources/tend_IMG/dairy_c.png",
 				"/resources/tend_IMG/gluten_c.png","/resources/tend_IMG/s_c.png","","","","",""};
+		if(myInfo.getU_tend()==null) {
+			myInfo.setU_tend(" ");
+		}
 		for(int j=0; j<tend_codes.length; j++) {
 			for(int i=0; i<myInfo.getU_tend().length();i++) {
 				myInfo.setU_tend(myInfo.getU_tend().replaceAll(tend_codes[j], tend_text[j]));

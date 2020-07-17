@@ -58,7 +58,7 @@ public class HomeController {
 		   			  HttpServletRequest req) {
 	   
       logger.info("Welcome home! The client locale is {}.", locale);
-
+      try {
       List<MainDTO> dto = mainService.selectList(map);
       System.out.println(dto.get(0).getUsername());
       map.put("username", dto.get(0).getUsername());
@@ -73,6 +73,7 @@ public class HomeController {
       System.out.println(rank1storeImg.get(0).getSf_path().toString());
       
       map.put("username", dto.get(1).getUsername());
+      
       temp = mainService.selectRankContent(map);
       List<MainDTO> rank2 = mainService.selectRank2List(map);
       List<MainDTO> rank2storeImg = mainService.selectRank2Img(map);
@@ -185,6 +186,10 @@ public class HomeController {
 	  model.addAttribute("pageSize",pageSize);
 	  model.addAttribute("nowPage",nowPage);
 	  model.addAttribute("list", list);
+      }catch (Exception e) {
+		e.getStackTrace();
+		return "Main/MukjaMain.tiles";
+	}
       return "Main/MukjaMain.tiles";
    }
    

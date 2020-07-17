@@ -121,7 +121,7 @@ public class SignController {
 						HttpServletRequest req,
 						MultipartRequest mr) {
 		String realPath = req.getSession().getServletContext().getRealPath("/resources/IMG");
-		String path ="/resources/userIMG";
+		String path ="/resources/IMG";
 		
 	   File dir = new File(realPath);
 	    if(!dir.exists()) {

@@ -747,8 +747,7 @@ $('#mail1').click(function() {
 			data:  {"username":username},
 			dataType: 'json',
 			success : function(data) {
-				dice = data.dice;
-				
+				dice = data.dice;				
 			}, error : function() {console.log("실패");}		
 		})
 	})
